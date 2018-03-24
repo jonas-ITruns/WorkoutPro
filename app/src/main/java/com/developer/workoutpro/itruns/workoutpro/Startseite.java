@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 
 public class Startseite extends AppCompatActivity {
 
+    // Menüleiste:
     private DrawerLayout mDrawerLayout;
     private ImageButton menuButton;
 
@@ -19,6 +20,10 @@ public class Startseite extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startseite);
 
+        menueleiste();
+    }
+
+    public void menueleiste() {
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -45,8 +50,6 @@ public class Startseite extends AppCompatActivity {
                 mDrawerLayout.openDrawer(GravityCompat.START);
             }
         });
-
-    }
-
+    } // Methode menueLeiste
 
 }

@@ -3,12 +3,15 @@
 
         <item
             android:id="@+id/uebersichtUebungen"
+            android:icon="@android:drawable/ic_menu_info_details"
             android:title="Exercises" />
         <item
             android:id="@+id/account"
+            android:icon="@android:drawable/ic_popup_sync"
             android:title="Account" />
         <item
             android:id="@+id/einstellungen"
+            android:icon="@android:drawable/ic_menu_preferences"
             android:title="Settings" />
 
 </menu>
