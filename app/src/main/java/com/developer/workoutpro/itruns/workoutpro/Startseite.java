@@ -11,4 +11,5 @@ public class Startseite extends AppCompatActivity {
         setContentView(R.layout.activity_startseite);
     }
 
+
 }
