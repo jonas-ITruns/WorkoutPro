@@ -34,6 +34,8 @@ public class Startseite extends AppCompatActivity {
                         // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
 
+                        menuItem.setChecked(true);
+
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
 
