@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/hellgrau_Hintergrund"
+    android:fitsSystemWindows="true"
     tools:context="com.developer.workoutpro.itruns.workoutpro.Startseite">
+
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/hellgrau_Hintergrund">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/clObererBereich"
@@ -28,7 +34,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
+            app:srcCompat="@drawable/ic_menu" />
 
         <TextView
             android:id="@+id/tvAppName"
@@ -122,7 +128,7 @@
             android:layout_marginStart="60dp"
             android:layout_marginTop="10dp"
             android:background="@color/dunkelblau"
-            android:text="Muskelgruppen Workout"
+            android:text="muscle groups workout"
             android:textColor="@color/weiss"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -157,5 +163,15 @@
 
     </android.support.constraint.ConstraintLayout>
 
-
 </android.support.constraint.ConstraintLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_view"
+        app:headerLayout="@layout/nav_header"/>
+
+</android.support.v4.widget.DrawerLayout>
