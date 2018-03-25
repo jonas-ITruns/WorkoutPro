@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 
-public class Startseite extends AppCompatActivity {
+public class MainClass extends AppCompatActivity {
 
     // Menüleiste
     private DrawerLayout mDrawerLayout;
@@ -24,7 +24,7 @@ public class Startseite extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_startseite);
+        setContentView(R.layout.activity_main);
 
         oeffneOverviewFragment();
         menueleiste();
