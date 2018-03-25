@@ -126,4 +126,32 @@ public class MainClass extends AppCompatActivity {
         });
     } // Methode menueLeiste
 
+
+    // Verschiedene Workoutarten öffnen
+
+
+    public void workoutZeitOeffnen(View v) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentWorkoutZeit fragmentWorkoutZeit = new FragmentWorkoutZeit();
+        fragmentTransaction.replace(R.id.bereichFragments, fragmentWorkoutZeit);
+        fragmentTransaction.commit();
+    } // Methode workoutZeitOeffnen
+
+    public void workoutWiederholungOeffnen(View v) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentWorkoutWiederholung fragmentWorkoutWiederholung = new FragmentWorkoutWiederholung();
+        fragmentTransaction.replace(R.id.bereichFragments, fragmentWorkoutWiederholung);
+        fragmentTransaction.commit();
+    } // Methode workoutWiederholungOeffnen
+
+    public void tabataOeffnen(View v) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTabata fragmentTabata = new FragmentTabata();
+        fragmentTransaction.replace(R.id.bereichFragments, fragmentTabata);
+        fragmentTransaction.commit();
+    } // Methode tabataOeffnen
+
 }
