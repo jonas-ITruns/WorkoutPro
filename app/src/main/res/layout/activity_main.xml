@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
     android:background="@color/hellgrau_Hintergrund"
-    tools:context="com.developer.workoutpro.itruns.workoutpro.Startseite">
+    tools:context="com.developer.workoutpro.itruns.workoutpro.MainClass">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/clObererBereich"
