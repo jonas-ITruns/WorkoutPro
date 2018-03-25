@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Workout - Pro"
+        android:text="Navigation"
         android:textColor="@color/dunkelblau"
         android:textSize="20sp"
         android:textStyle="bold"/>
