@@ -97,7 +97,7 @@
             android:layout_marginEnd="15dp"
             android:layout_marginStart="15dp"
             android:gravity="center"
-            android:text="60"
+            android:text="20"
             android:textColor="@color/dunkelblau"
             android:textSize="130sp"
             android:textStyle="bold"
@@ -106,7 +106,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/tvUebungNummer"
+            android:id="@+id/tvRundenNummer"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginBottom="5dp"
@@ -148,15 +148,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageView
-            android:id="@+id/imgvMuskelgruppe"
+        <TextView
+            android:id="@+id/tvUebungNummer"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:text="1 / 3"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/imgvBalkenMitteMitte"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@color/dunkelblau" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
