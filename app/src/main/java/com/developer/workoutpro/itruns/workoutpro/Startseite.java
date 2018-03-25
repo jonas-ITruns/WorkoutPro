@@ -23,7 +23,6 @@ public class Startseite extends AppCompatActivity {
     // Menüleiste:
     private DrawerLayout mDrawerLayout;
     private ImageButton menuButton;
-    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
