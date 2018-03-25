@@ -1,18 +1,17 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.graphics.Color;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
-
+        import android.app.Fragment;
+        import android.app.FragmentManager;
+        import android.app.FragmentTransaction;
+        import android.graphics.Color;
+        import android.support.design.widget.NavigationView;
+        import android.support.v4.view.GravityCompat;
+        import android.support.v4.widget.DrawerLayout;
+        import android.os.Bundle;
+        import android.support.v7.app.AppCompatActivity;
+        import android.view.MenuItem;
+        import android.view.View;
+        import android.widget.ImageButton;
 
 public class MainClass extends AppCompatActivity {
 
@@ -167,11 +166,11 @@ public class MainClass extends AppCompatActivity {
                                 FragmentSettings fragmentSettings = new FragmentSettings();
                                 fragmentTransaction.replace(R.id.bereichFragments, fragmentSettings, "settings");
                                 break;
-                            } // switch
+                        } // switch
 
-                            // Änderung sofort durchführen
-                            fragmentManager.executePendingTransactions();
-                            fragmentTransaction.commit();
+                        // Änderung sofort durchführen
+                        fragmentManager.executePendingTransactions();
+                        fragmentTransaction.commit();
 
                         return true;
                     }
@@ -219,4 +218,4 @@ public class MainClass extends AppCompatActivity {
         fragmentTransaction.commit();
     } // Methode tabataOeffnen
 
-} // Klasse MainClass
+} // Klasse WelcomeScreen
