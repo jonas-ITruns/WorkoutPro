@@ -2,7 +2,9 @@ package com.developer.workoutpro.itruns.workoutpro;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
 import android.support.design.widget.NavigationView;
+import android.support.v4.media.RatingCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
@@ -17,6 +19,8 @@ public class Startseite extends AppCompatActivity {
     // Menüleiste:
     private DrawerLayout mDrawerLayout;
     private ImageButton menuButton;
+    private boolean erstesOeffnen = true;
+    private MenuItem oldMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +29,18 @@ public class Startseite extends AppCompatActivity {
 
         oeffneOverviewFragment();
         menueleiste();
-    }
+    } // Methode onCreate
+
+    @Override
+    public void onBackPressed() {
+        // Menüleiste schließen, falls sie geöffnent ist
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } // then
+        else {
+            super.onBackPressed();
+        } // else
+    } // Methode onBackPressed
 
     public void oeffneOverviewFragment() {
         FragmentManager fragmentManager = getFragmentManager();
@@ -37,46 +52,65 @@ public class Startseite extends AppCompatActivity {
 
     public void menueleiste() {
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
+
+        // Hintergrund dunkler machen:
+        mDrawerLayout.setScrimColor(Color.parseColor("#33000000"));
 
         NavigationView navigationView = findViewById(R.id.nav_view);
 
+        // Start-Up aktuelles Item markieren:
         navigationView.setCheckedItem(R.id.overview);
 
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // aktuelles Item markieren:
                         menuItem.setChecked(true);
 
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                        switch(menuItem.getItemId()) {
-                            case R.id.overview:
-                                FragmentOverview fragmentOverview = new FragmentOverview();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentOverview);
-                                break;
-                            case R.id.exercises:
-                                FragmentExercises fragmentExercises = new FragmentExercises();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentExercises);
-                                break;
-                            case R.id.premium:
-                                FragmentPremium fragmentPremium = new FragmentPremium();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentPremium);
-                                break;
-                            case R.id.support:
-                                FragmentSupport fragmentSupport = new FragmentSupport();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentSupport);
-                                break;
-                            case R.id.settings:
-                                FragmentSettings fragmentSettings = new FragmentSettings();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentSettings);
-                                break;
-                        } // switch
+                        if (erstesOeffnen) {
+                            oldMenuItem = menuItem;
+                        } // if
 
-                        fragmentManager.executePendingTransactions();
-                        fragmentTransaction.commit();
+                        // Überprüfen, ob das Fragment schon geöffnet ist
+                        if (! (menuItem.getItemId() == oldMenuItem.getItemId()) || erstesOeffnen) {
+
+                            erstesOeffnen = false;
+
+                            switch (menuItem.getItemId()) {
+                                case R.id.overview:
+                                    FragmentOverview fragmentOverview = new FragmentOverview();
+                                    fragmentTransaction.replace(R.id.bereichFragments, fragmentOverview);
+                                    break;
+                                case R.id.exercises:
+                                    FragmentExercises fragmentExercises = new FragmentExercises();
+                                    fragmentTransaction.replace(R.id.bereichFragments, fragmentExercises);
+                                    break;
+                                case R.id.premium:
+                                    FragmentPremium fragmentPremium = new FragmentPremium();
+                                    fragmentTransaction.replace(R.id.bereichFragments, fragmentPremium);
+                                    break;
+                                case R.id.support:
+                                    FragmentSupport fragmentSupport = new FragmentSupport();
+                                    fragmentTransaction.replace(R.id.bereichFragments, fragmentSupport);
+                                    break;
+                                case R.id.settings:
+                                    FragmentSettings fragmentSettings = new FragmentSettings();
+                                    fragmentTransaction.replace(R.id.bereichFragments, fragmentSettings);
+                                    break;
+
+                            } // switch
+
+                            // Änderung sofort durchführen
+                            fragmentManager.executePendingTransactions();
+                            fragmentTransaction.commit();
+
+                            oldMenuItem = menuItem;
+
+                        } // if
 
                         return true;
                     }
