@@ -30,7 +30,7 @@ public class ScoutLogDbHelper extends SQLiteOpenHelper {
                     COLUMN_CONTENT + " text" +
                     COLUMN_IMAGE + " text) ;";
 
-
+    //Konstruktor
     public ScoutLogDbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
