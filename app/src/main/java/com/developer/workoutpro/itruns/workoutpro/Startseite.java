@@ -1,13 +1,16 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+
 
 public class Startseite extends AppCompatActivity {
 
@@ -20,38 +23,60 @@ public class Startseite extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startseite);
 
+        oeffneOverviewFragment();
         menueleiste();
     }
 
+    public void oeffneOverviewFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentOverview fragmentOverview = new FragmentOverview();
+        fragmentTransaction.add(R.id.bereichFragments, fragmentOverview);
+        fragmentTransaction.commit();
+    } // Methode oeffneAktFragment
+
     public void menueleiste() {
         mDrawerLayout = findViewById(R.id.drawer_layout);
+        mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
 
-        final NavigationView navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        navigationView.setCheckedItem(R.id.overview);
+
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
+
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
                         switch(menuItem.getItemId()) {
                             case R.id.overview:
-                                setContentView(R.layout.activity_startseite);
+                                FragmentOverview fragmentOverview = new FragmentOverview();
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentOverview);
                                 break;
                             case R.id.exercises:
-                                setContentView(R.layout.activity_uebungen_uebersicht);
+                                FragmentExercises fragmentExercises = new FragmentExercises();
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentExercises);
                                 break;
                             case R.id.premium:
-                                setContentView(R.layout.activity_premium);
+                                FragmentPremium fragmentPremium = new FragmentPremium();
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentPremium);
                                 break;
                             case R.id.support:
-                                setContentView(R.layout.activity_support);
+                                FragmentSupport fragmentSupport = new FragmentSupport();
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentSupport);
                                 break;
                             case R.id.settings:
-                                setContentView(R.layout.activity_settings);
+                                FragmentSettings fragmentSettings = new FragmentSettings();
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentSettings);
                                 break;
                         } // switch
 
-                        menueleiste();
-                        mDrawerLayout.openDrawer(GravityCompat.START);
+                        fragmentManager.executePendingTransactions();
+                        fragmentTransaction.commit();
 
                         return true;
                     }
