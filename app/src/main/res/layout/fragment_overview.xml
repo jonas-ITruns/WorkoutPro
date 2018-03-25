@@ -60,6 +60,79 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/clWorkoutZeit"
+                android:layout_width="330dp"
+                android:layout_height="100dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:background="@color/grau_Hintergrund"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.545"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnWorkoutZeit">
+
+                <TextView
+                    android:id="@+id/tvWorkoutNameZeit"
+                    android:layout_width="250dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/hellgrau_Hintergrund"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="Workout Name"
+                    android:textColor="@color/dunkelblau"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvZeitGesamtZeit"
+                    android:layout_width="124dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="14dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/hellgrau_Hintergrund"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Zeit"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvWorkoutNameZeit" />
+
+                <TextView
+                    android:id="@+id/tvZeitUebungen"
+                    android:layout_width="124dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="14dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/hellgrau_Hintergrund"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="Übungen"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tvZeitGesamtZeit"
+                    app:layout_constraintTop_toBottomOf="@+id/tvWorkoutNameZeit" />
+
+                <ImageButton
+                    android:id="@+id/imgbtnPlayArrowZeit"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginEnd="13dp"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginTop="30dp"
+                    android:backgroundTint="@color/transparent"
+                    android:tint="@color/weiss"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tvWorkoutNameZeit"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_play_arrow_black_40dp" />
+
+            </android.support.constraint.ConstraintLayout>
+
             <Button
                 android:id="@+id/btnWorkoutWiederholung"
                 android:layout_width="330dp"
@@ -76,35 +149,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/clWorkoutZeit" />
 
-            <Button
-                android:id="@+id/btnTabata"
-                android:layout_width="330dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/dunkelblau"
-                android:onClick="tabataOeffnen"
-                android:text="Tabata"
-                android:textColor="@color/weiss"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clWorkoutWiederholung" />
-
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/clWorkoutZeit"
+                android:id="@+id/clWorkoutWiederholung"
                 android:layout_width="330dp"
                 android:layout_height="100dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
                 android:background="@color/grau_Hintergrund"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.545"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnWorkoutZeit">
+                app:layout_constraintTop_toBottomOf="@+id/btnWorkoutWiederholung">
 
                 <TextView
-                    android:id="@+id/tvWorkoutName"
+                    android:id="@+id/tvWorkoutNameWiederholung"
                     android:layout_width="250dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="14dp"
@@ -118,62 +175,34 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
-                    android:id="@+id/imgbtnPlayArrowZeit"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="30dp"
-                    android:layout_marginEnd="13dp"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="30dp"
-                    android:backgroundTint="@color/transparent"
-                    android:tint="@color/weiss"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tvWorkoutName"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_play_arrow_black_40dp" />
-
                 <TextView
-                    android:id="@+id/tvUebungenZeit"
-                    android:layout_width="124dp"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="14dp"
-                    android:layout_marginStart="14dp"
-                    android:layout_marginTop="2dp"
-                    android:background="@color/hellgrau_Hintergrund"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:text="Zeit"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvWorkoutName" />
-
-                <TextView
-                    android:id="@+id/tvUebungenAnzahl"
+                    android:id="@+id/tvWiederholungÜbungen"
                     android:layout_width="124dp"
                     android:layout_height="30dp"
                     android:layout_marginBottom="14dp"
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="2dp"
                     android:background="@color/hellgrau_Hintergrund"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:text="Anzahl"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Übungen"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tvUebungenZeit"
-                    app:layout_constraintTop_toBottomOf="@+id/tvWorkoutName" />
+                    app:layout_constraintStart_toEndOf="@+id/tvWiederholungUebungenGesamt"
+                    app:layout_constraintTop_toBottomOf="@+id/tvWorkoutNameWiederholung" />
 
-            </android.support.constraint.ConstraintLayout>
+                <TextView
+                    android:id="@+id/tvWiederholungUebungenGesamt"
+                    android:layout_width="124dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="14dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/hellgrau_Hintergrund"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="Gesamt"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvWorkoutNameWiederholung" />
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/clWorkoutWiederholung"
-                android:layout_width="330dp"
-                android:layout_height="100dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginStart="15dp"
-                android:background="@color/grau_Hintergrund"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnWorkoutWiederholung">
 
                 <ImageButton
                     android:id="@+id/imgbtnPlayArrowWiederholung"
@@ -191,6 +220,21 @@
 
             </android.support.constraint.ConstraintLayout>
 
+            <Button
+                android:id="@+id/btnTabata"
+                android:layout_width="330dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/dunkelblau"
+                android:onClick="tabataOeffnen"
+                android:text="Tabata"
+                android:textColor="@color/weiss"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clWorkoutWiederholung" />
+
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/clTabata"
                 android:layout_width="330dp"
@@ -202,6 +246,49 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnTabata">
+
+                <TextView
+                    android:id="@+id/tvWorkoutNameTabata"
+                    android:layout_width="250dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/hellgrau_Hintergrund"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="Workout Name"
+                    android:textColor="@color/dunkelblau"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTabataUebungen"
+                    android:layout_width="124dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="14dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/hellgrau_Hintergrund"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Übungen"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tvTabataRunden"
+                    app:layout_constraintTop_toBottomOf="@+id/tvWorkoutNameTabata" />
+
+                <TextView
+                    android:id="@+id/tvTabataRunden"
+                    android:layout_width="124dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="14dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/hellgrau_Hintergrund"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="Runden"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvWorkoutNameTabata" />
 
                 <ImageButton
                     android:id="@+id/imgbtnPlayArrowTabata"
