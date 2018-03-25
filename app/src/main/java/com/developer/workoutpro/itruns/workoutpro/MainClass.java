@@ -18,8 +18,6 @@ public class MainClass extends AppCompatActivity {
     // Menüleiste
     private DrawerLayout mDrawerLayout;
     private ImageButton menuButton;
-    private boolean erstesOeffnen = true;
-    private MenuItem oldMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,46 +69,32 @@ public class MainClass extends AppCompatActivity {
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                        if (erstesOeffnen) {
-                            oldMenuItem = menuItem;
-                        } // if
-
-                        // Überprüfen, ob das Fragment schon geöffnet ist
-                        if (! (menuItem.getItemId() == oldMenuItem.getItemId()) || erstesOeffnen) {
-
-                            erstesOeffnen = false;
-
-                            switch (menuItem.getItemId()) {
-                                case R.id.overview:
-                                    FragmentOverview fragmentOverview = new FragmentOverview();
-                                    fragmentTransaction.replace(R.id.bereichFragments, fragmentOverview);
-                                    break;
-                                case R.id.exercises:
-                                    FragmentExercises fragmentExercises = new FragmentExercises();
-                                    fragmentTransaction.replace(R.id.bereichFragments, fragmentExercises);
-                                    break;
-                                case R.id.premium:
-                                    FragmentPremium fragmentPremium = new FragmentPremium();
-                                    fragmentTransaction.replace(R.id.bereichFragments, fragmentPremium);
-                                    break;
-                                case R.id.support:
-                                    FragmentSupport fragmentSupport = new FragmentSupport();
-                                    fragmentTransaction.replace(R.id.bereichFragments, fragmentSupport);
-                                    break;
-                                case R.id.settings:
-                                    FragmentSettings fragmentSettings = new FragmentSettings();
-                                    fragmentTransaction.replace(R.id.bereichFragments, fragmentSettings);
-                                    break;
-
+                        switch (menuItem.getItemId()) {
+                            case R.id.overview:
+                                FragmentOverview fragmentOverview = new FragmentOverview();
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentOverview);
+                                break;
+                            case R.id.exercises:
+                                FragmentExercises fragmentExercises = new FragmentExercises();
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentExercises);
+                                break;
+                            case R.id.premium:
+                                FragmentPremium fragmentPremium = new FragmentPremium();
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentPremium);
+                                break;
+                            case R.id.support:
+                                FragmentSupport fragmentSupport = new FragmentSupport();
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentSupport);
+                                break;
+                            case R.id.settings:
+                                FragmentSettings fragmentSettings = new FragmentSettings();
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentSettings);
+                                break;
                             } // switch
 
                             // Änderung sofort durchführen
                             fragmentManager.executePendingTransactions();
                             fragmentTransaction.commit();
-
-                            oldMenuItem = menuItem;
-
-                        } // if
 
                         return true;
                     }
