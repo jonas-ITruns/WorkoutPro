@@ -46,6 +46,7 @@ public class MainClass extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FragmentOverview fragmentOverview = new FragmentOverview();
         fragmentTransaction.add(R.id.bereichFragments, fragmentOverview);
+        fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
     } // Methode oeffneAktFragment
 
@@ -135,6 +136,7 @@ public class MainClass extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FragmentWorkoutZeit fragmentWorkoutZeit = new FragmentWorkoutZeit();
         fragmentTransaction.replace(R.id.bereichFragments, fragmentWorkoutZeit);
+        fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
     } // Methode workoutZeitOeffnen
 
@@ -143,6 +145,7 @@ public class MainClass extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FragmentWorkoutWiederholung fragmentWorkoutWiederholung = new FragmentWorkoutWiederholung();
         fragmentTransaction.replace(R.id.bereichFragments, fragmentWorkoutWiederholung);
+        fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
     } // Methode workoutWiederholungOeffnen
 
@@ -151,6 +154,7 @@ public class MainClass extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FragmentTabata fragmentTabata = new FragmentTabata();
         fragmentTransaction.replace(R.id.bereichFragments, fragmentTabata);
+        fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
     } // Methode tabataOeffnen
 
