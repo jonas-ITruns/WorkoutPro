@@ -4,6 +4,6 @@
     <color name="dunkelblau">#41577d</color>
     <color name="grau_Hintergrund">#b2bac0</color>
     <color name="hellgrau_Hintergrund">#dedede</color>
-    <color name="weiss">#FFFFFF</color>
+    <color name="weiss">#ffffff</color>
     <color name="transparent">@android:color/transparent</color>
 </resources>
