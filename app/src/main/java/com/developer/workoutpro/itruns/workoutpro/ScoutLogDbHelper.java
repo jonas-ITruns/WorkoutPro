@@ -4,10 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by Jan on 24.03.2018.
- */
-
 public class ScoutLogDbHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "scout.db";
