@@ -1,5 +1,6 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Color;
@@ -19,14 +20,96 @@ public class MainClass extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ImageButton menuButton;
 
+    // Fragmente
+    private String aktFragment = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        oeffneOverviewFragment();
         menueleiste();
     } // Methode onCreate
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Fragment myFragment;
+        myFragment = getFragmentManager().findFragmentByTag("overview");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "overview";
+        } // if
+        myFragment = getFragmentManager().findFragmentByTag("exercises");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "exercises";
+        } // if
+        myFragment = getFragmentManager().findFragmentByTag("premium");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "premium";
+        } // if
+        myFragment = getFragmentManager().findFragmentByTag("support");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "support";
+        } // if
+        myFragment = getFragmentManager().findFragmentByTag("settings");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "settings";
+        } // if
+        myFragment = getFragmentManager().findFragmentByTag("workoutZeit");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "workoutZeit";
+        } // if
+        myFragment = getFragmentManager().findFragmentByTag("workoutWiederholung");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "workoutWiederholung";
+        } // if
+        myFragment = getFragmentManager().findFragmentByTag("tabata");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "tabata";
+        } // if
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+    } // Methode onPause
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (aktFragment.equals ("overview") || aktFragment.equals ("")) {
+            FragmentOverview fragmentOverview = new FragmentOverview();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentOverview, "overview");
+        } // if
+        else if (aktFragment.equals ("exercises")) {
+            FragmentExercises fragmentExercises = new FragmentExercises();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentExercises, "exercises");
+        } // if
+        else if (aktFragment.equals ("premium")) {
+            FragmentPremium fragmentPremium = new FragmentPremium();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentPremium, "premium");
+        } // if
+        else if (aktFragment.equals ("support")) {
+            FragmentSupport fragmentSupport = new FragmentSupport();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentSupport, "support");
+        } // if
+        else if (aktFragment.equals ("settings")) {
+            FragmentSettings fragmentSettings = new FragmentSettings();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentSettings, "settings");
+        } // if
+        else if (aktFragment.equals ("workoutZeit")) {
+            FragmentWorkoutZeit fragmentWorkoutZeit = new FragmentWorkoutZeit();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentWorkoutZeit, "workoutZeit");
+        } // if
+        else if (aktFragment.equals ("workoutWiederholung")) {
+            FragmentWorkoutWiederholung fragmentWorkoutWiederholung = new FragmentWorkoutWiederholung();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentWorkoutWiederholung, "workoutWiederholung");
+        } // if
+        else if (aktFragment.equals ("tabata")) {
+            FragmentTabata fragmentTabata = new FragmentTabata();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentTabata, "tabata");
+        } // if
+        fragmentManager.executePendingTransactions();
+        fragmentTransaction.commit();
+    } // Methode onResume
 
     @Override
     public void onBackPressed() {
@@ -38,15 +121,6 @@ public class MainClass extends AppCompatActivity {
             super.onBackPressed();
         } // else
     } // Methode onBackPressed
-
-    public void oeffneOverviewFragment() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FragmentOverview fragmentOverview = new FragmentOverview();
-        fragmentTransaction.add(R.id.bereichFragments, fragmentOverview);
-        fragmentManager.executePendingTransactions();
-        fragmentTransaction.commit();
-    } // Methode oeffneAktFragment
 
     public void menueleiste() {
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -66,29 +140,32 @@ public class MainClass extends AppCompatActivity {
                         // aktuelles Item markieren
                         menuItem.setChecked(true);
 
+                        // nach dem Auswählen den Navigator wieder schließen
+                        mDrawerLayout.closeDrawers();
+
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                         switch (menuItem.getItemId()) {
                             case R.id.overview:
                                 FragmentOverview fragmentOverview = new FragmentOverview();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentOverview);
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentOverview, "overview");
                                 break;
                             case R.id.exercises:
                                 FragmentExercises fragmentExercises = new FragmentExercises();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentExercises);
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentExercises, "exercises");
                                 break;
                             case R.id.premium:
                                 FragmentPremium fragmentPremium = new FragmentPremium();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentPremium);
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentPremium, "premium");
                                 break;
                             case R.id.support:
                                 FragmentSupport fragmentSupport = new FragmentSupport();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentSupport);
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentSupport, "support");
                                 break;
                             case R.id.settings:
                                 FragmentSettings fragmentSettings = new FragmentSettings();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentSettings);
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentSettings, "settings");
                                 break;
                             } // switch
 
@@ -119,7 +196,7 @@ public class MainClass extends AppCompatActivity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FragmentWorkoutZeit fragmentWorkoutZeit = new FragmentWorkoutZeit();
-        fragmentTransaction.replace(R.id.bereichFragments, fragmentWorkoutZeit);
+        fragmentTransaction.replace(R.id.bereichFragments, fragmentWorkoutZeit, "workoutZeit");
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
     } // Methode workoutZeitOeffnen
@@ -128,7 +205,7 @@ public class MainClass extends AppCompatActivity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FragmentWorkoutWiederholung fragmentWorkoutWiederholung = new FragmentWorkoutWiederholung();
-        fragmentTransaction.replace(R.id.bereichFragments, fragmentWorkoutWiederholung);
+        fragmentTransaction.replace(R.id.bereichFragments, fragmentWorkoutWiederholung, "workoutWiederholung");
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
     } // Methode workoutWiederholungOeffnen
@@ -137,9 +214,9 @@ public class MainClass extends AppCompatActivity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FragmentTabata fragmentTabata = new FragmentTabata();
-        fragmentTransaction.replace(R.id.bereichFragments, fragmentTabata);
+        fragmentTransaction.replace(R.id.bereichFragments, fragmentTabata, "tabata");
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
     } // Methode tabataOeffnen
 
-}
+} // Klasse MainClass

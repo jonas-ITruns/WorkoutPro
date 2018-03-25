@@ -1,6 +1,434 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:fitsSystemWindows="false">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clMittlererBereich"
+        android:layout_width="match_parent"
+        android:layout_height="452dp"
+        android:layout_marginTop="60dp"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/scrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:isScrollContainer="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".Startseite">
+
+            <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/clWorkouts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:context="app.android.SignInActivity">
+
+                <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/clWorkout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:context="app.android.SignInActivity">
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/guidelineVertical1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <Button
+                        android:id="@+id/btnWorkout1"
+                        android:layout_width="330dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginStart="15dp"
+                        android:background="@color/dunkelblau"
+                        android:text="Workout Name"
+                        android:textColor="@color/weiss"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/btnWorkout1Start"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="1dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Start"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toStartOf="@+id/guidelineVertical1"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout1" />
+
+                    <Button
+                        android:id="@+id/btnWorkout1Edit"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="1dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Bearbeiten"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@+id/guidelineVertical1"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout1" />
+
+                    <Button
+                        android:id="@+id/btnWorkout1Rename"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Umbennen"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toStartOf="@+id/guidelineVertical1"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout1Start" />
+
+                    <Button
+                        android:id="@+id/btnWorkout1Delete"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Löschen"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@+id/guidelineVertical1"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout1Edit" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/clWorkout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/clWorkout1"
+                    tools:context="app.android.SignInActivity">
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/guidelineVertical2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <Button
+                        android:id="@+id/btnWorkout2"
+                        android:layout_width="330dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginStart="15dp"
+                        android:background="@color/dunkelblau"
+                        android:text="Workout Name"
+                        android:textColor="@color/weiss"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/btnWorkout2Start"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="1dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Start"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toStartOf="@+id/guidelineVertical2"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout2" />
+
+                    <Button
+                        android:id="@+id/btnWorkout2Edit"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="1dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Bearbeiten"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@+id/guidelineVertical2"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout2" />
+
+                    <Button
+                        android:id="@+id/btnWorkout2Rename"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Umbennen"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toStartOf="@+id/guidelineVertical2"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout2Start" />
+
+                    <Button
+                        android:id="@+id/btnWorkout2Delete"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Löschen"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@+id/guidelineVertical2"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout2Edit" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/clWorkout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/clWorkout2"
+                    tools:context="app.android.SignInActivity">
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/guidelineVertical3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <Button
+                        android:id="@+id/btnWorkout3"
+                        android:layout_width="330dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginStart="15dp"
+                        android:background="@color/dunkelblau"
+                        android:text="Workout Name"
+                        android:textColor="@color/weiss"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/btnWorkout3Start"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="1dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Start"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toStartOf="@+id/guidelineVertical3"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout3" />
+
+                    <Button
+                        android:id="@+id/btnWorkout3Edit"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="1dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Bearbeiten"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@+id/guidelineVertical3"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout3" />
+
+                    <Button
+                        android:id="@+id/btnWorkout3Rename"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Umbennen"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toStartOf="@+id/guidelineVertical3"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout3Start" />
+
+                    <Button
+                        android:id="@+id/btnWorkout3Delete"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Löschen"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@+id/guidelineVertical3"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout3Edit" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/clWorkout4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/clWorkout3"
+                    tools:context="app.android.SignInActivity">
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/guidelineVertical4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <Button
+                        android:id="@+id/btnWorkout4"
+                        android:layout_width="330dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginStart="15dp"
+                        android:background="@color/dunkelblau"
+                        android:text="Workout Name"
+                        android:textColor="@color/weiss"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/btnWorkout4Start"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="1dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Start"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toStartOf="@+id/guidelineVertical4"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout4" />
+
+                    <Button
+                        android:id="@+id/btnWorkout4Edit"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="1dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Bearbeiten"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@+id/guidelineVertical4"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout4" />
+
+                    <Button
+                        android:id="@+id/btnWorkout4Rename"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Umbennen"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toStartOf="@+id/guidelineVertical4"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout4Start" />
+
+                    <Button
+                        android:id="@+id/btnWorkout4Delete"
+                        android:layout_width="164dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/grau_Hintergrund"
+                        android:text="Löschen"
+                        android:textColor="@color/dunkelblau"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@+id/guidelineVertical4"
+                        app:layout_constraintTop_toBottomOf="@+id/btnWorkout4Edit" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/clPlatzhalter"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/clWorkout4"
+                    tools:context="app.android.SignInActivity">
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </ScrollView>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clUntererBereich"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btnAddWorkout"
+            android:layout_width="330dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            android:background="@color/weiss"
+            android:text="Workout hinzufügen"
+            android:textColor="@color/dunkelblau"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
