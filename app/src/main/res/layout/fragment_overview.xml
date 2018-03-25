@@ -48,8 +48,10 @@
 
             <Button
                 android:id="@+id/btnWorkoutZeit"
-                android:layout_width="0dp"
+                android:layout_width="330dp"
                 android:layout_height="50dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/dunkelblau"
                 android:onClick="workoutZeitOeffnen"
@@ -61,8 +63,10 @@
 
             <Button
                 android:id="@+id/btnWorkoutWiederholung"
-                android:layout_width="0dp"
+                android:layout_width="330dp"
                 android:layout_height="50dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/dunkelblau"
                 android:onClick="workoutWiederholungOeffnen"
@@ -75,8 +79,10 @@
 
             <Button
                 android:id="@+id/btnTabata"
-                android:layout_width="0dp"
+                android:layout_width="330dp"
                 android:layout_height="50dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/dunkelblau"
                 android:onClick="tabataOeffnen"
@@ -88,8 +94,10 @@
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/clWorkoutZeit"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="100dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
                 android:background="@color/grau_Hintergrund"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.545"
@@ -126,12 +134,12 @@
                     app:srcCompat="@drawable/ic_play_arrow_black_40dp" />
 
                 <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="125dp"
+                    android:id="@+id/tvUebungenZeit"
+                    android:layout_width="120dp"
                     android:layout_height="30dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="10dp"
                     android:background="@color/hellgrau_Hintergrund"
                     android:gravity="center_horizontal|center_vertical"
                     android:text="Zeit"
@@ -139,12 +147,26 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvWorkoutName" />
 
+                <TextView
+                    android:id="@+id/tvUebungenAnzahl"
+                    android:layout_width="120dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/hellgrau_Hintergrund"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="Anzahl"
+                    app:layout_constraintStart_toEndOf="@+id/tvUebungenZeit"
+                    app:layout_constraintTop_toBottomOf="@+id/tvWorkoutName" />
+
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/clWorkoutWiederholung"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="100dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
                 android:background="@color/grau_Hintergrund"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -168,8 +190,10 @@
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/clTabata"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="100dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
                 android:background="@color/grau_Hintergrund"
                 android:foreground="@color/transparent"
                 app:layout_constraintEnd_toEndOf="parent"
