@@ -4,7 +4,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
-import android.support.v4.media.RatingCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
@@ -16,7 +15,7 @@ import android.widget.ImageButton;
 
 public class Startseite extends AppCompatActivity {
 
-    // Menüleiste:
+    // Menüleiste
     private DrawerLayout mDrawerLayout;
     private ImageButton menuButton;
     private boolean erstesOeffnen = true;
@@ -53,19 +52,19 @@ public class Startseite extends AppCompatActivity {
     public void menueleiste() {
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
-        // Hintergrund dunkler machen:
+        // Hintergrund dunkler machen
         mDrawerLayout.setScrimColor(Color.parseColor("#33000000"));
 
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        // Start-Up aktuelles Item markieren:
+        // Start-Up aktuelles Item markieren
         navigationView.setCheckedItem(R.id.overview);
 
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // aktuelles Item markieren:
+                        // aktuelles Item markieren
                         menuItem.setChecked(true);
 
                         FragmentManager fragmentManager = getFragmentManager();
@@ -116,6 +115,7 @@ public class Startseite extends AppCompatActivity {
                     }
                 });
 
+        // Menü über Button öffnen
         menuButton = findViewById(R.id.imgbtnMenue);
 
         menuButton.setOnClickListener(new View.OnClickListener() {

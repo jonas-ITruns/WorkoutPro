@@ -10,69 +10,69 @@
     tools:context="com.developer.workoutpro.itruns.workoutpro.Startseite">
 
     <android.support.constraint.ConstraintLayout
-            android:id="@+id/clObererBereich"
+        android:id="@+id/clObererBereich"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/clHeader"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/transparent"
+            android:layout_height="60dp"
+            android:background="@color/grau_Hintergrund"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/clHeader"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@color/grau_Hintergrund"
+            <ImageButton
+                android:id="@+id/imgbtnMenue"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:tint="@color/dunkelblau"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_menu" />
+
+            <TextView
+                android:id="@+id/tvAppName"
+                android:layout_width="130dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="115dp"
+                android:layout_marginStart="115dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="Workout - Pro"
+                android:textColor="@color/dunkelblau"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
-                    android:id="@+id/imgbtnMenue"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@android:color/transparent"
-                    android:tint="@color/dunkelblau"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_menu" />
+            <ImageView
+                android:id="@+id/imgvLogo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/itruns_original" />
 
-                <TextView
-                    android:id="@+id/tvAppName"
-                    android:layout_width="130dp"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginEnd="115dp"
-                    android:layout_marginStart="115dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:text="Workout - Pro"
-                    android:textColor="@color/dunkelblau"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/imgvLogo"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/itruns_original" />
-
-            </android.support.constraint.ConstraintLayout>
         </android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/bereichFragments"
