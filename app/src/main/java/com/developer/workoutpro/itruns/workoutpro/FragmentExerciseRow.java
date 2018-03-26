@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,9 +21,9 @@ public class FragmentExerciseRow extends Fragment {
 
     // Generell
     View view;
-    TextView tvName;
-    TextView tvMuskelgruppe;
-    TextView tvBeschreibung;
+    Button btnName;
+    Button btnMuskelgruppe;
+    Button btnBeschreibung;
 
     // Aktuelle Übung
     private int aktUebung;
@@ -65,12 +66,17 @@ public class FragmentExerciseRow extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 name = dataSnapshot.getValue(String.class);
-                tvName = view.findViewById(R.id.tvName);
-                tvName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-                tvName.setSelected(true);
-                tvName.setSingleLine(true);
-                tvName.setText(name);
-                tvName.setId(nameId);
+                btnName = view.findViewById(R.id.btnName);
+                btnName.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        btnName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                        btnName.setSelected(true);
+                        btnName.setSingleLine(true);
+                    }
+                });
+                btnName.setText(name);
+                btnName.setId(nameId);
             }
 
             @Override
@@ -85,12 +91,18 @@ public class FragmentExerciseRow extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 muskelgruppe = dataSnapshot.getValue(String.class);
-                tvMuskelgruppe = view.findViewById(R.id.tvMuskelgruppe);
-                tvMuskelgruppe.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-                tvMuskelgruppe.setSelected(true);
-                tvMuskelgruppe.setSingleLine(true);
-                tvMuskelgruppe.setText(muskelgruppe);
-                tvMuskelgruppe.setId(muskelgruppeId);
+                btnMuskelgruppe = view.findViewById(R.id.btnMuskelgruppe);
+
+                btnMuskelgruppe.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        btnMuskelgruppe.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                        btnMuskelgruppe.setSelected(true);
+                        btnMuskelgruppe.setSingleLine(true);
+                    }
+                });
+                btnMuskelgruppe.setText(muskelgruppe);
+                btnMuskelgruppe.setId(muskelgruppeId);
             }
 
             @Override
@@ -105,12 +117,17 @@ public class FragmentExerciseRow extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 beschreibung = dataSnapshot.getValue(String.class);
-                tvBeschreibung = view.findViewById(R.id.tvBeschreibung);
-                tvBeschreibung.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-                tvBeschreibung.setSelected(true);
-                tvBeschreibung.setSingleLine(true);
-                tvBeschreibung.setText(beschreibung);
-                tvBeschreibung.setId(beschreibungId);
+                btnBeschreibung = view.findViewById(R.id.btnBeschreibung);
+                btnBeschreibung.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        btnBeschreibung.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                        btnBeschreibung.setSelected(true);
+                        btnBeschreibung.setSingleLine(true);
+                    }
+                });
+                btnBeschreibung.setText(beschreibung);
+                btnBeschreibung.setId(beschreibungId);
             }
 
             @Override
