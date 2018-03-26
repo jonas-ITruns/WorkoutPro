@@ -2,14 +2,12 @@ package com.developer.workoutpro.itruns.workoutpro;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,10 +16,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class FragmentExercises extends Fragment {
+public class FragmentStandardUebungen extends Fragment {
 
-    private int anzahlUebungen;
-    private static int SPLASH_TIME_OUT = 1000;
+    private int anzahlStandardUebungen;
+    private static int SPLASH_TIME_OUT = 2500;
 
     @Nullable
     @Override
@@ -30,15 +28,15 @@ public class FragmentExercises extends Fragment {
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run(){
-                FragmentExerciseRow fragmentExerciseRow[] = new FragmentExerciseRow[anzahlUebungen];
+                FragmentExerciseRow fragmentExerciseRow[] = new FragmentExerciseRow[anzahlStandardUebungen];
 
                 // Rows in der Tabelle hinzufügen
                 FragmentTransaction transaction;
 
-                for (int index = 0; index < anzahlUebungen; index++) {
+                for (int index = 0; index < anzahlStandardUebungen; index++) {
 
                     fragmentExerciseRow[index] = new FragmentExerciseRow();
-                    fragmentExerciseRow[index].setzeAktUebung(index, index + 1000, index + 2000, index + 3000);
+                    fragmentExerciseRow[index].setzeAktUebung(index, index + 1000, index + 2000, index + 3000, false, "");
                     transaction = getChildFragmentManager().beginTransaction();
                     transaction.add(R.id.tlTabelle, fragmentExerciseRow[index], "exerciseRow");
                     transaction.commit();
@@ -48,7 +46,7 @@ public class FragmentExercises extends Fragment {
 
         },SPLASH_TIME_OUT);
 
-        return inflater.inflate(R.layout.fragment_exercises, container, false);
+        return inflater.inflate(R.layout.fragment_standard_uebungen, container, false);
 
     }
 
@@ -60,11 +58,11 @@ public class FragmentExercises extends Fragment {
         DatabaseReference mRootRef = database.getReference();
 
         // Anzahl Übungen erneuern
-        DatabaseReference mAnzahlRef = mRootRef.child("0").child("Anzahl Übungen");
-        mAnzahlRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference mAnzahlStandardUebungenRef = mRootRef.child("Standard Übungen").child("Gesamt Anzahl");
+        mAnzahlStandardUebungenRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                anzahlUebungen = dataSnapshot.getValue(Integer.class);
+                anzahlStandardUebungen = dataSnapshot.getValue(Integer.class);
             }
 
             @Override

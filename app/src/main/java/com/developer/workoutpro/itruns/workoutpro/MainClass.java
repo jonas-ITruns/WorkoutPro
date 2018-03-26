@@ -27,7 +27,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainClass extends AppCompatActivity {
 
-    private int anzahlUebungen;
+    private String benutzername;
+
+    private int anzahlMeineUebungen;
 
     // Menüleiste
     private DrawerLayout mDrawerLayout;
@@ -41,7 +43,7 @@ public class MainClass extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        anzahlUebungenBestimmen();
+        //anzahlUebungenBestimmen();
 
         menueleiste();
     } // Methode onCreate
@@ -54,11 +56,11 @@ public class MainClass extends AppCompatActivity {
         DatabaseReference mRootRef = database.getReference();
 
         // Anzahl Übungen erneuern
-        DatabaseReference mAnzahlRef = mRootRef.child("0").child("Anzahl Übungen");
-        mAnzahlRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference mAnzahlMeineUebungenRef = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Übungen").child("Gesamt Anzahl");
+        mAnzahlMeineUebungenRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                anzahlUebungen = dataSnapshot.getValue(Integer.class);
+                anzahlMeineUebungen = dataSnapshot.getValue(Integer.class);
             }
 
             @Override
@@ -72,13 +74,17 @@ public class MainClass extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Fragment myFragment;
-        myFragment = getFragmentManager().findFragmentByTag("overview");
+        myFragment = getFragmentManager().findFragmentByTag("uebersicht");
         if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "overview";
+            aktFragment = "uebersicht";
         } // if
-        myFragment = getFragmentManager().findFragmentByTag("exercises");
+        myFragment = getFragmentManager().findFragmentByTag("standardUebungen");
         if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "exercises";
+            aktFragment = "standardUebungen";
+        } // if
+        myFragment = getFragmentManager().findFragmentByTag("meineUebungen");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "meineUebungen";
         } // if
         myFragment = getFragmentManager().findFragmentByTag("premium");
         if (myFragment != null && myFragment.isVisible()) {
@@ -88,9 +94,9 @@ public class MainClass extends AppCompatActivity {
         if (myFragment != null && myFragment.isVisible()) {
             aktFragment = "support";
         } // if
-        myFragment = getFragmentManager().findFragmentByTag("settings");
+        myFragment = getFragmentManager().findFragmentByTag("einstellungen");
         if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "settings";
+            aktFragment = "einstellungen";
         } // if
         myFragment = getFragmentManager().findFragmentByTag("workoutZeit");
         if (myFragment != null && myFragment.isVisible()) {
@@ -112,13 +118,17 @@ public class MainClass extends AppCompatActivity {
         super.onResume();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (aktFragment.equals ("overview") || aktFragment.equals ("")) {
-            FragmentOverview fragmentOverview = new FragmentOverview();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentOverview, "overview");
+        if (aktFragment.equals ("uebersicht") || aktFragment.equals ("")) {
+            FragmentUebersicht fragmentUebersicht = new FragmentUebersicht();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentUebersicht, "uebersicht");
         } // if
-        else if (aktFragment.equals ("exercises")) {
-            FragmentExercises fragmentExercises = new FragmentExercises();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentExercises, "exercises");
+        else if (aktFragment.equals ("standardUebungen")) {
+            FragmentStandardUebungen fragmentStandardUebungen = new FragmentStandardUebungen();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentStandardUebungen, "standardUebungen");
+        } // if
+        else if (aktFragment.equals ("meineUebungen")) {
+            FragmentMeineUebungen fragmentMeineUebungen = new FragmentMeineUebungen();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentMeineUebungen, "meineUebungen");
         } // if
         else if (aktFragment.equals ("premium")) {
             FragmentPremium fragmentPremium = new FragmentPremium();
@@ -128,9 +138,9 @@ public class MainClass extends AppCompatActivity {
             FragmentSupport fragmentSupport = new FragmentSupport();
             fragmentTransaction.add(R.id.bereichFragments, fragmentSupport, "support");
         } // if
-        else if (aktFragment.equals ("settings")) {
-            FragmentSettings fragmentSettings = new FragmentSettings();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentSettings, "settings");
+        else if (aktFragment.equals ("einstellungen")) {
+            FragmentEinstellungen fragmentEinstellungen = new FragmentEinstellungen();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentEinstellungen, "einstellungen");
         } // if
         else if (aktFragment.equals ("workoutZeit")) {
             FragmentWorkoutZeit fragmentWorkoutZeit = new FragmentWorkoutZeit();
@@ -168,7 +178,7 @@ public class MainClass extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         // Start-Up aktuelles Item markieren
-        navigationView.setCheckedItem(R.id.overview);
+        navigationView.setCheckedItem(R.id.uebersicht);
 
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -184,13 +194,17 @@ public class MainClass extends AppCompatActivity {
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                         switch (menuItem.getItemId()) {
-                            case R.id.overview:
-                                FragmentOverview fragmentOverview = new FragmentOverview();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentOverview, "overview");
+                            case R.id.uebersicht:
+                                FragmentUebersicht fragmentUebersicht = new FragmentUebersicht();
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentUebersicht, "uebersicht");
                                 break;
-                            case R.id.exercises:
-                                FragmentExercises fragmentExercises = new FragmentExercises();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentExercises, "exercises");
+                            case R.id.standardUebungen:
+                                FragmentStandardUebungen fragmentStandardUebungen = new FragmentStandardUebungen();
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentStandardUebungen, "standardUebungen");
+                                break;
+                            case R.id.meineUebungen:
+                                FragmentMeineUebungen fragmentMeineUebungen = new FragmentMeineUebungen();
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentMeineUebungen, "meineUebungen");
                                 break;
                             case R.id.premium:
                                 FragmentPremium fragmentPremium = new FragmentPremium();
@@ -200,9 +214,9 @@ public class MainClass extends AppCompatActivity {
                                 FragmentSupport fragmentSupport = new FragmentSupport();
                                 fragmentTransaction.replace(R.id.bereichFragments, fragmentSupport, "support");
                                 break;
-                            case R.id.settings:
-                                FragmentSettings fragmentSettings = new FragmentSettings();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentSettings, "settings");
+                            case R.id.einstellungen:
+                                FragmentEinstellungen fragmentEinstellungen = new FragmentEinstellungen();
+                                fragmentTransaction.replace(R.id.bereichFragments, fragmentEinstellungen, "einstellungen");
                                 break;
                         } // switch
 
@@ -318,31 +332,31 @@ public class MainClass extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         // Datenbank deklarieren
-        String aktUebungStr = Integer.toString(anzahlUebungen + 1);
+        String aktUebungStr = Integer.toString(anzahlMeineUebungen + 1);
         DatabaseReference mRootRef = database.getReference();
 
         // Anzahl Übungen erneuern
-        anzahlUebungen++;
-        DatabaseReference mAnzahl = mRootRef.child("0").child("Anzahl Übungen");
-        mAnzahl.setValue(anzahlUebungen);
+        anzahlMeineUebungen++;
+        DatabaseReference mAnzahl = mRootRef.child("Benutzer Verwaltung").child("Übungen").child("Gesamt Anzahl");
+        mAnzahl.setValue(anzahlMeineUebungen);
 
         // Namen erstellen
-        DatabaseReference mNameRefChild =  mRootRef.child(aktUebungStr).child("Name");
+        DatabaseReference mNameRefChild = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Übungen").child(aktUebungStr).child("Name");
         mNameRefChild.setValue(name);
 
         // Muskelgruppe erstellen
-        DatabaseReference mMuskelgruppeRefChild =  mRootRef.child(aktUebungStr).child("Muskelgruppe");
+        DatabaseReference mMuskelgruppeRefChild =  mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Übungen").child(aktUebungStr).child("Muskelgruppe");
         mMuskelgruppeRefChild.setValue(muskelgruppe);
 
         // Beschreibung erstellen
-        DatabaseReference mBeschreibungRefChild = mRootRef.child(aktUebungStr).child("Beschreibung");
+        DatabaseReference mBeschreibungRefChild = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Übungen").child(aktUebungStr).child("Beschreibung");
         mBeschreibungRefChild.setValue(beschreibung);
 
         // Übungsübersicht anzeigen
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FragmentExercises fragmentExercises = new FragmentExercises();
-        fragmentTransaction.replace(R.id.bereichFragments, fragmentExercises, "uebungHinzufuegen");
+        FragmentMeineUebungen fragmentMeineUebungen = new FragmentMeineUebungen();
+        fragmentTransaction.replace(R.id.bereichFragments, fragmentMeineUebungen, "meineUebungen");
         fragmentTransaction.addToBackStack(null);
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();

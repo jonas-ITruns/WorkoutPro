@@ -24,6 +24,8 @@ public class FragmentExerciseRow extends Fragment {
     Button btnName;
     Button btnMuskelgruppe;
     Button btnBeschreibung;
+    private boolean userUebung;
+    private String benutzername;
 
     // Aktuelle Übung
     private int aktUebung;
@@ -56,14 +58,35 @@ public class FragmentExerciseRow extends Fragment {
         String aktUebungStr = Integer.toString(aktUebung + 1);
         DatabaseReference mRootRef = database.getReference();
 
-        // Auf den Namen zugreifen
-        DatabaseReference mNameRefChild = mRootRef.child(aktUebungStr).child("Name");
+        DatabaseReference mNameRefChild;
+        DatabaseReference mMuskelgruppeRefChild;
+        DatabaseReference mBeschreibungRefChild;
 
-        // Auf die Muskelgruppe zugreifen
-        DatabaseReference mMuskelgruppeRefChild = mRootRef.child(aktUebungStr).child("Muskelgruppe");
+        if (userUebung) {
 
-        // Auf die Beschreibung zugreifen
-        DatabaseReference mBeschreibungRefChild = mRootRef.child(aktUebungStr).child("Beschreibung");
+            // Auf den Namen zugreifen
+            mNameRefChild = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Übungen").child(aktUebungStr).child("Name");
+
+            // Auf die Muskelgruppe zugreifen
+            mMuskelgruppeRefChild = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Übungen").child(aktUebungStr).child("Muskelgruppe");
+
+            // Auf die Beschreibung zugreifen
+            mBeschreibungRefChild = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Übungen").child(aktUebungStr).child("Beschreibung");
+
+        } // then
+
+        else {
+
+            // Auf den Namen zugreifen
+            mNameRefChild = mRootRef.child("Standard Übungen").child(aktUebungStr).child("Name");
+
+            // Auf die Muskelgruppe zugreifen
+            mMuskelgruppeRefChild = mRootRef.child("Standard Übungen").child(aktUebungStr).child("Muskelgruppe");
+
+            // Auf die Beschreibung zugreifen
+            mBeschreibungRefChild = mRootRef.child("Standard Übungen").child(aktUebungStr).child("Beschreibung");
+
+        } // else
 
         // Namen setzen
         mNameRefChild.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -98,7 +121,6 @@ public class FragmentExerciseRow extends Fragment {
             }
         });
 
-
         // Muskelgruppe setzen
         mMuskelgruppeRefChild.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -132,7 +154,6 @@ public class FragmentExerciseRow extends Fragment {
 
             }
         });
-
 
         // Beschreibung setzen
         mBeschreibungRefChild.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -170,11 +191,13 @@ public class FragmentExerciseRow extends Fragment {
         return view;
     }
 
-    public void setzeAktUebung(int pAktUebung, int pIdName, int pIdMuskelgruppe, int pIdBeschreibung) {
+    public void setzeAktUebung(int pAktUebung, int pIdName, int pIdMuskelgruppe, int pIdBeschreibung, boolean pUserUebung, String pBenutzername) {
         aktUebung = pAktUebung;
         nameId = pIdName;
         muskelgruppeId = pIdMuskelgruppe;
         beschreibungId = pIdBeschreibung;
+        userUebung = pUserUebung;
+        benutzername = pBenutzername;
     } // Methode setzeAtkUebung
 
 }
