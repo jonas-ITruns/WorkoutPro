@@ -41,7 +41,15 @@ public class MainClass extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_anmelden);
+        setContentView(R.layout.activity_anmeldebildschirm);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentAnmelden fragmentAnmelden = new FragmentAnmelden();
+        fragmentTransaction.add(R.id.bereichFragmentsAnmelden, fragmentAnmelden, "anmelden");
+        fragmentTransaction.addToBackStack(null);
+        fragmentManager.executePendingTransactions();
+        fragmentTransaction.commit();
 
         //anzahlUebungenBestimmen();
 
@@ -62,12 +70,18 @@ public class MainClass extends AppCompatActivity {
             benutzername = etBenutzername.getText().toString();
             passwort = etPasswort.getText().toString();
         } // else
-        setContentView(R.layout.activity_main);
-        menueleiste();
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragmentsAnmelden)).commit();
+        anmeldebildschirmSchließen();
     } // Methode anmelden
 
     public void zumRegistrieren(View v) {
-        setContentView(R.layout.activity_registrieren);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentRegistrieren fragmentRegistrieren = new FragmentRegistrieren();
+        fragmentTransaction.replace(R.id.bereichFragmentsAnmelden, fragmentRegistrieren, "registrieren");
+        fragmentTransaction.addToBackStack(null);
+        fragmentManager.executePendingTransactions();
+        fragmentTransaction.commit();
     } // Methode zumRegistrieren
 
     public void registrieren(View v) {
@@ -95,8 +109,8 @@ public class MainClass extends AppCompatActivity {
             passwort = etPasswort.getText().toString();
         } // else
         neuenBenutzerZurDatenbankHinzufuegen();
-        setContentView(R.layout.activity_main);
-        menueleiste();
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragmentsAnmelden)).commit();
+        anmeldebildschirmSchließen();
     } // Methode registrieren
 
     public void neuenBenutzerZurDatenbankHinzufuegen() {
@@ -116,6 +130,17 @@ public class MainClass extends AppCompatActivity {
         DatabaseReference MPasswortRef = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Passwort");
         MPasswortRef.setValue(passwort);
     } // Methode neuenBenutzerZurDatenbankHinzufügen
+
+    public void anmeldebildschirmSchließen() {
+        setContentView(R.layout.activity_main);
+        menueleiste();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentUebersicht fragmentUebersicht = new FragmentUebersicht();
+        fragmentTransaction.add(R.id.bereichFragments, fragmentUebersicht, "uebersicht");
+        fragmentManager.executePendingTransactions();
+        fragmentTransaction.commit();
+    } // Methode anmeldebildschirmSchließen
 
     public void anzahlUebungenBestimmen() {
         // Datenbank
@@ -139,7 +164,7 @@ public class MainClass extends AppCompatActivity {
         });
     } // Methode anzahlUebungenBestimmen
 
-    @Override
+    /*@Override
     protected void onPause() {
         super.onPause();
         Fragment myFragment;
@@ -225,17 +250,11 @@ public class MainClass extends AppCompatActivity {
         } // if
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
-    } // Methode onResume
+    } // Methode onResume*/
 
     @Override
     public void onBackPressed() {
-        // Menüleiste schließen, falls sie geöffnent ist
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        } // then
-        else {
-            super.onBackPressed();
-        } // else
+        super.onBackPressed();
     } // Methode onBackPressed
 
     public void menueleiste() {
