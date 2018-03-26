@@ -45,7 +45,6 @@ public class MainClass extends AppCompatActivity {
 
         //anzahlUebungenBestimmen();
 
-        menueleiste();
     } // Methode onCreate
 
     public void anmelden(View v) {
