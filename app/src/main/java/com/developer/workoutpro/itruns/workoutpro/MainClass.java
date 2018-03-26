@@ -3,7 +3,10 @@ package com.developer.workoutpro.itruns.workoutpro;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -263,6 +266,13 @@ public class MainClass extends AppCompatActivity {
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
     } // Methode uebungHinzufuegen
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
     public void uebungSpeichern (View v) {
         // Deklarieren der Variablen
