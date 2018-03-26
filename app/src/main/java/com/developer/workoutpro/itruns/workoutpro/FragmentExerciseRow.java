@@ -31,14 +31,17 @@ public class FragmentExerciseRow extends Fragment {
     // Name
     private String name;
     private int nameId;
+    private boolean nameScrollt = false;
 
     // Muskelgruppe
     private String muskelgruppe;
     private int muskelgruppeId;
+    private boolean muskelgruppeScrollt = false;
 
     // Beschreibung
     private String beschreibung;
     private int beschreibungId;
+    private boolean beschreibungScrollt = false;
 
     // Datenbank
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -46,6 +49,7 @@ public class FragmentExerciseRow extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_exercise_row, container, false);
 
         // Datenbank deklarieren
@@ -70,9 +74,18 @@ public class FragmentExerciseRow extends Fragment {
                 btnName.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        btnName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-                        btnName.setSelected(true);
-                        btnName.setSingleLine(true);
+                        if (! nameScrollt) {
+                            btnName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                            btnName.setSelected(true);
+                            btnName.setSingleLine(true);
+                            nameScrollt = true;
+                        } // then
+                        else {
+                            btnName.setEllipsize(TextUtils.TruncateAt.END);
+                            btnName.setSelected(true);
+                            btnName.setSingleLine(true);
+                            nameScrollt = false;
+                        } // else
                     }
                 });
                 btnName.setText(name);
@@ -96,9 +109,18 @@ public class FragmentExerciseRow extends Fragment {
                 btnMuskelgruppe.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        btnMuskelgruppe.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-                        btnMuskelgruppe.setSelected(true);
-                        btnMuskelgruppe.setSingleLine(true);
+                        if (! muskelgruppeScrollt) {
+                            btnMuskelgruppe.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                            btnMuskelgruppe.setSelected(true);
+                            btnMuskelgruppe.setSingleLine(true);
+                            muskelgruppeScrollt = true;
+                        } // then
+                        else {
+                            btnMuskelgruppe.setEllipsize(TextUtils.TruncateAt.END);
+                            btnMuskelgruppe.setSelected(true);
+                            btnMuskelgruppe.setSingleLine(true);
+                            muskelgruppeScrollt = false;
+                        } // else
                     }
                 });
                 btnMuskelgruppe.setText(muskelgruppe);
@@ -121,9 +143,18 @@ public class FragmentExerciseRow extends Fragment {
                 btnBeschreibung.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        btnBeschreibung.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-                        btnBeschreibung.setSelected(true);
-                        btnBeschreibung.setSingleLine(true);
+                        if (! beschreibungScrollt) {
+                            btnBeschreibung.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                            btnBeschreibung.setSelected(true);
+                            btnBeschreibung.setSingleLine(true);
+                            beschreibungScrollt = true;
+                        } // then
+                        else {
+                            btnBeschreibung.setEllipsize(TextUtils.TruncateAt.END);
+                            btnBeschreibung.setSelected(true);
+                            btnBeschreibung.setSingleLine(true);
+                            beschreibungScrollt = false;
+                        } // else
                     }
                 });
                 btnBeschreibung.setText(beschreibung);
