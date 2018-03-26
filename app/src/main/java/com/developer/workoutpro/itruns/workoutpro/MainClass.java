@@ -298,6 +298,7 @@ public class MainClass extends AppCompatActivity {
             return;
         } // if
         else if (isNetworkAvailable() == false){
+            Toast.makeText(this, "Bitte eine Verbindung zum Internet herstellen", Toast.LENGTH_SHORT).show();
             return;
         }
         else {
