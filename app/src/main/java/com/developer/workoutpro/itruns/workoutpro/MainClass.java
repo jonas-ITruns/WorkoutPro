@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -28,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 public class MainClass extends AppCompatActivity {
 
     private String benutzername;
+    private String passwort;
 
     private int anzahlMeineUebungen;
 
@@ -41,12 +41,82 @@ public class MainClass extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_anmelden);
 
         //anzahlUebungenBestimmen();
 
         menueleiste();
     } // Methode onCreate
+
+    public void anmelden(View v) {
+        EditText etBenutzername = findViewById(R.id.etBenutzername);
+        EditText etPasswort = findViewById(R.id.etPasswort);
+        if (etBenutzername.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Bitte Benutzernamen eintragen", Toast.LENGTH_SHORT).show();
+            return;
+        } // if
+        else if (etPasswort.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Bitte Passwort eintragen", Toast.LENGTH_SHORT).show();
+            return;
+        } // if
+        else {
+            benutzername = etBenutzername.getText().toString();
+            passwort = etPasswort.getText().toString();
+        } // else
+        setContentView(R.layout.activity_main);
+        menueleiste();
+    } // Methode anmelden
+
+    public void zumRegistrieren(View v) {
+        setContentView(R.layout.activity_registrieren);
+    } // Methode zumRegistrieren
+
+    public void registrieren(View v) {
+        EditText etBenutzername = findViewById(R.id.etBenutzername);
+        EditText etPasswort = findViewById(R.id.etPasswort);
+        EditText etPasswortBestaetigen = findViewById(R.id.etPasswortBestaetigen);
+        if (etBenutzername.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Bitte Benutzernamen eintragen", Toast.LENGTH_SHORT).show();
+            return;
+        } // if
+        else if (etPasswort.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Bitte Passwort eintragen", Toast.LENGTH_SHORT).show();
+            return;
+        } // if
+        else if (etPasswortBestaetigen.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Bitte Passwortbestätigung eintragen", Toast.LENGTH_SHORT).show();
+            return;
+        } // if
+        else if (! (etPasswort.getText().toString().equals(etPasswortBestaetigen.getText().toString()))) {
+            Toast.makeText(this, "falsches Passwort", Toast.LENGTH_SHORT).show();
+            return;
+        } // if
+        else {
+            benutzername = etBenutzername.getText().toString();
+            passwort = etPasswort.getText().toString();
+        } // else
+        neuenBenutzerZurDatenbankHinzufuegen();
+        setContentView(R.layout.activity_main);
+        menueleiste();
+    } // Methode registrieren
+
+    public void neuenBenutzerZurDatenbankHinzufuegen() {
+        // Datenbank
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        // Datenbank deklarieren
+        DatabaseReference mRootRef = database.getReference();
+
+        // Benutzername hinzufügen
+        DatabaseReference mNameRef = mRootRef.child("Benutzer Verwaltung");
+        mNameRef.setValue(benutzername);
+        DatabaseReference mName2Ref = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Benutzer Name");
+        mName2Ref.setValue(benutzername);
+
+        // Passwort hinzufügen
+        DatabaseReference MPasswortRef = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Passwort");
+        MPasswortRef.setValue(passwort);
+    } // Methode neuenBenutzerZurDatenbankHinzufügen
 
     public void anzahlUebungenBestimmen() {
         // Datenbank
@@ -276,7 +346,8 @@ public class MainClass extends AppCompatActivity {
     } // Methode tabataOeffnen
 
 
-    // Übungen managen
+    // Übungen hinzufügen
+
 
     public void uebungHinzufuegen (View v) {
         FragmentManager fragmentManager = getFragmentManager();
