@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dunkelblau">
+    android:background="@color/dunkelblau"
+    tools:context="com.developer.workoutpro.itruns.workoutpro.MainClass" >
 
     <ImageView
         android:id="@+id/imgvLogo"
@@ -66,8 +67,7 @@
         android:textColorHint="@color/grau_Hintergrund"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etBenutzername"
-        tools:context="com.developer.workoutpro.itruns.workoutpro.WelcomeScreen" />
+        app:layout_constraintTop_toBottomOf="@+id/etBenutzername"/>
 
     <EditText
         android:id="@+id/etPasswortBestaetigen"
