@@ -268,8 +268,7 @@ public class MainClass extends AppCompatActivity {
     } // Methode uebungHinzufuegen
 
     private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
@@ -298,6 +297,9 @@ public class MainClass extends AppCompatActivity {
             Toast.makeText(this, "Bitte Beschreibung eintragen", Toast.LENGTH_SHORT).show();
             return;
         } // if
+        else if (isNetworkAvailable() == false){
+            return;
+        }
         else {
             name = etName.getText().toString();
             muskelgruppe = etMuskelgruppe.getText().toString();
