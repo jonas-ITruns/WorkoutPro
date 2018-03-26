@@ -16,77 +16,58 @@
         android:layout_height="50dp"
         android:background="@color/transparent">
 
-        <ImageView
-            android:id="@+id/imgvHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@color/hellgrau_Hintergrund" />
-
-        <Button
-            android:id="@+id/btnName"
+        <TextView
+            android:id="@+id/tvName"
             android:layout_width="109dp"
             android:layout_height="match_parent"
             android:layout_marginStart="15dp"
-            android:background="@color/transparent"
-            android:gravity="center"
-            android:marqueeRepeatLimit="marquee_forever"
+            android:background="@color/weiss"
+            android:gravity="center_vertical|left"
             android:padding="2dp"
-            android:singleLine="true"
-            android:text="Name"
-            android:textAllCaps="false"
             android:textColor="@color/dunkelblau"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:marqueeRepeatLimit="marquee_forever"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnMuskelgruppe"
+        <TextView
+            android:id="@+id/tvMuskelgruppe"
             android:layout_width="108dp"
             android:layout_height="match_parent"
             android:layout_marginStart="2dp"
-            android:background="@color/transparent"
+            android:background="@color/weiss"
             android:gravity="center"
-            android:marqueeRepeatLimit="marquee_forever"
             android:padding="2dp"
-            android:singleLine="true"
-            android:text="Muskelgruppe"
-            android:textAllCaps="false"
             android:textColor="@color/dunkelblau"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/btnName"
+            android:marqueeRepeatLimit="marquee_forever"
+            app:layout_constraintStart_toEndOf="@+id/tvName"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnBeschreibung"
+        <TextView
+            android:id="@+id/tvBeschreibung"
             android:layout_width="109dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="15dp"
             android:layout_marginStart="2dp"
-            android:background="@color/transparent"
-            android:gravity="center"
-            android:marqueeRepeatLimit="marquee_forever"
+            android:background="@color/weiss"
+            android:gravity="center_vertical|right"
             android:padding="2dp"
-            android:singleLine="true"
-            android:text="Beschreibung"
-            android:textAllCaps="false"
             android:textColor="@color/dunkelblau"
             android:textStyle="bold"
+            android:marqueeRepeatLimit="marquee_forever"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btnMuskelgruppe"
+            app:layout_constraintStart_toEndOf="@+id/tvMuskelgruppe"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imgvVerticalLinks"
             android:layout_width="2dp"
             android:layout_height="match_parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnMuskelgruppe"
-            app:layout_constraintStart_toEndOf="@+id/btnName"
+            app:layout_constraintEnd_toStartOf="@+id/tvMuskelgruppe"
+            app:layout_constraintStart_toEndOf="@+id/tvName"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@color/hellgrau_Hintergrund" />
 
@@ -94,8 +75,18 @@
             android:id="@+id/imgvVerticalRechts"
             android:layout_width="2dp"
             android:layout_height="match_parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnBeschreibung"
-            app:layout_constraintStart_toEndOf="@+id/btnMuskelgruppe"
+            app:layout_constraintEnd_toStartOf="@+id/tvBeschreibung"
+            app:layout_constraintStart_toEndOf="@+id/tvMuskelgruppe"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@color/hellgrau_Hintergrund" />
+
+        <ImageView
+            android:id="@+id/imgvHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@color/hellgrau_Hintergrund" />
 
