@@ -8,10 +8,10 @@
 
     <ImageView
         android:id="@+id/imgvLogo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="155dp"
-        android:layout_marginStart="155dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="145dp"
+        android:layout_marginStart="145dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,13 +41,13 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:ems="10"
         android:gravity="center"
         android:hint="Password"
-        android:textColorHint="@color/grau_Hintergrund"
         android:inputType="textPassword"
         android:textColor="@color/weiss"
+        android:textColorHint="@color/grau_Hintergrund"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etBenutzername" />
@@ -80,7 +80,6 @@
         android:textAllCaps="false"
         android:textColor="@color/weiss"
         android:textSize="14sp"
-        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
