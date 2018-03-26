@@ -175,7 +175,7 @@ public class MainClass extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         // aktuelles Item markieren
-                        menuItem.setChecked(true);
+                        // menuItem.setChecked(true);
 
                         // nach dem Auswählen den Navigator wieder schließen
                         mDrawerLayout.closeDrawers();
