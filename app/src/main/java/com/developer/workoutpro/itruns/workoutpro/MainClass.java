@@ -4,8 +4,6 @@ package com.developer.workoutpro.itruns.workoutpro;
         import android.app.FragmentManager;
         import android.app.FragmentTransaction;
         import android.graphics.Color;
-        import android.graphics.Typeface;
-        import android.support.constraint.ConstraintLayout;
         import android.support.design.widget.NavigationView;
         import android.support.v4.view.GravityCompat;
         import android.support.v4.widget.DrawerLayout;
@@ -13,12 +11,19 @@ package com.developer.workoutpro.itruns.workoutpro;
         import android.support.v7.app.AppCompatActivity;
         import android.view.MenuItem;
         import android.view.View;
+        import android.widget.EditText;
         import android.widget.ImageButton;
-        import android.widget.TextView;
+        import android.widget.Toast;
+
+        import com.google.firebase.database.DataSnapshot;
+        import com.google.firebase.database.DatabaseError;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+        import com.google.firebase.database.ValueEventListener;
 
 public class MainClass extends AppCompatActivity {
 
-    public int aktUebung = 1;
+    private int anzahlUebungen;
 
     // Menüleiste
     private DrawerLayout mDrawerLayout;
@@ -32,8 +37,32 @@ public class MainClass extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        anzahlUebungenBestimmen();
+
         menueleiste();
     } // Methode onCreate
+
+    public void anzahlUebungenBestimmen() {
+        // Datenbank
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        // Datenbank deklarieren
+        DatabaseReference mRootRef = database.getReference();
+
+        // Anzahl Übungen erneuern
+        DatabaseReference mAnzahlRef = mRootRef.child("0").child("Anzahl Übungen");
+        mAnzahlRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                anzahlUebungen = dataSnapshot.getValue(Integer.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    } // Methode anzahlUebungenBestimmen
 
     @Override
     protected void onPause() {
@@ -223,22 +252,80 @@ public class MainClass extends AppCompatActivity {
         fragmentTransaction.commit();
     } // Methode tabataOeffnen
 
-    /*public void createTextView(String name, int id, View view) {
-        TextView tv = new TextView(this);
-        tv.setText(name);
-        tv.setId(id);
-        tv.setWidth(110);
-        tv.setHeight(50);
-        tv.setGravity(View.TEXT_ALIGNMENT_CENTER);
-        tv.setTextColor(000000);
-        tv.setTextSize(14);
-        tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
-        ConstraintLayout.LayoutParams p = (ConstraintLayout.LayoutParams)tv.getLayoutParams();
-        p.leftMargin = 0;
-        p.topMargin = 0;
-        p.bottomMargin = 0;
-        tv.setLayoutParams(p);
-        ((ConstraintLayout) view).addView(tv);
-    }*/
+
+    // Übungen managen
+
+    public void uebungHinzufuegen (View v) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentUebungHinzufuegen fragmentUebungHinzufuegen = new FragmentUebungHinzufuegen();
+        fragmentTransaction.replace(R.id.bereichFragments, fragmentUebungHinzufuegen, "uebungHinzufuegen");
+        fragmentManager.executePendingTransactions();
+        fragmentTransaction.commit();
+    } // Methode uebungHinzufuegen
+
+    public void uebungSpeichern (View v) {
+        // Deklarieren der Variablen
+        String name;
+        String muskelgruppe;
+        String beschreibung;
+
+        // Deklarieren der Textfelder
+        EditText etName = findViewById(R.id.etUebungName);
+        EditText etMuskelgruppe = findViewById(R.id.etUebungMuskelgruppe);
+        EditText etBeschreibung = findViewById(R.id.etUebungBeschreibung);
+
+        // Daten einlesen
+        if (etName.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Bitte Übungsnamen eintragen", Toast.LENGTH_SHORT).show();
+            return;
+        } // if
+        else if (etMuskelgruppe.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Bitte Muskelgruppe eintragen", Toast.LENGTH_SHORT).show();
+            return;
+        } // if
+        else if (etBeschreibung.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Bitte Beschreibung eintragen", Toast.LENGTH_SHORT).show();
+            return;
+        } // if
+        else {
+            name = etName.getText().toString();
+            muskelgruppe = etMuskelgruppe.getText().toString();
+            beschreibung = etBeschreibung.getText().toString();
+        } // else
+
+        // Datenbank
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        // Datenbank deklarieren
+        String aktUebungStr = Integer.toString(anzahlUebungen + 1);
+        DatabaseReference mRootRef = database.getReference();
+
+        // Anzahl Übungen erneuern
+        anzahlUebungen++;
+        DatabaseReference mAnzahl = mRootRef.child("0").child("Anzahl Übungen");
+        mAnzahl.setValue(anzahlUebungen);
+
+        // Namen erstellen
+        DatabaseReference mNameRefChild =  mRootRef.child(aktUebungStr).child("Name");
+        mNameRefChild.setValue(name);
+
+        // Muskelgruppe erstellen
+        DatabaseReference mMuskelgruppeRefChild =  mRootRef.child(aktUebungStr).child("Muskelgruppe");
+        mMuskelgruppeRefChild.setValue(muskelgruppe);
+
+        // Beschreibung erstellen
+        DatabaseReference mBeschreibungRefChild = mRootRef.child(aktUebungStr).child("Beschreibung");
+        mBeschreibungRefChild.setValue(beschreibung);
+
+        // Übungsübersicht anzeigen
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentExercises fragmentExercises = new FragmentExercises();
+        fragmentTransaction.replace(R.id.bereichFragments, fragmentExercises, "uebungHinzufuegen");
+        fragmentManager.executePendingTransactions();
+        fragmentTransaction.commit();
+
+    } // Methode uebungSpeichern
 
 } // Klasse WelcomeScreen
