@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
-
 public class WelcomeScreen extends AppCompatActivity{
 
     private static int SPLASH_TIME_OUT = 5000;
