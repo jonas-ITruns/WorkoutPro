@@ -28,6 +28,7 @@
             android:textColor="@color/dunkelblau"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:marqueeRepeatLimit="marquee_forever"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,7 +44,7 @@
             android:textColor="@color/dunkelblau"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:visibility="visible"
+            android:marqueeRepeatLimit="marquee_forever"
             app:layout_constraintStart_toEndOf="@+id/tvName"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,6 +60,7 @@
             android:text="Beschreibung"
             android:textColor="@color/dunkelblau"
             android:textStyle="bold"
+            android:marqueeRepeatLimit="marquee_forever"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvMuskelgruppe"
             app:layout_constraintTop_toTopOf="parent" />

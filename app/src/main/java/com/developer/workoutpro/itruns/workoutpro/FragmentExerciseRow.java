@@ -3,6 +3,7 @@ package com.developer.workoutpro.itruns.workoutpro;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,9 @@ public class FragmentExerciseRow extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 name = dataSnapshot.getValue(String.class);
                 tvName = view.findViewById(R.id.tvName);
+                tvName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                tvName.setSelected(true);
+                tvName.setSingleLine(true);
                 tvName.setText(name);
                 tvName.setId(nameId);
             }
@@ -82,6 +86,9 @@ public class FragmentExerciseRow extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 muskelgruppe = dataSnapshot.getValue(String.class);
                 tvMuskelgruppe = view.findViewById(R.id.tvMuskelgruppe);
+                tvMuskelgruppe.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                tvMuskelgruppe.setSelected(true);
+                tvMuskelgruppe.setSingleLine(true);
                 tvMuskelgruppe.setText(muskelgruppe);
                 tvMuskelgruppe.setId(muskelgruppeId);
             }
@@ -99,6 +106,9 @@ public class FragmentExerciseRow extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 beschreibung = dataSnapshot.getValue(String.class);
                 tvBeschreibung = view.findViewById(R.id.tvBeschreibung);
+                tvBeschreibung.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                tvBeschreibung.setSelected(true);
+                tvBeschreibung.setSingleLine(true);
                 tvBeschreibung.setText(beschreibung);
                 tvBeschreibung.setId(beschreibungId);
             }
