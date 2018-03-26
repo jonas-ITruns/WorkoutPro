@@ -4,6 +4,8 @@ package com.developer.workoutpro.itruns.workoutpro;
         import android.app.FragmentManager;
         import android.app.FragmentTransaction;
         import android.graphics.Color;
+        import android.graphics.Typeface;
+        import android.support.constraint.ConstraintLayout;
         import android.support.design.widget.NavigationView;
         import android.support.v4.view.GravityCompat;
         import android.support.v4.widget.DrawerLayout;
@@ -12,8 +14,11 @@ package com.developer.workoutpro.itruns.workoutpro;
         import android.view.MenuItem;
         import android.view.View;
         import android.widget.ImageButton;
+        import android.widget.TextView;
 
 public class MainClass extends AppCompatActivity {
+
+    public int aktUebung = 1;
 
     // Menüleiste
     private DrawerLayout mDrawerLayout;
@@ -217,5 +222,23 @@ public class MainClass extends AppCompatActivity {
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
     } // Methode tabataOeffnen
+
+    /*public void createTextView(String name, int id, View view) {
+        TextView tv = new TextView(this);
+        tv.setText(name);
+        tv.setId(id);
+        tv.setWidth(110);
+        tv.setHeight(50);
+        tv.setGravity(View.TEXT_ALIGNMENT_CENTER);
+        tv.setTextColor(000000);
+        tv.setTextSize(14);
+        tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
+        ConstraintLayout.LayoutParams p = (ConstraintLayout.LayoutParams)tv.getLayoutParams();
+        p.leftMargin = 0;
+        p.topMargin = 0;
+        p.bottomMargin = 0;
+        tv.setLayoutParams(p);
+        ((ConstraintLayout) view).addView(tv);
+    }*/
 
 } // Klasse WelcomeScreen

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:gravity="center_vertical"
+    android:background="@color/transparent"
+    android:fitsSystemWindows="false"
+    android:padding="15dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clRow"
+        android:layout_width="330dp"
+        android:layout_height="50dp"
+        android:background="@color/transparent">
+
+        <TextView
+            android:id="@+id/tvNameTest"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Name"
+            android:textColor="@color/dunkelblau"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvMuskelgruppe"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Muskelgrppe"
+            android:textColor="@color/dunkelblau"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/tvNameTest"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Beschreibung"
+            android:textColor="@color/dunkelblau"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</TableRow>
