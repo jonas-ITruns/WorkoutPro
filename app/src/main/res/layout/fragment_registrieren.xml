@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imgvLogo" />
 
     <EditText
-        android:id="@+id/etBenutzername"
+        android:id="@+id/etEmailAdresse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
@@ -45,13 +45,30 @@
         android:layout_marginTop="50dp"
         android:ems="10"
         android:gravity="center"
-        android:hint="Benutzername"
-        android:textColorHint="@color/grau_Hintergrund"
+        android:hint="E-Mail Adresse"
         android:inputType="textPersonName"
         android:textColor="@color/weiss"
+        android:textColorHint="@color/grau_Hintergrund"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvWorkoutPro" />
+
+    <EditText
+        android:id="@+id/etBenutzername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Benutzername"
+        android:inputType="textPersonName"
+        android:textColor="@color/weiss"
+        android:textColorHint="@color/grau_Hintergrund"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEmailAdresse" />
 
     <EditText
         android:id="@+id/etPasswort"
@@ -68,24 +85,7 @@
         android:textColorHint="@color/grau_Hintergrund"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etBenutzername"/>
-
-    <EditText
-        android:id="@+id/etPasswortBestaetigen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="30dp"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="Passwort bestätigen"
-        android:inputType="textPassword"
-        android:textColor="@color/weiss"
-        android:textColorHint="@color/grau_Hintergrund"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswort" />
+        app:layout_constraintTop_toBottomOf="@+id/etBenutzername" />
 
     <Button
         android:id="@+id/btnRegistrieren"
@@ -102,6 +102,6 @@
         android:onClick="registrieren"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswortBestaetigen" />
+        app:layout_constraintTop_toBottomOf="@+id/etPasswort" />
 
 </android.support.constraint.ConstraintLayout>
