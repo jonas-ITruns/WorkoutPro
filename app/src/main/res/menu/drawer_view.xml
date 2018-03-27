@@ -16,30 +16,27 @@
             android:id="@+id/standardUebungen"
             android:icon="@drawable/ic_exercises"
             android:title="Standard Übungen" />
-    </group>
-    <group android:checkableBehavior="single"
-        android:id="@+id/group3">
         <item
             android:id="@+id/meineUebungen"
             android:icon="@drawable/ic_exercises"
             android:title="Meine Übungen" />
     </group>
     <group android:checkableBehavior="single"
-        android:id="@+id/group4">
+        android:id="@+id/group3">
         <item
             android:id="@+id/premium"
             android:icon="@drawable/ic_premium"
             android:title="Premium" />
     </group>
     <group android:checkableBehavior="single"
-        android:id="@+id/group5">
+        android:id="@+id/group4">
         <item
             android:id="@+id/support"
             android:icon="@drawable/ic_support"
             android:title="Support" />
     </group>
     <group android:checkableBehavior="single"
-        android:id="@+id/group6">
+        android:id="@+id/group5">
         <item
             android:id="@+id/einstellungen"
             android:icon="@drawable/ic_settings"
