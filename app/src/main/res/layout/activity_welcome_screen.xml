@@ -7,17 +7,33 @@
     android:background="@color/dunkelblau"
     tools:context="com.developer.workoutpro.itruns.workoutpro.WelcomeScreen">
 
-    <ImageView
-        android:id="@+id/ivITruns"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="220dp"
         android:layout_height="190dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginEnd="70dp"
         android:layout_marginStart="70dp"
         android:layout_marginTop="56dp"
+        android:progress="0"
+        android:progressDrawable="@drawable/ladebalken_welcome_screen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivITruns"
+        android:layout_width="230dp"
+        android:layout_height="200dp"
+        android:layout_marginEnd="65dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="51dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/itruns_original" />
+        app:srcCompat="@drawable/itruns_welcome_screen" />
 
     <TextView
         android:id="@+id/tvWorkoutPro"
