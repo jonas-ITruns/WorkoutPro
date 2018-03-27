@@ -26,6 +26,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
 public class MainClass extends AppCompatActivity {
 
     private int anzahlNutzer;
@@ -87,24 +91,28 @@ public class MainClass extends AppCompatActivity {
         fragmentTransaction.commit();
     } // Methode zumRegistrieren
 
+    public static boolean isEmailValid(String email) {
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
     public void registrieren(View v) {
         EditText etBenutzername = findViewById(R.id.etBenutzername);
         EditText etPasswort = findViewById(R.id.etPasswort);
-        EditText etPasswortBestaetigen = findViewById(R.id.etPasswortBestaetigen);
-        if (etBenutzername.getText().toString().isEmpty()) {
+        EditText etEmailAdresse = findViewById(R.id.etEmailAdresse);
+
+        if (isEmailValid(etEmailAdresse.getText().toString())==false){
+            Toast.makeText(this, "E-mail Adresse existiert nicht", Toast.LENGTH_SHORT).show();
+            return;
+        }//if
+        else if (etBenutzername.getText().toString().isEmpty()) {
             Toast.makeText(this, "Bitte Benutzernamen eintragen", Toast.LENGTH_SHORT).show();
             return;
         } // if
         else if (etPasswort.getText().toString().isEmpty()) {
             Toast.makeText(this, "Bitte Passwort eintragen", Toast.LENGTH_SHORT).show();
-            return;
-        } // if
-        else if (etPasswortBestaetigen.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Bitte Passwortbestätigung eintragen", Toast.LENGTH_SHORT).show();
-            return;
-        } // if
-        else if (! (etPasswort.getText().toString().equals(etPasswortBestaetigen.getText().toString()))) {
-            Toast.makeText(this, "falsches Passwort", Toast.LENGTH_SHORT).show();
             return;
         } // if
         else {
