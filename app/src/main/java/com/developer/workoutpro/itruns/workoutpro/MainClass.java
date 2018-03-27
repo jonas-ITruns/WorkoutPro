@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 public class MainClass extends AppCompatActivity {
 
     private int anzahlNutzer;
+    private String email;
     private String benutzername;
     private String passwort;
 
@@ -99,14 +100,14 @@ public class MainClass extends AppCompatActivity {
     }
 
     public void registrieren(View v) {
+        EditText etEmailAdresse = findViewById(R.id.etEmailAdresse);
         EditText etBenutzername = findViewById(R.id.etBenutzername);
         EditText etPasswort = findViewById(R.id.etPasswort);
-        EditText etEmailAdresse = findViewById(R.id.etEmailAdresse);
 
         if (isEmailValid(etEmailAdresse.getText().toString())==false){
             Toast.makeText(this, "E-mail Adresse existiert nicht", Toast.LENGTH_SHORT).show();
             return;
-        }//if
+        } // if
         else if (etBenutzername.getText().toString().isEmpty()) {
             Toast.makeText(this, "Bitte Benutzernamen eintragen", Toast.LENGTH_SHORT).show();
             return;
@@ -116,9 +117,11 @@ public class MainClass extends AppCompatActivity {
             return;
         } // if
         else {
+            email = etEmailAdresse.getText().toString();
             benutzername = etBenutzername.getText().toString();
             passwort = etPasswort.getText().toString();
         } // else
+
         neuenBenutzerZurDatenbankHinzufuegen();
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragmentsAnmelden)).commit();
         anmeldebildschirmSchließen();
@@ -139,6 +142,10 @@ public class MainClass extends AppCompatActivity {
                 anzahlNutzer = dataSnapshot.getValue(Integer.class);
                 anzahlNutzer++;
                 mAnzahlNutzerRef.setValue(anzahlNutzer);
+
+                // Email hinzufügen
+                DatabaseReference mEmailRef = mRootRef.child("Benutzer Verwaltung").child(Integer.toString(anzahlNutzer)).child("E-Mail");
+                mEmailRef.setValue(email);
 
                 // Benutzername hinzufügen
                 DatabaseReference mName2Ref = mRootRef.child("Benutzer Verwaltung").child(Integer.toString(anzahlNutzer)).child("Benutzer Name");
