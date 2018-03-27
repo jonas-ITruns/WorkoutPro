@@ -7,6 +7,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -26,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainClass extends AppCompatActivity {
 
+    private int anzahlNutzer;
     private String benutzername;
     private String passwort;
 
@@ -118,17 +121,36 @@ public class MainClass extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         // Datenbank deklarieren
-        DatabaseReference mRootRef = database.getReference();
+        final DatabaseReference mRootRef = database.getReference();
 
-        // Benutzername hinzufügen
-        DatabaseReference mNameRef = mRootRef.child("Benutzer Verwaltung");
-        mNameRef.setValue(benutzername);
-        DatabaseReference mName2Ref = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Benutzer Name");
-        mName2Ref.setValue(benutzername);
+        // Anzahl Nutzer erhöhen
+        final DatabaseReference mAnzahlNutzerRef = mRootRef.child("Benutzer Verwaltung").child("Gesamt Anzahl");
+        mAnzahlNutzerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                anzahlNutzer = dataSnapshot.getValue(Integer.class);
+                anzahlNutzer++;
+                mAnzahlNutzerRef.setValue(anzahlNutzer);
 
-        // Passwort hinzufügen
-        DatabaseReference MPasswortRef = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Passwort");
-        MPasswortRef.setValue(passwort);
+                // Benutzername hinzufügen
+                DatabaseReference mName2Ref = mRootRef.child("Benutzer Verwaltung").child(Integer.toString(anzahlNutzer)).child("Benutzer Name");
+                mName2Ref.setValue(benutzername);
+
+                // Passwort hinzufügen
+                DatabaseReference MPasswortRef = mRootRef.child("Benutzer Verwaltung").child(Integer.toString(anzahlNutzer)).child("Passwort");
+                MPasswortRef.setValue(passwort);
+
+                // Pfad für Übungen hinzufügen
+                DatabaseReference MUebungRef = mRootRef.child("Benutzer Verwaltung").child(Integer.toString(anzahlNutzer)).child("Übungen").child("Gesamt Anzahl");
+                MUebungRef.setValue("0");
+                anzahlMeineUebungen = 0;
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     } // Methode neuenBenutzerZurDatenbankHinzufügen
 
     public void anmeldebildschirmSchließen() {
