@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -43,6 +44,16 @@ public class MainClass extends AppCompatActivity {
     // Fragmente
     private String aktFragment = "";
 
+    // Anmeldung überprüfen
+    private boolean anmeldungLaeuft = false;
+    private boolean nameBestimmt;
+    private boolean passwortBestimmt;
+    private String pBenutzer [];
+    private int aktNutzer;
+    private String pPasswort [];
+    private int aktPasswort;
+    private static int SPLASH_TIME_OUT = 1000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,22 +71,116 @@ public class MainClass extends AppCompatActivity {
     } // Methode onCreate
 
     public void anmelden(View v) {
-        EditText etBenutzername = findViewById(R.id.etBenutzername);
-        EditText etPasswort = findViewById(R.id.etPasswort);
-        if (etBenutzername.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Bitte Benutzernamen eintragen", Toast.LENGTH_SHORT).show();
-            return;
+        if (! anmeldungLaeuft) {
+            anmeldungLaeuft = true;
+            // Datenbank
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+            // Datenbank deklarieren
+            final DatabaseReference mRootRef = database.getReference();
+
+            EditText etBenutzername = findViewById(R.id.etBenutzername);
+            EditText etPasswort = findViewById(R.id.etPasswort);
+            if (etBenutzername.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Bitte Benutzernamen eintragen", Toast.LENGTH_SHORT).show();
+                anmeldungLaeuft = false;
+                return;
+            } // if
+            else if (etPasswort.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Bitte Passwort eintragen", Toast.LENGTH_SHORT).show();
+                anmeldungLaeuft = false;
+                return;
+            } // if
+            else {
+                benutzername = etBenutzername.getText().toString();
+                passwort = etPasswort.getText().toString();
+            } // else
+
+            // Überprüfen, ob der Nutzer existiert
+
+            // Anzahl Nutzer ermitteln
+            DatabaseReference mAnzahlNutzerRef = mRootRef.child("Benutzer Verwaltung").child("Gesamt Anzahl");
+            mAnzahlNutzerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    anzahlNutzer = dataSnapshot.getValue(Integer.class);
+                    if (anzahlNutzer != 0) {
+                        pBenutzer = new String[anzahlNutzer];
+                        aktNutzer = 0;
+                        pPasswort = new String[anzahlNutzer];
+                        aktPasswort = 0;
+                        nameBestimmt = false;
+                        passwortBestimmt = false;
+                        for (int zähler = 1; zähler <= anzahlNutzer; zähler++) {
+
+                            // Name bestimmen
+                            DatabaseReference mNameRef = mRootRef.child("Benutzer Verwaltung").child(Integer.toString(zähler)).child("Benutzer Name");
+                            mNameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    pBenutzer[aktNutzer] = dataSnapshot.getValue(String.class);
+                                    aktNutzer++;
+                                    if (aktNutzer == anzahlNutzer) {
+                                        nameBestimmt = true;
+                                    } // if
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+                            // Passwort bestimmen
+                            DatabaseReference mPasswortRef = mRootRef.child("Benutzer Verwaltung").child(Integer.toString(zähler)).child("Passwort");
+                            mPasswortRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    pPasswort[aktPasswort] = dataSnapshot.getValue(String.class);
+                                    aktPasswort++;
+                                    if (aktPasswort == anzahlNutzer) {
+                                        passwortBestimmt = true;
+                                    } // if
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        } // for
+
+                        // Übereinstimmung überprüfen
+                        new Handler().postDelayed(new Runnable(){
+                            @Override
+                            public void run(){
+                                if (nameBestimmt && passwortBestimmt) {
+                                    for (int zähler = 1; zähler <= anzahlNutzer; zähler++) {
+                                        if (pBenutzer[zähler - 1].equals(benutzername) && pPasswort[zähler - 1].equals(passwort)) {
+                                            anmeldebildschirmSchließen();
+                                            anmeldungLaeuft = false;
+                                            return;
+                                        } // if
+                                    } // for
+                                    Toast.makeText(MainClass.this, "Dieser Account existiert nicht", Toast.LENGTH_SHORT).show();
+                                    anmeldungLaeuft = false;
+                                } // if
+                            }
+                        },SPLASH_TIME_OUT);
+                    } // if
+                    else {
+                        Toast.makeText(MainClass.this, "Dieser Account existiert nicht", Toast.LENGTH_SHORT).show();
+                        anmeldungLaeuft = false;
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+
+            });
         } // if
-        else if (etPasswort.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Bitte Passwort eintragen", Toast.LENGTH_SHORT).show();
-            return;
-        } // if
-        else {
-            benutzername = etBenutzername.getText().toString();
-            passwort = etPasswort.getText().toString();
-        } // else
-        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragmentsAnmelden)).commit();
-        anmeldebildschirmSchließen();
     } // Methode anmelden
 
     public void zumRegistrieren(View v) {
@@ -165,6 +270,7 @@ public class MainClass extends AppCompatActivity {
     } // Methode neuenBenutzerZurDatenbankHinzufügen
 
     public void anmeldebildschirmSchließen() {
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragmentsAnmelden)).commit();
         setContentView(R.layout.activity_main);
         menueleiste();
         FragmentManager fragmentManager = getFragmentManager();
