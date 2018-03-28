@@ -1,5 +1,6 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -30,18 +31,18 @@ import java.util.regex.Pattern;
 
 public class MainClass extends AppCompatActivity {
 
+    // Daten zum Nutzer
     private int anzahlNutzer;
     private String email;
     private String benutzername;
     private String passwort;
-
     private int anzahlMeineUebungen;
 
     // Menüleiste
     private DrawerLayout mDrawerLayout;
     private ImageButton menuButton;
 
-    // Fragmente
+    // Attribute für onPause und onResume
     private String aktFragment = "";
 
     // Anmeldung überprüfen
@@ -59,6 +60,7 @@ public class MainClass extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anmeldebildschirm);
 
+        // Anmeldebildschrim öffnen
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FragmentAnmelden fragmentAnmelden = new FragmentAnmelden();
@@ -66,9 +68,96 @@ public class MainClass extends AppCompatActivity {
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
 
-        //anzahlUebungenBestimmen();
-
     } // Methode onCreate
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Fragment myFragment;
+        myFragment = getFragmentManager().findFragmentByTag("anmelden");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "anmelden";
+        } // if
+        myFragment = getFragmentManager().findFragmentByTag("registrieren");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "registrieren";
+        } // if
+        myFragment = getFragmentManager().findFragmentByTag("uebersicht");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "uebersicht";
+        } // if
+        myFragment = getFragmentManager().findFragmentByTag("standardUebungen");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "standardUebungen";
+        } // if
+        myFragment = getFragmentManager().findFragmentByTag("meineUebungen");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "meineUebungen";
+        } // if
+        myFragment = getFragmentManager().findFragmentByTag("premium");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "premium";
+        } // if
+        myFragment = getFragmentManager().findFragmentByTag("support");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "support";
+        } // if
+        myFragment = getFragmentManager().findFragmentByTag("einstellungen");
+        if (myFragment != null && myFragment.isVisible()) {
+            aktFragment = "einstellungen";
+        } // if
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+    } // Methode onPause
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (aktFragment.equals ("anmelden") || aktFragment.equals ("")) {
+            FragmentAnmelden fragmentAnmelden = new FragmentAnmelden();
+            fragmentTransaction.add(R.id.bereichFragmentsAnmelden, fragmentAnmelden, "anmelden");
+        } // if
+        else if (aktFragment.equals ("registrieren")) {
+            FragmentRegistrieren fragmentRegistrieren = new FragmentRegistrieren();
+            fragmentTransaction.add(R.id.bereichFragmentsAnmelden, fragmentRegistrieren, "registrieren");
+        } // if
+        else if (aktFragment.equals ("uebersicht")) {
+            FragmentUebersicht fragmentUebersicht = new FragmentUebersicht();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentUebersicht, "uebersicht");
+        } // if
+        else if (aktFragment.equals ("standardUebungen")) {
+            FragmentStandardUebungen fragmentStandardUebungen = new FragmentStandardUebungen();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentStandardUebungen, "standardUebungen");
+        } // if
+        else if (aktFragment.equals ("meineUebungen")) {
+            FragmentMeineUebungen fragmentMeineUebungen = new FragmentMeineUebungen();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentMeineUebungen, "meineUebungen");
+        } // if
+        else if (aktFragment.equals ("premium")) {
+            FragmentPremium fragmentPremium = new FragmentPremium();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentPremium, "premium");
+        } // if
+        else if (aktFragment.equals ("support")) {
+            FragmentSupport fragmentSupport = new FragmentSupport();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentSupport, "support");
+        } // if
+        else if (aktFragment.equals ("einstellungen")) {
+            FragmentEinstellungen fragmentEinstellungen = new FragmentEinstellungen();
+            fragmentTransaction.add(R.id.bereichFragments, fragmentEinstellungen, "einstellungen");
+        } // if
+        fragmentManager.executePendingTransactions();
+        fragmentTransaction.commit();
+    } // Methode onResume
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    } // Methode onBackPressed
+
+
+    // Anmeldevorgang
+
 
     public void anmelden(View v) {
         if (! anmeldungLaeuft) {
@@ -281,120 +370,9 @@ public class MainClass extends AppCompatActivity {
         fragmentTransaction.commit();
     } // Methode anmeldebildschirmSchließen
 
-    public void anzahlUebungenBestimmen() {
-        // Datenbank
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        // Datenbank deklarieren
-        DatabaseReference mRootRef = database.getReference();
+    // Menüleiste
 
-        // Anzahl Übungen erneuern
-        DatabaseReference mAnzahlMeineUebungenRef = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Übungen").child("Gesamt Anzahl");
-        mAnzahlMeineUebungenRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                anzahlMeineUebungen = dataSnapshot.getValue(Integer.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    } // Methode anzahlUebungenBestimmen
-
-    /*@Override
-    protected void onPause() {
-        super.onPause();
-        Fragment myFragment;
-        myFragment = getFragmentManager().findFragmentByTag("uebersicht");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "uebersicht";
-        } // if
-        myFragment = getFragmentManager().findFragmentByTag("standardUebungen");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "standardUebungen";
-        } // if
-        myFragment = getFragmentManager().findFragmentByTag("meineUebungen");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "meineUebungen";
-        } // if
-        myFragment = getFragmentManager().findFragmentByTag("premium");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "premium";
-        } // if
-        myFragment = getFragmentManager().findFragmentByTag("support");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "support";
-        } // if
-        myFragment = getFragmentManager().findFragmentByTag("einstellungen");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "einstellungen";
-        } // if
-        myFragment = getFragmentManager().findFragmentByTag("workoutZeit");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "workoutZeit";
-        } // if
-        myFragment = getFragmentManager().findFragmentByTag("workoutWiederholung");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "workoutWiederholung";
-        } // if
-        myFragment = getFragmentManager().findFragmentByTag("tabata");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "tabata";
-        } // if
-        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
-    } // Methode onPause
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (aktFragment.equals ("uebersicht") || aktFragment.equals ("")) {
-            FragmentUebersicht fragmentUebersicht = new FragmentUebersicht();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentUebersicht, "uebersicht");
-        } // if
-        else if (aktFragment.equals ("standardUebungen")) {
-            FragmentStandardUebungen fragmentStandardUebungen = new FragmentStandardUebungen();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentStandardUebungen, "standardUebungen");
-        } // if
-        else if (aktFragment.equals ("meineUebungen")) {
-            FragmentMeineUebungen fragmentMeineUebungen = new FragmentMeineUebungen();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentMeineUebungen, "meineUebungen");
-        } // if
-        else if (aktFragment.equals ("premium")) {
-            FragmentPremium fragmentPremium = new FragmentPremium();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentPremium, "premium");
-        } // if
-        else if (aktFragment.equals ("support")) {
-            FragmentSupport fragmentSupport = new FragmentSupport();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentSupport, "support");
-        } // if
-        else if (aktFragment.equals ("einstellungen")) {
-            FragmentEinstellungen fragmentEinstellungen = new FragmentEinstellungen();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentEinstellungen, "einstellungen");
-        } // if
-        else if (aktFragment.equals ("workoutZeit")) {
-            FragmentWorkoutZeit fragmentWorkoutZeit = new FragmentWorkoutZeit();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentWorkoutZeit, "workoutZeit");
-        } // if
-        else if (aktFragment.equals ("workoutWiederholung")) {
-            FragmentWorkoutWiederholung fragmentWorkoutWiederholung = new FragmentWorkoutWiederholung();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentWorkoutWiederholung, "workoutWiederholung");
-        } // if
-        else if (aktFragment.equals ("tabata")) {
-            FragmentTabata fragmentTabata = new FragmentTabata();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentTabata, "tabata");
-        } // if
-        fragmentManager.executePendingTransactions();
-        fragmentTransaction.commit();
-    } // Methode onResume*/
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    } // Methode onBackPressed
 
     public void menueleiste() {
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -591,4 +569,5 @@ public class MainClass extends AppCompatActivity {
 
     } // Methode uebungSpeichern
 
-} // Klasse WelcomeScreen
+
+} // Klasse MainClass
