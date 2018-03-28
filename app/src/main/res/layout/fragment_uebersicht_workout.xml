@@ -10,7 +10,8 @@
     android:fitsSystemWindows="false"
     android:gravity="center_vertical"
     android:paddingBottom="15dp"
-    android:paddingTop="15dp">
+    android:paddingTop="15dp"
+    tools:context="com.developer.workoutpro.itruns.workoutpro.MainClass">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/clRow"
@@ -18,41 +19,20 @@
         android:layout_height="match_parent"
         android:background="@color/transparent">
 
-
         <TextView
             android:id="@+id/tvWorkoutName"
-            android:layout_width="260dp"
+            android:layout_width="360dp"
             android:layout_height="50dp"
             android:background="@color/dunkelblau"
             android:gravity="center_vertical|left"
             android:paddingLeft="15dp"
-            android:paddingRight="20dp"
+            android:paddingRight="120dp"
             android:text="Workout Name"
             android:textColor="@color/weiss"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/imgbtnWorkoutStart"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@color/dunkelblau"
-            android:tint="@color/weiss"
-            app:layout_constraintEnd_toStartOf="@+id/imgbtnWorkoutMenue"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_play_arrow" />
-
-        <ImageButton
-            android:id="@+id/imgbtnWorkoutMenue"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@color/dunkelblau"
-            android:tint="@color/weiss"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_more_vert_black_24dp" />
 
         <TextView
             android:id="@+id/tvWorkoutArt"
@@ -138,6 +118,69 @@
             android:background="@color/weiss"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvWorkoutName" />
+
+        <ImageButton
+            android:id="@+id/imgbtnWorkoutStart"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:background="@color/transparent"
+            android:tint="@color/weiss"
+            app:layout_constraintEnd_toStartOf="@+id/imgbtnWorkoutMenue"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_play_arrow" />
+
+            <ImageButton
+                android:id="@+id/imgbtnWorkoutMenue"
+                android:layout_width="53dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:background="@color/transparent"
+                android:tint="@color/weiss"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_more_vert_black_24dp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnBearbeiten"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:src="@drawable/ic_edit"
+            android:tint="@color/weiss"
+            android:visibility="invisible"
+            app:backgroundTint="@color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/imgvStrich"
+            app:layout_constraintEnd_toStartOf="@+id/imgbtnWorkoutMenue"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnUmbennen"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:src="@drawable/ic_rename"
+            android:tint="@color/weiss"
+            android:visibility="invisible"
+            app:backgroundTint="@color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/imgvStrich"
+            app:layout_constraintEnd_toStartOf="@+id/btnBearbeiten"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnLoeschen"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:src="@drawable/ic_delete_black_24dp"
+            android:tint="@color/weiss"
+            android:visibility="invisible"
+            app:backgroundTint="@color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/imgvStrich"
+            app:layout_constraintEnd_toStartOf="@+id/btnUmbennen"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
     </android.support.constraint.ConstraintLayout>
 
 </TableRow>

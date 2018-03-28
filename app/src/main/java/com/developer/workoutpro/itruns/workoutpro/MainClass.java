@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +20,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -312,40 +315,6 @@ public class MainClass extends AppCompatActivity {
             }
         });
     } // Methode menueLeiste
-
-
-    // Verschiedene Workoutarten öffnen
-
-
-    public void workoutZeitOeffnen(View v) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FragmentWorkoutZeit fragmentWorkoutZeit = new FragmentWorkoutZeit();
-        fragmentTransaction.replace(R.id.bereichFragments, fragmentWorkoutZeit, "workoutZeit");
-        fragmentTransaction.addToBackStack(null);
-        fragmentManager.executePendingTransactions();
-        fragmentTransaction.commit();
-    } // Methode workoutZeitOeffnen
-
-    public void workoutWiederholungOeffnen(View v) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FragmentWorkoutWiederholung fragmentWorkoutWiederholung = new FragmentWorkoutWiederholung();
-        fragmentTransaction.replace(R.id.bereichFragments, fragmentWorkoutWiederholung, "workoutWiederholung");
-        fragmentTransaction.addToBackStack(null);
-        fragmentManager.executePendingTransactions();
-        fragmentTransaction.commit();
-    } // Methode workoutWiederholungOeffnen
-
-    public void tabataOeffnen(View v) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FragmentTabata fragmentTabata = new FragmentTabata();
-        fragmentTransaction.replace(R.id.bereichFragments, fragmentTabata, "tabata");
-        fragmentTransaction.addToBackStack(null);
-        fragmentManager.executePendingTransactions();
-        fragmentTransaction.commit();
-    } // Methode tabataOeffnen
 
 
     // Übungen verwalten
