@@ -4,39 +4,52 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 public class MainClass extends AppCompatActivity {
-
-    // Daten zum Nutzer
-    private int anzahlNutzer;
-    private String email;
-    private String benutzername;
-    private String passwort;
-    private int anzahlMeineUebungen;
 
     // Menüleiste
     private DrawerLayout mDrawerLayout;
@@ -45,28 +58,32 @@ public class MainClass extends AppCompatActivity {
     // Attribute für onPause und onResume
     private String aktFragment = "";
 
-    // Anmeldung überprüfen
-    private boolean anmeldungLaeuft = false;
-    private boolean nameBestimmt;
-    private boolean passwortBestimmt;
-    private String pBenutzer [];
-    private int aktNutzer;
-    private String pPasswort [];
-    private int aktPasswort;
-    private static int SPLASH_TIME_OUT = 1000;
+    // Attribute speichern
+    private boolean gespeichert = false;
+
+    // Attribute für neue Übung
+    private int maxAnzahlUebungen = 1000;
+    private MeineUebungen meineUebungen [] = new MeineUebungen[maxAnzahlUebungen];
+    private String meineUebungenName [] = new String [maxAnzahlUebungen];
+    private String meineUebungenMuskelgruppe [] = new String [maxAnzahlUebungen];
+    private String meineUebungenBeschreibung [] = new String [maxAnzahlUebungen];
+    private int anzahlMeineUebungen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_anmeldebildschirm);
+        setContentView(R.layout.activity_main);
 
-        // Anmeldebildschrim öffnen
+        meineUebungenLaden();
+
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FragmentAnmelden fragmentAnmelden = new FragmentAnmelden();
-        fragmentTransaction.add(R.id.bereichFragmentsAnmelden, fragmentAnmelden, "anmelden");
+        FragmentUebersicht fragmentUebersicht = new FragmentUebersicht();
+        fragmentTransaction.add(R.id.bereichFragments, fragmentUebersicht, "uebersicht");
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
+
+        menueleiste();
 
     } // Methode onCreate
 
@@ -74,14 +91,6 @@ public class MainClass extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Fragment myFragment;
-        myFragment = getFragmentManager().findFragmentByTag("anmelden");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "anmelden";
-        } // if
-        myFragment = getFragmentManager().findFragmentByTag("registrieren");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "registrieren";
-        } // if
         myFragment = getFragmentManager().findFragmentByTag("uebersicht");
         if (myFragment != null && myFragment.isVisible()) {
             aktFragment = "uebersicht";
@@ -107,6 +116,8 @@ public class MainClass extends AppCompatActivity {
             aktFragment = "einstellungen";
         } // if
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+
+        meineUebungenSpeichern();
     } // Methode onPause
 
     @Override
@@ -114,15 +125,7 @@ public class MainClass extends AppCompatActivity {
         super.onResume();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (aktFragment.equals ("anmelden") || aktFragment.equals ("")) {
-            FragmentAnmelden fragmentAnmelden = new FragmentAnmelden();
-            fragmentTransaction.add(R.id.bereichFragmentsAnmelden, fragmentAnmelden, "anmelden");
-        } // if
-        else if (aktFragment.equals ("registrieren")) {
-            FragmentRegistrieren fragmentRegistrieren = new FragmentRegistrieren();
-            fragmentTransaction.add(R.id.bereichFragmentsAnmelden, fragmentRegistrieren, "registrieren");
-        } // if
-        else if (aktFragment.equals ("uebersicht")) {
+        if (aktFragment.equals ("uebersicht")) {
             FragmentUebersicht fragmentUebersicht = new FragmentUebersicht();
             fragmentTransaction.add(R.id.bereichFragments, fragmentUebersicht, "uebersicht");
         } // if
@@ -156,219 +159,83 @@ public class MainClass extends AppCompatActivity {
     } // Methode onBackPressed
 
 
-    // Anmeldevorgang
+    // meine Übungen speichern
 
 
-    public void anmelden(View v) {
-        if (! anmeldungLaeuft) {
-            anmeldungLaeuft = true;
-            // Datenbank
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
+    public void meineUebungenSpeichern() {
+        gespeichert = true;
+        // Anzahl meiner Übungen speichern
+        // 1. Preference erstellen --> Tag angeben
+        SharedPreferences anzahlUebungenPref = getSharedPreferences("anzahlUebungen", 0);
+        // 2. Editor hinzufügen --> Preference bearbeiten
+        SharedPreferences.Editor editorAnzahlUebungen = anzahlUebungenPref.edit();
+        // 3. Wert in die Preference legen --> 1. Tag angeben, 2. Wert angeben
+        editorAnzahlUebungen.putInt("anzahlUebungen", anzahlMeineUebungen);
+        // 4. Bestätigen
+        editorAnzahlUebungen.commit();
 
-            // Datenbank deklarieren
-            final DatabaseReference mRootRef = database.getReference();
+        SharedPreferences gespeichertPref = getSharedPreferences("gespeichert", 0);
+        SharedPreferences.Editor editorGespeichert = gespeichertPref.edit();
+        editorGespeichert.putBoolean("gespeichert", gespeichert);
+        editorGespeichert.commit();
 
-            EditText etBenutzername = findViewById(R.id.etBenutzername);
-            EditText etPasswort = findViewById(R.id.etPasswort);
-            if (etBenutzername.getText().toString().isEmpty()) {
-                Toast.makeText(this, "Bitte Benutzernamen eintragen", Toast.LENGTH_SHORT).show();
-                anmeldungLaeuft = false;
-                return;
-            } // if
-            else if (etPasswort.getText().toString().isEmpty()) {
-                Toast.makeText(this, "Bitte Passwort eintragen", Toast.LENGTH_SHORT).show();
-                anmeldungLaeuft = false;
-                return;
-            } // if
-            else {
-                benutzername = etBenutzername.getText().toString();
-                passwort = etPasswort.getText().toString();
-            } // else
+        // meine Übungen speichern
+        Gson gson = new Gson();
 
-            // Überprüfen, ob der Nutzer existiert
+        SharedPreferences uebungPref [] = new SharedPreferences[anzahlMeineUebungen];
+        String uebungPrefTag [] = new String[anzahlMeineUebungen];
+        SharedPreferences.Editor editor [] = new SharedPreferences.Editor[anzahlMeineUebungen];
+        String json [] = new String[anzahlMeineUebungen];
 
-            // Anzahl Nutzer ermitteln
-            DatabaseReference mAnzahlNutzerRef = mRootRef.child("Benutzer Verwaltung").child("Gesamt Anzahl");
-            mAnzahlNutzerRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    anzahlNutzer = dataSnapshot.getValue(Integer.class);
-                    if (anzahlNutzer != 0) {
-                        pBenutzer = new String[anzahlNutzer];
-                        aktNutzer = 0;
-                        pPasswort = new String[anzahlNutzer];
-                        aktPasswort = 0;
-                        nameBestimmt = false;
-                        passwortBestimmt = false;
-                        for (int zähler = 1; zähler <= anzahlNutzer; zähler++) {
+        for (int index = 0; index < anzahlMeineUebungen; index++) {
+            uebungPrefTag[index] = Integer.toString(index);
+            uebungPref[index] = getSharedPreferences(uebungPrefTag[index], 0);
+            editor[index] = uebungPref[index].edit();
+            json[index] = gson.toJson(meineUebungen[index]);
+            editor[index].putString(uebungPrefTag[index], json[index]);
+            editor[index].commit();
+        } // for
+    } // Methode meineÜbungenSpeichern
 
-                            // Name bestimmen
-                            DatabaseReference mNameRef = mRootRef.child("Benutzer Verwaltung").child(Integer.toString(zähler)).child("Benutzer Name");
-                            mNameRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    pBenutzer[aktNutzer] = dataSnapshot.getValue(String.class);
-                                    aktNutzer++;
-                                    if (aktNutzer == anzahlNutzer) {
-                                        nameBestimmt = true;
-                                    } // if
-                                }
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
+    // meine Übungen laden
 
-                                }
-                            });
 
-                            // Passwort bestimmen
-                            DatabaseReference mPasswortRef = mRootRef.child("Benutzer Verwaltung").child(Integer.toString(zähler)).child("Passwort");
-                            mPasswortRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    pPasswort[aktPasswort] = dataSnapshot.getValue(String.class);
-                                    aktPasswort++;
-                                    if (aktPasswort == anzahlNutzer) {
-                                        passwortBestimmt = true;
-                                    } // if
-                                }
+    public void meineUebungenLaden() {
+        // Objekt bilden
+        for (int index = 0; index < maxAnzahlUebungen; index++) {
+            meineUebungen[index] = new MeineUebungen();
+        } // for
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
+        // Anzahl meiner Übungen laden
+        // 1. Preference erstellen --> Tag angeben
+        SharedPreferences anzahlUebungenPref = getSharedPreferences("anzahlUebungen", 0);
+        // 2. Wert aus der Preference lesen --> Tag angeben
+        anzahlMeineUebungen = anzahlUebungenPref.getInt("anzahlUebungen", 0);
 
-                                }
-                            });
-                        } // for
+        SharedPreferences gespeichertPref = getSharedPreferences("gespeichert", 0);
+        gespeichert = gespeichertPref.getBoolean("gespeichert", false);
 
-                        // Übereinstimmung überprüfen
-                        new Handler().postDelayed(new Runnable(){
-                            @Override
-                            public void run(){
-                                if (nameBestimmt && passwortBestimmt) {
-                                    for (int zähler = 1; zähler <= anzahlNutzer; zähler++) {
-                                        if (pBenutzer[zähler - 1].equals(benutzername) && pPasswort[zähler - 1].equals(passwort)) {
-                                            anmeldebildschirmSchließen();
-                                            anmeldungLaeuft = false;
-                                            return;
-                                        } // if
-                                    } // for
-                                    Toast.makeText(MainClass.this, "Dieser Account existiert nicht", Toast.LENGTH_SHORT).show();
-                                    anmeldungLaeuft = false;
-                                } // if
-                            }
-                        },SPLASH_TIME_OUT);
-                    } // if
-                    else {
-                        Toast.makeText(MainClass.this, "Dieser Account existiert nicht", Toast.LENGTH_SHORT).show();
-                        anmeldungLaeuft = false;
-                    }
-                }
+        if (gespeichert) {
+            // meine Übungen laden
+            Gson gson = new Gson();
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            SharedPreferences uebungPref[] = new SharedPreferences[anzahlMeineUebungen];
+            String uebungPrefTag[] = new String[anzahlMeineUebungen];
+            String json[] = new String[anzahlMeineUebungen];
 
-                }
-
-            });
+            for (int index = 0; index < anzahlMeineUebungen; index++) {
+                uebungPrefTag[index] = Integer.toString(index);
+                uebungPref[index] = getSharedPreferences(uebungPrefTag[index], 0);
+                json[index] = uebungPref[index].getString(uebungPrefTag[index], null);
+                meineUebungen[index] = gson.fromJson(json[index], MeineUebungen.class);
+                // Übungen umspeichern, damit sie im Fragment gelesen werden können
+                meineUebungenName[index] = meineUebungen[index].gibName();
+                meineUebungenMuskelgruppe[index] = meineUebungen[index].gibMuskelgruppe();
+                meineUebungenBeschreibung[index] = meineUebungen[index].gibBeschreibung();
+            } // for
         } // if
-    } // Methode anmelden
-
-    public void zumRegistrieren(View v) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FragmentRegistrieren fragmentRegistrieren = new FragmentRegistrieren();
-        fragmentTransaction.replace(R.id.bereichFragmentsAnmelden, fragmentRegistrieren, "registrieren");
-        fragmentTransaction.addToBackStack(null);
-        fragmentManager.executePendingTransactions();
-        fragmentTransaction.commit();
-    } // Methode zumRegistrieren
-
-    public static boolean isEmailValid(String email) {
-        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
-
-    public void registrieren(View v) {
-        EditText etEmailAdresse = findViewById(R.id.etEmailAdresse);
-        EditText etBenutzername = findViewById(R.id.etBenutzername);
-        EditText etPasswort = findViewById(R.id.etPasswort);
-
-        if (isEmailValid(etEmailAdresse.getText().toString())==false){
-            Toast.makeText(this, "E-mail Adresse existiert nicht", Toast.LENGTH_SHORT).show();
-            return;
-        } // if
-        else if (etBenutzername.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Bitte Benutzernamen eintragen", Toast.LENGTH_SHORT).show();
-            return;
-        } // if
-        else if (etPasswort.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Bitte Passwort eintragen", Toast.LENGTH_SHORT).show();
-            return;
-        } // if
-        else {
-            email = etEmailAdresse.getText().toString();
-            benutzername = etBenutzername.getText().toString();
-            passwort = etPasswort.getText().toString();
-        } // else
-
-        neuenBenutzerZurDatenbankHinzufuegen();
-        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragmentsAnmelden)).commit();
-        anmeldebildschirmSchließen();
-    } // Methode registrieren
-
-    public void neuenBenutzerZurDatenbankHinzufuegen() {
-        // Datenbank
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-        // Datenbank deklarieren
-        final DatabaseReference mRootRef = database.getReference();
-
-        // Anzahl Nutzer erhöhen
-        final DatabaseReference mAnzahlNutzerRef = mRootRef.child("Benutzer Verwaltung").child("Gesamt Anzahl");
-        mAnzahlNutzerRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                anzahlNutzer = dataSnapshot.getValue(Integer.class);
-                anzahlNutzer++;
-                mAnzahlNutzerRef.setValue(anzahlNutzer);
-
-                // Email hinzufügen
-                DatabaseReference mEmailRef = mRootRef.child("Benutzer Verwaltung").child(Integer.toString(anzahlNutzer)).child("E-Mail");
-                mEmailRef.setValue(email);
-
-                // Benutzername hinzufügen
-                DatabaseReference mName2Ref = mRootRef.child("Benutzer Verwaltung").child(Integer.toString(anzahlNutzer)).child("Benutzer Name");
-                mName2Ref.setValue(benutzername);
-
-                // Passwort hinzufügen
-                DatabaseReference MPasswortRef = mRootRef.child("Benutzer Verwaltung").child(Integer.toString(anzahlNutzer)).child("Passwort");
-                MPasswortRef.setValue(passwort);
-
-                // Pfad für Übungen hinzufügen
-                DatabaseReference MUebungRef = mRootRef.child("Benutzer Verwaltung").child(Integer.toString(anzahlNutzer)).child("Übungen").child("Gesamt Anzahl");
-                MUebungRef.setValue("0");
-                anzahlMeineUebungen = 0;
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    } // Methode neuenBenutzerZurDatenbankHinzufügen
-
-    public void anmeldebildschirmSchließen() {
-        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragmentsAnmelden)).commit();
-        setContentView(R.layout.activity_main);
-        menueleiste();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FragmentUebersicht fragmentUebersicht = new FragmentUebersicht();
-        fragmentTransaction.add(R.id.bereichFragments, fragmentUebersicht, "uebersicht");
-        fragmentManager.executePendingTransactions();
-        fragmentTransaction.commit();
-    } // Methode anmeldebildschirmSchließen
+    } // Methode meineUebungenLaden
 
 
     // Menüleiste
@@ -481,7 +348,7 @@ public class MainClass extends AppCompatActivity {
     } // Methode tabataOeffnen
 
 
-    // Übungen hinzufügen
+    // Übungen verwalten
 
 
     public void uebungHinzufuegen (View v) {
@@ -524,41 +391,24 @@ public class MainClass extends AppCompatActivity {
             Toast.makeText(this, "Bitte Beschreibung eintragen", Toast.LENGTH_SHORT).show();
             return;
         } // if
-        else if (isNetworkAvailable() == false){
-            Toast.makeText(this, "Bitte eine Verbindung zum Internet herstellen", Toast.LENGTH_SHORT).show();
-            return;
-        }
         else {
             name = etName.getText().toString();
             muskelgruppe = etMuskelgruppe.getText().toString();
             beschreibung = etBeschreibung.getText().toString();
         } // else
 
-        // Datenbank
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        // Übung hinzufügen
 
-        // Datenbank deklarieren
-        String aktUebungStr = Integer.toString(anzahlMeineUebungen + 1);
-        DatabaseReference mRootRef = database.getReference();
+        meineUebungen[anzahlMeineUebungen].neueUebung(name, muskelgruppe, beschreibung);
 
-        // Anzahl Übungen erneuern
+        meineUebungenName[anzahlMeineUebungen] = name;
+        meineUebungenMuskelgruppe[anzahlMeineUebungen] = muskelgruppe;
+        meineUebungenBeschreibung[anzahlMeineUebungen] = beschreibung;
+
         anzahlMeineUebungen++;
-        DatabaseReference mAnzahl = mRootRef.child("Benutzer Verwaltung").child("Übungen").child("Gesamt Anzahl");
-        mAnzahl.setValue(anzahlMeineUebungen);
-
-        // Namen erstellen
-        DatabaseReference mNameRefChild = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Übungen").child(aktUebungStr).child("Name");
-        mNameRefChild.setValue(name);
-
-        // Muskelgruppe erstellen
-        DatabaseReference mMuskelgruppeRefChild =  mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Übungen").child(aktUebungStr).child("Muskelgruppe");
-        mMuskelgruppeRefChild.setValue(muskelgruppe);
-
-        // Beschreibung erstellen
-        DatabaseReference mBeschreibungRefChild = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Übungen").child(aktUebungStr).child("Beschreibung");
-        mBeschreibungRefChild.setValue(beschreibung);
 
         // Übungsübersicht anzeigen
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FragmentMeineUebungen fragmentMeineUebungen = new FragmentMeineUebungen();
@@ -569,5 +419,45 @@ public class MainClass extends AppCompatActivity {
 
     } // Methode uebungSpeichern
 
+    public String gibMeineUebungenName(int index) {
+        return meineUebungenName[index];
+    }
+
+    public String gibMeineUebungenMuskelgruppe (int index) {
+        return meineUebungenMuskelgruppe[index];
+    }
+
+    public String gibMeineUebungenBeschreibung(int index) {
+        return meineUebungenBeschreibung[index];
+    }
+
+    public int gibAnzahlMeineUebungen() {
+        return anzahlMeineUebungen;
+    }
+
+    public void uebungLoeschen(View v) {
+        int tag = Integer.parseInt(v.getTag().toString());
+        for (int zähler = tag + 1; zähler < anzahlMeineUebungen; zähler++) {
+            meineUebungen[zähler - 1] = meineUebungen[zähler];
+            meineUebungen[zähler] = null;
+            meineUebungenName[zähler - 1] = meineUebungenName[zähler];
+            meineUebungenName[zähler] = null;
+            meineUebungenMuskelgruppe[zähler - 1] = meineUebungenMuskelgruppe[zähler];
+            meineUebungenMuskelgruppe[zähler] = null;
+            meineUebungenBeschreibung[zähler - 1] = meineUebungenBeschreibung[zähler];
+            meineUebungenBeschreibung[zähler] = null;
+        } // for
+        anzahlMeineUebungen--;
+
+        // Seite neu laden
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentMeineUebungen fragmentMeineUebungen = new FragmentMeineUebungen();
+        fragmentTransaction.replace(R.id.bereichFragments, fragmentMeineUebungen, "meineUebungen");
+        fragmentTransaction.addToBackStack(null);
+        fragmentManager.executePendingTransactions();
+        fragmentTransaction.commit();
+    } // Methode uebungLoeschen
 
 } // Klasse MainClass

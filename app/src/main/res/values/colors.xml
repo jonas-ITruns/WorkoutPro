@@ -7,4 +7,5 @@
     <color name="weiss">#ffffff</color>
     <color name="transparent">@android:color/transparent</color>
     <color name="dunkelgrau">#414141</color>
+    <color name="fastSchwarz">#797979</color>
 </resources>

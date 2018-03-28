@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,42 +16,42 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class FragmentExerciseRow extends Fragment {
+public class FragmentExerciseRowStandardUebungen extends Fragment {
 
     // Generell
     View view;
-    Button btnName;
-    Button btnMuskelgruppe;
-    Button btnBeschreibung;
     private boolean userUebung;
-    private String benutzername;
 
     // Aktuelle Übung
     private int aktUebung;
 
     // Name
+    Button btnName;
     private String name;
     private int nameId;
     private boolean nameScrollt = false;
 
     // Muskelgruppe
+    Button btnMuskelgruppe;
     private String muskelgruppe;
     private int muskelgruppeId;
     private boolean muskelgruppeScrollt = false;
 
     // Beschreibung
+    Button btnBeschreibung;
     private String beschreibung;
     private int beschreibungId;
     private boolean beschreibungScrollt = false;
 
-    // Datenbank
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_exercise_row, container, false);
+        view = inflater.inflate(R.layout.fragment_exercise_row_standard_uebungen, container, false);
+
+        // Datenbank
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         // Datenbank deklarieren
         String aktUebungStr = Integer.toString(aktUebung + 1);
@@ -62,31 +61,14 @@ public class FragmentExerciseRow extends Fragment {
         DatabaseReference mMuskelgruppeRefChild;
         DatabaseReference mBeschreibungRefChild;
 
-        if (userUebung) {
+        // Auf den Namen zugreifen
+        mNameRefChild = mRootRef.child("Standard Übungen").child(aktUebungStr).child("Name");
 
-            // Auf den Namen zugreifen
-            mNameRefChild = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Übungen").child(aktUebungStr).child("Name");
+        // Auf die Muskelgruppe zugreifen
+        mMuskelgruppeRefChild = mRootRef.child("Standard Übungen").child(aktUebungStr).child("Muskelgruppe");
 
-            // Auf die Muskelgruppe zugreifen
-            mMuskelgruppeRefChild = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Übungen").child(aktUebungStr).child("Muskelgruppe");
-
-            // Auf die Beschreibung zugreifen
-            mBeschreibungRefChild = mRootRef.child("Benutzer Verwaltung").child(benutzername).child("Übungen").child(aktUebungStr).child("Beschreibung");
-
-        } // then
-
-        else {
-
-            // Auf den Namen zugreifen
-            mNameRefChild = mRootRef.child("Standard Übungen").child(aktUebungStr).child("Name");
-
-            // Auf die Muskelgruppe zugreifen
-            mMuskelgruppeRefChild = mRootRef.child("Standard Übungen").child(aktUebungStr).child("Muskelgruppe");
-
-            // Auf die Beschreibung zugreifen
-            mBeschreibungRefChild = mRootRef.child("Standard Übungen").child(aktUebungStr).child("Beschreibung");
-
-        } // else
+        // Auf die Beschreibung zugreifen
+        mBeschreibungRefChild = mRootRef.child("Standard Übungen").child(aktUebungStr).child("Beschreibung");
 
         // Namen setzen
         mNameRefChild.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -97,7 +79,7 @@ public class FragmentExerciseRow extends Fragment {
                 btnName.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (! nameScrollt) {
+                        if (!nameScrollt) {
                             btnName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
                             btnName.setSelected(true);
                             btnName.setSingleLine(true);
@@ -131,7 +113,7 @@ public class FragmentExerciseRow extends Fragment {
                 btnMuskelgruppe.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (! muskelgruppeScrollt) {
+                        if (!muskelgruppeScrollt) {
                             btnMuskelgruppe.setEllipsize(TextUtils.TruncateAt.MARQUEE);
                             btnMuskelgruppe.setSelected(true);
                             btnMuskelgruppe.setSingleLine(true);
@@ -164,7 +146,7 @@ public class FragmentExerciseRow extends Fragment {
                 btnBeschreibung.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (! beschreibungScrollt) {
+                        if (!beschreibungScrollt) {
                             btnBeschreibung.setEllipsize(TextUtils.TruncateAt.MARQUEE);
                             btnBeschreibung.setSelected(true);
                             btnBeschreibung.setSingleLine(true);
@@ -191,13 +173,11 @@ public class FragmentExerciseRow extends Fragment {
         return view;
     }
 
-    public void setzeAktUebung(int pAktUebung, int pIdName, int pIdMuskelgruppe, int pIdBeschreibung, boolean pUserUebung, String pBenutzername) {
+    public void setzeAktUebung(int pAktUebung, int pIdName, int pIdMuskelgruppe, int pIdBeschreibung) {
         aktUebung = pAktUebung;
         nameId = pIdName;
         muskelgruppeId = pIdMuskelgruppe;
         beschreibungId = pIdBeschreibung;
-        userUebung = pUserUebung;
-        benutzername = pBenutzername;
     } // Methode setzeAtkUebung
 
 }
