@@ -67,9 +67,6 @@ public class MainClass extends AppCompatActivity {
     // Attribute für neue Übung
     private int maxAnzahlUebungen = 1000;
     private MeineUebungen meineUebungen [] = new MeineUebungen[maxAnzahlUebungen];
-    private String meineUebungenName [] = new String [maxAnzahlUebungen];
-    private String meineUebungenMuskelgruppe [] = new String [maxAnzahlUebungen];
-    private String meineUebungenBeschreibung [] = new String [maxAnzahlUebungen];
     private int anzahlMeineUebungen;
 
     @Override
@@ -232,10 +229,6 @@ public class MainClass extends AppCompatActivity {
                 uebungPref[index] = getSharedPreferences(uebungPrefTag[index], 0);
                 json[index] = uebungPref[index].getString(uebungPrefTag[index], null);
                 meineUebungen[index] = gson.fromJson(json[index], MeineUebungen.class);
-                // Übungen umspeichern, damit sie im Fragment gelesen werden können
-                meineUebungenName[index] = meineUebungen[index].gibName();
-                meineUebungenMuskelgruppe[index] = meineUebungen[index].gibMuskelgruppe();
-                meineUebungenBeschreibung[index] = meineUebungen[index].gibBeschreibung();
             } // for
         } // if
     } // Methode meineUebungenLaden
@@ -370,10 +363,6 @@ public class MainClass extends AppCompatActivity {
 
         meineUebungen[anzahlMeineUebungen].neueUebung(name, muskelgruppe, beschreibung);
 
-        meineUebungenName[anzahlMeineUebungen] = name;
-        meineUebungenMuskelgruppe[anzahlMeineUebungen] = muskelgruppe;
-        meineUebungenBeschreibung[anzahlMeineUebungen] = beschreibung;
-
         anzahlMeineUebungen++;
 
         // Übungsübersicht anzeigen
@@ -389,15 +378,15 @@ public class MainClass extends AppCompatActivity {
     } // Methode uebungSpeichern
 
     public String gibMeineUebungenName(int index) {
-        return meineUebungenName[index];
+        return meineUebungen[index].gibName();
     }
 
     public String gibMeineUebungenMuskelgruppe (int index) {
-        return meineUebungenMuskelgruppe[index];
+        return meineUebungen[index].gibMuskelgruppe();
     }
 
     public String gibMeineUebungenBeschreibung(int index) {
-        return meineUebungenBeschreibung[index];
+        return meineUebungen[index].gibBeschreibung();
     }
 
     public int gibAnzahlMeineUebungen() {
@@ -409,12 +398,6 @@ public class MainClass extends AppCompatActivity {
         for (int zähler = tag + 1; zähler < anzahlMeineUebungen; zähler++) {
             meineUebungen[zähler - 1] = meineUebungen[zähler];
             meineUebungen[zähler] = null;
-            meineUebungenName[zähler - 1] = meineUebungenName[zähler];
-            meineUebungenName[zähler] = null;
-            meineUebungenMuskelgruppe[zähler - 1] = meineUebungenMuskelgruppe[zähler];
-            meineUebungenMuskelgruppe[zähler] = null;
-            meineUebungenBeschreibung[zähler - 1] = meineUebungenBeschreibung[zähler];
-            meineUebungenBeschreibung[zähler] = null;
         } // for
         anzahlMeineUebungen--;
 
@@ -428,5 +411,19 @@ public class MainClass extends AppCompatActivity {
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
     } // Methode uebungLoeschen
+
+
+    // Workout Hinzufügen
+
+    public void workoutHinzufuegenOeffnen(View v) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentWorkoutHinzufügen fragmentWorkoutHinzufügen = new  FragmentWorkoutHinzufügen();
+        fragmentTransaction.replace(R.id.bereichFragments, fragmentWorkoutHinzufügen, "fragmentWorkoutHinzufuegen");
+        fragmentTransaction.addToBackStack(null);
+        fragmentManager.executePendingTransactions();
+        fragmentTransaction.commit();
+    } // Methode workoutHinzufuegenOeffnen
+
 
 } // Klasse MainClass
