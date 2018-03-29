@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="50dp"
+    android:orientation="horizontal"
     android:background="@color/weiss"
     android:fitsSystemWindows="false"
     android:gravity="center_vertical">
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/clRow"
-        android:layout_width="360dp"
-        android:layout_height="50dp"
-        android:background="@color/transparent">
 
         <Button
             android:id="@+id/btnName"
@@ -68,56 +63,4 @@
             app:layout_constraintStart_toEndOf="@+id/btnMuskelgruppe"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/imgvVerticalLinks"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnMuskelgruppe"
-            app:layout_constraintStart_toEndOf="@+id/btnName"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@color/hellgrau_Hintergrund" />
-
-        <ImageView
-            android:id="@+id/imgvVerticalMitte"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnBeschreibung"
-            app:layout_constraintStart_toEndOf="@+id/btnMuskelgruppe"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@color/hellgrau_Hintergrund" />
-
-        <ImageView
-            android:id="@+id/imgvVerticalRechts"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="36dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btnBeschreibung"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@color/hellgrau_Hintergrund" />
-
-        <ImageView
-            android:id="@+id/imgvHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@color/hellgrau_Hintergrund" />
-
-        <ImageButton
-            android:id="@+id/imgbtnUebungLoeschen"
-            style="@android:style/Widget.DeviceDefault.ImageButton"
-            android:layout_width="28dp"
-            android:layout_height="50dp"
-            android:background="@color/transparent"
-            android:onClick="uebungLoeschen"
-            android:tint="@color/dunkelblau"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_delete_black_24dp" />
-
-    </android.support.constraint.ConstraintLayout>
-
-</TableRow>
+</LinearLayout>

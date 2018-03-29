@@ -1,6 +1,5 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,4 +15,6 @@ public class FragmentWorkoutHinzufuegenWorkout extends android.support.v4.app.Fr
 
         return view;
     }
+
+
 }

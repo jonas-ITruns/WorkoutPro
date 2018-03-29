@@ -28,17 +28,17 @@ public class FragmentStandardUebungen extends Fragment {
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run(){
-                FragmentExerciseRowStandardUebungen fragmentExerciseRowStandardUebungens[] = new FragmentExerciseRowStandardUebungen[anzahlStandardUebungen];
+                FragmentExerciseRowStandardUebungen fragmentExerciseRowStandardUebungen[] = new FragmentExerciseRowStandardUebungen[anzahlStandardUebungen];
 
                 // Rows in der Tabelle hinzufügen
                 FragmentTransaction transaction;
 
                 for (int index = 0; index < anzahlStandardUebungen; index++) {
 
-                    fragmentExerciseRowStandardUebungens[index] = new FragmentExerciseRowStandardUebungen();
-                    fragmentExerciseRowStandardUebungens[index].setzeAktUebung(index, index + 1000, index + 2000, index + 3000);
+                    fragmentExerciseRowStandardUebungen[index] = new FragmentExerciseRowStandardUebungen();
+                    fragmentExerciseRowStandardUebungen[index].setzeAktUebung(index, index + 1000, index + 2000, index + 3000);
                     transaction = getChildFragmentManager().beginTransaction();
-                    transaction.add(R.id.tlTabelle, fragmentExerciseRowStandardUebungens[index], "exerciseRow");
+                    transaction.add(R.id.tlTabelle, fragmentExerciseRowStandardUebungen[index], "exerciseRow");
                     transaction.commit();
 
                 } // for

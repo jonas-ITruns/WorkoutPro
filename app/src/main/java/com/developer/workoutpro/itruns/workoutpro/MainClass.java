@@ -4,53 +4,22 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 
 public class MainClass extends AppCompatActivity {
 
@@ -65,9 +34,9 @@ public class MainClass extends AppCompatActivity {
     private boolean gespeichert = false;
 
     // Attribute für neue Übung
-    private int maxAnzahlUebungen = 1000;
-    private MeineUebungen meineUebungen [] = new MeineUebungen[maxAnzahlUebungen];
-    private int anzahlMeineUebungen;
+    private static int maxAnzahlUebungen = 1000;
+    private static MeineUebungen meineUebungen [] = new MeineUebungen[maxAnzahlUebungen];
+    private static int anzahlMeineUebungen = 0;
 
     // Attribute für Workout hinzufügen
     private boolean supportedOpen = false;
@@ -119,6 +88,10 @@ public class MainClass extends AppCompatActivity {
             aktFragment = "einstellungen";
         } // if
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+        if (supportedOpen) {
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+        } // if
+
 
         meineUebungenSpeichern();
     } // Methode onPause
@@ -378,19 +351,19 @@ public class MainClass extends AppCompatActivity {
 
     } // Methode uebungSpeichern
 
-    public String gibMeineUebungenName(int index) {
+    public static String gibMeineUebungenName(int index) {
         return meineUebungen[index].gibName();
     }
 
-    public String gibMeineUebungenMuskelgruppe (int index) {
+    public static String gibMeineUebungenMuskelgruppe (int index) {
         return meineUebungen[index].gibMuskelgruppe();
     }
 
-    public String gibMeineUebungenBeschreibung(int index) {
+    public static String gibMeineUebungenBeschreibung(int index) {
         return meineUebungen[index].gibBeschreibung();
     }
 
-    public int gibAnzahlMeineUebungen() {
+    public static int gibAnzahlMeineUebungen() {
         return anzahlMeineUebungen;
     }
 
