@@ -4,9 +4,11 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class FragmentUebersicht extends Fragment {
 
@@ -15,6 +17,8 @@ public class FragmentUebersicht extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_uebersicht, container, false);
+
         anzahlWorkoutsBestimmen();
         FragmentUebersichtWorkout fragmentUebersichtWorkouts [] = new FragmentUebersichtWorkout[anzahlWorkouts];
 
@@ -31,13 +35,13 @@ public class FragmentUebersicht extends Fragment {
 
         } // for
 
-        return inflater.inflate(R.layout.fragment_uebersicht, container, false);
+        return view;
     }
 
     public void anzahlWorkoutsBestimmen() {
         MainClass mainClass = (MainClass) getActivity();
         // anzahlWorkouts = mainClass.gibAnzahlMeineUebungen();
-        anzahlWorkouts = 5;
+        anzahlWorkouts = 1;
     }
 
 }

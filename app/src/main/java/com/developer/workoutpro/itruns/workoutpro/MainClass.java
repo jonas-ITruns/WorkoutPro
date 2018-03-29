@@ -69,6 +69,9 @@ public class MainClass extends AppCompatActivity {
     private MeineUebungen meineUebungen [] = new MeineUebungen[maxAnzahlUebungen];
     private int anzahlMeineUebungen;
 
+    // Attribute für Workout hinzufügen
+    private boolean supportedOpen = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -245,18 +248,16 @@ public class MainClass extends AppCompatActivity {
 
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        // Start-Up aktuelles Item markieren
-        navigationView.setCheckedItem(R.id.uebersicht);
-
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // aktuelles Item markieren
-                        // menuItem.setChecked(true);
-
                         // nach dem Auswählen den Navigator wieder schließen
                         mDrawerLayout.closeDrawers();
+
+                        if (supportedOpen) {
+                            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+                        } // if
 
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -415,11 +416,14 @@ public class MainClass extends AppCompatActivity {
 
     // Workout Hinzufügen
 
+
     public void workoutHinzufuegenOeffnen(View v) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FragmentWorkoutHinzufügen fragmentWorkoutHinzufügen = new  FragmentWorkoutHinzufügen();
-        fragmentTransaction.replace(R.id.bereichFragments, fragmentWorkoutHinzufügen, "fragmentWorkoutHinzufuegen");
+        supportedOpen = true;
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentWorkoutHinzufuegen fragmentWorkoutHinzufuegen = new FragmentWorkoutHinzufuegen();
+        fragmentTransaction.replace(R.id.bereichFragments, fragmentWorkoutHinzufuegen, "workoutHinzufuegen");
         fragmentTransaction.addToBackStack(null);
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();

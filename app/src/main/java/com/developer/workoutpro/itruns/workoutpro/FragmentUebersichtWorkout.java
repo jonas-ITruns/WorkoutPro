@@ -1,7 +1,6 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +23,7 @@ public class FragmentUebersichtWorkout extends Fragment {
     TextView tvWorkoutName;
     private String workoutName;
     private int workoutNameId;
+    private boolean nameScrollt = false;
 
     // Attribute Workout Art
     TextView tvArtWert;
@@ -44,9 +44,9 @@ public class FragmentUebersichtWorkout extends Fragment {
     // Buttons deklarieren
     ImageButton imgbtnWorkoutStart;
     ImageButton imgbtnWorkoutMenue;
-    FloatingActionButton btnBearbeiten;
-    FloatingActionButton btnUmbennen;
-    FloatingActionButton btnLoeschen;
+    ImageButton btnBearbeiten;
+    ImageButton btnUmbennen;
+    ImageButton btnLoeschen;
 
     // Animationen deklarieren
     Animation fabOpen;
@@ -62,10 +62,27 @@ public class FragmentUebersichtWorkout extends Fragment {
         MainClass mainClass = (MainClass) getActivity();
 
         // Workout Name setzen
-        workoutName = "Planche Training";
+        workoutName = "aslödkjfaölskdjfaölksdfjaösldkfa";
         tvWorkoutName = view.findViewById(R.id.tvWorkoutName);
         tvWorkoutName.setText(workoutName);
         tvWorkoutName.setId(workoutNameId);
+        tvWorkoutName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!nameScrollt) {
+                    tvWorkoutName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                    tvWorkoutName.setSelected(true);
+                    tvWorkoutName.setSingleLine(true);
+                    nameScrollt = true;
+                } // then
+                else {
+                    tvWorkoutName.setEllipsize(TextUtils.TruncateAt.END);
+                    tvWorkoutName.setSelected(true);
+                    tvWorkoutName.setSingleLine(true);
+                    nameScrollt = false;
+                } // else
+            }
+        });
 
         // Workout Art setzen
         workoutArt = "Tabata";
@@ -79,14 +96,14 @@ public class FragmentUebersichtWorkout extends Fragment {
         tvZeitWert.setText(workoutZeit);
         tvZeitWert.setId(zeitWertId);
 
-
-        // Menü Items setzen
         // Workout Übungen setzen
         workoutUebungen = "20";
         tvUebungenWert = view.findViewById(R.id.tvUebungenWert);
         tvUebungenWert.setText(workoutUebungen);
         tvUebungenWert.setId(uebungenWertId);
 
+
+        // Menü Items setzen
         imgbtnWorkoutStart = view.findViewById(R.id.imgbtnWorkoutStart);
         imgbtnWorkoutMenue = view.findViewById(R.id.imgbtnWorkoutMenue);
         btnBearbeiten = view.findViewById(R.id.btnBearbeiten);
