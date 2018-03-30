@@ -3,101 +3,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_layout"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:orientation="horizontal"
-    android:background="@color/weiss"
+    android:layout_width="360dp"
+    android:layout_height="72dp"
+    android:background="@color/transparent"
     android:fitsSystemWindows="false">
 
-    <android.support.constraint.ConstraintLayout
-    android:id="@+id/clRow"
-    android:layout_width="360dp"
-    android:layout_height="50dp"
-    android:background="@color/transparent">
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/clItemHolder"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:background="@color/transparent"
+            android:padding="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/btnName"
-        android:layout_width="109dp"
-        android:layout_height="match_parent"
-        android:layout_marginStart="15dp"
-        android:background="@color/transparent"
-        android:gravity="center"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:padding="2dp"
-        android:textAllCaps="false"
-        android:textColor="@color/dunkelblau"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:text="Name"
-        android:singleLine="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/imgvMuskelgruppe"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_exercises"
+                    android:tint="@color/dunkelblau"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnMuskelgruppe"
-        android:layout_width="108dp"
-        android:layout_height="match_parent"
-        android:layout_marginStart="2dp"
-        android:background="@color/transparent"
-        android:gravity="center"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:padding="2dp"
-        android:textAllCaps="false"
-        android:textColor="@color/dunkelblau"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:text="Muskelgruppe"
-        android:singleLine="true"
-        app:layout_constraintStart_toEndOf="@+id/btnName"
-        app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tvUebungName"
+                    android:layout_width="250dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Name der Übung"
+                    android:textColor="@color/dunkelblau"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/imgvMuskelgruppe"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnBeschreibung"
-        android:layout_width="109dp"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="2dp"
-        android:background="@color/transparent"
-        android:gravity="center"
-        android:padding="2dp"
-        android:textAllCaps="false"
-        android:textColor="@color/dunkelblau"
-        android:textStyle="bold"
-        android:text="Beschreibung"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnMuskelgruppe"
-        app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tvUebungBeschreibung"
+                    android:layout_width="250dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Beschreibung der Übung"
+                    android:textColor="@color/dunkelgrau"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toEndOf="@+id/imgvMuskelgruppe"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUebungName" />
 
-    <ImageView
-        android:id="@+id/imgvVerticalLinks"
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnMuskelgruppe"
-        app:layout_constraintStart_toEndOf="@+id/btnName"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/hellgrau_Hintergrund" />
+        </android.support.constraint.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/imgvVerticalRechts"
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnBeschreibung"
-        app:layout_constraintStart_toEndOf="@+id/btnMuskelgruppe"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/hellgrau_Hintergrund" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@color/weiss" />
 
-    <ImageView
-        android:id="@+id/imgvHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/hellgrau_Hintergrund" />
-
-</android.support.constraint.ConstraintLayout>
-    
 </android.support.constraint.ConstraintLayout>

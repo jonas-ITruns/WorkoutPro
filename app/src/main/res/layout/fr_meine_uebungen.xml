@@ -2,171 +2,32 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraint_layout"
+    android:id="@+id/clMeineUebungen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="60dp"
     android:background="@color/transparent"
     android:fitsSystemWindows="false">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/clMittlererBereich"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="442dp"
-        android:layout_marginTop="75dp"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"></android.support.v7.widget.RecyclerView>
 
-        <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/tableRow"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/weiss"
-            android:fitsSystemWindows="false"
-            android:gravity="center_vertical">
-
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/clRow"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/transparent">
-
-                <Button
-                    android:id="@+id/btnName"
-                    android:layout_width="109dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="15dp"
-                    android:background="@color/transparent"
-                    android:gravity="center"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:padding="2dp"
-                    android:singleLine="true"
-                    android:text="Name"
-                    android:textAllCaps="false"
-                    android:textColor="@color/dunkelblau"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/btnMuskelgruppe"
-                    android:layout_width="108dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/transparent"
-                    android:gravity="center"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:padding="2dp"
-                    android:singleLine="true"
-                    android:text="Muskelgruppe"
-                    android:textAllCaps="false"
-                    android:textColor="@color/dunkelblau"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/btnBeschreibung"
-                    app:layout_constraintStart_toEndOf="@+id/btnName"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/btnBeschreibung"
-                    android:layout_width="109dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="15dp"
-                    android:background="@color/transparent"
-                    android:gravity="center"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:padding="2dp"
-                    android:singleLine="true"
-                    android:text="Beschreibung"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textColor="@color/dunkelblau"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/imgvVerticalLinks"
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btnMuskelgruppe"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@color/hellgrau_Hintergrund" />
-
-                <ImageView
-                    android:id="@+id/imgvVerticalRechts"
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@+id/btnMuskelgruppe"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@color/hellgrau_Hintergrund" />
-
-                <ImageView
-                    android:id="@+id/imgvHorizontalOben"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@color/hellgrau_Hintergrund" />
-
-                <ImageView
-                    android:id="@+id/imgvHorizontalUnten"
-                    android:layout_width="match_parent"
-                    android:layout_height="4dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:srcCompat="@color/hellgrau_Hintergrund" />
-
-            </android.support.constraint.ConstraintLayout>
-
-        </TableRow>
-
-        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/clWorkouts"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/transparent"
-            tools:context="app.android.SignInActivity">
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </android.support.v7.widget.RecyclerView>
-
-        </android.support.constraint.ConstraintLayout>
-
-    </android.support.constraint.ConstraintLayout>
-
-    <Button
-        android:id="@+id/btnAdUebung"
-        android:layout_width="330dp"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnUebungHinzufuegen"
+        android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="517dp"
-        android:background="@drawable/button_border"
+        app:backgroundTint="@color/dunkelblau"
         android:onClick="uebungHinzufuegen"
-        android:text="Übung hinzufügen"
-        android:textColor="@color/dunkelblau"
-        android:textStyle="bold"
+        android:src="@drawable/ic_add_black_24dp"
+        android:tint="@color/weiss"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
