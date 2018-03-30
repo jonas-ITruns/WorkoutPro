@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
     android:paddingTop="75dp"
-    tools:context="com.developer.workoutpro.itruns.workoutpro.FragmentWorkoutHinzufuegen">
+    tools:context="com.developer.workoutpro.itruns.workoutpro.FrWorkoutHinzufuegen">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

@@ -7,11 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class FragmentTimerWorkoutWiederholung extends Fragment {
+public class FrSupport extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_timer_workout_wiederholung, container, false);
+        return inflater.inflate(R.layout.fr_support, container, false);
     }
 }

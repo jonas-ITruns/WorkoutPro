@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class FragmentPremium extends Fragment {
+public class FrPremium extends Fragment {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -26,7 +26,7 @@ public class FragmentPremium extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_premium, container, false);
+        final View view = inflater.inflate(R.layout.fr_premium, container, false);
 
         mConditionRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -1,16 +1,16 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
-public class MeineUebungen {
+public class ObjMeineUebungen {
 
     private String name;
     private String muskelgruppe;
     private String beschreibung;
 
-    public MeineUebungen() {
+    public ObjMeineUebungen() {
         name = "";
         muskelgruppe = "";
         beschreibung = "";
-    } // Konstruktor MeineUebungen
+    } // Konstruktor ObjMeineUebungen
 
     public void neueUebung(String pName, String pMuskelgruppe, String pBeschreibung) {
         name = pName;
@@ -30,4 +30,4 @@ public class MeineUebungen {
         return beschreibung;
     } // Methode gibBeschreibung
 
-} // Klasse MeineUebungen
+} // Klasse ObjMeineUebungen

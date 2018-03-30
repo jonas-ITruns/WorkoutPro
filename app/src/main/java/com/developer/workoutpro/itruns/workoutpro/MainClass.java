@@ -35,7 +35,7 @@ public class MainClass extends AppCompatActivity {
 
     // Attribute für neue Übung
     private static int maxAnzahlUebungen = 1000;
-    private static MeineUebungen meineUebungen [] = new MeineUebungen[maxAnzahlUebungen];
+    private static ObjMeineUebungen objMeineUebungen[] = new ObjMeineUebungen[maxAnzahlUebungen];
     private static int anzahlMeineUebungen = 0;
 
     // Attribute für Workout hinzufügen
@@ -44,14 +44,14 @@ public class MainClass extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.act_main);
 
         meineUebungenLaden();
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FragmentUebersicht fragmentUebersicht = new FragmentUebersicht();
-        fragmentTransaction.add(R.id.bereichFragments, fragmentUebersicht, "uebersicht");
+        FrUebersicht frUebersicht = new FrUebersicht();
+        fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
 
@@ -71,9 +71,9 @@ public class MainClass extends AppCompatActivity {
         if (myFragment != null && myFragment.isVisible()) {
             aktFragment = "standardUebungen";
         } // if
-        myFragment = getFragmentManager().findFragmentByTag("meineUebungen");
+        myFragment = getFragmentManager().findFragmentByTag("objMeineUebungen");
         if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "meineUebungen";
+            aktFragment = "objMeineUebungen";
         } // if
         myFragment = getFragmentManager().findFragmentByTag("premium");
         if (myFragment != null && myFragment.isVisible()) {
@@ -102,28 +102,28 @@ public class MainClass extends AppCompatActivity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (aktFragment.equals ("uebersicht")) {
-            FragmentUebersicht fragmentUebersicht = new FragmentUebersicht();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentUebersicht, "uebersicht");
+            FrUebersicht frUebersicht = new FrUebersicht();
+            fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
         } // if
         else if (aktFragment.equals ("standardUebungen")) {
-            FragmentStandardUebungen fragmentStandardUebungen = new FragmentStandardUebungen();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentStandardUebungen, "standardUebungen");
+            FrStandardUebungen frStandardUebungen = new FrStandardUebungen();
+            fragmentTransaction.add(R.id.bereichFragments, frStandardUebungen, "standardUebungen");
         } // if
-        else if (aktFragment.equals ("meineUebungen")) {
-            FragmentMeineUebungen fragmentMeineUebungen = new FragmentMeineUebungen();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentMeineUebungen, "meineUebungen");
+        else if (aktFragment.equals ("objMeineUebungen")) {
+            FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
+            fragmentTransaction.add(R.id.bereichFragments, frMeineUebungen, "objMeineUebungen");
         } // if
         else if (aktFragment.equals ("premium")) {
-            FragmentPremium fragmentPremium = new FragmentPremium();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentPremium, "premium");
+            FrPremium frPremium = new FrPremium();
+            fragmentTransaction.add(R.id.bereichFragments, frPremium, "premium");
         } // if
         else if (aktFragment.equals ("support")) {
-            FragmentSupport fragmentSupport = new FragmentSupport();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentSupport, "support");
+            FrSupport frSupport = new FrSupport();
+            fragmentTransaction.add(R.id.bereichFragments, frSupport, "support");
         } // if
         else if (aktFragment.equals ("einstellungen")) {
-            FragmentEinstellungen fragmentEinstellungen = new FragmentEinstellungen();
-            fragmentTransaction.add(R.id.bereichFragments, fragmentEinstellungen, "einstellungen");
+            FrEinstellungen frEinstellungen = new FrEinstellungen();
+            fragmentTransaction.add(R.id.bereichFragments, frEinstellungen, "einstellungen");
         } // if
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
@@ -167,7 +167,7 @@ public class MainClass extends AppCompatActivity {
             uebungPrefTag[index] = Integer.toString(index);
             uebungPref[index] = getSharedPreferences(uebungPrefTag[index], 0);
             editor[index] = uebungPref[index].edit();
-            json[index] = gson.toJson(meineUebungen[index]);
+            json[index] = gson.toJson(objMeineUebungen[index]);
             editor[index].putString(uebungPrefTag[index], json[index]);
             editor[index].commit();
         } // for
@@ -180,7 +180,7 @@ public class MainClass extends AppCompatActivity {
     public void meineUebungenLaden() {
         // Objekt bilden
         for (int index = 0; index < maxAnzahlUebungen; index++) {
-            meineUebungen[index] = new MeineUebungen();
+            objMeineUebungen[index] = new ObjMeineUebungen();
         } // for
 
         // Anzahl meiner Übungen laden
@@ -204,7 +204,7 @@ public class MainClass extends AppCompatActivity {
                 uebungPrefTag[index] = Integer.toString(index);
                 uebungPref[index] = getSharedPreferences(uebungPrefTag[index], 0);
                 json[index] = uebungPref[index].getString(uebungPrefTag[index], null);
-                meineUebungen[index] = gson.fromJson(json[index], MeineUebungen.class);
+                objMeineUebungen[index] = gson.fromJson(json[index], ObjMeineUebungen.class);
             } // for
         } // if
     } // Methode meineUebungenLaden
@@ -237,28 +237,28 @@ public class MainClass extends AppCompatActivity {
 
                         switch (menuItem.getItemId()) {
                             case R.id.uebersicht:
-                                FragmentUebersicht fragmentUebersicht = new FragmentUebersicht();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentUebersicht, "uebersicht");
+                                FrUebersicht frUebersicht = new FrUebersicht();
+                                fragmentTransaction.replace(R.id.bereichFragments, frUebersicht, "uebersicht");
                                 break;
                             case R.id.standardUebungen:
-                                FragmentStandardUebungen fragmentStandardUebungen = new FragmentStandardUebungen();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentStandardUebungen, "standardUebungen");
+                                FrStandardUebungen frStandardUebungen = new FrStandardUebungen();
+                                fragmentTransaction.replace(R.id.bereichFragments, frStandardUebungen, "standardUebungen");
                                 break;
                             case R.id.meineUebungen:
-                                FragmentMeineUebungen fragmentMeineUebungen = new FragmentMeineUebungen();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentMeineUebungen, "meineUebungen");
+                                FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
+                                fragmentTransaction.replace(R.id.bereichFragments, frMeineUebungen, "meineUebungen");
                                 break;
                             case R.id.premium:
-                                FragmentPremium fragmentPremium = new FragmentPremium();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentPremium, "premium");
+                                FrPremium frPremium = new FrPremium();
+                                fragmentTransaction.replace(R.id.bereichFragments, frPremium, "premium");
                                 break;
                             case R.id.support:
-                                FragmentSupport fragmentSupport = new FragmentSupport();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentSupport, "support");
+                                FrSupport frSupport = new FrSupport();
+                                fragmentTransaction.replace(R.id.bereichFragments, frSupport, "support");
                                 break;
                             case R.id.einstellungen:
-                                FragmentEinstellungen fragmentEinstellungen = new FragmentEinstellungen();
-                                fragmentTransaction.replace(R.id.bereichFragments, fragmentEinstellungen, "einstellungen");
+                                FrEinstellungen frEinstellungen = new FrEinstellungen();
+                                fragmentTransaction.replace(R.id.bereichFragments, frEinstellungen, "einstellungen");
                                 break;
                         } // switch
 
@@ -290,8 +290,8 @@ public class MainClass extends AppCompatActivity {
     public void uebungHinzufuegen (View v) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FragmentUebungHinzufuegen fragmentUebungHinzufuegen = new FragmentUebungHinzufuegen();
-        fragmentTransaction.replace(R.id.bereichFragments, fragmentUebungHinzufuegen, "uebungHinzufuegen");
+        FrMeineUebungHinzufuegen frMeineUebungHinzufuegen = new FrMeineUebungHinzufuegen();
+        fragmentTransaction.replace(R.id.bereichFragments, frMeineUebungHinzufuegen, "uebungHinzufuegen");
         fragmentTransaction.addToBackStack(null);
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
@@ -335,7 +335,7 @@ public class MainClass extends AppCompatActivity {
 
         // Übung hinzufügen
 
-        meineUebungen[anzahlMeineUebungen].neueUebung(name, muskelgruppe, beschreibung);
+        objMeineUebungen[anzahlMeineUebungen].neueUebung(name, muskelgruppe, beschreibung);
 
         anzahlMeineUebungen++;
 
@@ -343,8 +343,8 @@ public class MainClass extends AppCompatActivity {
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FragmentMeineUebungen fragmentMeineUebungen = new FragmentMeineUebungen();
-        fragmentTransaction.replace(R.id.bereichFragments, fragmentMeineUebungen, "meineUebungen");
+        FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
+        fragmentTransaction.replace(R.id.bereichFragments, frMeineUebungen, "objMeineUebungen");
         fragmentTransaction.addToBackStack(null);
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
@@ -352,15 +352,15 @@ public class MainClass extends AppCompatActivity {
     } // Methode uebungSpeichern
 
     public static String gibMeineUebungenName(int index) {
-        return meineUebungen[index].gibName();
+        return objMeineUebungen[index].gibName();
     }
 
     public static String gibMeineUebungenMuskelgruppe (int index) {
-        return meineUebungen[index].gibMuskelgruppe();
+        return objMeineUebungen[index].gibMuskelgruppe();
     }
 
     public static String gibMeineUebungenBeschreibung(int index) {
-        return meineUebungen[index].gibBeschreibung();
+        return objMeineUebungen[index].gibBeschreibung();
     }
 
     public static int gibAnzahlMeineUebungen() {
@@ -370,8 +370,8 @@ public class MainClass extends AppCompatActivity {
     public void uebungLoeschen(View v) {
         int tag = Integer.parseInt(v.getTag().toString());
         for (int zähler = tag + 1; zähler < anzahlMeineUebungen; zähler++) {
-            meineUebungen[zähler - 1] = meineUebungen[zähler];
-            meineUebungen[zähler] = null;
+            objMeineUebungen[zähler - 1] = objMeineUebungen[zähler];
+            objMeineUebungen[zähler] = null;
         } // for
         anzahlMeineUebungen--;
 
@@ -379,8 +379,8 @@ public class MainClass extends AppCompatActivity {
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FragmentMeineUebungen fragmentMeineUebungen = new FragmentMeineUebungen();
-        fragmentTransaction.replace(R.id.bereichFragments, fragmentMeineUebungen, "meineUebungen");
+        FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
+        fragmentTransaction.replace(R.id.bereichFragments, frMeineUebungen, "objMeineUebungen");
         fragmentTransaction.addToBackStack(null);
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
@@ -395,8 +395,8 @@ public class MainClass extends AppCompatActivity {
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FragmentWorkoutHinzufuegen fragmentWorkoutHinzufuegen = new FragmentWorkoutHinzufuegen();
-        fragmentTransaction.replace(R.id.bereichFragments, fragmentWorkoutHinzufuegen, "workoutHinzufuegen");
+        FrWorkoutHinzufuegen frWorkoutHinzufuegen = new FrWorkoutHinzufuegen();
+        fragmentTransaction.replace(R.id.bereichFragments, frWorkoutHinzufuegen, "workoutHinzufuegen");
         fragmentTransaction.addToBackStack(null);
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();

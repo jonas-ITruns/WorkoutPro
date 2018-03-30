@@ -1,20 +1,17 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class FragmentWorkoutHinzufuegenWorkout extends android.support.v4.app.Fragment {
+public class FrMeineUebungHinzufuegen extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_workout_hinzufuegen_workout, container, false);
-
-        return view;
+        return inflater.inflate(R.layout.fr_uebung_hinzufuegen, container, false);
     }
-
-
 }

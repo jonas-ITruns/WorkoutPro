@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dunkelblau"
-    tools:context="com.developer.workoutpro.itruns.workoutpro.WelcomeScreen">
+    tools:context="com.developer.workoutpro.itruns.workoutpro.Ladebildschirm">
 
     <ProgressBar
         android:id="@+id/progressBar"

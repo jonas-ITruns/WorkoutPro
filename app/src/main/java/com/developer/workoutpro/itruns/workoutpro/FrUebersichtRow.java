@@ -3,7 +3,6 @@ package com.developer.workoutpro.itruns.workoutpro;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class FragmentUebersichtWorkout extends Fragment {
+public class FrUebersichtRow extends Fragment {
 
     // Generelle Attribute
     private int aktWorkout;
@@ -57,7 +56,7 @@ public class FragmentUebersichtWorkout extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_uebersicht_workout, container, false);
+        View view = inflater.inflate(R.layout.fr_uebersicht_row, container, false);
 
         MainClass mainClass = (MainClass) getActivity();
 
@@ -128,11 +127,11 @@ public class FragmentUebersichtWorkout extends Fragment {
                     btnUmbennen.setClickable(false);
                     btnLoeschen.setClickable(false);
                     imgbtnWorkoutStart.setClickable(true);
-                    imgbtnWorkoutStart.setVisibility(View.VISIBLE);
+                    imgbtnWorkoutStart.startAnimation(fabOpen);
                     menueOffen = false;
                 } // then
                 else {
-                    imgbtnWorkoutStart.setVisibility(View.INVISIBLE);
+                    imgbtnWorkoutStart.startAnimation(fabClose);
                     imgbtnWorkoutStart.setClickable(false);
                     btnBearbeiten.startAnimation(fabOpen);
                     btnUmbennen.startAnimation(fabOpen);

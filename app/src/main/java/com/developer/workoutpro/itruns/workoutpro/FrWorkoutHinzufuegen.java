@@ -10,20 +10,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class FragmentWorkoutHinzufuegen extends Fragment {
+public class FrWorkoutHinzufuegen extends Fragment {
 
     private static final String TAG = "Workout Hinzufuegen";
-    private SectionPageAdapter mSectionPageAdapter;
+    private SwipeViewAdapter mSwipeViewAdapter;
     private ViewPager mViewPager;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_workout_hinzufuegen, container, false);
+        View view = inflater.inflate(R.layout.fr_workout_hinzufuegen, container, false);
 
         Log.d(TAG, "onCreate: Starting.");
 
-        mSectionPageAdapter = new SectionPageAdapter(getChildFragmentManager());
+        mSwipeViewAdapter = new SwipeViewAdapter(getChildFragmentManager());
 
         // Set up ViewPager with the sections adapter
         mViewPager = view.findViewById(R.id.container);
@@ -36,9 +36,8 @@ public class FragmentWorkoutHinzufuegen extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        SectionPageAdapter adapter = new SectionPageAdapter(getChildFragmentManager());
-        adapter.addFragment(new FragmentWorkoutHinzufuegenWorkout(), "Workout");
-        adapter.addFragment(new FragmentWorkoutHinzufuegenTabata(), "Tabata");
+        SwipeViewAdapter adapter = new SwipeViewAdapter(getChildFragmentManager());
+        adapter.addFragment(new FrWorkoutHinzufuegenWorkout(), "Workout");
         viewPager.setAdapter(adapter);
     }
 

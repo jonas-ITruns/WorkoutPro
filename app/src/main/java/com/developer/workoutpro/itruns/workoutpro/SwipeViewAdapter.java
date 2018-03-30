@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SectionPageAdapter extends FragmentPagerAdapter {
+public class SwipeViewAdapter extends FragmentPagerAdapter {
 
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -17,7 +17,7 @@ public class SectionPageAdapter extends FragmentPagerAdapter {
         mFragmentTitleList.add(title);
     }
 
-    public SectionPageAdapter(FragmentManager fm) {
+    public SwipeViewAdapter(FragmentManager fm) {
         super(fm);
     }
 

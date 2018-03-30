@@ -7,21 +7,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.TextView;
 
-public class yourAdapter extends BaseAdapter {
+public class ListViewAdapterMeineUebungen extends BaseAdapter {
 
     Context context;
+
+    // Name
     String[] name;
+    Button btnName;
     private boolean nameScrollt = false;
+
+    // Muskelgruppe
     String[] muskelgruppe;
+    Button btnMuskelgruppe;
     private boolean muskelgruppeScrollt = false;
+
+    // Beschreibung
     String[] beschreibung;
+    Button btnBeschreibung;
     private boolean beschreibungScrollt = false;
 
     private static LayoutInflater inflater = null;
 
-    public yourAdapter(Context context, String[] pName, String[] pMuskelgruppe, String[] pBeschreibung) {
+    public ListViewAdapterMeineUebungen(Context context, String[] pName, String[] pMuskelgruppe, String[] pBeschreibung) {
         // TODO Auto-generated constructor stub
         this.context = context;
         this.name = pName;
@@ -54,9 +62,10 @@ public class yourAdapter extends BaseAdapter {
         // TODO Auto-generated method stub
         View vi = convertView;
         if (vi == null)
-            vi = inflater.inflate(R.layout.fragment_exercise_row_standard_uebungen, null);
+            vi = inflater.inflate(R.layout.fr_meine_uebungen_row, null);
 
-        final Button btnName = vi.findViewById(R.id.btnName);
+        // Namen setzen
+        btnName = vi.findViewById(R.id.btnName);
         btnName.setText(name[position]);
         btnName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +85,8 @@ public class yourAdapter extends BaseAdapter {
             }
         });
 
-        final Button btnMuskelgruppe = vi.findViewById(R.id.btnMuskelgruppe);
+        // Muskelgruppe setzen
+        btnMuskelgruppe = vi.findViewById(R.id.btnMuskelgruppe);
         btnMuskelgruppe.setText(muskelgruppe[position]);
         btnMuskelgruppe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +106,8 @@ public class yourAdapter extends BaseAdapter {
             }
         });
 
-        final Button btnBeschreibung = vi.findViewById(R.id.btnBeschreibung);
+        // Beschreibung setzen
+        btnBeschreibung = vi.findViewById(R.id.btnBeschreibung);
         btnBeschreibung.setText(beschreibung[position]);
         btnBeschreibung.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +126,6 @@ public class yourAdapter extends BaseAdapter {
                 } // else
             }
         });
-
 
         return vi;
     }

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
     android:background="@color/hellgrau_Hintergrund"
-    tools:context="com.developer.workoutpro.itruns.workoutpro.WelcomeScreen">
+    tools:context="com.developer.workoutpro.itruns.workoutpro.Ladebildschirm">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/clObererBereich"
@@ -89,8 +89,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
-            app:menu="@menu/drawer_view"
-            app:headerLayout="@layout/nav_header"
+            app:menu="@menu/nav_body"
+            app:headerLayout="@layout/nav_ueberschrift"
             android:background="@color/hellgrau_Hintergrund"/>
 
     </android.support.v4.widget.DrawerLayout>

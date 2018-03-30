@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    android:background="@color/weiss"
+    android:fitsSystemWindows="false">
+
+    <android.support.constraint.ConstraintLayout
+    android:id="@+id/clRow"
+    android:layout_width="360dp"
+    android:layout_height="50dp"
+    android:background="@color/transparent">
+
+    <Button
+        android:id="@+id/btnName"
+        android:layout_width="109dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="15dp"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:padding="2dp"
+        android:textAllCaps="false"
+        android:textColor="@color/dunkelblau"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:text="Name"
+        android:singleLine="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnMuskelgruppe"
+        android:layout_width="108dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="2dp"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:padding="2dp"
+        android:textAllCaps="false"
+        android:textColor="@color/dunkelblau"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:text="Muskelgruppe"
+        android:singleLine="true"
+        app:layout_constraintStart_toEndOf="@+id/btnName"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnBeschreibung"
+        android:layout_width="109dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="2dp"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:padding="2dp"
+        android:textAllCaps="false"
+        android:textColor="@color/dunkelblau"
+        android:textStyle="bold"
+        android:text="Beschreibung"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnMuskelgruppe"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgvVerticalLinks"
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnMuskelgruppe"
+        app:layout_constraintStart_toEndOf="@+id/btnName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/hellgrau_Hintergrund" />
+
+    <ImageView
+        android:id="@+id/imgvVerticalRechts"
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnBeschreibung"
+        app:layout_constraintStart_toEndOf="@+id/btnMuskelgruppe"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/hellgrau_Hintergrund" />
+
+    <ImageView
+        android:id="@+id/imgvHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/hellgrau_Hintergrund" />
+
+</android.support.constraint.ConstraintLayout>
+    
+</android.support.constraint.ConstraintLayout>

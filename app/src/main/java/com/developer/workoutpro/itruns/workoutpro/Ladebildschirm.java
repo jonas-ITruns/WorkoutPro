@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 
-public class WelcomeScreen extends AppCompatActivity{
+public class Ladebildschirm extends AppCompatActivity{
 
     private static int delay = 5000;
     private static int SPLASH_TIME_OUT = delay;
@@ -17,7 +17,7 @@ public class WelcomeScreen extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome_screen);
+        setContentView(R.layout.act_ladebildschirm);
 
         progressBar = findViewById(R.id.progressBar);
         progressBar.setMax(delay);
@@ -30,7 +30,7 @@ public class WelcomeScreen extends AppCompatActivity{
             @Override
             public void run(){
                 progressBar.clearAnimation();
-                Intent homeIntent = new Intent(WelcomeScreen.this, MainClass.class);
+                Intent homeIntent = new Intent(Ladebildschirm.this, MainClass.class);
                 startActivity(homeIntent);
                 finish();
             }
