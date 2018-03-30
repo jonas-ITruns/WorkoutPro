@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clItemHolder"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/weiss"
+    android:padding="5dp"
+    android:fitsSystemWindows="false">
+
+        <ImageView
+            android:id="@+id/imgvMuskelgruppe"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_exercises" />
+
+        <TextView
+            android:id="@+id/tvUebungName"
+            android:layout_width="250dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="10dp"
+            android:text="Name der Übung"
+            android:textColor="@color/dunkelblau"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/imgvMuskelgruppe"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvUebungBeschreibung"
+            android:layout_width="250dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="Beschreibung der Übung"
+            android:textColor="@color/dunkelgrau"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@+id/imgvMuskelgruppe"
+            app:layout_constraintTop_toBottomOf="@+id/tvUebungName" />
+
+</android.support.constraint.ConstraintLayout>
