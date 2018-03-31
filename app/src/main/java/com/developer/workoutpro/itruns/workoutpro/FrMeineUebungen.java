@@ -25,15 +25,27 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class FrMeineUebungen extends Fragment {
 
     View frView;
     LayoutInflater pInflater;
     ViewGroup pContainer;
+    private int anzahlMeineUebungen;
+    private ArrayList<String> mUebung = new ArrayList<>();
+    private String [] mUebungArray1;
+    private String [] mUebungArray2;
+    private String sortierung;
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<String> mMuskelgruppe = new ArrayList<>();
     private ArrayList<String> mBeschreibung = new ArrayList<>();
+    private ArrayList<String> mNameSortDatum = new ArrayList<>();
+    private ArrayList<String> mMuskelgruppeSortDatum = new ArrayList<>();
+    private ArrayList<String> mBeschreibungSortDatum = new ArrayList<>();
+    private ArrayList<String> mNameSortAlphabet = new ArrayList<>();
+    private ArrayList<String> mMuskelgruppeSortAlphabet = new ArrayList<>();
+    private ArrayList<String> mBeschreibungSortAlphabet = new ArrayList<>();
     private SwipeRecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
     private AlertDialog alert;
@@ -69,16 +81,90 @@ public class FrMeineUebungen extends Fragment {
 
     private void uebungenHolen() {
         // Anzahl, Name, Muskelgruppe und Beschreibung der Übungen aus der MainClass holen
-        int anzahlMeineUebungen = MainClass.gibAnzahlMeineUebungen();
+        anzahlMeineUebungen = MainClass.gibAnzahlMeineUebungen();
 
-        for (int index = 0; index < anzahlMeineUebungen; index++) {
-            mName.add(MainClass.gibMeineUebungenName(index));
-            mMuskelgruppe.add(MainClass.gibMeineUebungenMuskelgruppe(index));
-            mBeschreibung.add(MainClass.gibMeineUebungenBeschreibung(index));
-        } // for
+        uebungHinzufuegen();
+
+        sortieren();
 
         initViews();
     }
+
+    private void uebungHinzufuegen() {
+        for (int index = 0; index < anzahlMeineUebungen; index++) {
+            mNameSortDatum.add(MainClass.gibMeineUebungenName(index));
+            mMuskelgruppeSortDatum.add(MainClass.gibMeineUebungenMuskelgruppe(index));
+            mBeschreibungSortDatum.add(MainClass.gibMeineUebungenBeschreibung(index));
+        } // for
+    } // Methode uebungHinzufuegen
+
+    private void sortieren() {
+        MainClass mainClass = (MainClass) getActivity();
+        sortierung = mainClass.gibMeineUebungenSortierung();
+        if (sortierung.equals("datum")) {
+            mName = mNameSortDatum;
+            mMuskelgruppe = mMuskelgruppeSortDatum;
+            mBeschreibung = mBeschreibungSortDatum;
+        } else if (sortierung.equals("name")) {
+            nameSortieren();
+            mName = mNameSortAlphabet;
+            mMuskelgruppe = mMuskelgruppeSortAlphabet;
+            mBeschreibung = mBeschreibungSortAlphabet;
+        } else if (sortierung.equals("muskelgruppe")) {
+            muskelgruppeSortieren();
+            mName = mNameSortAlphabet;
+            mMuskelgruppe = mMuskelgruppeSortAlphabet;
+            mBeschreibung = mBeschreibungSortAlphabet;
+        } // if
+    }
+
+    private void nameSortieren() {
+        for (int index = 0; index < anzahlMeineUebungen; index++) {
+            mUebung.add(MainClass.gibMeineUebungenName(index) + "<" + MainClass.gibMeineUebungenMuskelgruppe(index) + ">" + MainClass.gibMeineUebungenBeschreibung(index));
+        } // for
+
+        Collections.sort(mUebung, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.compareToIgnoreCase(s2);
+            }
+        });
+
+        mUebungArray1 = new String[2];
+        mUebungArray2 = new String[2];
+
+        for (int index = 0; index < anzahlMeineUebungen; index++) {
+            mUebungArray1 = mUebung.get(index).split("<");
+            mNameSortAlphabet.add(mUebungArray1[0]);
+            mUebungArray2 = mUebungArray1[1].split(">");
+            mMuskelgruppeSortAlphabet.add(mUebungArray2[0]);
+            mBeschreibungSortAlphabet.add(mUebungArray2[1]);
+        } // for
+    } // Methode nameSortieren
+
+    private void muskelgruppeSortieren() {
+        for (int index = 0; index < anzahlMeineUebungen; index++) {
+            mUebung.add(MainClass.gibMeineUebungenMuskelgruppe(index) + "<" + MainClass.gibMeineUebungenName(index) + ">" + MainClass.gibMeineUebungenBeschreibung(index));
+        } // for
+
+        Collections.sort(mUebung, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.compareToIgnoreCase(s2);
+            }
+        });
+
+        mUebungArray1 = new String[2];
+        mUebungArray2 = new String[2];
+
+        for (int index = 0; index < anzahlMeineUebungen; index++) {
+            mUebungArray1 = mUebung.get(index).split("<");
+            mMuskelgruppeSortAlphabet.add(mUebungArray1[0]);
+            mUebungArray2 = mUebungArray1[1].split(">");
+            mNameSortAlphabet.add(mUebungArray2[0]);
+            mBeschreibungSortAlphabet.add(mUebungArray2[1]);
+        } // for
+    } // Methode muskelgruppeSortieren
 
     private void initViews(){
         recyclerView = frView.findViewById(R.id.recycler_view);

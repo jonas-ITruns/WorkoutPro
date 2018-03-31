@@ -17,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class FrStandardUebungen extends Fragment {
 
@@ -27,9 +29,20 @@ public class FrStandardUebungen extends Fragment {
     ViewGroup pContainer;
     private int anzahlStandardUebungen;
     private int index = 0;
+    private ArrayList<String> mUebung = new ArrayList<>();
+    private String [] mUebungArray1;
+    private String [] mUebungArray2;
+    private String sortierung;
+    private int indexSortierung = 0;
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<String> mMuskelgruppe = new ArrayList<>();
     private ArrayList<String> mBeschreibung = new ArrayList<>();
+    private ArrayList<String> mNameSortDatum = new ArrayList<>();
+    private ArrayList<String> mMuskelgruppeSortDatum = new ArrayList<>();
+    private ArrayList<String> mBeschreibungSortDatum = new ArrayList<>();
+    private ArrayList<String> mNameSortAlphabet = new ArrayList<>();
+    private ArrayList<String> mMuskelgruppeSortAlphabet = new ArrayList<>();
+    private ArrayList<String> mBeschreibungSortAlphabet = new ArrayList<>();
     private SwipeRecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
 
@@ -64,7 +77,7 @@ public class FrStandardUebungen extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 anzahlStandardUebungen = (int) dataSnapshot.getChildrenCount();
 
-                uebungHolen();
+                uebungdetailsHolen();
             }
 
             @Override
@@ -74,24 +87,23 @@ public class FrStandardUebungen extends Fragment {
         });
     }
 
-    public void uebungHolen() {
+    public void uebungdetailsHolen() {
         // Namen, Muskelgruppe, Beschreibung holen
         DatabaseReference mUebungRef = mRootRef.child("Standard Übungen").child(Integer.toString(index + 1));
         mUebungRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mName.add(dataSnapshot.child("Name").getValue(String.class));
-                mMuskelgruppe.add(dataSnapshot.child("Muskelgruppe").getValue(String.class));
-                mBeschreibung.add(dataSnapshot.child("Beschreibung").getValue(String.class));
+                mNameSortDatum.add(dataSnapshot.child("Name").getValue(String.class));
+                mMuskelgruppeSortDatum.add(dataSnapshot.child("Muskelgruppe").getValue(String.class));
+                mBeschreibungSortDatum.add(dataSnapshot.child("Beschreibung").getValue(String.class));
                 index++;
 
                 // Immer wieder aufrufen, sobald der Wert geholt wurde, sonst Liste erstellen
                 if (index != anzahlStandardUebungen) {
-                    uebungHolen();
+                    uebungdetailsHolen();
                 } // if
                 else {
-                    initViews();
-                    progressBar.setVisibility(View.INVISIBLE);
+                    sortieren();
                 }
             }
 
@@ -102,6 +114,111 @@ public class FrStandardUebungen extends Fragment {
         });
     } // Methode uebungHolen
 
+    private void sortieren() {
+        MainClass mainClass = (MainClass) getActivity();
+        sortierung = mainClass.gibStandardUebungenSortierung();
+        if (sortierung.equals("datum")) {
+            mName = mNameSortDatum;
+            mMuskelgruppe = mMuskelgruppeSortDatum;
+            mBeschreibung = mBeschreibungSortDatum;
+            initViews();
+        } else if (sortierung.equals("name")) {
+            nameSortieren();
+        } else if (sortierung.equals("muskelgruppe")) {
+            muskelgruppeSortieren();
+        } // if
+    } // Methode sortieren
+
+    private void nameSortieren() {
+        DatabaseReference mUebungRef = mRootRef.child("Standard Übungen").child(Integer.toString(indexSortierung + 1));
+        mUebungRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mUebung.add(dataSnapshot.child("Name").getValue() + "<" + dataSnapshot.child("Muskelgruppe").getValue() + ">" + dataSnapshot.child("Beschreibung").getValue());
+                indexSortierung++;
+                // Immer wieder aufrufen, sobald der Wert geholt wurde, sonst sortieren
+                if (indexSortierung != anzahlStandardUebungen) {
+                    nameSortieren();
+                } // if
+                else {
+                    Collections.sort(mUebung, new Comparator<String>() {
+                        @Override
+                        public int compare(String s1, String s2) {
+                            return s1.compareToIgnoreCase(s2);
+                        }
+                    });
+
+                    mUebungArray1 = new String[2];
+                    mUebungArray2 = new String[2];
+
+                    for (int index = 0; index < anzahlStandardUebungen; index++) {
+                        mUebungArray1 = mUebung.get(index).split("<");
+                        mNameSortAlphabet.add(mUebungArray1[0]);
+                        mUebungArray2 = mUebungArray1[1].split(">");
+                        mMuskelgruppeSortAlphabet.add(mUebungArray2[0]);
+                        mBeschreibungSortAlphabet.add(mUebungArray2[1]);
+                    } // for
+
+                    mName = mNameSortAlphabet;
+                    mMuskelgruppe = mMuskelgruppeSortAlphabet;
+                    mBeschreibung = mBeschreibungSortAlphabet;
+
+                    initViews();
+                } // if
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    } // Methode nameSortieren
+
+    private void muskelgruppeSortieren() {
+        DatabaseReference mUebungRef = mRootRef.child("Standard Übungen").child(Integer.toString(indexSortierung + 1));
+        mUebungRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mUebung.add(dataSnapshot.child("Muskelgruppe").getValue() + "<" + dataSnapshot.child("Name").getValue() + ">" + dataSnapshot.child("Beschreibung").getValue());
+                indexSortierung++;
+                // Immer wieder aufrufen, sobald der Wert geholt wurde, sonst sortieren
+                if (indexSortierung != anzahlStandardUebungen) {
+                    muskelgruppeSortieren();
+                } // if
+                else {
+                    Collections.sort(mUebung, new Comparator<String>() {
+                        @Override
+                        public int compare(String s1, String s2) {
+                            return s1.compareToIgnoreCase(s2);
+                        }
+                    });
+
+                    mUebungArray1 = new String[2];
+                    mUebungArray2 = new String[2];
+
+                    for (int index = 0; index < anzahlStandardUebungen; index++) {
+                        mUebungArray1 = mUebung.get(index).split("<");
+                        mMuskelgruppeSortAlphabet.add(mUebungArray1[0]);
+                        mUebungArray2 = mUebungArray1[1].split(">");
+                        mNameSortAlphabet.add(mUebungArray2[0]);
+                        mBeschreibungSortAlphabet.add(mUebungArray2[1]);
+                    } // for
+
+                    mName = mNameSortAlphabet;
+                    mMuskelgruppe = mMuskelgruppeSortAlphabet;
+                    mBeschreibung = mBeschreibungSortAlphabet;
+
+                    initViews();
+                } // if
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    } // Methode muskelgruppeSortieren
+
     private void initViews(){
         recyclerView = frView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -109,6 +226,7 @@ public class FrStandardUebungen extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new SwipeRecyclerViewAdapter(getActivity(), mName, mMuskelgruppe, mBeschreibung);
         recyclerView.setAdapter(adapter);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
 }

@@ -38,10 +38,10 @@ public class MainClass extends AppCompatActivity {
     // Attribute speichern
     private boolean gespeichert = false;
 
-    // Attribute für neue Übung
+    // Attribute für meine Übungen
+    // Übungen hinzufügen
     private AlertDialog alert;
     private AlertDialog.Builder builder;
-
     private EditText etName;
     private EditText etBeschreibung;
     private ImageButton imgbtnGanzkoerper;
@@ -50,7 +50,6 @@ public class MainClass extends AppCompatActivity {
     private ImageButton imgbtnBauch;
     private ImageButton imgbtnBrust;
     private ImageButton imgbtnRuecken;
-
     private boolean muskelgruppeAusgewaehlt = false;
     private boolean ganzkoerper;
     private boolean arme;
@@ -58,10 +57,12 @@ public class MainClass extends AppCompatActivity {
     private boolean bauch;
     private boolean brust;
     private boolean ruecken;
-
     private static int maxAnzahlUebungen = 1000;
     private static ObjMeineUebungen objMeineUebungen[] = new ObjMeineUebungen[maxAnzahlUebungen];
     private static int anzahlMeineUebungen = 0;
+    // Übungen sortieren
+    private String meineUebungenSortierung;
+    private String standardUebungenSortierung = "datum";
 
     // Attribute für Workout hinzufügen
     private boolean supportedOpen = false;
@@ -180,6 +181,11 @@ public class MainClass extends AppCompatActivity {
         editorGespeichert.putBoolean("gespeichert", gespeichert);
         editorGespeichert.commit();
 
+        SharedPreferences meineUebungenSortierungPref = getSharedPreferences("meineUebungenSortierung", 0);
+        SharedPreferences.Editor editorMeineUebungenSortierung = meineUebungenSortierungPref.edit();
+        editorMeineUebungenSortierung.putString("meineUebungenSortierung", meineUebungenSortierung);
+        editorMeineUebungenSortierung.commit();
+
         // meine Übungen speichern
         Gson gson = new Gson();
 
@@ -216,6 +222,9 @@ public class MainClass extends AppCompatActivity {
 
         SharedPreferences gespeichertPref = getSharedPreferences("gespeichert", 0);
         gespeichert = gespeichertPref.getBoolean("gespeichert", false);
+
+        SharedPreferences meineUebungenSortierungPref = getSharedPreferences("meineUebungenSortierung", 0);
+        meineUebungenSortierung = meineUebungenSortierungPref.getString("meineUebungenSortierung", "datum");
 
         if (gespeichert) {
             // meine Übungen laden
@@ -311,6 +320,17 @@ public class MainClass extends AppCompatActivity {
 
     // Übungen verwalten
 
+
+    public void standardUebungenOeffnen() {
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FrStandardUebungen frStandardUebungen = new FrStandardUebungen();
+        fragmentTransaction.replace(R.id.bereichFragments, frStandardUebungen, "StandardUebungen");
+        fragmentTransaction.addToBackStack(null);
+        fragmentManager.executePendingTransactions();
+        fragmentTransaction.commit();
+    }
 
     public void meineUebungenOeffnen() {
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
@@ -555,6 +575,40 @@ public class MainClass extends AppCompatActivity {
         } // for
         anzahlMeineUebungen--;
     } // Methode uebungLoeschen
+
+    public void meineUebungenSortieren(View v) {
+        int tag = Integer.parseInt(v.getTag().toString());
+        switch (tag) {
+            case 1: meineUebungenSortierung = "datum";
+                break;
+            case 2: meineUebungenSortierung = "name";
+                break;
+            case 3: meineUebungenSortierung = "muskelgruppe";
+                break;
+        } // switch
+        meineUebungenOeffnen();
+    } // Methode meineUebungenSortieren
+
+    public String gibMeineUebungenSortierung() {
+        return meineUebungenSortierung;
+    } // Methode gibMeineUebungenSortierung
+
+    public void standardUebungenSortieren(View v) {
+        int tag = Integer.parseInt(v.getTag().toString());
+        switch (tag) {
+            case 1: standardUebungenSortierung = "datum";
+                break;
+            case 2: standardUebungenSortierung = "name";
+                break;
+            case 3: standardUebungenSortierung = "muskelgruppe";
+                break;
+        } // switch
+        standardUebungenOeffnen();
+    } // Methode standardUebungenSortieren
+
+    public String gibStandardUebungenSortierung() {
+        return standardUebungenSortierung;
+    } // Methode gibStandardUebungenSortierung
 
 
     // Workout Hinzufügen

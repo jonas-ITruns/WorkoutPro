@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:layout_marginTop="60dp"
     android:background="@color/transparent"
-    android:fitsSystemWindows="false">
+    android:fitsSystemWindows="false"
+    tools:context="com.developer.workoutpro.itruns.workoutpro.MainClass">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -21,14 +22,68 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnUebungHinzufuegen"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
         android:layout_marginBottom="15dp"
         android:layout_marginEnd="15dp"
         android:onClick="uebungHinzufuegen"
-        app:backgroundTint="@color/dunkelblau"
         android:src="@drawable/ic_add_black_24dp"
         android:tint="@color/weiss"
-        android:layout_gravity="bottom|end" />
+        app:backgroundTint="@color/dunkelblau" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnDatumSortieren"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_sort_black_24dp"
+            android:tint="@color/weiss"
+            android:onClick="meineUebungenSortieren"
+            android:tag="1"
+            app:backgroundTint="@color/dunkelblau"
+            app:layout_anchorGravity="right|top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnNameSortieren"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_sort_black_24dp"
+            android:tint="@color/weiss"
+            android:onClick="meineUebungenSortieren"
+            android:tag="2"
+            app:backgroundTint="@color/dunkelblau"
+            app:layout_anchorGravity="right|top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnDatumSortieren" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnMuskelgruppeSortieren"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_sort_black_24dp"
+            android:tint="@color/weiss"
+            android:onClick="meineUebungenSortieren"
+            android:tag="3"
+            app:backgroundTint="@color/dunkelblau"
+            app:layout_anchorGravity="right|top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnNameSortieren" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.design.widget.CoordinatorLayout>
