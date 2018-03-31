@@ -92,20 +92,16 @@ public class FrMeineUebungen extends Fragment {
 
     private void uebungHinzufuegen() {
         for (int index = 0; index < anzahlMeineUebungen; index++) {
-            mNameSortDatum.add(MainClass.gibMeineUebungenName(index));
-            mMuskelgruppeSortDatum.add(MainClass.gibMeineUebungenMuskelgruppe(index));
-            mBeschreibungSortDatum.add(MainClass.gibMeineUebungenBeschreibung(index));
+            mName.add(MainClass.gibMeineUebungenName(index));
+            mMuskelgruppe.add(MainClass.gibMeineUebungenMuskelgruppe(index));
+            mBeschreibung.add(MainClass.gibMeineUebungenBeschreibung(index));
         } // for
     } // Methode uebungHinzufuegen
 
     private void sortieren() {
         MainClass mainClass = (MainClass) getActivity();
         sortierung = mainClass.gibMeineUebungenSortierung();
-        if (sortierung.equals("datum")) {
-            mName = mNameSortDatum;
-            mMuskelgruppe = mMuskelgruppeSortDatum;
-            mBeschreibung = mBeschreibungSortDatum;
-        } else if (sortierung.equals("name")) {
+        if (sortierung.equals("name")) {
             nameSortieren();
             mName = mNameSortAlphabet;
             mMuskelgruppe = mMuskelgruppeSortAlphabet;
