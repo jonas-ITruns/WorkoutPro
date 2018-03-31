@@ -48,7 +48,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerView.Adapter<SwipeRecycler
         } else if (uebungMuskelgruppe.get(i).equals("ruecken")) {
             viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_menu);
         } else {
-            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_naechstes);
+            viewHolder.imgvMuskelgruppe.setImageResource(R.color.transparent);
         } // if
 
     }

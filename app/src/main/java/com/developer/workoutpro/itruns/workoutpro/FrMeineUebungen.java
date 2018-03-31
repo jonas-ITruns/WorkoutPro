@@ -38,14 +38,8 @@ public class FrMeineUebungen extends Fragment {
     private String [] mUebungArray2;
     private String sortierung;
     private ArrayList<String> mName = new ArrayList<>();
-    private ArrayList<String> mMuskelgruppe = new ArrayList<>();
+    private ArrayList<String> mMuskelgruppe= new ArrayList<>();
     private ArrayList<String> mBeschreibung = new ArrayList<>();
-    private ArrayList<String> mNameSortDatum = new ArrayList<>();
-    private ArrayList<String> mMuskelgruppeSortDatum = new ArrayList<>();
-    private ArrayList<String> mBeschreibungSortDatum = new ArrayList<>();
-    private ArrayList<String> mNameSortAlphabet = new ArrayList<>();
-    private ArrayList<String> mMuskelgruppeSortAlphabet = new ArrayList<>();
-    private ArrayList<String> mBeschreibungSortAlphabet = new ArrayList<>();
     private SwipeRecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
     private AlertDialog alert;
@@ -103,14 +97,8 @@ public class FrMeineUebungen extends Fragment {
         sortierung = mainClass.gibMeineUebungenSortierung();
         if (sortierung.equals("name")) {
             nameSortieren();
-            mName = mNameSortAlphabet;
-            mMuskelgruppe = mMuskelgruppeSortAlphabet;
-            mBeschreibung = mBeschreibungSortAlphabet;
         } else if (sortierung.equals("muskelgruppe")) {
             muskelgruppeSortieren();
-            mName = mNameSortAlphabet;
-            mMuskelgruppe = mMuskelgruppeSortAlphabet;
-            mBeschreibung = mBeschreibungSortAlphabet;
         } // if
     }
 
@@ -129,12 +117,16 @@ public class FrMeineUebungen extends Fragment {
         mUebungArray1 = new String[2];
         mUebungArray2 = new String[2];
 
+        mName = new ArrayList<>();
+        mMuskelgruppe = new ArrayList<>();
+        mBeschreibung = new ArrayList<>();
+
         for (int index = 0; index < anzahlMeineUebungen; index++) {
             mUebungArray1 = mUebung.get(index).split("<");
-            mNameSortAlphabet.add(mUebungArray1[0]);
+            mName.add(mUebungArray1[0]);
             mUebungArray2 = mUebungArray1[1].split(">");
-            mMuskelgruppeSortAlphabet.add(mUebungArray2[0]);
-            mBeschreibungSortAlphabet.add(mUebungArray2[1]);
+            mMuskelgruppe.add(mUebungArray2[0]);
+            mBeschreibung.add(mUebungArray2[1]);
         } // for
     } // Methode nameSortieren
 
@@ -153,12 +145,16 @@ public class FrMeineUebungen extends Fragment {
         mUebungArray1 = new String[2];
         mUebungArray2 = new String[2];
 
+        mName = new ArrayList<>();
+        mMuskelgruppe = new ArrayList<>();
+        mBeschreibung = new ArrayList<>();
+
         for (int index = 0; index < anzahlMeineUebungen; index++) {
             mUebungArray1 = mUebung.get(index).split("<");
-            mMuskelgruppeSortAlphabet.add(mUebungArray1[0]);
+            mMuskelgruppe.add(mUebungArray1[0]);
             mUebungArray2 = mUebungArray1[1].split(">");
-            mNameSortAlphabet.add(mUebungArray2[0]);
-            mBeschreibungSortAlphabet.add(mUebungArray2[1]);
+            mName.add(mUebungArray2[0]);
+            mBeschreibung.add(mUebungArray2[1]);
         } // for
     } // Methode muskelgruppeSortieren
 
