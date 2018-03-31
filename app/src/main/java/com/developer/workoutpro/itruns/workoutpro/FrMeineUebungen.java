@@ -295,9 +295,7 @@ public class FrMeineUebungen extends Fragment {
                                     mMuskelgruppe.set(edit_position, "brust");
                                 } else if (ruecken) {
                                     mMuskelgruppe.set(edit_position, "ruecken");
-                                } else {
-                                    mMuskelgruppe.set(edit_position, "");
-                                } // if
+                                }
 
                                 // Beschreibung bestimmen
                                 mBeschreibung.set(edit_position, etBeschreibung.getText().toString());
