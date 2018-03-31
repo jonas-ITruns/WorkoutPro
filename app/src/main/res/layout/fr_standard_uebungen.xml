@@ -19,4 +19,14 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:indeterminateBehavior="repeat"
+        android:indeterminateTint="@color/dunkelblau"
+        android:progressTint="@color/dunkelgrau"
+        app:layout_anchor="@+id/recycler_view"
+        app:layout_anchorGravity="center" />
+
 </android.support.design.widget.CoordinatorLayout>

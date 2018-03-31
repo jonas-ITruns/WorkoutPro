@@ -374,7 +374,7 @@ public class MainClass extends AppCompatActivity {
                     Toast.makeText(MainClass.this, "Bitte Übungsnamen eintragen", Toast.LENGTH_SHORT).show();
                     return;
                 } // if
-                else if (muskelgruppeAusgewaehlt == false) {
+                else if (!muskelgruppeAusgewaehlt) {
                     Toast.makeText(MainClass.this, "Bitte Muskelgruppe eintragen", Toast.LENGTH_SHORT).show();
                     return;
                 } // if
@@ -416,6 +416,7 @@ public class MainClass extends AppCompatActivity {
                     meineUebungenOeffnen();
 
                     alert.cancel();
+                    muskelgruppeAusgewaehlt = false;
                 } // else
             }
         });
@@ -424,6 +425,7 @@ public class MainClass extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alert.cancel();
+                muskelgruppeAusgewaehlt = false;
             }
         });
 
