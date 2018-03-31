@@ -301,12 +301,11 @@ public class FrMeineUebungen extends Fragment {
                                 mBeschreibung.set(edit_position, etBeschreibung.getText().toString());
 
                                 mainClass.setzeMeineUebungName(mName.get(edit_position), edit_position);
-
                                 mainClass.setzeMeineUebungMuskelgruppe(mMuskelgruppe.get(edit_position), edit_position);
-
                                 mainClass.setzeMeineUebungBeschreibung(mBeschreibung.get(edit_position), edit_position);
 
-                                adapter.notifyDataSetChanged();
+                                //adapter.notifyDataSetChanged();
+                                mainClass.meineUebungenOeffnen();
 
                                 alert.cancel();
                             } // else

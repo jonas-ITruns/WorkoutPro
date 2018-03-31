@@ -420,8 +420,8 @@ public class MainClass extends AppCompatActivity {
                     } else if (ruecken) {
                         muskelgruppe = "ruecken";
                     } else {
-                        muskelgruppe = "";
-                    } // if
+                        muskelgruppe = "ganzkoerper";
+                    } // else
 
                     // Beschreibung bestimmen
                     beschreibung = etBeschreibung.getText().toString();
@@ -452,10 +452,10 @@ public class MainClass extends AppCompatActivity {
     } // Methode uebungHinzufuegen
 
     public void muskelgruppeInitialisieren() {
+        muskelgruppeAusgewaehlt = true;
         imgbtnGanzkoerper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                muskelgruppeAusgewaehlt = true;
                 ganzkoerper = true; imgbtnGanzkoerper.setBackgroundResource(R.color.blauTransparent);
                 arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
                 beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);
@@ -469,7 +469,6 @@ public class MainClass extends AppCompatActivity {
         imgbtnArme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                muskelgruppeAusgewaehlt = true;
                 ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
                 arme = true; imgbtnArme.setBackgroundResource(R.color.blauTransparent);
                 beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);
@@ -482,7 +481,6 @@ public class MainClass extends AppCompatActivity {
         imgbtnBeine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                muskelgruppeAusgewaehlt = true;
                 ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
                 arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
                 beine = true; imgbtnBeine.setBackgroundResource(R.color.blauTransparent);
@@ -495,7 +493,6 @@ public class MainClass extends AppCompatActivity {
         imgbtnBauch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                muskelgruppeAusgewaehlt = true;
                 ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
                 arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
                 beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);
@@ -508,7 +505,6 @@ public class MainClass extends AppCompatActivity {
         imgbtnBrust.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                muskelgruppeAusgewaehlt = true;
                 ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
                 arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
                 beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);
@@ -521,7 +517,6 @@ public class MainClass extends AppCompatActivity {
         imgbtnRuecken.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                muskelgruppeAusgewaehlt = true;
                 ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
                 arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
                 beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);
