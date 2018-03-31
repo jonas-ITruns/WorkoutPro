@@ -27,7 +27,7 @@ public class RecyclerViewAdapterMeineUebungen extends RecyclerView.Adapter<Recyc
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fr_meine_uebungen_row, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fr_uebungen_row, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }

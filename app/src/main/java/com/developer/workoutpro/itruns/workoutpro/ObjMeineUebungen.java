@@ -22,12 +22,24 @@ public class ObjMeineUebungen {
         return name;
     } // Methode gibName
 
+    public void setzeName(String pName) {
+        name = pName;
+    } // Methode setzeName
+
     public String gibMuskelgruppe() {
         return muskelgruppe;
     } // Methode gibMuskelgruppe
 
+    public void setzeMuskelgruppe(String pMuskelgruppe) {
+        muskelgruppe = pMuskelgruppe;
+    } // Methode setzeMuskelgruppe
+
     public String gibBeschreibung() {
         return beschreibung;
     } // Methode gibBeschreibung
+
+    public void setzeBeschreibung(String pBeschreibung) {
+        beschreibung = pBeschreibung;
+    } // Methode setzeBeschreibung
 
 } // Klasse ObjMeineUebungen

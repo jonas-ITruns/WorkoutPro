@@ -62,7 +62,7 @@ public class ListViewAdapterMeineUebungen extends BaseAdapter {
         // TODO Auto-generated method stub
         View vi = convertView;
         if (vi == null)
-            vi = inflater.inflate(R.layout.fr_meine_uebungen_row, null);
+            vi = inflater.inflate(R.layout.fr_uebungen_row, null);
 
         // Namen setzen
         btnName = vi.findViewById(R.id.btnName);

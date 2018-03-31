@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -12,11 +13,15 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -34,6 +39,26 @@ public class MainClass extends AppCompatActivity {
     private boolean gespeichert = false;
 
     // Attribute für neue Übung
+    private AlertDialog alert;
+    private AlertDialog.Builder builder;
+
+    private EditText etName;
+    private EditText etBeschreibung;
+    private ImageButton imgbtnGanzkoerper;
+    private ImageButton imgbtnArme;
+    private ImageButton imgbtnBeine;
+    private ImageButton imgbtnBauch;
+    private ImageButton imgbtnBrust;
+    private ImageButton imgbtnRuecken;
+
+    private boolean muskelgruppeAusgewaehlt = false;
+    private boolean ganzkoerper;
+    private boolean arme;
+    private boolean beine;
+    private boolean bauch;
+    private boolean brust;
+    private boolean ruecken;
+
     private static int maxAnzahlUebungen = 1000;
     private static ObjMeineUebungen objMeineUebungen[] = new ObjMeineUebungen[maxAnzahlUebungen];
     private static int anzahlMeineUebungen = 0;
@@ -287,15 +312,204 @@ public class MainClass extends AppCompatActivity {
     // Übungen verwalten
 
 
-    public void uebungHinzufuegen (View v) {
+    public void meineUebungenOeffnen() {
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FrMeineUebungHinzufuegen frMeineUebungHinzufuegen = new FrMeineUebungHinzufuegen();
-        fragmentTransaction.replace(R.id.bereichFragments, frMeineUebungHinzufuegen, "uebungHinzufuegen");
+        FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
+        fragmentTransaction.replace(R.id.bereichFragments, frMeineUebungen, "MeineUebungen");
         fragmentTransaction.addToBackStack(null);
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
+    }
+
+    public void uebungHinzufuegen (View v) {
+        builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.fr_uebung_hinzufuegen);
+        builder.setCancelable(true);
+        alert = builder.create();
+        alert.show();
+
+        // Deklarieren der Textfelder
+        TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
+        tvAlertUeberschrift.setText("Übung hinzufügen");
+
+        etName = alert.findViewById(R.id.etUebungName);
+        etBeschreibung = alert.findViewById(R.id.etUebungBeschreibung);
+        imgbtnGanzkoerper = alert.findViewById(R.id.imgbtnGanzkoerper);
+        imgbtnArme = alert.findViewById(R.id.imgbtnArme);
+        imgbtnBeine = alert.findViewById(R.id.imgbtnBeine);
+        imgbtnBauch = alert.findViewById(R.id.imgbtnBauch);
+        imgbtnBrust = alert.findViewById(R.id.imgbtnBrust);
+        imgbtnRuecken = alert.findViewById(R.id.imgbtnRuecken);
+
+        etName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                etName.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        InputMethodManager imm = (InputMethodManager) MainClass.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(etName, InputMethodManager.SHOW_IMPLICIT);
+                    }
+                });
+            }
+        });
+        etName.requestFocus();
+
+        muskelgruppeInitialisieren();
+
+        Button btnUebungSpeichern = alert.findViewById(R.id.btnUebungSpeichern);
+        btnUebungSpeichern.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Daten einlesen
+                // Deklarieren der Variablen
+                String name;
+                String muskelgruppe;
+                String beschreibung;
+
+                // Daten einlesen
+                if (etName.getText().toString().isEmpty()) {
+                    Toast.makeText(MainClass.this, "Bitte Übungsnamen eintragen", Toast.LENGTH_SHORT).show();
+                    return;
+                } // if
+                else if (muskelgruppeAusgewaehlt == false) {
+                    Toast.makeText(MainClass.this, "Bitte Muskelgruppe eintragen", Toast.LENGTH_SHORT).show();
+                    return;
+                } // if
+                else if (etBeschreibung.getText().toString().isEmpty()) {
+                    Toast.makeText(MainClass.this, "Bitte Beschreibung eintragen", Toast.LENGTH_SHORT).show();
+                    return;
+                } // if
+                else {
+                    // Name bestimmen
+                    name = etName.getText().toString();
+
+                    // Muskelgruppe bestimmen
+                    if (ganzkoerper) {
+                        muskelgruppe = "ganzkoerper";
+                    } else if (arme) {
+                        muskelgruppe = "arme";
+                    } else if (beine) {
+                        muskelgruppe = "beine";
+                    } else if (bauch) {
+                        muskelgruppe = "bauch";
+                    } else if (brust) {
+                        muskelgruppe = "brust";
+                    } else if (ruecken) {
+                        muskelgruppe = "ruecken";
+                    } else {
+                        muskelgruppe = "";
+                    } // if
+
+                    // Beschreibung bestimmen
+                    beschreibung = etBeschreibung.getText().toString();
+
+                    // Übung hinzufügen
+
+                    objMeineUebungen[anzahlMeineUebungen].neueUebung(name, muskelgruppe, beschreibung);
+
+                    anzahlMeineUebungen++;
+
+                    // Übungsübersicht anzeigen
+                    meineUebungenOeffnen();
+
+                    alert.cancel();
+                } // else
+            }
+        });
+        Button btnUebungAbbrechen = alert.findViewById(R.id.btnUebungAbbrechen);
+        btnUebungAbbrechen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.cancel();
+            }
+        });
+
     } // Methode uebungHinzufuegen
+
+    public void muskelgruppeInitialisieren() {
+        imgbtnGanzkoerper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                muskelgruppeAusgewaehlt = true;
+                ganzkoerper = true; imgbtnGanzkoerper.setBackgroundResource(R.color.blauTransparent);
+                arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
+                beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);
+                bauch = false; imgbtnBauch.setBackgroundColor(0x0041577d);
+                brust = false; imgbtnBrust.setBackgroundColor(0x0041577d);
+                ruecken = false; imgbtnRuecken.setBackgroundColor(0x0041577d);
+
+            }
+        });
+
+        imgbtnArme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                muskelgruppeAusgewaehlt = true;
+                ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
+                arme = true; imgbtnArme.setBackgroundResource(R.color.blauTransparent);
+                beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);
+                bauch = false; imgbtnBauch.setBackgroundColor(0x0041577d);
+                brust = false; imgbtnBrust.setBackgroundColor(0x0041577d);
+                ruecken = false; imgbtnRuecken.setBackgroundColor(0x0041577d);
+            }
+        });
+
+        imgbtnBeine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                muskelgruppeAusgewaehlt = true;
+                ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
+                arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
+                beine = true; imgbtnBeine.setBackgroundResource(R.color.blauTransparent);
+                bauch = false; imgbtnBauch.setBackgroundColor(0x0041577d);
+                brust = false; imgbtnBrust.setBackgroundColor(0x0041577d);
+                ruecken = false; imgbtnRuecken.setBackgroundColor(0x0041577d);
+            }
+        });
+
+        imgbtnBauch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                muskelgruppeAusgewaehlt = true;
+                ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
+                arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
+                beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);
+                bauch = true; imgbtnBauch.setBackgroundResource(R.color.blauTransparent);
+                brust = false; imgbtnBrust.setBackgroundColor(0x0041577d);
+                ruecken = false; imgbtnRuecken.setBackgroundColor(0x0041577d);
+            }
+        });
+
+        imgbtnBrust.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                muskelgruppeAusgewaehlt = true;
+                ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
+                arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
+                beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);
+                bauch = false; imgbtnBauch.setBackgroundColor(0x0041577d);
+                brust = true; imgbtnBrust.setBackgroundResource(R.color.blauTransparent);
+                ruecken = false; imgbtnRuecken.setBackgroundColor(0x0041577d);
+            }
+        });
+
+        imgbtnRuecken.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                muskelgruppeAusgewaehlt = true;
+                ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
+                arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
+                beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);
+                bauch = false; imgbtnBauch.setBackgroundColor(0x0041577d);
+                brust = false; imgbtnBrust.setBackgroundColor(0x0041577d);
+                ruecken = true; imgbtnRuecken.setBackgroundResource(R.color.blauTransparent);
+            }
+        });
+
+    }
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -303,64 +517,28 @@ public class MainClass extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public void uebungSpeichern (View v) {
-        // Deklarieren der Variablen
-        String name;
-        String muskelgruppe;
-        String beschreibung;
-
-        // Deklarieren der Textfelder
-        EditText etName = findViewById(R.id.etUebungName);
-        EditText etMuskelgruppe = findViewById(R.id.etUebungMuskelgruppe);
-        EditText etBeschreibung = findViewById(R.id.etUebungBeschreibung);
-
-        // Daten einlesen
-        if (etName.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Bitte Übungsnamen eintragen", Toast.LENGTH_SHORT).show();
-            return;
-        } // if
-        else if (etMuskelgruppe.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Bitte Muskelgruppe eintragen", Toast.LENGTH_SHORT).show();
-            return;
-        } // if
-        else if (etBeschreibung.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Bitte Beschreibung eintragen", Toast.LENGTH_SHORT).show();
-            return;
-        } // if
-        else {
-            name = etName.getText().toString();
-            muskelgruppe = etMuskelgruppe.getText().toString();
-            beschreibung = etBeschreibung.getText().toString();
-        } // else
-
-        // Übung hinzufügen
-
-        objMeineUebungen[anzahlMeineUebungen].neueUebung(name, muskelgruppe, beschreibung);
-
-        anzahlMeineUebungen++;
-
-        // Übungsübersicht anzeigen
-        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
-        fragmentTransaction.replace(R.id.bereichFragments, frMeineUebungen, "objMeineUebungen");
-        fragmentTransaction.addToBackStack(null);
-        fragmentManager.executePendingTransactions();
-        fragmentTransaction.commit();
-
-    } // Methode uebungSpeichern
-
     public static String gibMeineUebungenName(int index) {
         return objMeineUebungen[index].gibName();
+    }
+
+    public void setzeMeineUebungName(String pUebungName, int index) {
+        objMeineUebungen[index].setzeName(pUebungName);
     }
 
     public static String gibMeineUebungenMuskelgruppe (int index) {
         return objMeineUebungen[index].gibMuskelgruppe();
     }
 
+    public void setzeMeineUebungMuskelgruppe(String pUebungMuskelgruppe, int index) {
+        objMeineUebungen[index].setzeMuskelgruppe(pUebungMuskelgruppe);
+    }
+
     public static String gibMeineUebungenBeschreibung(int index) {
         return objMeineUebungen[index].gibBeschreibung();
+    }
+
+    public void setzeMeineUebungBeschreibung(String pUebungBeschreibung, int index) {
+        objMeineUebungen[index].setzeBeschreibung(pUebungBeschreibung);
     }
 
     public static int gibAnzahlMeineUebungen() {

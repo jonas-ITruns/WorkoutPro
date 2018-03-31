@@ -1,6 +1,5 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,7 +26,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerView.Adapter<SwipeRecycler
 
     @Override
     public SwipeRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fr_meine_uebungen_row, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fr_uebungen_row, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -36,6 +35,22 @@ public class SwipeRecyclerViewAdapter extends RecyclerView.Adapter<SwipeRecycler
 
         viewHolder.tvUebungName.setText(uebungName.get(i));
         viewHolder.tvUebungBeschreibung.setText(uebungBeschreibung.get(i));
+        if (uebungMuskelgruppe.get(i).equals("ganzkoerper")) {
+            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_exercises);
+        } else if (uebungMuskelgruppe.get(i).equals("arme")) {
+            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.muskelgruppe_arm);
+        } else if (uebungMuskelgruppe.get(i).equals("beine")) {
+            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_exercises);
+        } else if (uebungMuskelgruppe.get(i).equals("bauch")) {
+            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_exercises);
+        } else if (uebungMuskelgruppe.get(i).equals("brust")) {
+            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_exercises);
+        } else if (uebungMuskelgruppe.get(i).equals("ruecken")) {
+            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_exercises);
+        } else {
+            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_exercises);
+        } // if
+
     }
 
     @Override

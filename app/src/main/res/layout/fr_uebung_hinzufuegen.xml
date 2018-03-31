@@ -3,100 +3,172 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraint_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/transparent"
-    android:fitsSystemWindows="true">
+    android:id="@+id/clMittlererBereich"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="@color/hellgrau_Hintergrund"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/btnAdUebung"
-        android:layout_width="330dp"
+    <EditText
+        android:id="@+id/etUebungName"
+        android:layout_width="270dp"
         android:layout_height="50dp"
         android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="517dp"
-        android:background="@drawable/button_border"
-        android:onClick="uebungSpeichern"
-        android:text="Übung speichern"
-        android:textColor="@color/dunkelblau"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal|bottom"
+        android:hint="Übungsname"
+        android:inputType="textPersonName"
+        android:textColor="@color/dunkelgrau"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAlertUeberschrift" />
+
+    <EditText
+        android:id="@+id/etUebungBeschreibung"
+        android:layout_width="270dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center_horizontal|bottom"
+        android:hint="Beschreibung"
+        android:inputType="textPersonName"
+        android:textColor="@color/dunkelgrau"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etUebungName" />
+
+    <HorizontalScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="270dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etUebungBeschreibung">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imgbtnGanzkoerper"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_exercises"
+                android:tint="@color/dunkelgrau" />
+
+            <ImageButton
+                android:id="@+id/imgbtnArme"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/transparent"
+                android:src="@drawable/muskelgruppe_arm"
+                android:tint="@color/dunkelgrau" />
+
+            <ImageButton
+                android:id="@+id/imgbtnBeine"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_exercises"
+                android:tint="@color/dunkelgrau" />
+
+            <ImageButton
+                android:id="@+id/imgbtnBauch"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_exercises"
+                android:tint="@color/dunkelgrau" />
+
+            <ImageButton
+                android:id="@+id/imgbtnBrust"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_exercises"
+                android:tint="@color/dunkelgrau" />
+
+            <ImageButton
+                android:id="@+id/imgbtnRuecken"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_exercises"
+                android:tint="@color/dunkelgrau" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <Button
+        android:id="@+id/btnUebungSpeichern"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/grau_Hintergrund"
+        android:text="Speichern"
+        android:textColor="@color/dunkelgrau"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+
+    <Button
+        android:id="@+id/btnUebungAbbrechen"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/grau_Hintergrund"
+        android:text="abbrechen"
+        android:textColor="@color/dunkelgrau"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+
+    <TextView
+        android:id="@+id/tvAlertUeberschrift"
+        android:layout_width="270dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:text="Übung hinzufügen"
+        android:textAlignment="center"
+        android:textColor="@color/dunkelblau"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/clMittlererBereich"
+    <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
+        android:layout_height="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tvUeberschrift"
-            android:layout_width="330dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:gravity="center"
-            android:text="Übung hinzufügen"
-            android:textColor="@color/dunkelblau"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/etUebungName"
-            android:layout_width="330dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="30dp"
-            android:gravity="center_horizontal|bottom"
-            android:hint="Übungsname"
-            android:inputType="textPersonName"
-            android:textColor="@color/dunkelgrau"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvUeberschrift" />
-
-        <EditText
-            android:id="@+id/etUebungMuskelgruppe"
-            android:layout_width="330dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="30dp"
-            android:gravity="center_horizontal|bottom"
-            android:hint="Muskelgruppe"
-            android:inputType="textPersonName"
-            android:textColor="@color/dunkelgrau"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etUebungName" />
-
-        <EditText
-            android:id="@+id/etUebungBeschreibung"
-            android:layout_width="330dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="30dp"
-            android:gravity="center_horizontal|bottom"
-            android:hint="Beschreibung"
-            android:inputType="textPersonName"
-            android:textColor="@color/dunkelgrau"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etUebungMuskelgruppe" />
-
-    </android.support.constraint.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@+id/btnUebungSpeichern"
+        app:srcCompat="@color/transparent" />
 
 </android.support.constraint.ConstraintLayout>

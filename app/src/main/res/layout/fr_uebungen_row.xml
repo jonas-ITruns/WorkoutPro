@@ -26,7 +26,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/ic_exercises"
-                    android:tint="@color/dunkelblau"
+                    android:tint="@color/dunkelgrau"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -46,7 +46,7 @@
                 <TextView
                     android:id="@+id/tvUebungBeschreibung"
                     android:layout_width="250dp"
-                    android:layout_height="25dp"
+                    android:layout_height="24dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
                     android:text="Beschreibung der Übung"
@@ -61,7 +61,7 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@color/weiss" />
