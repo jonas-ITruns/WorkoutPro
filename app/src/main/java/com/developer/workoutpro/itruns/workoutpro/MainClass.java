@@ -367,23 +367,13 @@ public class MainClass extends AppCompatActivity {
         return anzahlMeineUebungen;
     }
 
-    public void uebungLoeschen(View v) {
-        int tag = Integer.parseInt(v.getTag().toString());
+    public void uebungLoeschen(int pTag) {
+        int tag = pTag;
         for (int zähler = tag + 1; zähler < anzahlMeineUebungen; zähler++) {
             objMeineUebungen[zähler - 1] = objMeineUebungen[zähler];
             objMeineUebungen[zähler] = null;
         } // for
         anzahlMeineUebungen--;
-
-        // Seite neu laden
-        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
-        fragmentTransaction.replace(R.id.bereichFragments, frMeineUebungen, "objMeineUebungen");
-        fragmentTransaction.addToBackStack(null);
-        fragmentManager.executePendingTransactions();
-        fragmentTransaction.commit();
     } // Methode uebungLoeschen
 
 
