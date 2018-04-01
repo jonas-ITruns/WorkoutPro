@@ -4,11 +4,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,7 +19,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,9 +37,6 @@ public class MainClass extends AppCompatActivity {
 
     // Attribute für onPause und onResume
     private String aktFragment = "";
-
-    // Attribute für Shared Preferences
-    private boolean gespeichert = false;
 
     // Attribute für meine Übungen
     // Übungen hinzufügen
@@ -64,6 +57,13 @@ public class MainClass extends AppCompatActivity {
     private static ObjMeineUebungen objMeineUebungen[] = new ObjMeineUebungen[maxAnzahlUebungen];
     private int anzahlJeErstellterUebungen;
     private static int anzahlMeineUebungen;
+    // Attribute für standard Übungenen
+    private DatabaseReference mRootRef;
+    private boolean synchronisierenLaeuft = false;
+    private boolean erstesSynchronisieren;
+    private static int anzahlStandardUebungen;
+    private static ObjMeineUebungen objStandardUebungen[] = new ObjMeineUebungen[maxAnzahlUebungen];
+    private int indexStandardUebung;
     // Übungen sortieren
     private String meineUebungenSortierung;
     private String standardUebungenSortierung = "datum";
@@ -172,7 +172,6 @@ public class MainClass extends AppCompatActivity {
 
 
     public void datenSpeichern() {
-        gespeichert = true;
         // Anzahl meiner Übungen speichern
         // 1. Preference erstellen --> Tag angeben
         SharedPreferences anzahlMeineUebungenPref = getSharedPreferences("anzahlMeineUebungen", 0);
@@ -183,11 +182,17 @@ public class MainClass extends AppCompatActivity {
         // 4. Bestätigen
         editorAnzahlMeineUebungen.commit();
 
-        // speichern, dass schonmal gespeichert wurde
-        SharedPreferences gespeichertPref = getSharedPreferences("gespeichert", 0);
-        SharedPreferences.Editor editorGespeichert = gespeichertPref.edit();
-        editorGespeichert.putBoolean("gespeichert", gespeichert);
-        editorGespeichert.commit();
+        // speichern, ob schonmal synchronisiert wurde
+        SharedPreferences synchronisiertPref = getSharedPreferences("synchronisiert", 0);
+        SharedPreferences.Editor editorSynchronisiert = synchronisiertPref.edit();
+        editorSynchronisiert.putBoolean("synchronisiert", erstesSynchronisieren);
+        editorSynchronisiert.commit();
+
+        // Anzahl der standard Übungen speichern
+        SharedPreferences anzahlStandardUebungenPref = getSharedPreferences("anzahlStandardUebungen", 0);
+        SharedPreferences.Editor editorAnzahlStandardUebungen = anzahlStandardUebungenPref.edit();
+        editorAnzahlStandardUebungen.putInt("anzahlStandardUebungen", anzahlStandardUebungen);
+        editorAnzahlStandardUebungen.commit();
 
         // Sortierung für meine Übungen speichern
         SharedPreferences meineUebungenSortierungPref = getSharedPreferences("meineUebungenSortierung", 0);
@@ -201,9 +206,9 @@ public class MainClass extends AppCompatActivity {
         editorAnzahlJeErstellterUebungen.putInt("anzahlJeErstellterUebungen", anzahlJeErstellterUebungen);
         editorAnzahlJeErstellterUebungen.commit();
 
-        // meine Übungen speichern
         Gson gson = new Gson();
 
+        // meine Übungen speichern
         SharedPreferences meineUebungPref [] = new SharedPreferences[anzahlMeineUebungen];
         String meineUebungPrefTag [] = new String[anzahlMeineUebungen];
         SharedPreferences.Editor meineUebungEditor [] = new SharedPreferences.Editor[anzahlMeineUebungen];
@@ -217,6 +222,22 @@ public class MainClass extends AppCompatActivity {
             meineUebungEditor[index].putString(meineUebungPrefTag[index], meineUebungJson[index]);
             meineUebungEditor[index].commit();
         } // for
+
+        // standard Übungen speichern
+        SharedPreferences standardUebungPref [] = new SharedPreferences[anzahlStandardUebungen];
+        String standardUebungPrefTag [] = new String[anzahlStandardUebungen];
+        SharedPreferences.Editor standardUebungEditor [] = new SharedPreferences.Editor[anzahlStandardUebungen];
+        String standardUebungJson [] = new String[anzahlStandardUebungen];
+
+        for (int index = 0; index < anzahlStandardUebungen; index++) {
+            standardUebungPrefTag[index] = Integer.toString(index + 10000);
+            standardUebungPref[index] = getSharedPreferences(standardUebungPrefTag[index], 0);
+            standardUebungEditor[index] = standardUebungPref[index].edit();
+            standardUebungJson[index] = gson.toJson(objStandardUebungen[index]);
+            standardUebungEditor[index].putString(standardUebungPrefTag[index], standardUebungJson[index]);
+            standardUebungEditor[index].commit();
+        } // for
+
     } // Methode datenSpeichern
 
     public void datenLaden() {
@@ -226,9 +247,13 @@ public class MainClass extends AppCompatActivity {
         // 2. Wert aus der Preference lesen --> Tag angeben
         anzahlMeineUebungen = anzahlMeineUebungenPref.getInt("anzahlMeineUebungen", 0);
 
-        // laden, ob schonmal gespeichert wurde
-        SharedPreferences gespeichertPref = getSharedPreferences("gespeichert", 0);
-        gespeichert = gespeichertPref.getBoolean("gespeichert", false);
+        // laden, ob schonmal synchronisiert wurde
+        SharedPreferences synchronisiertPref = getSharedPreferences("synchronisiert", 0);
+        erstesSynchronisieren = synchronisiertPref.getBoolean("synchronisiert", true);
+
+        // Anzahl der standard Übungen laden
+        SharedPreferences anzahlStandardUebungenPref = getSharedPreferences("anzahlStandardUebungen", 0);
+        anzahlStandardUebungen = anzahlStandardUebungenPref.getInt("anzahlStandardUebungen", 0);
 
         // Sortierung für meine Übungen laden
         SharedPreferences meineUebungenSortierungPref = getSharedPreferences("meineUebungenSortierung", 0);
@@ -238,21 +263,36 @@ public class MainClass extends AppCompatActivity {
         SharedPreferences anzahlJeErstellterUebungenRef = getSharedPreferences("anzahlJeErstellterUebungen", 0);
         anzahlJeErstellterUebungen = anzahlJeErstellterUebungenRef.getInt("anzahlJeErstellterUebungen", 0);
 
-        if (gespeichert) {
-            // meine Übungen laden
-            Gson gson = new Gson();
+        Gson gson = new Gson();
 
-            SharedPreferences uebungPref[] = new SharedPreferences[anzahlMeineUebungen];
-            String uebungPrefTag[] = new String[anzahlMeineUebungen];
-            String json[] = new String[anzahlMeineUebungen];
+        // meine Übungen laden
+        SharedPreferences meineUebungPref[] = new SharedPreferences[anzahlMeineUebungen];
+        String meineUebungPrefTag[] = new String[anzahlMeineUebungen];
+        String meineUebungJson[] = new String[anzahlMeineUebungen];
 
-            for (int index = 0; index < anzahlMeineUebungen; index++) {
-                uebungPrefTag[index] = Integer.toString(index);
-                uebungPref[index] = getSharedPreferences(uebungPrefTag[index], 0);
-                json[index] = uebungPref[index].getString(uebungPrefTag[index], null);
-                objMeineUebungen[index] = gson.fromJson(json[index], ObjMeineUebungen.class);
+        for (int index = 0; index < anzahlMeineUebungen; index++) {
+            meineUebungPrefTag[index] = Integer.toString(index);
+            meineUebungPref[index] = getSharedPreferences(meineUebungPrefTag[index], 0);
+            meineUebungJson[index] = meineUebungPref[index].getString(meineUebungPrefTag[index], null);
+            objMeineUebungen[index] = gson.fromJson(meineUebungJson[index], ObjMeineUebungen.class);
+        } // for
+
+        // standard Übungen laden
+        if (erstesSynchronisieren) {
+            standardUebungenSynchronisieren();
+        } // then
+        else {
+            SharedPreferences standardUebungPref[] = new SharedPreferences[anzahlStandardUebungen];
+            String standardUebungPrefTag[] = new String[anzahlStandardUebungen];
+            String standardUebungJson[] = new String[anzahlStandardUebungen];
+
+            for (int index = 0; index < anzahlStandardUebungen; index++) {
+                standardUebungPrefTag[index] = Integer.toString(index + 10000);
+                standardUebungPref[index] = getSharedPreferences(standardUebungPrefTag[index], 0);
+                standardUebungJson[index] = standardUebungPref[index].getString(standardUebungPrefTag[index], null);
+                objStandardUebungen[index] = gson.fromJson(standardUebungJson[index], ObjMeineUebungen.class);
             } // for
-        } // if
+        } // else
     } // Methode datenLaden
 
 
@@ -602,12 +642,123 @@ public class MainClass extends AppCompatActivity {
     }
 
 
+    // standard Übungen verwalten
+
+
+    public void standardUebungenSynchronisieren() {
+        // Datenbank
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        // Datenbank deklarieren
+        mRootRef = database.getReference();
+
+        // Anzahl holen
+        DatabaseReference mAnzahlStandardUebungenRef = mRootRef.child("Standard Übungen");
+        mAnzahlStandardUebungenRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                anzahlStandardUebungen = (int) dataSnapshot.getChildrenCount();
+                indexStandardUebung = 0;
+                uebungdetailsHolen();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void standardUebungenSynchronisieren(View v) {
+        if (! synchronisierenLaeuft) {
+            synchronisierenLaeuft = true;
+            standardUebungenSynchronisieren();
+        } // if
+    }
+
+    public void uebungdetailsHolen() {
+        // Namen, Muskelgruppe, Beschreibung holen
+        DatabaseReference mUebungRef = mRootRef.child("Standard Übungen").child(Integer.toString(indexStandardUebung + 1));
+        mUebungRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                objStandardUebungen[indexStandardUebung] = new ObjMeineUebungen();
+                String name = dataSnapshot.child("Name").getValue(String.class);
+                String muskelgruppe = dataSnapshot.child("Muskelgruppe").getValue(String.class);
+                String beschreibung = dataSnapshot.child("Beschreibung").getValue(String.class);
+                objStandardUebungen[indexStandardUebung].neueUebung(indexStandardUebung, name, muskelgruppe, beschreibung);
+
+                indexStandardUebung++;
+
+                // Immer wieder aufrufen, sobald der Wert geholt wurde, sonst Liste erstellen
+                if (indexStandardUebung != anzahlStandardUebungen) {
+                    uebungdetailsHolen();
+                } // if
+                else {
+                    if (! erstesSynchronisieren) {
+                        standardUebungenOeffnen();
+                        synchronisierenLaeuft = false;
+                    } // then
+                    else {
+                        erstesSynchronisieren = false;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    } // Methode uebungHolen
+
+
+    // Gib- und Setze-Methode für MeineUebungen
+
+
+    public static int gibStandardUebungenNummer(int index) {
+        return objStandardUebungen[index].gibUebungNummer();
+    }
+
+    public void setzeStandardUebungNummer(int pNummer, int index) {
+        objStandardUebungen[index].setzeNummer(pNummer);
+    }
+
+    public static String gibStandardUebungenName(int index) {
+        return objStandardUebungen[index].gibName();
+    }
+
+    public void setzeStandardUebungName(String pUebungName, int index) {
+        objStandardUebungen[index].setzeName(pUebungName);
+    }
+
+    public static String gibStandardUebungenMuskelgruppe (int index) {
+        return objStandardUebungen[index].gibMuskelgruppe();
+    }
+
+    public void setzeStandardUebungMuskelgruppe(String pUebungMuskelgruppe, int index) {
+        objStandardUebungen[index].setzeMuskelgruppe(pUebungMuskelgruppe);
+    }
+
+    public static String gibStandardUebungenBeschreibung(int index) {
+        return objStandardUebungen[index].gibBeschreibung();
+    }
+
+    public void setzeStandardUebungBeschreibung(String pUebungBeschreibung, int index) {
+        objStandardUebungen[index].setzeBeschreibung(pUebungBeschreibung);
+    }
+
+    public static int gibAnzahlStandardUebungen() {
+        return anzahlStandardUebungen;
+    }
+
+
     // Sortierungen
 
 
     public void meineUebungenSortieren(View v) {
         PopupMenu popupMenu = new PopupMenu(MainClass.this, v);
-        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu_meine_sortierung, popupMenu.getMenu());
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -635,12 +786,12 @@ public class MainClass extends AppCompatActivity {
 
     public void standardUebungenSortieren(View v) {
         PopupMenu popupMenu = new PopupMenu(MainClass.this, v);
-        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu_standard_sortierung, popupMenu.getMenu());
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getTitle().equals("Datum")) {
+                if (item.getTitle().equals("Standard")) {
                     standardUebungenSortierung = "datum";
                     standardUebungenOeffnen();
                 } else if (item.getTitle().equals("Name")) {

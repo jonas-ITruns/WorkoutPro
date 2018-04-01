@@ -22,27 +22,19 @@ import java.util.Comparator;
 
 public class FrStandardUebungen extends Fragment {
 
-    DatabaseReference mRootRef;
     View frView;
-    ProgressBar progressBar;
     LayoutInflater pInflater;
     ViewGroup pContainer;
     private int anzahlStandardUebungen;
-    private int index = 0;
     private ArrayList<String> mUebung = new ArrayList<>();
     private String [] mUebungArray1;
     private String [] mUebungArray2;
+    private String [] mUebungArray3;
     private String sortierung;
-    private int indexSortierung = 0;
+    private ArrayList<String> mNummer = new ArrayList<>();
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<String> mMuskelgruppe = new ArrayList<>();
     private ArrayList<String> mBeschreibung = new ArrayList<>();
-    private ArrayList<String> mNameSortDatum = new ArrayList<>();
-    private ArrayList<String> mMuskelgruppeSortDatum = new ArrayList<>();
-    private ArrayList<String> mBeschreibungSortDatum = new ArrayList<>();
-    private ArrayList<String> mNameSortAlphabet = new ArrayList<>();
-    private ArrayList<String> mMuskelgruppeSortAlphabet = new ArrayList<>();
-    private ArrayList<String> mBeschreibungSortAlphabet = new ArrayList<>();
     private SwipeRecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
 
@@ -53,171 +45,132 @@ public class FrStandardUebungen extends Fragment {
         pContainer = container;
         frView = inflater.inflate(R.layout.fr_standard_uebungen, container, false);
 
-        progressBar = frView.findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.VISIBLE);
+        anzahlStandardUebungen = MainClass.gibAnzahlStandardUebungen();
 
-        uebungenHolen();
+        sortieren();
 
         return frView;
     }
-
-    private void uebungenHolen() {
-        // Anzahl, Name, Muskelgruppe und Beschreibung der Übungen aus der Datenbank holen
-
-        // Datenbank
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-        // Datenbank deklarieren
-        mRootRef = database.getReference();
-
-        // Anzahl holen
-        DatabaseReference mAnzahlStandardUebungenRef = mRootRef.child("Standard Übungen");
-        mAnzahlStandardUebungenRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                anzahlStandardUebungen = (int) dataSnapshot.getChildrenCount();
-
-                uebungdetailsHolen();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-
-    public void uebungdetailsHolen() {
-        // Namen, Muskelgruppe, Beschreibung holen
-        DatabaseReference mUebungRef = mRootRef.child("Standard Übungen").child(Integer.toString(index + 1));
-        mUebungRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mNameSortDatum.add(dataSnapshot.child("Name").getValue(String.class));
-                mMuskelgruppeSortDatum.add(dataSnapshot.child("Muskelgruppe").getValue(String.class));
-                mBeschreibungSortDatum.add(dataSnapshot.child("Beschreibung").getValue(String.class));
-                index++;
-
-                // Immer wieder aufrufen, sobald der Wert geholt wurde, sonst Liste erstellen
-                if (index != anzahlStandardUebungen) {
-                    uebungdetailsHolen();
-                } // if
-                else {
-                    sortieren();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    } // Methode uebungHolen
 
     private void sortieren() {
         MainClass mainClass = (MainClass) getActivity();
         sortierung = mainClass.gibStandardUebungenSortierung();
         if (sortierung.equals("datum")) {
-            mName = mNameSortDatum;
-            mMuskelgruppe = mMuskelgruppeSortDatum;
-            mBeschreibung = mBeschreibungSortDatum;
-            initViews();
+            datumSortieren();
         } else if (sortierung.equals("name")) {
             nameSortieren();
         } else if (sortierung.equals("muskelgruppe")) {
             muskelgruppeSortieren();
         } // if
+        initViews();
     } // Methode sortieren
 
+    private void datumSortieren() {
+        for (int index = 0; index < anzahlStandardUebungen; index++) {
+            mUebung.add(Integer.toString(MainClass.gibStandardUebungenNummer(index)) + "~" + MainClass.gibStandardUebungenName(index) + "<" + MainClass.gibStandardUebungenMuskelgruppe(index) + ">" + MainClass.gibStandardUebungenBeschreibung(index));
+        } // for
+
+        Collections.sort(mUebung, new AlphanumComparator());
+
+        mUebungArray1 = new String[2];
+        mUebungArray2 = new String[2];
+        mUebungArray3 = new String[2];
+
+        mName = new ArrayList<>();
+        mMuskelgruppe = new ArrayList<>();
+        mBeschreibung = new ArrayList<>();
+
+        MainClass mainClass = (MainClass) getActivity();
+
+        for (int index = 0; index < anzahlStandardUebungen; index++) {
+            mUebungArray1 = mUebung.get(index).split("~");
+            mNummer.add(mUebungArray1[0]);
+            mUebungArray2 = mUebungArray1[1].split("<");
+            mName.add(mUebungArray2[0]);
+            mUebungArray3 = mUebungArray2[1].split(">");
+            mMuskelgruppe.add(mUebungArray3[0]);
+            mBeschreibung.add(mUebungArray3[1]);
+
+            // Meine Übungen neu sortieren
+
+            mainClass.setzeStandardUebungNummer(Integer.parseInt(mNummer.get(index)), index);
+            mainClass.setzeStandardUebungName(mName.get(index), index);
+            mainClass.setzeStandardUebungMuskelgruppe(mMuskelgruppe.get(index), index);
+            mainClass.setzeStandardUebungBeschreibung(mBeschreibung.get(index), index);
+
+        } // for
+    } // Methode datumSortieren
+
     private void nameSortieren() {
-        DatabaseReference mUebungRef = mRootRef.child("Standard Übungen").child(Integer.toString(indexSortierung + 1));
-        mUebungRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mUebung.add(dataSnapshot.child("Name").getValue() + "<" + dataSnapshot.child("Muskelgruppe").getValue() + ">" + dataSnapshot.child("Beschreibung").getValue());
-                indexSortierung++;
-                // Immer wieder aufrufen, sobald der Wert geholt wurde, sonst sortieren
-                if (indexSortierung != anzahlStandardUebungen) {
-                    nameSortieren();
-                } // if
-                else {
-                    Collections.sort(mUebung, new Comparator<String>() {
-                        @Override
-                        public int compare(String s1, String s2) {
-                            return s1.compareToIgnoreCase(s2);
-                        }
-                    });
+        for (int index = 0; index < anzahlStandardUebungen; index++) {
+            mUebung.add(MainClass.gibStandardUebungenName(index) + "~" + MainClass.gibStandardUebungenMuskelgruppe(index) + "<" + Integer.toString(MainClass.gibStandardUebungenNummer(index)) + ">" + MainClass.gibStandardUebungenBeschreibung(index));
+        } // for
 
-                    mUebungArray1 = new String[2];
-                    mUebungArray2 = new String[2];
+        Collections.sort(mUebung, new AlphanumComparator());
 
-                    for (int index = 0; index < anzahlStandardUebungen; index++) {
-                        mUebungArray1 = mUebung.get(index).split("<");
-                        mNameSortAlphabet.add(mUebungArray1[0]);
-                        mUebungArray2 = mUebungArray1[1].split(">");
-                        mMuskelgruppeSortAlphabet.add(mUebungArray2[0]);
-                        mBeschreibungSortAlphabet.add(mUebungArray2[1]);
-                    } // for
+        mUebungArray1 = new String[2];
+        mUebungArray2 = new String[2];
+        mUebungArray3 = new String[2];
 
-                    mName = mNameSortAlphabet;
-                    mMuskelgruppe = mMuskelgruppeSortAlphabet;
-                    mBeschreibung = mBeschreibungSortAlphabet;
+        mName = new ArrayList<>();
+        mMuskelgruppe = new ArrayList<>();
+        mBeschreibung = new ArrayList<>();
 
-                    initViews();
-                } // if
-            }
+        MainClass mainClass = (MainClass) getActivity();
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+        for (int index = 0; index < anzahlStandardUebungen; index++) {
+            mUebungArray1 = mUebung.get(index).split("~");
+            mName.add(mUebungArray1[0]);
+            mUebungArray2 = mUebungArray1[1].split("<");
+            mMuskelgruppe.add(mUebungArray2[0]);
+            mUebungArray3 = mUebungArray2[1].split(">");
+            mNummer.add(mUebungArray3[0]);
+            mBeschreibung.add(mUebungArray3[1]);
 
-            }
-        });
+            // Meine Übungen neu sortieren
+
+            mainClass.setzeStandardUebungNummer(Integer.parseInt(mNummer.get(index)), index);
+            mainClass.setzeStandardUebungName(mName.get(index), index);
+            mainClass.setzeStandardUebungMuskelgruppe(mMuskelgruppe.get(index), index);
+            mainClass.setzeStandardUebungBeschreibung(mBeschreibung.get(index), index);
+
+        } // for
     } // Methode nameSortieren
 
     private void muskelgruppeSortieren() {
-        DatabaseReference mUebungRef = mRootRef.child("Standard Übungen").child(Integer.toString(indexSortierung + 1));
-        mUebungRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mUebung.add(dataSnapshot.child("Muskelgruppe").getValue() + "<" + dataSnapshot.child("Name").getValue() + ">" + dataSnapshot.child("Beschreibung").getValue());
-                indexSortierung++;
-                // Immer wieder aufrufen, sobald der Wert geholt wurde, sonst sortieren
-                if (indexSortierung != anzahlStandardUebungen) {
-                    muskelgruppeSortieren();
-                } // if
-                else {
-                    Collections.sort(mUebung, new Comparator<String>() {
-                        @Override
-                        public int compare(String s1, String s2) {
-                            return s1.compareToIgnoreCase(s2);
-                        }
-                    });
+        for (int index = 0; index < anzahlStandardUebungen; index++) {
+            mUebung.add(MainClass.gibStandardUebungenMuskelgruppe(index) + "~" + MainClass.gibStandardUebungenName(index) + "<" + Integer.toString(MainClass.gibStandardUebungenNummer(index)) + ">" + MainClass.gibStandardUebungenBeschreibung(index));
+        } // for
 
-                    mUebungArray1 = new String[2];
-                    mUebungArray2 = new String[2];
+        Collections.sort(mUebung, new AlphanumComparator());
 
-                    for (int index = 0; index < anzahlStandardUebungen; index++) {
-                        mUebungArray1 = mUebung.get(index).split("<");
-                        mMuskelgruppeSortAlphabet.add(mUebungArray1[0]);
-                        mUebungArray2 = mUebungArray1[1].split(">");
-                        mNameSortAlphabet.add(mUebungArray2[0]);
-                        mBeschreibungSortAlphabet.add(mUebungArray2[1]);
-                    } // for
+        mUebungArray1 = new String[2];
+        mUebungArray2 = new String[2];
+        mUebungArray3 = new String[2];
 
-                    mName = mNameSortAlphabet;
-                    mMuskelgruppe = mMuskelgruppeSortAlphabet;
-                    mBeschreibung = mBeschreibungSortAlphabet;
+        mName = new ArrayList<>();
+        mMuskelgruppe = new ArrayList<>();
+        mBeschreibung = new ArrayList<>();
 
-                    initViews();
-                } // if
-            }
+        MainClass mainClass = (MainClass) getActivity();
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+        for (int index = 0; index < anzahlStandardUebungen; index++) {
+            mUebungArray1 = mUebung.get(index).split("~");
+            mMuskelgruppe.add(mUebungArray1[0]);
+            mUebungArray2 = mUebungArray1[1].split("<");
+            mName.add(mUebungArray2[0]);
+            mUebungArray3 = mUebungArray2[1].split(">");
+            mNummer.add(mUebungArray3[0]);
+            mBeschreibung.add(mUebungArray3[1]);
 
-            }
-        });
+            // Meine Übungen neu sortieren
+
+            mainClass.setzeStandardUebungNummer(Integer.parseInt(mNummer.get(index)), index);
+            mainClass.setzeStandardUebungName(mName.get(index), index);
+            mainClass.setzeStandardUebungMuskelgruppe(mMuskelgruppe.get(index), index);
+            mainClass.setzeStandardUebungBeschreibung(mBeschreibung.get(index), index);
+
+        } // for
     } // Methode muskelgruppeSortieren
 
     private void initViews(){
@@ -227,7 +180,6 @@ public class FrStandardUebungen extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new SwipeRecyclerViewAdapter(getActivity(), mName, mMuskelgruppe, mBeschreibung);
         recyclerView.setAdapter(adapter);
-        progressBar.setVisibility(View.INVISIBLE);
     }
 
 }

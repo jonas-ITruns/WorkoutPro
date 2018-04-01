@@ -22,8 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginEnd="115dp"
-            android:layout_marginStart="115dp"
+            android:layout_marginStart="60dp"
             android:layout_marginTop="5dp"
             android:gravity="center_vertical|center_horizontal"
             android:text="Standard Übungen"
@@ -31,7 +30,6 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,6 +47,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_sort_black_24dp" />
+
+        <ImageButton
+            android:id="@+id/imgbtnSynchronisieren"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"
+            android:onClick="standardUebungenSynchronisieren"
+            android:tint="@color/dunkelblau"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imgbtnSortieren"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/ic_sync_black_24dp" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -79,22 +92,6 @@
                 app:layout_constraintTop_toTopOf="parent">
 
             </android.support.v7.widget.RecyclerView>
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="155dp"
-                android:layout_marginStart="155dp"
-                android:layout_marginTop="220dp"
-                android:indeterminateBehavior="repeat"
-                android:indeterminateTint="@color/dunkelblau"
-                android:progressTint="@color/dunkelgrau"
-                app:layout_anchor="@+id/recycler_view"
-                app:layout_anchorGravity="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/recycler_view" />
 
         </android.support.constraint.ConstraintLayout>
 
