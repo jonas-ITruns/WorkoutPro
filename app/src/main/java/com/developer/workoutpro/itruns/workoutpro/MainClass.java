@@ -35,21 +35,16 @@ public class MainClass extends AppCompatActivity {
     // Attribute für onPause und onResume
     private String aktFragment = "";
 
-    // Attribute speichern
+    // Attribute für Shared Preferences
     private boolean gespeichert = false;
 
-    // Attribute für meine Übungen
+    // Attribute für Übungen
     // Übungen hinzufügen
+    // Fenster, das geöffnet wird
     private AlertDialog alert;
-    private AlertDialog.Builder builder;
     private EditText etName;
     private EditText etBeschreibung;
-    private ImageButton imgbtnGanzkoerper;
-    private ImageButton imgbtnArme;
-    private ImageButton imgbtnBeine;
-    private ImageButton imgbtnBauch;
-    private ImageButton imgbtnBrust;
-    private ImageButton imgbtnRuecken;
+    // Muskelgrupppe, die ausgewählt ist
     private boolean muskelgruppeAusgewaehlt = false;
     private boolean ganzkoerper;
     private boolean arme;
@@ -57,6 +52,7 @@ public class MainClass extends AppCompatActivity {
     private boolean bauch;
     private boolean brust;
     private boolean ruecken;
+    // Objekt von der hinzugefügten Übung erstellen
     private static int maxAnzahlUebungen = 1000;
     private static ObjMeineUebungen objMeineUebungen[] = new ObjMeineUebungen[maxAnzahlUebungen];
     private int anzahlJeErstellterUebungen;
@@ -73,7 +69,7 @@ public class MainClass extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_main);
 
-        meineUebungenLaden();
+        datenLaden();
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -89,6 +85,7 @@ public class MainClass extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        // Fragment merken
         Fragment myFragment;
         myFragment = getFragmentManager().findFragmentByTag("uebersicht");
         if (myFragment != null && myFragment.isVisible()) {
@@ -98,9 +95,9 @@ public class MainClass extends AppCompatActivity {
         if (myFragment != null && myFragment.isVisible()) {
             aktFragment = "standardUebungen";
         } // if
-        myFragment = getFragmentManager().findFragmentByTag("objMeineUebungen");
+        myFragment = getFragmentManager().findFragmentByTag("meineUebungen");
         if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "objMeineUebungen";
+            aktFragment = "meineUebungen";
         } // if
         myFragment = getFragmentManager().findFragmentByTag("premium");
         if (myFragment != null && myFragment.isVisible()) {
@@ -114,18 +111,20 @@ public class MainClass extends AppCompatActivity {
         if (myFragment != null && myFragment.isVisible()) {
             aktFragment = "einstellungen";
         } // if
+
+        // Fragment löschen
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
         if (supportedOpen) {
             getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
         } // if
 
-
-        meineUebungenSpeichern();
+        datenSpeichern();
     } // Methode onPause
 
     @Override
     protected void onResume() {
         super.onResume();
+        // Fragment laden
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (aktFragment.equals ("uebersicht")) {
@@ -136,9 +135,9 @@ public class MainClass extends AppCompatActivity {
             FrStandardUebungen frStandardUebungen = new FrStandardUebungen();
             fragmentTransaction.add(R.id.bereichFragments, frStandardUebungen, "standardUebungen");
         } // if
-        else if (aktFragment.equals ("objMeineUebungen")) {
+        else if (aktFragment.equals ("meineUebungen")) {
             FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
-            fragmentTransaction.add(R.id.bereichFragments, frMeineUebungen, "objMeineUebungen");
+            fragmentTransaction.add(R.id.bereichFragments, frMeineUebungen, "meineUebungen");
         } // if
         else if (aktFragment.equals ("premium")) {
             FrPremium frPremium = new FrPremium();
@@ -162,10 +161,10 @@ public class MainClass extends AppCompatActivity {
     } // Methode onBackPressed
 
 
-    // meine Übungen speichern
+    // Shared Preferences
 
 
-    public void meineUebungenSpeichern() {
+    public void datenSpeichern() {
         gespeichert = true;
         // Anzahl meiner Übungen speichern
         // 1. Preference erstellen --> Tag angeben
@@ -208,13 +207,9 @@ public class MainClass extends AppCompatActivity {
             editor[index].putString(uebungPrefTag[index], json[index]);
             editor[index].commit();
         } // for
-    } // Methode meineÜbungenSpeichern
+    } // Methode datenSpeichern
 
-
-    // meine Übungen laden
-
-
-    public void meineUebungenLaden() {
+    public void datenLaden() {
         // Objekt bilden
         for (int index = 0; index < maxAnzahlUebungen; index++) {
             objMeineUebungen[index] = new ObjMeineUebungen();
@@ -250,7 +245,7 @@ public class MainClass extends AppCompatActivity {
                 objMeineUebungen[index] = gson.fromJson(json[index], ObjMeineUebungen.class);
             } // for
         } // if
-    } // Methode meineUebungenLaden
+    } // Methode datenLaden
 
 
     // Menüleiste
@@ -311,7 +306,8 @@ public class MainClass extends AppCompatActivity {
                         fragmentManager.executePendingTransactions();
                         fragmentTransaction.commit();
 
-                        return true;
+                        // return true um das Item zu markieren
+                        return false;
                     }
                 });
 
@@ -335,7 +331,7 @@ public class MainClass extends AppCompatActivity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FrStandardUebungen frStandardUebungen = new FrStandardUebungen();
-        fragmentTransaction.replace(R.id.bereichFragments, frStandardUebungen, "StandardUebungen");
+        fragmentTransaction.replace(R.id.bereichFragments, frStandardUebungen, "standardUebungen");
         fragmentTransaction.addToBackStack(null);
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
@@ -346,14 +342,15 @@ public class MainClass extends AppCompatActivity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
-        fragmentTransaction.replace(R.id.bereichFragments, frMeineUebungen, "MeineUebungen");
+        fragmentTransaction.replace(R.id.bereichFragments, frMeineUebungen, "meineUebungen");
         fragmentTransaction.addToBackStack(null);
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
     }
 
     public void uebungHinzufuegen (View v) {
-        builder = new AlertDialog.Builder(this);
+        // Hinzufügen-Fenster öffnen
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(R.layout.fr_uebung_hinzufuegen);
         builder.setCancelable(true);
         alert = builder.create();
@@ -365,13 +362,8 @@ public class MainClass extends AppCompatActivity {
 
         etName = alert.findViewById(R.id.etUebungName);
         etBeschreibung = alert.findViewById(R.id.etUebungBeschreibung);
-        imgbtnGanzkoerper = alert.findViewById(R.id.imgbtnGanzkoerper);
-        imgbtnArme = alert.findViewById(R.id.imgbtnArme);
-        imgbtnBeine = alert.findViewById(R.id.imgbtnBeine);
-        imgbtnBauch = alert.findViewById(R.id.imgbtnBauch);
-        imgbtnBrust = alert.findViewById(R.id.imgbtnBrust);
-        imgbtnRuecken = alert.findViewById(R.id.imgbtnRuecken);
 
+        // Tastatur automatisch öffnen
         etName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -386,19 +378,20 @@ public class MainClass extends AppCompatActivity {
         });
         etName.requestFocus();
 
+        // Muskelgruppen-Buttons initialisieren
         muskelgruppeInitialisieren();
 
+        // Übung hinzufügen speichern
         Button btnUebungSpeichern = alert.findViewById(R.id.btnUebungSpeichern);
         btnUebungSpeichern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Daten einlesen
                 // Deklarieren der Variablen
                 String name;
                 String muskelgruppe;
                 String beschreibung;
 
-                // Daten einlesen
+                // Daten einlesen und sonst Nachricht ausgeben, dass etwas fehlt
                 if (etName.getText().toString().isEmpty()) {
                     Toast.makeText(MainClass.this, "Bitte Übungsnamen eintragen", Toast.LENGTH_SHORT).show();
                     return;
@@ -436,7 +429,6 @@ public class MainClass extends AppCompatActivity {
                     beschreibung = etBeschreibung.getText().toString();
 
                     // Übung hinzufügen
-
                     objMeineUebungen[anzahlMeineUebungen] = new ObjMeineUebungen();
                     objMeineUebungen[anzahlMeineUebungen].neueUebung(anzahlJeErstellterUebungen, name, muskelgruppe, beschreibung);
 
@@ -451,6 +443,8 @@ public class MainClass extends AppCompatActivity {
                 } // else
             }
         });
+
+        // Übung hinzufügen abbrechen
         Button btnUebungAbbrechen = alert.findViewById(R.id.btnUebungAbbrechen);
         btnUebungAbbrechen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -463,7 +457,18 @@ public class MainClass extends AppCompatActivity {
     } // Methode uebungHinzufuegen
 
     public void muskelgruppeInitialisieren() {
+        // Image Buttons deklarieren
+        final ImageButton imgbtnGanzkoerper = alert.findViewById(R.id.imgbtnGanzkoerper);
+        final ImageButton imgbtnArme = alert.findViewById(R.id.imgbtnArme);
+        final ImageButton imgbtnBeine = alert.findViewById(R.id.imgbtnBeine);
+        final ImageButton imgbtnBauch = alert.findViewById(R.id.imgbtnBauch);
+        final ImageButton imgbtnBrust = alert.findViewById(R.id.imgbtnBrust);
+        final ImageButton imgbtnRuecken = alert.findViewById(R.id.imgbtnRuecken);
+
+        // Immer nur eine Muskelgruppe auswählen, Rest wieder entfernen
+
         muskelgruppeAusgewaehlt = true;
+
         imgbtnGanzkoerper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -539,11 +544,24 @@ public class MainClass extends AppCompatActivity {
 
     }
 
+    public void uebungLoeschen(int pTag) {
+        int tag = pTag;
+        for (int zähler = tag + 1; zähler < anzahlMeineUebungen; zähler++) {
+            objMeineUebungen[zähler - 1] = objMeineUebungen[zähler];
+            objMeineUebungen[zähler] = null;
+        } // for
+        anzahlMeineUebungen--;
+    } // Methode uebungLoeschen
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+
+    // Gib- und Setze-Methode für MeineUebungen
+
 
     public static int gibMeineUebungenNummer(int index) {
         return objMeineUebungen[index].gibUebungNummer();
@@ -581,14 +599,9 @@ public class MainClass extends AppCompatActivity {
         return anzahlMeineUebungen;
     }
 
-    public void uebungLoeschen(int pTag) {
-        int tag = pTag;
-        for (int zähler = tag + 1; zähler < anzahlMeineUebungen; zähler++) {
-            objMeineUebungen[zähler - 1] = objMeineUebungen[zähler];
-            objMeineUebungen[zähler] = null;
-        } // for
-        anzahlMeineUebungen--;
-    } // Methode uebungLoeschen
+
+    // Sortierungen
+
 
     public void meineUebungenSortieren(View v) {
         int tag = Integer.parseInt(v.getTag().toString());
