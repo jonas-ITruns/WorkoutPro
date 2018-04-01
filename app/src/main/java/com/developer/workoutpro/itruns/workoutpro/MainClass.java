@@ -15,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -272,10 +274,7 @@ public class MainClass extends AppCompatActivity {
         } // for
 
         // standard Übungen laden
-        if (erstesSynchronisieren) {
-            standardUebungenSynchronisieren();
-        } // then
-        else {
+        if (! erstesSynchronisieren) {
             SharedPreferences standardUebungPref[] = new SharedPreferences[anzahlStandardUebungen];
             String standardUebungPrefTag[] = new String[anzahlStandardUebungen];
             String standardUebungJson[] = new String[anzahlStandardUebungen];
@@ -286,15 +285,15 @@ public class MainClass extends AppCompatActivity {
                 standardUebungJson[index] = standardUebungPref[index].getString(standardUebungPrefTag[index], null);
                 objStandardUebungen[index] = gson.fromJson(standardUebungJson[index], ObjMeineUebungen.class);
             } // for
+        } // if
 
-            // Seite laden
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            FrUebersicht frUebersicht = new FrUebersicht();
-            fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
-            fragmentManager.executePendingTransactions();
-            fragmentTransaction.commit();
-        } // else
+        // Seite laden
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FrUebersicht frUebersicht = new FrUebersicht();
+        fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
+        fragmentManager.executePendingTransactions();
+        fragmentTransaction.commit();
     } // Methode datenLaden
 
 
@@ -329,8 +328,14 @@ public class MainClass extends AppCompatActivity {
                                 fragmentTransaction.replace(R.id.bereichFragments, frUebersicht, "uebersicht");
                                 break;
                             case R.id.standardUebungen:
-                                FrStandardUebungen frStandardUebungen = new FrStandardUebungen();
-                                fragmentTransaction.replace(R.id.bereichFragments, frStandardUebungen, "standardUebungen");
+                                if (erstesSynchronisieren) {
+                                    standardUebungenSynchronisieren();
+                                    return false;
+                                } // then
+                                else {
+                                    FrStandardUebungen frStandardUebungen = new FrStandardUebungen();
+                                    fragmentTransaction.replace(R.id.bereichFragments, frStandardUebungen, "standardUebungen");
+                                } // else
                                 break;
                             case R.id.meineUebungen:
                                 FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
@@ -648,6 +653,16 @@ public class MainClass extends AppCompatActivity {
 
 
     public void standardUebungenSynchronisieren() {
+        if (erstesSynchronisieren) {
+            standardUebungenOeffnen();
+        } // then
+        else {
+            Animation rotate_synchronize;
+            rotate_synchronize = AnimationUtils.loadAnimation(this.getApplicationContext(), R.anim.rotate_synchronize);
+            ImageButton imgbtnSynchronisieren = findViewById(R.id.imgbtnSynchronisieren);
+            imgbtnSynchronisieren.startAnimation(rotate_synchronize);
+        } // else
+
         // Datenbank
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -703,12 +718,7 @@ public class MainClass extends AppCompatActivity {
                     } // then
                     else {
                         erstesSynchronisieren = false;
-                        FragmentManager fragmentManager = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        FrUebersicht frUebersicht = new FrUebersicht();
-                        fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
-                        fragmentManager.executePendingTransactions();
-                        fragmentTransaction.commit();
+                        standardUebungenOeffnen();
                     }
                 }
             }
@@ -723,6 +733,10 @@ public class MainClass extends AppCompatActivity {
 
     // Gib- und Setze-Methode für MeineUebungen
 
+
+    public boolean gibSynchronisation() {
+        return erstesSynchronisieren;
+    }
 
     public static int gibStandardUebungenNummer(int index) {
         return objStandardUebungen[index].gibUebungNummer();

@@ -8,6 +8,20 @@
     android:fitsSystemWindows="false"
     tools:context="com.developer.workoutpro.itruns.workoutpro.MainClass">
 
+    <ProgressBar
+        android:id="@+id/progressBarStandardUebungen"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="155dp"
+        android:layout_marginStart="155dp"
+        android:layout_marginTop="250dp"
+        android:indeterminateBehavior="repeat"
+        android:indeterminateTint="@color/dunkelblau"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/clHeader"
         android:layout_width="match_parent"
