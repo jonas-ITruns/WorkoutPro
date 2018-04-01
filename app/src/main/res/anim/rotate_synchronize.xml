@@ -3,9 +3,9 @@
     android:fillAfter="true">
 
     <rotate
-        android:duration="4000"
+        android:duration="10000"
         android:fromDegrees="0"
-        android:toDegrees="-1080"
+        android:toDegrees="-2700"
         android:interpolator="@android:anim/linear_interpolator"
         android:pivotX="50%"
         android:pivotY="50%"/>
