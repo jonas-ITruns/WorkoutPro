@@ -87,6 +87,7 @@ public class FrStandardUebungen extends Fragment {
         });
     }
 
+
     public void uebungdetailsHolen() {
         // Namen, Muskelgruppe, Beschreibung holen
         DatabaseReference mUebungRef = mRootRef.child("Standard Übungen").child(Integer.toString(index + 1));

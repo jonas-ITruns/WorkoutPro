@@ -641,6 +641,7 @@ public class MainClass extends AppCompatActivity {
     // Workout Hinzufügen
 
 
+
     public void workoutHinzufuegenOeffnen(View v) {
         supportedOpen = true;
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();

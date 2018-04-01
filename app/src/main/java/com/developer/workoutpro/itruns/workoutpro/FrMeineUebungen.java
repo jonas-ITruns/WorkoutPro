@@ -60,6 +60,7 @@ public class FrMeineUebungen extends Fragment {
     private int edit_position;
     private Paint p = new Paint();
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
