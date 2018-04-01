@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -36,7 +37,9 @@ public class FrMeineUebungen extends Fragment {
     private ArrayList<String> mUebung = new ArrayList<>();
     private String [] mUebungArray1;
     private String [] mUebungArray2;
+    private String [] mUebungArray3;
     private String sortierung;
+    private ArrayList<String> mNummer = new ArrayList<>();
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<String> mMuskelgruppe= new ArrayList<>();
     private ArrayList<String> mBeschreibung = new ArrayList<>();
@@ -95,66 +98,120 @@ public class FrMeineUebungen extends Fragment {
     private void sortieren() {
         MainClass mainClass = (MainClass) getActivity();
         sortierung = mainClass.gibMeineUebungenSortierung();
-        if (sortierung.equals("name")) {
+        if (sortierung.equals("datum")) {
+            datumSortieren();
+        } else if (sortierung.equals("name")) {
             nameSortieren();
         } else if (sortierung.equals("muskelgruppe")) {
             muskelgruppeSortieren();
         } // if
     }
 
-    private void nameSortieren() {
+    private void datumSortieren() {
         for (int index = 0; index < anzahlMeineUebungen; index++) {
-            mUebung.add(MainClass.gibMeineUebungenName(index) + "<" + MainClass.gibMeineUebungenMuskelgruppe(index) + ">" + MainClass.gibMeineUebungenBeschreibung(index));
+            mUebung.add(Integer.toString(MainClass.gibMeineUebungenNummer(index)) + "~" + MainClass.gibMeineUebungenName(index) + "<" + MainClass.gibMeineUebungenMuskelgruppe(index) + ">" + MainClass.gibMeineUebungenBeschreibung(index));
         } // for
 
-        Collections.sort(mUebung, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                return s1.compareToIgnoreCase(s2);
-            }
-        });
+        Collections.sort(mUebung, new AlphanumComparator());
 
         mUebungArray1 = new String[2];
         mUebungArray2 = new String[2];
+        mUebungArray3 = new String[2];
 
         mName = new ArrayList<>();
         mMuskelgruppe = new ArrayList<>();
         mBeschreibung = new ArrayList<>();
 
+        MainClass mainClass = (MainClass) getActivity();
+
         for (int index = 0; index < anzahlMeineUebungen; index++) {
-            mUebungArray1 = mUebung.get(index).split("<");
+            mUebungArray1 = mUebung.get(index).split("~");
+            mNummer.add(mUebungArray1[0]);
+            mUebungArray2 = mUebungArray1[1].split("<");
+            mName.add(mUebungArray2[0]);
+            mUebungArray3 = mUebungArray2[1].split(">");
+            mMuskelgruppe.add(mUebungArray3[0]);
+            mBeschreibung.add(mUebungArray3[1]);
+
+            // Meine Übungen neu sortieren
+
+            mainClass.setzeMeineUebungNummer(Integer.parseInt(mNummer.get(index)), index);
+            mainClass.setzeMeineUebungName(mName.get(index), index);
+            mainClass.setzeMeineUebungMuskelgruppe(mMuskelgruppe.get(index), index);
+            mainClass.setzeMeineUebungBeschreibung(mBeschreibung.get(index), index);
+
+        } // for
+    } // Methode datumSortieren
+
+    private void nameSortieren() {
+        for (int index = 0; index < anzahlMeineUebungen; index++) {
+            mUebung.add(MainClass.gibMeineUebungenName(index) + "~" + MainClass.gibMeineUebungenMuskelgruppe(index) + "<" + Integer.toString(MainClass.gibMeineUebungenNummer(index)) + ">" + MainClass.gibMeineUebungenBeschreibung(index));
+        } // for
+
+        Collections.sort(mUebung, new AlphanumComparator());
+
+        mUebungArray1 = new String[2];
+        mUebungArray2 = new String[2];
+        mUebungArray3 = new String[2];
+
+        mName = new ArrayList<>();
+        mMuskelgruppe = new ArrayList<>();
+        mBeschreibung = new ArrayList<>();
+
+        MainClass mainClass = (MainClass) getActivity();
+
+        for (int index = 0; index < anzahlMeineUebungen; index++) {
+            mUebungArray1 = mUebung.get(index).split("~");
             mName.add(mUebungArray1[0]);
-            mUebungArray2 = mUebungArray1[1].split(">");
+            mUebungArray2 = mUebungArray1[1].split("<");
             mMuskelgruppe.add(mUebungArray2[0]);
-            mBeschreibung.add(mUebungArray2[1]);
+            mUebungArray3 = mUebungArray2[1].split(">");
+            mNummer.add(mUebungArray3[0]);
+            mBeschreibung.add(mUebungArray3[1]);
+
+            // Meine Übungen neu sortieren
+
+            mainClass.setzeMeineUebungNummer(Integer.parseInt(mNummer.get(index)), index);
+            mainClass.setzeMeineUebungName(mName.get(index), index);
+            mainClass.setzeMeineUebungMuskelgruppe(mMuskelgruppe.get(index), index);
+            mainClass.setzeMeineUebungBeschreibung(mBeschreibung.get(index), index);
+
         } // for
     } // Methode nameSortieren
 
     private void muskelgruppeSortieren() {
         for (int index = 0; index < anzahlMeineUebungen; index++) {
-            mUebung.add(MainClass.gibMeineUebungenMuskelgruppe(index) + "<" + MainClass.gibMeineUebungenName(index) + ">" + MainClass.gibMeineUebungenBeschreibung(index));
+            mUebung.add(MainClass.gibMeineUebungenMuskelgruppe(index) + "~" + MainClass.gibMeineUebungenName(index) + "<" + Integer.toString(MainClass.gibMeineUebungenNummer(index)) + ">" + MainClass.gibMeineUebungenBeschreibung(index));
         } // for
 
-        Collections.sort(mUebung, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                return s1.compareToIgnoreCase(s2);
-            }
-        });
+        Collections.sort(mUebung, new AlphanumComparator());
 
         mUebungArray1 = new String[2];
         mUebungArray2 = new String[2];
+        mUebungArray3 = new String[2];
 
         mName = new ArrayList<>();
         mMuskelgruppe = new ArrayList<>();
         mBeschreibung = new ArrayList<>();
 
+        MainClass mainClass = (MainClass) getActivity();
+
         for (int index = 0; index < anzahlMeineUebungen; index++) {
-            mUebungArray1 = mUebung.get(index).split("<");
+            mUebungArray1 = mUebung.get(index).split("~");
             mMuskelgruppe.add(mUebungArray1[0]);
-            mUebungArray2 = mUebungArray1[1].split(">");
+            mUebungArray2 = mUebungArray1[1].split("<");
             mName.add(mUebungArray2[0]);
-            mBeschreibung.add(mUebungArray2[1]);
+            mUebungArray3 = mUebungArray2[1].split(">");
+            mNummer.add(mUebungArray3[0]);
+            mBeschreibung.add(mUebungArray3[1]);
+
+            // Meine Übungen neu sortieren
+
+            mainClass.setzeMeineUebungNummer(Integer.parseInt(mNummer.get(index)), index);
+            mainClass.setzeMeineUebungName(mName.get(index), index);
+            mainClass.setzeMeineUebungMuskelgruppe(mMuskelgruppe.get(index), index);
+            mainClass.setzeMeineUebungBeschreibung(mBeschreibung.get(index), index);
+
         } // for
     } // Methode muskelgruppeSortieren
 

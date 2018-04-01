@@ -2,21 +2,32 @@ package com.developer.workoutpro.itruns.workoutpro;
 
 public class ObjMeineUebungen {
 
+    private int uebungNummer;
     private String name;
     private String muskelgruppe;
     private String beschreibung;
 
     public ObjMeineUebungen() {
+        uebungNummer = 0;
         name = "";
         muskelgruppe = "";
         beschreibung = "";
     } // Konstruktor ObjMeineUebungen
 
-    public void neueUebung(String pName, String pMuskelgruppe, String pBeschreibung) {
+    public void neueUebung(int pUebungNummer, String pName, String pMuskelgruppe, String pBeschreibung) {
+        uebungNummer = pUebungNummer;
         name = pName;
         muskelgruppe =pMuskelgruppe;
         beschreibung = pBeschreibung;
     } // Methode neueUebung
+
+    public int gibUebungNummer() {
+        return uebungNummer;
+    } // Methode gibUebungNummer
+
+    public void setzeNummer(int pUebungNummer) {
+        uebungNummer = pUebungNummer;
+    } // Methode setzeNummer
 
     public String gibName() {
         return name;

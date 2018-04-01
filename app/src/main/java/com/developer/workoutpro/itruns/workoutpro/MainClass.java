@@ -59,6 +59,7 @@ public class MainClass extends AppCompatActivity {
     private boolean ruecken;
     private static int maxAnzahlUebungen = 1000;
     private static ObjMeineUebungen objMeineUebungen[] = new ObjMeineUebungen[maxAnzahlUebungen];
+    private int anzahlJeErstellterUebungen;
     private static int anzahlMeineUebungen = 0;
     // Übungen sortieren
     private String meineUebungenSortierung;
@@ -186,6 +187,11 @@ public class MainClass extends AppCompatActivity {
         editorMeineUebungenSortierung.putString("meineUebungenSortierung", meineUebungenSortierung);
         editorMeineUebungenSortierung.commit();
 
+        SharedPreferences anzahlJeErstellterUebungenRef = getSharedPreferences("anzahlJeErstellterUebungen", 0);
+        SharedPreferences.Editor editorAnzahlJeErstellterUebungen = meineUebungenSortierungPref.edit();
+        editorAnzahlJeErstellterUebungen.putInt("anzahlJeErstellterUebungen", anzahlJeErstellterUebungen);
+        editorAnzahlJeErstellterUebungen.commit();
+
         // meine Übungen speichern
         Gson gson = new Gson();
 
@@ -225,6 +231,9 @@ public class MainClass extends AppCompatActivity {
 
         SharedPreferences meineUebungenSortierungPref = getSharedPreferences("meineUebungenSortierung", 0);
         meineUebungenSortierung = meineUebungenSortierungPref.getString("meineUebungenSortierung", "datum");
+
+        SharedPreferences anzahlJeErstellterUebungenRef = getSharedPreferences("anzahlJeErstellterUebungen", 0);
+        anzahlJeErstellterUebungen = anzahlJeErstellterUebungenRef.getInt("anzahlJeErstellterUebungen", 0);
 
         if (gespeichert) {
             // meine Übungen laden
@@ -428,8 +437,9 @@ public class MainClass extends AppCompatActivity {
 
                     // Übung hinzufügen
 
-                    objMeineUebungen[anzahlMeineUebungen].neueUebung(name, muskelgruppe, beschreibung);
+                    objMeineUebungen[anzahlMeineUebungen].neueUebung(anzahlJeErstellterUebungen, name, muskelgruppe, beschreibung);
 
+                    anzahlJeErstellterUebungen++;
                     anzahlMeineUebungen++;
 
                     // Übungsübersicht anzeigen
@@ -532,6 +542,14 @@ public class MainClass extends AppCompatActivity {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static int gibMeineUebungenNummer(int index) {
+        return objMeineUebungen[index].gibUebungNummer();
+    }
+
+    public void setzeMeineUebungNummer(int pNummer, int index) {
+        objMeineUebungen[index].setzeNummer(pNummer);
     }
 
     public static String gibMeineUebungenName(int index) {
