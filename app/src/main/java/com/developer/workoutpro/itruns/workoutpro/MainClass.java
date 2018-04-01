@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,13 +78,6 @@ public class MainClass extends AppCompatActivity {
         setContentView(R.layout.act_main);
 
         datenLaden();
-
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FrUebersicht frUebersicht = new FrUebersicht();
-        fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
-        fragmentManager.executePendingTransactions();
-        fragmentTransaction.commit();
 
         menueleiste();
 
@@ -292,6 +286,14 @@ public class MainClass extends AppCompatActivity {
                 standardUebungJson[index] = standardUebungPref[index].getString(standardUebungPrefTag[index], null);
                 objStandardUebungen[index] = gson.fromJson(standardUebungJson[index], ObjMeineUebungen.class);
             } // for
+
+            // Seite laden
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            FrUebersicht frUebersicht = new FrUebersicht();
+            fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
+            fragmentManager.executePendingTransactions();
+            fragmentTransaction.commit();
         } // else
     } // Methode datenLaden
 
@@ -701,6 +703,12 @@ public class MainClass extends AppCompatActivity {
                     } // then
                     else {
                         erstesSynchronisieren = false;
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        FrUebersicht frUebersicht = new FrUebersicht();
+                        fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
+                        fragmentManager.executePendingTransactions();
+                        fragmentTransaction.commit();
                     }
                 }
             }
