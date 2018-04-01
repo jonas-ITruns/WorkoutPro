@@ -15,6 +15,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -605,16 +606,27 @@ public class MainClass extends AppCompatActivity {
 
 
     public void meineUebungenSortieren(View v) {
-        int tag = Integer.parseInt(v.getTag().toString());
-        switch (tag) {
-            case 1: meineUebungenSortierung = "datum";
-                break;
-            case 2: meineUebungenSortierung = "name";
-                break;
-            case 3: meineUebungenSortierung = "muskelgruppe";
-                break;
-        } // switch
-        meineUebungenOeffnen();
+        PopupMenu popupMenu = new PopupMenu(MainClass.this, v);
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getTitle().equals("Datum")) {
+                    meineUebungenSortierung = "datum";
+                    meineUebungenOeffnen();
+                } else if (item.getTitle().equals("Name")) {
+                    meineUebungenSortierung = "name";
+                    meineUebungenOeffnen();
+                } else if (item.getTitle().equals("Muskelgruppe")) {
+                    meineUebungenSortierung = "muskelgruppe";
+                    meineUebungenOeffnen();
+                }
+                return true;
+            }
+        });
+
+        popupMenu.show();
     } // Methode meineUebungenSortieren
 
     public String gibMeineUebungenSortierung() {

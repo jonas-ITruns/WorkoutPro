@@ -10,13 +10,54 @@
     android:fitsSystemWindows="false">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/clMittlererBereich"
+        android:id="@+id/clHeader"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="75dp"
+        android:layout_height="60dp"
+        android:background="@color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvAppName"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="115dp"
+            android:layout_marginStart="115dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Workout Übersicht"
+            android:textColor="@color/dunkelblau"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgvLogo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/itruns_original" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clMittlererBereich"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clHeader">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnWorkoutHinzufuegen"
@@ -25,9 +66,9 @@
             android:layout_gravity="right"
             android:layout_marginBottom="15dp"
             android:layout_marginEnd="15dp"
+            android:onClick="workoutHinzufuegenOeffnen"
             android:src="@drawable/ic_add_black_24dp"
             android:tint="@color/weiss"
-            android:onClick="workoutHinzufuegenOeffnen"
             app:backgroundTint="@color/dunkelblau"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
