@@ -1,87 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="60dp"
     android:background="@color/transparent"
-    android:fitsSystemWindows="false">
+    android:fitsSystemWindows="false"
+    tools:context="com.developer.workoutpro.itruns.workoutpro.MainClass">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clHeader"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
+        android:layout_height="60dp"
+        android:background="@color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </android.support.v7.widget.RecyclerView>
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnDatumSortieren"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="top|end"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_sort_black_24dp"
-            android:tint="@color/weiss"
-            android:onClick="standardUebungenSortieren"
-            android:tag="1"
-            app:backgroundTint="@color/dunkelblau"
-            app:layout_anchorGravity="right|top"
+        <TextView
+            android:id="@+id/tvAppName"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="115dp"
+            android:layout_marginStart="115dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Standard Übungen"
+            android:textColor="@color/dunkelblau"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnNameSortieren"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="top|end"
+        <ImageButton
+            android:id="@+id/imgbtnSortieren"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_sort_black_24dp"
-            android:tint="@color/weiss"
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"
+            android:tint="@color/dunkelblau"
             android:onClick="standardUebungenSortieren"
-            android:tag="2"
-            app:backgroundTint="@color/dunkelblau"
-            app:layout_anchorGravity="right|top"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnDatumSortieren" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnMuskelgruppeSortieren"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="top|end"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_sort_black_24dp"
-            android:tint="@color/weiss"
-            android:onClick="standardUebungenSortieren"
-            android:tag="3"
-            app:backgroundTint="@color/dunkelblau"
-            app:layout_anchorGravity="right|top"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnNameSortieren" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_sort_black_24dp" />
 
     </android.support.constraint.ConstraintLayout>
 
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:indeterminateBehavior="repeat"
-        android:indeterminateTint="@color/dunkelblau"
-        android:progressTint="@color/dunkelgrau"
-        app:layout_anchor="@+id/recycler_view"
-        app:layout_anchorGravity="center" />
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/clMittlererBereich"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clHeader">
 
-</android.support.design.widget.CoordinatorLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="155dp"
+                android:layout_marginStart="155dp"
+                android:layout_marginTop="220dp"
+                android:indeterminateBehavior="repeat"
+                android:indeterminateTint="@color/dunkelblau"
+                android:progressTint="@color/dunkelgrau"
+                app:layout_anchor="@+id/recycler_view"
+                app:layout_anchorGravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/recycler_view" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</android.support.constraint.ConstraintLayout>

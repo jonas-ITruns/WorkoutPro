@@ -634,16 +634,27 @@ public class MainClass extends AppCompatActivity {
     } // Methode gibMeineUebungenSortierung
 
     public void standardUebungenSortieren(View v) {
-        int tag = Integer.parseInt(v.getTag().toString());
-        switch (tag) {
-            case 1: standardUebungenSortierung = "datum";
-                break;
-            case 2: standardUebungenSortierung = "name";
-                break;
-            case 3: standardUebungenSortierung = "muskelgruppe";
-                break;
-        } // switch
-        standardUebungenOeffnen();
+        PopupMenu popupMenu = new PopupMenu(MainClass.this, v);
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getTitle().equals("Datum")) {
+                    standardUebungenSortierung = "datum";
+                    standardUebungenOeffnen();
+                } else if (item.getTitle().equals("Name")) {
+                    standardUebungenSortierung = "name";
+                    standardUebungenOeffnen();
+                } else if (item.getTitle().equals("Muskelgruppe")) {
+                    standardUebungenSortierung = "muskelgruppe";
+                    standardUebungenOeffnen();
+                }
+                return true;
+            }
+        });
+
+        popupMenu.show();
     } // Methode standardUebungenSortieren
 
     public String gibStandardUebungenSortierung() {
