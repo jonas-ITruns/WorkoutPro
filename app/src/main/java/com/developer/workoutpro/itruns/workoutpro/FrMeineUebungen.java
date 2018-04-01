@@ -27,8 +27,6 @@ import java.util.Collections;
 public class FrMeineUebungen extends Fragment {
 
     View frView;
-    LayoutInflater pInflater;
-    ViewGroup pContainer;
     private int anzahlMeineUebungen;
     private ArrayList<String> mUebung = new ArrayList<>();
     private String [] mUebungArray1;
@@ -64,33 +62,14 @@ public class FrMeineUebungen extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        pInflater = inflater;
-        pContainer = container;
         frView = inflater.inflate(R.layout.fr_meine_uebungen, container, false);
 
-        uebungenHolen();
-
-        return frView;
-    }
-
-    private void uebungenHolen() {
-        // Anzahl, Name, Muskelgruppe und Beschreibung der Übungen aus der MainClass holen
         anzahlMeineUebungen = MainClass.gibAnzahlMeineUebungen();
-
-        uebungHinzufuegen();
 
         sortieren();
 
-        initViews();
+        return frView;
     }
-
-    private void uebungHinzufuegen() {
-        for (int index = 0; index < anzahlMeineUebungen; index++) {
-            mName.add(MainClass.gibMeineUebungenName(index));
-            mMuskelgruppe.add(MainClass.gibMeineUebungenMuskelgruppe(index));
-            mBeschreibung.add(MainClass.gibMeineUebungenBeschreibung(index));
-        } // for
-    } // Methode uebungHinzufuegen
 
     private void sortieren() {
         MainClass mainClass = (MainClass) getActivity();
@@ -102,6 +81,7 @@ public class FrMeineUebungen extends Fragment {
         } else if (sortierung.equals("muskelgruppe")) {
             muskelgruppeSortieren();
         } // if
+        initViews();
     }
 
     private void datumSortieren() {

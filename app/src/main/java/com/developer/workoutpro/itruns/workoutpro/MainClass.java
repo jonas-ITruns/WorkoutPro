@@ -21,9 +21,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 public class MainClass extends AppCompatActivity {
@@ -38,7 +44,7 @@ public class MainClass extends AppCompatActivity {
     // Attribute für Shared Preferences
     private boolean gespeichert = false;
 
-    // Attribute für Übungen
+    // Attribute für meine Übungen
     // Übungen hinzufügen
     // Fenster, das geöffnet wird
     private AlertDialog alert;
@@ -56,7 +62,7 @@ public class MainClass extends AppCompatActivity {
     private static int maxAnzahlUebungen = 1000;
     private static ObjMeineUebungen objMeineUebungen[] = new ObjMeineUebungen[maxAnzahlUebungen];
     private int anzahlJeErstellterUebungen;
-    private static int anzahlMeineUebungen = 0;
+    private static int anzahlMeineUebungen;
     // Übungen sortieren
     private String meineUebungenSortierung;
     private String standardUebungenSortierung = "datum";
@@ -168,24 +174,27 @@ public class MainClass extends AppCompatActivity {
         gespeichert = true;
         // Anzahl meiner Übungen speichern
         // 1. Preference erstellen --> Tag angeben
-        SharedPreferences anzahlUebungenPref = getSharedPreferences("anzahlUebungen", 0);
+        SharedPreferences anzahlMeineUebungenPref = getSharedPreferences("anzahlMeineUebungen", 0);
         // 2. Editor hinzufügen --> Preference bearbeiten
-        SharedPreferences.Editor editorAnzahlUebungen = anzahlUebungenPref.edit();
+        SharedPreferences.Editor editorAnzahlMeineUebungen = anzahlMeineUebungenPref.edit();
         // 3. Wert in die Preference legen --> 1. Tag angeben, 2. Wert angeben
-        editorAnzahlUebungen.putInt("anzahlUebungen", anzahlMeineUebungen);
+        editorAnzahlMeineUebungen.putInt("anzahlMeineUebungen", anzahlMeineUebungen);
         // 4. Bestätigen
-        editorAnzahlUebungen.commit();
+        editorAnzahlMeineUebungen.commit();
 
+        // speichern, dass schonmal gespeichert wurde
         SharedPreferences gespeichertPref = getSharedPreferences("gespeichert", 0);
         SharedPreferences.Editor editorGespeichert = gespeichertPref.edit();
         editorGespeichert.putBoolean("gespeichert", gespeichert);
         editorGespeichert.commit();
 
+        // Sortierung für meine Übungen speichern
         SharedPreferences meineUebungenSortierungPref = getSharedPreferences("meineUebungenSortierung", 0);
         SharedPreferences.Editor editorMeineUebungenSortierung = meineUebungenSortierungPref.edit();
         editorMeineUebungenSortierung.putString("meineUebungenSortierung", meineUebungenSortierung);
         editorMeineUebungenSortierung.commit();
 
+        // Anzahl je erstellter Übungen speichern
         SharedPreferences anzahlJeErstellterUebungenRef = getSharedPreferences("anzahlJeErstellterUebungen", 0);
         SharedPreferences.Editor editorAnzahlJeErstellterUebungen = anzahlJeErstellterUebungenRef.edit();
         editorAnzahlJeErstellterUebungen.putInt("anzahlJeErstellterUebungen", anzahlJeErstellterUebungen);
@@ -194,39 +203,37 @@ public class MainClass extends AppCompatActivity {
         // meine Übungen speichern
         Gson gson = new Gson();
 
-        SharedPreferences uebungPref [] = new SharedPreferences[anzahlMeineUebungen];
-        String uebungPrefTag [] = new String[anzahlMeineUebungen];
-        SharedPreferences.Editor editor [] = new SharedPreferences.Editor[anzahlMeineUebungen];
-        String json [] = new String[anzahlMeineUebungen];
+        SharedPreferences meineUebungPref [] = new SharedPreferences[anzahlMeineUebungen];
+        String meineUebungPrefTag [] = new String[anzahlMeineUebungen];
+        SharedPreferences.Editor meineUebungEditor [] = new SharedPreferences.Editor[anzahlMeineUebungen];
+        String meineUebungJson [] = new String[anzahlMeineUebungen];
 
         for (int index = 0; index < anzahlMeineUebungen; index++) {
-            uebungPrefTag[index] = Integer.toString(index);
-            uebungPref[index] = getSharedPreferences(uebungPrefTag[index], 0);
-            editor[index] = uebungPref[index].edit();
-            json[index] = gson.toJson(objMeineUebungen[index]);
-            editor[index].putString(uebungPrefTag[index], json[index]);
-            editor[index].commit();
+            meineUebungPrefTag[index] = Integer.toString(index);
+            meineUebungPref[index] = getSharedPreferences(meineUebungPrefTag[index], 0);
+            meineUebungEditor[index] = meineUebungPref[index].edit();
+            meineUebungJson[index] = gson.toJson(objMeineUebungen[index]);
+            meineUebungEditor[index].putString(meineUebungPrefTag[index], meineUebungJson[index]);
+            meineUebungEditor[index].commit();
         } // for
     } // Methode datenSpeichern
 
     public void datenLaden() {
-        // Objekt bilden
-        for (int index = 0; index < maxAnzahlUebungen; index++) {
-            objMeineUebungen[index] = new ObjMeineUebungen();
-        } // for
-
         // Anzahl meiner Übungen laden
         // 1. Preference erstellen --> Tag angeben
-        SharedPreferences anzahlUebungenPref = getSharedPreferences("anzahlUebungen", 0);
+        SharedPreferences anzahlMeineUebungenPref = getSharedPreferences("anzahlMeineUebungen", 0);
         // 2. Wert aus der Preference lesen --> Tag angeben
-        anzahlMeineUebungen = anzahlUebungenPref.getInt("anzahlUebungen", 0);
+        anzahlMeineUebungen = anzahlMeineUebungenPref.getInt("anzahlMeineUebungen", 0);
 
+        // laden, ob schonmal gespeichert wurde
         SharedPreferences gespeichertPref = getSharedPreferences("gespeichert", 0);
         gespeichert = gespeichertPref.getBoolean("gespeichert", false);
 
+        // Sortierung für meine Übungen laden
         SharedPreferences meineUebungenSortierungPref = getSharedPreferences("meineUebungenSortierung", 0);
         meineUebungenSortierung = meineUebungenSortierungPref.getString("meineUebungenSortierung", "datum");
 
+        // ingesamte Anzahl je erstellter Übungen laden
         SharedPreferences anzahlJeErstellterUebungenRef = getSharedPreferences("anzahlJeErstellterUebungen", 0);
         anzahlJeErstellterUebungen = anzahlJeErstellterUebungenRef.getInt("anzahlJeErstellterUebungen", 0);
 
@@ -323,7 +330,7 @@ public class MainClass extends AppCompatActivity {
     } // Methode menueLeiste
 
 
-    // Übungen verwalten
+    // meine Übungen verwalten
 
 
     public void standardUebungenOeffnen() {
@@ -552,12 +559,6 @@ public class MainClass extends AppCompatActivity {
         } // for
         anzahlMeineUebungen--;
     } // Methode uebungLoeschen
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
 
 
     // Gib- und Setze-Methode für MeineUebungen
