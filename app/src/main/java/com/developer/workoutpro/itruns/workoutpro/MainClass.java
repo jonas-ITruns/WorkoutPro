@@ -188,7 +188,7 @@ public class MainClass extends AppCompatActivity {
         editorMeineUebungenSortierung.commit();
 
         SharedPreferences anzahlJeErstellterUebungenRef = getSharedPreferences("anzahlJeErstellterUebungen", 0);
-        SharedPreferences.Editor editorAnzahlJeErstellterUebungen = meineUebungenSortierungPref.edit();
+        SharedPreferences.Editor editorAnzahlJeErstellterUebungen = anzahlJeErstellterUebungenRef.edit();
         editorAnzahlJeErstellterUebungen.putInt("anzahlJeErstellterUebungen", anzahlJeErstellterUebungen);
         editorAnzahlJeErstellterUebungen.commit();
 
@@ -437,6 +437,7 @@ public class MainClass extends AppCompatActivity {
 
                     // Übung hinzufügen
 
+                    objMeineUebungen[anzahlMeineUebungen] = new ObjMeineUebungen();
                     objMeineUebungen[anzahlMeineUebungen].neueUebung(anzahlJeErstellterUebungen, name, muskelgruppe, beschreibung);
 
                     anzahlJeErstellterUebungen++;
