@@ -133,7 +133,7 @@
                     android:layout_marginBottom="6dp"
                     android:gravity="center|end"
                     android:text="Rücken"
-                    android:textColor="@color/weiss"
+                    android:textColor="@color/dunkelgrau"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/btnBrust"
                     app:layout_constraintEnd_toStartOf="@+id/btnRuecken" />
@@ -161,7 +161,7 @@
                     android:layout_marginBottom="6dp"
                     android:gravity="center|end"
                     android:text="Brust"
-                    android:textColor="@color/weiss"
+                    android:textColor="@color/dunkelgrau"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/btnBauch"
                     app:layout_constraintEnd_toStartOf="@+id/btnBrust" />
@@ -189,7 +189,7 @@
                     android:layout_marginBottom="6dp"
                     android:gravity="center|end"
                     android:text="Bauch"
-                    android:textColor="@color/weiss"
+                    android:textColor="@color/dunkelgrau"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/btnBeine"
                     app:layout_constraintEnd_toStartOf="@+id/btnBauch" />
@@ -217,7 +217,7 @@
                     android:layout_marginBottom="6dp"
                     android:gravity="center|end"
                     android:text="Beine"
-                    android:textColor="@color/weiss"
+                    android:textColor="@color/dunkelgrau"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/btnArme"
                     app:layout_constraintEnd_toStartOf="@+id/btnBeine" />
@@ -245,7 +245,7 @@
                     android:layout_marginBottom="6dp"
                     android:gravity="center|end"
                     android:text="Arme"
-                    android:textColor="@color/weiss"
+                    android:textColor="@color/dunkelgrau"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/btnGanzkoerper"
                     app:layout_constraintEnd_toStartOf="@+id/btnArme" />
@@ -273,7 +273,7 @@
                     android:layout_marginBottom="6dp"
                     android:gravity="center|end"
                     android:text="Ganzkörper"
-                    android:textColor="@color/weiss"
+                    android:textColor="@color/dunkelgrau"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/btnBesondereUebungen"
                     app:layout_constraintEnd_toStartOf="@+id/btnGanzkoerper" />
@@ -301,7 +301,7 @@
                     android:layout_marginBottom="6dp"
                     android:gravity="center|end"
                     android:text="Besonderes"
-                    android:textColor="@color/weiss"
+                    android:textColor="@color/dunkelgrau"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/btnMeineUebungen"
                     app:layout_constraintEnd_toStartOf="@+id/btnBesondereUebungen" />
@@ -329,7 +329,7 @@
                     android:layout_marginBottom="6dp"
                     android:gravity="center|end"
                     android:text="Meine Übungen"
-                    android:textColor="@color/weiss"
+                    android:textColor="@color/dunkelgrau"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/btnStandardUebungen"
                     app:layout_constraintEnd_toStartOf="@+id/btnMeineUebungen" />
@@ -357,7 +357,7 @@
                     android:layout_marginBottom="10dp"
                     android:gravity="center|end"
                     android:text="Standard Übungen"
-                    android:textColor="@color/weiss"
+                    android:textColor="@color/dunkelgrau"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/btnUebungHinzufuegen"
                     app:layout_constraintEnd_toStartOf="@+id/btnStandardUebungen" />
