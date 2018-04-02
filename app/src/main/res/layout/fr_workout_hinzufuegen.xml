@@ -344,7 +344,7 @@
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/runder_button"
                 android:onClick="workoutUebungHinzufuegenOeffnen"
-                android:src="@drawable/itruns_original"
+                android:src="@drawable/ic_itruns_32"
                 android:tag="7"
                 android:tint="@color/weiss"
                 android:visibility="invisible"

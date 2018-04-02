@@ -40,11 +40,23 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                      <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="paddingPercent" value="-5" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
                                     </map>
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="imageAsset" value="C:\Users\Dietmar\Documents\ITruns_original_232_201.png" />
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="C:\Users\Dietmar\Documents\itruns_1000.png" />
                                       <entry key="outputName" value="ic_eigene_uebungen_32" />
                                       <entry key="theme" value="CUSTOM" />
                                       <entry key="themeColor" value="41577d" />
