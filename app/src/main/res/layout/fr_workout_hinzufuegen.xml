@@ -279,21 +279,21 @@
                     app:layout_constraintBottom_toTopOf="@+id/btnBesondereUebungen"
                     app:layout_constraintEnd_toStartOf="@+id/btnGanzkoerper" />
 
-                <ImageButton
-                    android:id="@+id/btnBesondereUebungen"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginEnd="20dp"
-                    android:onClick="workoutUebungHinzufuegenOeffnen"
-                    android:src="@drawable/ic_add_black_24dp"
-                    android:tag="0"
-                    android:tint="@color/weiss"
-                    android:background="@drawable/runder_button"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toTopOf="@+id/btnMeineUebungen"
-                    app:layout_constraintEnd_toEndOf="parent" />
+            <ImageButton
+                android:id="@+id/btnBesondereUebungen"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="6dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/runder_button"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:src="@drawable/ic_besondere_uebungen_32"
+                android:tag="0"
+                android:tint="@color/weiss"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnMeineUebungen"
+                app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
                     android:id="@+id/btnBesondereUebungenText"
@@ -307,21 +307,21 @@
                     app:layout_constraintBottom_toTopOf="@+id/btnMeineUebungen"
                     app:layout_constraintEnd_toStartOf="@+id/btnBesondereUebungen" />
 
-                <ImageButton
-                    android:id="@+id/btnMeineUebungen"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginEnd="20dp"
-                    android:onClick="workoutUebungHinzufuegenOeffnen"
-                    android:src="@drawable/ic_add_black_24dp"
-                    android:tag="8"
-                    android:tint="@color/weiss"
-                    android:background="@drawable/runder_button"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toTopOf="@+id/btnStandardUebungen"
-                    app:layout_constraintEnd_toEndOf="parent" />
+            <ImageButton
+                android:id="@+id/btnMeineUebungen"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="6dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/runder_button"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:src="@drawable/ic_meine_uebungen_32"
+                android:tag="8"
+                android:tint="@color/weiss"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnStandardUebungen"
+                app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
                     android:id="@+id/btnMeineUebungenText"
@@ -335,21 +335,21 @@
                     app:layout_constraintBottom_toTopOf="@+id/btnStandardUebungen"
                     app:layout_constraintEnd_toStartOf="@+id/btnMeineUebungen" />
 
-                <ImageButton
-                    android:id="@+id/btnStandardUebungen"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:background="@drawable/runder_button"
-                    android:onClick="workoutUebungHinzufuegenOeffnen"
-                    android:src="@drawable/ic_add_black_24dp"
-                    android:tag="7"
-                    android:tint="@color/weiss"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toTopOf="@+id/btnUebungHinzufuegen"
-                    app:layout_constraintEnd_toEndOf="parent" />
+            <ImageButton
+                android:id="@+id/btnStandardUebungen"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/runder_button"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:src="@drawable/itruns_original"
+                android:tag="7"
+                android:tint="@color/weiss"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnUebungHinzufuegen"
+                app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
                     android:id="@+id/btnStandardUebungenText"
