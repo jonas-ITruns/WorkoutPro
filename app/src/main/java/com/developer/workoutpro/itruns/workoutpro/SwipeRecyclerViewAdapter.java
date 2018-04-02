@@ -49,9 +49,9 @@ public class SwipeRecyclerViewAdapter extends RecyclerView.Adapter<SwipeRecycler
             } else if (uebungMuskelgruppe.get(i).equals("beine")) {
                 viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_add_black_24dp);
             } else if (uebungMuskelgruppe.get(i).equals("bauch")) {
-                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_delete_black_24dp);
+                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_bauch_32);
             } else if (uebungMuskelgruppe.get(i).equals("brust")) {
-                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.muskelgruppe_brust);
+                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_brust_32);
             } else if (uebungMuskelgruppe.get(i).equals("ruecken")) {
                 viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_menu);
             } else {
