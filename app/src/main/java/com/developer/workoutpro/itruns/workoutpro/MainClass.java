@@ -1336,12 +1336,6 @@ public class MainClass extends AppCompatActivity {
     }
 
     public void workoutErstellungAbbrechen(View v) {
-        workoutName[anzahlWorkouts] = new String();
-        for (int index = 0; index < anzahlWorkoutUebungen[anzahlWorkouts]; index++) {
-            objWorkoutUebungen[anzahlWorkouts][index] = new ObjMeineUebungen();
-        } // for
-        anzahlWorkoutUebungen[anzahlWorkouts] = 0;
-
         // Seite laden
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
         FragmentManager fragmentManager = getFragmentManager();
@@ -1350,6 +1344,12 @@ public class MainClass extends AppCompatActivity {
         fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
+
+        workoutName[anzahlWorkouts] = new String();
+        for (int index = 0; index < anzahlWorkoutUebungen[anzahlWorkouts]; index++) {
+            objWorkoutUebungen[anzahlWorkouts][index] = new ObjMeineUebungen();
+        } // for
+        anzahlWorkoutUebungen[anzahlWorkouts] = 0;
     }
 
     public void workoutLoeschen(int workout) {

@@ -112,4 +112,19 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="155dp"
+        android:layout_marginStart="155dp"
+        android:layout_marginTop="250dp"
+        android:indeterminateBehavior="repeat"
+        android:indeterminateTint="@color/dunkelblau"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
