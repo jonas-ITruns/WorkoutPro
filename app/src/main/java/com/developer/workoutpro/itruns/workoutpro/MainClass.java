@@ -1001,7 +1001,6 @@ public class MainClass extends AppCompatActivity {
     } // Methode workoutHinzufuegenOeffnen
 
     public void workoutButtonsZeigen(View v) {
-        ConstraintLayout dunklererHintergrund = findViewById(R.id.dunklererHintergrund);
         FloatingActionButton fabUebungHinzufuegen = findViewById(R.id.btnUebungHinzufuegen);
         ImageButton btnStandardUebungen = findViewById(R.id.btnStandardUebungen);
         TextView standardUebungenText = findViewById(R.id.btnStandardUebungenText);
@@ -1026,109 +1025,67 @@ public class MainClass extends AppCompatActivity {
         Animation fabClose = AnimationUtils.loadAnimation(this.getApplicationContext(), R.anim.fab_close);
         Animation fabClockwise = AnimationUtils.loadAnimation(this.getApplicationContext(), R.anim.rotate_clockwise_45);
         Animation fabAnticlockwiese = AnimationUtils.loadAnimation(this.getApplicationContext(), R.anim.rotate_anticlockwise_45);
-        TransitionDrawable transition = (TransitionDrawable) dunklererHintergrund.getBackground();
 
-        // Überprüfen, ob der Button oder das Layout gedrückt wurde
-        int tag = Integer.parseInt(v.getTag().toString());
-
-        if (tag == 1) {
-            if (menueOffen) {
-                transition.reverseTransition(300);
-                fabUebungHinzufuegen.startAnimation(fabAnticlockwiese);
-                btnStandardUebungen.startAnimation(fabClose);
-                standardUebungenText.startAnimation(fabClose);
-                btnMeineUebungen.startAnimation(fabClose);
-                meineUebungenText.startAnimation(fabClose);
-                btnBesonderes.startAnimation(fabClose);
-                besonderesText.startAnimation(fabClose);
-                btnGanzkoerper.startAnimation(fabClose);
-                ganzkoerperText.startAnimation(fabClose);
-                btnArme.startAnimation(fabClose);
-                armeText.startAnimation(fabClose);
-                btnBeine.startAnimation(fabClose);
-                beineText.startAnimation(fabClose);
-                btnBauch.startAnimation(fabClose);
-                bauchText.startAnimation(fabClose);
-                btnBrust.startAnimation(fabClose);
-                brustText.startAnimation(fabClose);
-                btnRuecken.startAnimation(fabClose);
-                rueckenText.startAnimation(fabClose);
-                btnStandardUebungen.setClickable(false);
-                btnMeineUebungen.setClickable(false);
-                btnBesonderes.setClickable(false);
-                btnGanzkoerper.setClickable(false);
-                btnArme.setClickable(false);
-                btnBeine.setClickable(false);
-                btnBauch.setClickable(false);
-                btnBrust.setClickable(false);
-                btnRuecken.setClickable(false);
-                menueOffen = false;
-            } // if
+        if (menueOffen) {
+            fabUebungHinzufuegen.startAnimation(fabAnticlockwiese);
+            btnStandardUebungen.startAnimation(fabClose);
+            standardUebungenText.startAnimation(fabClose);
+            btnMeineUebungen.startAnimation(fabClose);
+            meineUebungenText.startAnimation(fabClose);
+            btnBesonderes.startAnimation(fabClose);
+            besonderesText.startAnimation(fabClose);
+            btnGanzkoerper.startAnimation(fabClose);
+            ganzkoerperText.startAnimation(fabClose);
+            btnArme.startAnimation(fabClose);
+            armeText.startAnimation(fabClose);
+            btnBeine.startAnimation(fabClose);
+            beineText.startAnimation(fabClose);
+            btnBauch.startAnimation(fabClose);
+            bauchText.startAnimation(fabClose);
+            btnBrust.startAnimation(fabClose);
+            brustText.startAnimation(fabClose);
+            btnRuecken.startAnimation(fabClose);
+            rueckenText.startAnimation(fabClose);
+            btnStandardUebungen.setClickable(false);
+            btnMeineUebungen.setClickable(false);
+            btnBesonderes.setClickable(false);
+            btnGanzkoerper.setClickable(false);
+            btnArme.setClickable(false);
+            btnBeine.setClickable(false);
+            btnBauch.setClickable(false);
+            btnBrust.setClickable(false);
+            btnRuecken.setClickable(false);
+            menueOffen = false;
         } else {
-            if (menueOffen) {
-                transition.reverseTransition(300);
-                fabUebungHinzufuegen.startAnimation(fabAnticlockwiese);
-                btnStandardUebungen.startAnimation(fabClose);
-                standardUebungenText.startAnimation(fabClose);
-                btnMeineUebungen.startAnimation(fabClose);
-                meineUebungenText.startAnimation(fabClose);
-                btnBesonderes.startAnimation(fabClose);
-                besonderesText.startAnimation(fabClose);
-                btnGanzkoerper.startAnimation(fabClose);
-                ganzkoerperText.startAnimation(fabClose);
-                btnArme.startAnimation(fabClose);
-                armeText.startAnimation(fabClose);
-                btnBeine.startAnimation(fabClose);
-                beineText.startAnimation(fabClose);
-                btnBauch.startAnimation(fabClose);
-                bauchText.startAnimation(fabClose);
-                btnBrust.startAnimation(fabClose);
-                brustText.startAnimation(fabClose);
-                btnRuecken.startAnimation(fabClose);
-                rueckenText.startAnimation(fabClose);
-                btnStandardUebungen.setClickable(false);
-                btnMeineUebungen.setClickable(false);
-                btnBesonderes.setClickable(false);
-                btnGanzkoerper.setClickable(false);
-                btnArme.setClickable(false);
-                btnBeine.setClickable(false);
-                btnBauch.setClickable(false);
-                btnBrust.setClickable(false);
-                btnRuecken.setClickable(false);
-                menueOffen = false;
-            } // then
-            else {
-                transition.startTransition(300);
-                fabUebungHinzufuegen.startAnimation(fabClockwise);
-                btnStandardUebungen.startAnimation(fabOpen);
-                standardUebungenText.startAnimation(fabOpen);
-                btnMeineUebungen.startAnimation(fabOpen);
-                meineUebungenText.startAnimation(fabOpen);
-                btnBesonderes.startAnimation(fabOpen);
-                besonderesText.startAnimation(fabOpen);
-                btnGanzkoerper.startAnimation(fabOpen);
-                ganzkoerperText.startAnimation(fabOpen);
-                btnArme.startAnimation(fabOpen);
-                armeText.startAnimation(fabOpen);
-                btnBeine.startAnimation(fabOpen);
-                beineText.startAnimation(fabOpen);
-                btnBauch.startAnimation(fabOpen);
-                bauchText.startAnimation(fabOpen);
-                btnBrust.startAnimation(fabOpen);
-                brustText.startAnimation(fabOpen);
-                btnRuecken.startAnimation(fabOpen);
-                rueckenText.startAnimation(fabOpen);
-                btnStandardUebungen.setClickable(true);
-                btnMeineUebungen.setClickable(true);
-                btnBesonderes.setClickable(true);
-                btnGanzkoerper.setClickable(true);
-                btnArme.setClickable(true);
-                btnBeine.setClickable(true);
-                btnBauch.setClickable(true);
-                btnBrust.setClickable(true);
-                btnRuecken.setClickable(true);
-                menueOffen = true;
-            } // else
+            fabUebungHinzufuegen.startAnimation(fabClockwise);
+            btnStandardUebungen.startAnimation(fabOpen);
+            standardUebungenText.startAnimation(fabOpen);
+            btnMeineUebungen.startAnimation(fabOpen);
+            meineUebungenText.startAnimation(fabOpen);
+            btnBesonderes.startAnimation(fabOpen);
+            besonderesText.startAnimation(fabOpen);
+            btnGanzkoerper.startAnimation(fabOpen);
+            ganzkoerperText.startAnimation(fabOpen);
+            btnArme.startAnimation(fabOpen);
+            armeText.startAnimation(fabOpen);
+            btnBeine.startAnimation(fabOpen);
+            beineText.startAnimation(fabOpen);
+            btnBauch.startAnimation(fabOpen);
+            bauchText.startAnimation(fabOpen);
+            btnBrust.startAnimation(fabOpen);
+            brustText.startAnimation(fabOpen);
+            btnRuecken.startAnimation(fabOpen);
+            rueckenText.startAnimation(fabOpen);
+            btnStandardUebungen.setClickable(true);
+            btnMeineUebungen.setClickable(true);
+            btnBesonderes.setClickable(true);
+            btnGanzkoerper.setClickable(true);
+            btnArme.setClickable(true);
+            btnBeine.setClickable(true);
+            btnBauch.setClickable(true);
+            btnBrust.setClickable(true);
+            btnRuecken.setClickable(true);
+            menueOffen = true;
         } // else
     }
 
