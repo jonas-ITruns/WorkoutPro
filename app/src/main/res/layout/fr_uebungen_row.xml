@@ -33,7 +33,7 @@
 
                 <TextView
                     android:id="@+id/tvUebungName"
-                    android:layout_width="250dp"
+                    android:layout_width="235dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
@@ -45,7 +45,7 @@
 
                 <TextView
                     android:id="@+id/tvUebungBeschreibung"
-                    android:layout_width="250dp"
+                    android:layout_width="235dp"
                     android:layout_height="24dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"

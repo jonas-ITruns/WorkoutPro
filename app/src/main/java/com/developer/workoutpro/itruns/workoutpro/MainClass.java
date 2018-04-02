@@ -599,7 +599,7 @@ public class MainClass extends AppCompatActivity {
                     Toast.makeText(MainClass.this, "Bitte Beschreibung eintragen", Toast.LENGTH_SHORT).show();
                     return;
                 } // if
-                else if (etBeschreibung.getText().toString().length() > 90) {
+                else if (etBeschreibung.getText().toString().length() > 80) {
                     Toast.makeText(MainClass.this, "Beschreibung ist zu lang", Toast.LENGTH_SHORT).show();
                     return;
                 } // if
