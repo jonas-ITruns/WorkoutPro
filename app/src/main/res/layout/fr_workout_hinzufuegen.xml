@@ -27,6 +27,7 @@
             android:background="@color/transparent"
             android:gravity="start|center_vertical"
             android:onClick="workoutNamenHinzufuegen"
+            android:singleLine="true"
             android:text="Workout Namen hinzufügen"
             android:textAllCaps="false"
             android:textColor="@color/dunkelblau"
