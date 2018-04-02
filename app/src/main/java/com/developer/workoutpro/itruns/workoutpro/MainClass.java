@@ -46,11 +46,15 @@ public class MainClass extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ImageButton menuButton;
 
+
     // Attribute für onPause und onResume
     private String aktFragment = "";
 
+
     // Attribute für meine Übungen
+
     // Übungen hinzufügen
+
     // Fenster, das geöffnet wird
     public AlertDialog alert;
     private EditText etName;
@@ -68,6 +72,8 @@ public class MainClass extends AppCompatActivity {
     private static ObjMeineUebungen objMeineUebungen[] = new ObjMeineUebungen[maxAnzahlUebungen];
     private int anzahlJeErstellterUebungen;
     private static int anzahlMeineUebungen;
+
+
     // Attribute für standard Übungenen
     private DatabaseReference mRootRef;
     private boolean synchronisierenLaeuft = false;
@@ -75,15 +81,18 @@ public class MainClass extends AppCompatActivity {
     private static int anzahlStandardUebungen;
     private static ObjMeineUebungen objStandardUebungen[] = new ObjMeineUebungen[maxAnzahlUebungen];
     private int indexStandardUebung;
+
     // Übungen sortieren
     private String meineUebungenSortierung;
     private String standardUebungenSortierung = "name";
+
 
     // Attribute für Workout hinzufügen
     private int anzahlAlleUebungen = 0;
     private ObjMeineUebungen objAlleUebungen[] = new ObjMeineUebungen[maxAnzahlUebungen];
     private ObjMeineUebungen objAngezeigteUebungen[];
     private boolean menueOffen = false;
+
 
     // Attribute für Workouts
     private int anzahlWorkouts;
@@ -251,6 +260,70 @@ public class MainClass extends AppCompatActivity {
             standardUebungEditor[index].commit();
         } // for
 
+        // Workouts speichern
+
+        // Anzahl Workouts speichern
+        SharedPreferences anzahlWorkoutsPref = getSharedPreferences("anzahlWorkouts", 0);
+        SharedPreferences.Editor editorAnzahlWorkouts = anzahlWorkoutsPref.edit();
+        editorAnzahlWorkouts.putInt("anzahlWorkouts", anzahlWorkouts);
+        editorAnzahlWorkouts.commit();
+
+        // Anzahl der Übungen pro Workout speichern
+        SharedPreferences anzahlWorkoutUebungenPref [] = new SharedPreferences[anzahlWorkouts];
+        String anzahlWorkoutUebungenTag [] = new String[anzahlWorkouts];
+        SharedPreferences.Editor anzahlWorkoutUebungenEditor [] = new SharedPreferences.Editor[anzahlWorkouts];
+
+        for (int index = 0; index < anzahlWorkouts; index++) {
+            anzahlWorkoutUebungenTag[index] = "anzahlWorkoutUebungen" + Integer.toString(index);
+            anzahlWorkoutUebungenPref[index] = getSharedPreferences(anzahlWorkoutUebungenTag[index], 0);
+            anzahlWorkoutUebungenEditor[index] = anzahlWorkoutUebungenPref[index].edit();
+            anzahlWorkoutUebungenEditor[index].putInt(anzahlWorkoutUebungenTag[index], anzahlWorkoutUebungen[index]);
+            anzahlWorkoutUebungenEditor[index].commit();
+        } // for
+
+        // Workouts mit Übungen speichern
+        SharedPreferences objWorkoutUebungenPref [][] = new SharedPreferences[anzahlWorkouts][maxAnzahlUebungen];
+        String objWorkoutUebungenTag [][] = new String[anzahlWorkouts][maxAnzahlUebungen];
+        SharedPreferences.Editor objWorkoutUebungenEditor [][] = new SharedPreferences.Editor[anzahlWorkouts][maxAnzahlUebungen];
+        String objWorkoutUebungenJson [][] = new String[anzahlWorkouts][maxAnzahlUebungen];
+
+        for (int index1 = 0; index1 < anzahlWorkouts; index1++) {
+            for (int index2 = 0; index2 < anzahlWorkoutUebungen[index1]; index2++) {
+                objWorkoutUebungenTag[index1][index2] = "objWorkoutUebungenPref" + Integer.toString(index1) + "+" + Integer.toString(index2);
+                objWorkoutUebungenPref[index1][index2] = getSharedPreferences(objWorkoutUebungenTag[index1][index2], 0);
+                objWorkoutUebungenEditor[index1][index2] = objWorkoutUebungenPref[index1][index2].edit();
+                objWorkoutUebungenJson[index1][index2] = gson.toJson(objWorkoutUebungen[index1][index2]);
+                objWorkoutUebungenEditor[index1][index2].putString(objWorkoutUebungenTag[index1][index2], objWorkoutUebungenJson[index1][index2]);
+                objWorkoutUebungenEditor[index1][index2].commit();
+            } // for
+        } // for
+
+        // Speichern, ob schon ein Workout Name erstellt wurde
+        SharedPreferences workoutNameHinzugefuegtPref [] = new SharedPreferences[anzahlWorkouts];
+        String workoutNameHinzugefuegtTag [] = new String[anzahlWorkouts];
+        SharedPreferences.Editor workoutNameHinzugefuegtEditor [] = new SharedPreferences.Editor[anzahlWorkouts];
+
+        for (int index = 0; index < anzahlWorkouts; index++) {
+            workoutNameHinzugefuegtTag[index] = "workoutNameHinzugefuegt" + Integer.toString(index);
+            workoutNameHinzugefuegtPref[index] = getSharedPreferences(workoutNameHinzugefuegtTag[index], 0);
+            workoutNameHinzugefuegtEditor[index] = workoutNameHinzugefuegtPref[index].edit();
+            workoutNameHinzugefuegtEditor[index].putBoolean(workoutNameHinzugefuegtTag[index], workoutNameHinzugefuegt[index]);
+            workoutNameHinzugefuegtEditor[index].commit();
+        } // for
+
+        // Workout Namen speichern
+        SharedPreferences workoutNamePref [] = new SharedPreferences[anzahlWorkouts];
+        String workoutNameTag [] = new String[anzahlWorkouts];
+        SharedPreferences.Editor workoutNameEditor [] = new SharedPreferences.Editor[anzahlWorkouts];
+
+        for (int index = 0; index < anzahlWorkouts; index++) {
+            workoutNameTag[index] = "workoutName" + Integer.toString(index);
+            workoutNamePref[index] = getSharedPreferences(workoutNameTag[index], 0);
+            workoutNameEditor[index] = workoutNamePref[index].edit();
+            workoutNameEditor[index].putString(workoutNameTag[index], workoutName[index]);
+            workoutNameEditor[index].commit();
+        } // for
+
     } // Methode datenSpeichern
 
     public void datenLaden() {
@@ -303,6 +376,56 @@ public class MainClass extends AppCompatActivity {
                 objStandardUebungen[index] = gson.fromJson(standardUebungJson[index], ObjMeineUebungen.class);
             } // for
         } // if
+
+        // Workouts laden
+
+        // Anzahl Workouts laden
+        SharedPreferences anzahlWorkoutsPref = getSharedPreferences("anzahlWorkouts", 0);
+        anzahlWorkouts = anzahlWorkoutsPref.getInt("anzahlWorkouts", 0);
+
+        // Anzahl der Übungen pro Workout laden
+        SharedPreferences anzahlWorkoutUebungenPref[] = new SharedPreferences[anzahlWorkouts];
+        String anzahlWorkoutUebungenTag[] = new String[anzahlWorkouts];
+
+        for (int index = 0; index < anzahlWorkouts; index++) {
+            anzahlWorkoutUebungenTag[index] = "anzahlWorkoutUebungen" + Integer.toString(index);
+            anzahlWorkoutUebungenPref[index] = getSharedPreferences(anzahlWorkoutUebungenTag[index], 0);
+            anzahlWorkoutUebungen[index] = anzahlWorkoutUebungenPref[index].getInt(anzahlWorkoutUebungenTag[index], 0);
+        } // for
+
+        // Workouts mit Übungen speichern
+        SharedPreferences objWorkoutUebungenPref[][] = new SharedPreferences[anzahlWorkouts][maxAnzahlUebungen];
+        String objWorkoutUebungenTag[][] = new String[anzahlWorkouts][maxAnzahlUebungen];
+        String objWorkoutUebungenJson[][] = new String[anzahlWorkouts][maxAnzahlUebungen];
+
+        for (int index1 = 0; index1 < anzahlWorkouts; index1++) {
+            for (int index2 = 0; index2 < anzahlWorkoutUebungen[index1]; index2++) {
+                objWorkoutUebungenTag[index1][index2] = "objWorkoutUebungenPref" + Integer.toString(index1) + "+" + Integer.toString(index2);
+                objWorkoutUebungenPref[index1][index2] = getSharedPreferences(objWorkoutUebungenTag[index1][index2], 0);
+                objWorkoutUebungenJson[index1][index2] = objWorkoutUebungenPref[index1][index2].getString(objWorkoutUebungenTag[index1][index2], null);
+                objWorkoutUebungen[index1][index2] = gson.fromJson(objWorkoutUebungenJson[index1][index2], ObjMeineUebungen.class);
+            } // for
+        } // for
+
+        // Laden, ob schon ein Workout Name erstellt wurde
+        SharedPreferences workoutNameHinzugefuegtPref[] = new SharedPreferences[anzahlWorkouts];
+        String workoutNameHinzugefuegtTag[] = new String[anzahlWorkouts];
+
+        for (int index = 0; index < anzahlWorkouts; index++) {
+            workoutNameHinzugefuegtTag[index] = "workoutNameHinzugefuegt" + Integer.toString(index);
+            workoutNameHinzugefuegtPref[index] = getSharedPreferences(workoutNameHinzugefuegtTag[index], 0);
+            workoutNameHinzugefuegt[index] = workoutNameHinzugefuegtPref[index].getBoolean(workoutNameHinzugefuegtTag[index], false);
+        } // for
+
+        // Workout Namen laden
+        SharedPreferences workoutNamePref[] = new SharedPreferences[anzahlWorkouts];
+        String workoutNameTag[] = new String[anzahlWorkouts];
+
+        for (int index = 0; index < anzahlWorkouts; index++) {
+            workoutNameTag[index] = "workoutName" + Integer.toString(index);
+            workoutNamePref[index] = getSharedPreferences(workoutNameTag[index], 0);
+            workoutName[index] = workoutNamePref[index].getString(workoutNameTag[index], null);
+        } // for
 
         // Seite laden
         FragmentManager fragmentManager = getFragmentManager();
@@ -905,69 +1028,107 @@ public class MainClass extends AppCompatActivity {
         Animation fabAnticlockwiese = AnimationUtils.loadAnimation(this.getApplicationContext(), R.anim.rotate_anticlockwise_45);
         TransitionDrawable transition = (TransitionDrawable) dunklererHintergrund.getBackground();
 
-        if (menueOffen) {
-            transition.reverseTransition(300);
-            fabUebungHinzufuegen.startAnimation(fabAnticlockwiese);
-            btnStandardUebungen.startAnimation(fabClose);
-            standardUebungenText.startAnimation(fabClose);
-            btnMeineUebungen.startAnimation(fabClose);
-            meineUebungenText.startAnimation(fabClose);
-            btnBesonderes.startAnimation(fabClose);
-            besonderesText.startAnimation(fabClose);
-            btnGanzkoerper.startAnimation(fabClose);
-            ganzkoerperText.startAnimation(fabClose);
-            btnArme.startAnimation(fabClose);
-            armeText.startAnimation(fabClose);
-            btnBeine.startAnimation(fabClose);
-            beineText.startAnimation(fabClose);
-            btnBauch.startAnimation(fabClose);
-            bauchText.startAnimation(fabClose);
-            btnBrust.startAnimation(fabClose);
-            brustText.startAnimation(fabClose);
-            btnRuecken.startAnimation(fabClose);
-            rueckenText.startAnimation(fabClose);
-            btnStandardUebungen.setClickable(false);
-            btnMeineUebungen.setClickable(false);
-            btnBesonderes.setClickable(false);
-            btnGanzkoerper.setClickable(false);
-            btnArme.setClickable(false);
-            btnBeine.setClickable(false);
-            btnBauch.setClickable(false);
-            btnBrust.setClickable(false);
-            btnRuecken.setClickable(false);
-            menueOffen = false;
-        } // then
-        else {
-            transition.startTransition(300);
-            fabUebungHinzufuegen.startAnimation(fabClockwise);
-            btnStandardUebungen.startAnimation(fabOpen);
-            standardUebungenText.startAnimation(fabOpen);
-            btnMeineUebungen.startAnimation(fabOpen);
-            meineUebungenText.startAnimation(fabOpen);
-            btnBesonderes.startAnimation(fabOpen);
-            besonderesText.startAnimation(fabOpen);
-            btnGanzkoerper.startAnimation(fabOpen);
-            ganzkoerperText.startAnimation(fabOpen);
-            btnArme.startAnimation(fabOpen);
-            armeText.startAnimation(fabOpen);
-            btnBeine.startAnimation(fabOpen);
-            beineText.startAnimation(fabOpen);
-            btnBauch.startAnimation(fabOpen);
-            bauchText.startAnimation(fabOpen);
-            btnBrust.startAnimation(fabOpen);
-            brustText.startAnimation(fabOpen);
-            btnRuecken.startAnimation(fabOpen);
-            rueckenText.startAnimation(fabOpen);
-            btnStandardUebungen.setClickable(true);
-            btnMeineUebungen.setClickable(true);
-            btnBesonderes.setClickable(true);
-            btnGanzkoerper.setClickable(true);
-            btnArme.setClickable(true);
-            btnBeine.setClickable(true);
-            btnBauch.setClickable(true);
-            btnBrust.setClickable(true);
-            btnRuecken.setClickable(true);
-            menueOffen = true;
+        // Überprüfen, ob der Button oder das Layout gedrückt wurde
+        int tag = Integer.parseInt(v.getTag().toString());
+
+        if (tag == 1) {
+            if (menueOffen) {
+                transition.reverseTransition(300);
+                fabUebungHinzufuegen.startAnimation(fabAnticlockwiese);
+                btnStandardUebungen.startAnimation(fabClose);
+                standardUebungenText.startAnimation(fabClose);
+                btnMeineUebungen.startAnimation(fabClose);
+                meineUebungenText.startAnimation(fabClose);
+                btnBesonderes.startAnimation(fabClose);
+                besonderesText.startAnimation(fabClose);
+                btnGanzkoerper.startAnimation(fabClose);
+                ganzkoerperText.startAnimation(fabClose);
+                btnArme.startAnimation(fabClose);
+                armeText.startAnimation(fabClose);
+                btnBeine.startAnimation(fabClose);
+                beineText.startAnimation(fabClose);
+                btnBauch.startAnimation(fabClose);
+                bauchText.startAnimation(fabClose);
+                btnBrust.startAnimation(fabClose);
+                brustText.startAnimation(fabClose);
+                btnRuecken.startAnimation(fabClose);
+                rueckenText.startAnimation(fabClose);
+                btnStandardUebungen.setClickable(false);
+                btnMeineUebungen.setClickable(false);
+                btnBesonderes.setClickable(false);
+                btnGanzkoerper.setClickable(false);
+                btnArme.setClickable(false);
+                btnBeine.setClickable(false);
+                btnBauch.setClickable(false);
+                btnBrust.setClickable(false);
+                btnRuecken.setClickable(false);
+                menueOffen = false;
+            } // if
+        } else {
+            if (menueOffen) {
+                transition.reverseTransition(300);
+                fabUebungHinzufuegen.startAnimation(fabAnticlockwiese);
+                btnStandardUebungen.startAnimation(fabClose);
+                standardUebungenText.startAnimation(fabClose);
+                btnMeineUebungen.startAnimation(fabClose);
+                meineUebungenText.startAnimation(fabClose);
+                btnBesonderes.startAnimation(fabClose);
+                besonderesText.startAnimation(fabClose);
+                btnGanzkoerper.startAnimation(fabClose);
+                ganzkoerperText.startAnimation(fabClose);
+                btnArme.startAnimation(fabClose);
+                armeText.startAnimation(fabClose);
+                btnBeine.startAnimation(fabClose);
+                beineText.startAnimation(fabClose);
+                btnBauch.startAnimation(fabClose);
+                bauchText.startAnimation(fabClose);
+                btnBrust.startAnimation(fabClose);
+                brustText.startAnimation(fabClose);
+                btnRuecken.startAnimation(fabClose);
+                rueckenText.startAnimation(fabClose);
+                btnStandardUebungen.setClickable(false);
+                btnMeineUebungen.setClickable(false);
+                btnBesonderes.setClickable(false);
+                btnGanzkoerper.setClickable(false);
+                btnArme.setClickable(false);
+                btnBeine.setClickable(false);
+                btnBauch.setClickable(false);
+                btnBrust.setClickable(false);
+                btnRuecken.setClickable(false);
+                menueOffen = false;
+            } // then
+            else {
+                transition.startTransition(300);
+                fabUebungHinzufuegen.startAnimation(fabClockwise);
+                btnStandardUebungen.startAnimation(fabOpen);
+                standardUebungenText.startAnimation(fabOpen);
+                btnMeineUebungen.startAnimation(fabOpen);
+                meineUebungenText.startAnimation(fabOpen);
+                btnBesonderes.startAnimation(fabOpen);
+                besonderesText.startAnimation(fabOpen);
+                btnGanzkoerper.startAnimation(fabOpen);
+                ganzkoerperText.startAnimation(fabOpen);
+                btnArme.startAnimation(fabOpen);
+                armeText.startAnimation(fabOpen);
+                btnBeine.startAnimation(fabOpen);
+                beineText.startAnimation(fabOpen);
+                btnBauch.startAnimation(fabOpen);
+                bauchText.startAnimation(fabOpen);
+                btnBrust.startAnimation(fabOpen);
+                brustText.startAnimation(fabOpen);
+                btnRuecken.startAnimation(fabOpen);
+                rueckenText.startAnimation(fabOpen);
+                btnStandardUebungen.setClickable(true);
+                btnMeineUebungen.setClickable(true);
+                btnBesonderes.setClickable(true);
+                btnGanzkoerper.setClickable(true);
+                btnArme.setClickable(true);
+                btnBeine.setClickable(true);
+                btnBauch.setClickable(true);
+                btnBrust.setClickable(true);
+                btnRuecken.setClickable(true);
+                menueOffen = true;
+            } // else
         } // else
     }
 
