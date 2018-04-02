@@ -1,46 +1,363 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
-    android:paddingTop="75dp"
-    tools:context="com.developer.workoutpro.itruns.workoutpro.FrWorkoutHinzufuegen">
+    tools:context="com.developer.workoutpro.itruns.workoutpro.MainClass">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="60dp"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/dunkelblau">
+        <Button
+            android:id="@+id/btnWorkoutName"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"
+            android:gravity="start|center_vertical"
+            android:onClick="workoutNamenHinzufuegen"
+            android:text="Workout Namen hinzufügen"
+            android:textAllCaps="false"
+            android:textColor="@color/dunkelblau"
+            android:textSize="15sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/tabItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+        <ImageButton
+            android:id="@+id/imgbtnWorkoutSpeichern"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"
+            android:tint="@color/dunkelblau"
+            android:onClick="workoutSpeichern"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_check_black_24dp" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/tabItem2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+    </android.support.constraint.ConstraintLayout>
 
-
-        </android.support.design.widget.TabLayout>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/container"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_marginTop="60dp"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/clMittlererBereich"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clHeader">
 
-</android.support.design.widget.CoordinatorLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/dunklererHintergrund"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/transparenter_hintergrund_anim">
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/btnUebungHinzufuegen"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:onClick="workoutButtonsZeigen"
+                    android:src="@drawable/ic_add_black_24dp"
+                    android:tag="7"
+                    android:tint="@color/weiss"
+                    app:backgroundTint="@color/dunkelblau"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btnRuecken"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="20dp"
+                    android:onClick="workoutUebungHinzufuegenOeffnen"
+                    android:src="@drawable/ic_add_black_24dp"
+                    android:tag="6"
+                    android:tint="@color/weiss"
+                    android:visibility="invisible"
+                    android:background="@drawable/runder_button"
+                    app:layout_constraintBottom_toTopOf="@+id/btnBrust"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/btnRueckenText"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center|end"
+                    android:text="Rücken"
+                    android:textColor="@color/weiss"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnBrust"
+                    app:layout_constraintEnd_toStartOf="@+id/btnRuecken" />
+
+                <ImageButton
+                    android:id="@+id/btnBrust"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="20dp"
+                    android:onClick="workoutUebungHinzufuegenOeffnen"
+                    android:src="@drawable/ic_add_black_24dp"
+                    android:tag="5"
+                    android:tint="@color/weiss"
+                    android:visibility="invisible"
+                    android:background="@drawable/runder_button"
+                    app:layout_constraintBottom_toTopOf="@+id/btnBauch"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/btnBrustText"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center|end"
+                    android:text="Brust"
+                    android:textColor="@color/weiss"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnBauch"
+                    app:layout_constraintEnd_toStartOf="@+id/btnBrust" />
+
+                <ImageButton
+                    android:id="@+id/btnBauch"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="20dp"
+                    android:onClick="workoutUebungHinzufuegenOeffnen"
+                    android:src="@drawable/ic_add_black_24dp"
+                    android:tag="4"
+                    android:tint="@color/weiss"
+                    android:background="@drawable/runder_button"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnBeine"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/btnBauchText"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center|end"
+                    android:text="Bauch"
+                    android:textColor="@color/weiss"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnBeine"
+                    app:layout_constraintEnd_toStartOf="@+id/btnBauch" />
+
+                <ImageButton
+                    android:id="@+id/btnBeine"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="20dp"
+                    android:onClick="workoutUebungHinzufuegenOeffnen"
+                    android:src="@drawable/ic_add_black_24dp"
+                    android:tag="3"
+                    android:tint="@color/weiss"
+                    android:background="@drawable/runder_button"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnArme"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/btnBeineText"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center|end"
+                    android:text="Beine"
+                    android:textColor="@color/weiss"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnArme"
+                    app:layout_constraintEnd_toStartOf="@+id/btnBeine" />
+
+                <ImageButton
+                    android:id="@+id/btnArme"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="20dp"
+                    android:onClick="workoutUebungHinzufuegenOeffnen"
+                    android:src="@drawable/ic_add_black_24dp"
+                    android:tag="2"
+                    android:tint="@color/weiss"
+                    android:background="@drawable/runder_button"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnGanzkoerper"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/btnArmeText"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center|end"
+                    android:text="Arme"
+                    android:textColor="@color/weiss"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnGanzkoerper"
+                    app:layout_constraintEnd_toStartOf="@+id/btnArme" />
+
+                <ImageButton
+                    android:id="@+id/btnGanzkoerper"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="20dp"
+                    android:onClick="workoutUebungHinzufuegenOeffnen"
+                    android:src="@drawable/ic_add_black_24dp"
+                    android:tag="1"
+                    android:tint="@color/weiss"
+                    android:background="@drawable/runder_button"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnBesondereUebungen"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/btnGanzkoerperText"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center|end"
+                    android:text="Ganzkörper"
+                    android:textColor="@color/weiss"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnBesondereUebungen"
+                    app:layout_constraintEnd_toStartOf="@+id/btnGanzkoerper" />
+
+                <ImageButton
+                    android:id="@+id/btnBesondereUebungen"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="20dp"
+                    android:onClick="workoutUebungHinzufuegenOeffnen"
+                    android:src="@drawable/ic_add_black_24dp"
+                    android:tag="0"
+                    android:tint="@color/weiss"
+                    android:background="@drawable/runder_button"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnMeineUebungen"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/btnBesondereUebungenText"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center|end"
+                    android:text="Besonderes"
+                    android:textColor="@color/weiss"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnMeineUebungen"
+                    app:layout_constraintEnd_toStartOf="@+id/btnBesondereUebungen" />
+
+                <ImageButton
+                    android:id="@+id/btnMeineUebungen"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="20dp"
+                    android:onClick="workoutUebungHinzufuegenOeffnen"
+                    android:src="@drawable/ic_add_black_24dp"
+                    android:tag="8"
+                    android:tint="@color/weiss"
+                    android:background="@drawable/runder_button"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnStandardUebungen"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/btnMeineUebungenText"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center|end"
+                    android:text="Meine Übungen"
+                    android:textColor="@color/weiss"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnStandardUebungen"
+                    app:layout_constraintEnd_toStartOf="@+id/btnMeineUebungen" />
+
+                <ImageButton
+                    android:id="@+id/btnStandardUebungen"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/runder_button"
+                    android:onClick="workoutUebungHinzufuegenOeffnen"
+                    android:src="@drawable/ic_add_black_24dp"
+                    android:tag="7"
+                    android:tint="@color/weiss"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnUebungHinzufuegen"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/btnStandardUebungenText"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center|end"
+                    android:text="Standard Übungen"
+                    android:textColor="@color/weiss"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/btnUebungHinzufuegen"
+                    app:layout_constraintEnd_toStartOf="@+id/btnStandardUebungen" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</android.support.constraint.ConstraintLayout>

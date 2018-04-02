@@ -58,10 +58,10 @@ public class FrUebersichtRow extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fr_uebersicht_row, container, false);
 
-        MainClass mainClass = (MainClass) getActivity();
+        final MainClass mainClass = (MainClass) getActivity();
 
         // Workout Name setzen
-        workoutName = "aslödkjfaölskdjfaölksdfjaösldkfa";
+        workoutName = mainClass.gibWorkoutName(aktWorkout);
         tvWorkoutName = view.findViewById(R.id.tvWorkoutName);
         tvWorkoutName.setText(workoutName);
         tvWorkoutName.setId(workoutNameId);
@@ -96,7 +96,7 @@ public class FrUebersichtRow extends Fragment {
         tvZeitWert.setId(zeitWertId);
 
         // Workout Übungen setzen
-        workoutUebungen = "20";
+        workoutUebungen = Integer.toString(mainClass.gibWorkoutUebungAnzahlUebersicht(aktWorkout));
         tvUebungenWert = view.findViewById(R.id.tvUebungenWert);
         tvUebungenWert.setText(workoutUebungen);
         tvUebungenWert.setId(uebungenWertId);
@@ -142,6 +142,13 @@ public class FrUebersichtRow extends Fragment {
                     btnLoeschen.setClickable(true);
                     menueOffen = true;
                 } // else
+            }
+        });
+
+        btnLoeschen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainClass.workoutLoeschen(aktWorkout);
             }
         });
 

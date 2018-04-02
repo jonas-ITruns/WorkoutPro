@@ -38,8 +38,7 @@ public class FrUebersicht extends Fragment {
 
     public void anzahlWorkoutsBestimmen() {
         MainClass mainClass = (MainClass) getActivity();
-        // anzahlWorkouts = mainClass.gibAnzahlMeineUebungen();
-        anzahlWorkouts = 1;
+        anzahlWorkouts = mainClass.gibAnzahlWorkouts();
     }
 
 }

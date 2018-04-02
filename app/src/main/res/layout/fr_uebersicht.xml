@@ -64,7 +64,7 @@
             android:layout_gravity="right"
             android:layout_marginBottom="15dp"
             android:layout_marginEnd="15dp"
-            android:onClick="workoutHinzufuegenOeffnen"
+            android:onClick="workoutHinzufuegenOeffnenButton"
             android:src="@drawable/ic_add_black_24dp"
             android:tint="@color/weiss"
             app:backgroundTint="@color/dunkelblau"

@@ -6,13 +6,18 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -32,6 +37,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class MainClass extends AppCompatActivity {
 
     // Menüleiste
@@ -44,7 +52,7 @@ public class MainClass extends AppCompatActivity {
     // Attribute für meine Übungen
     // Übungen hinzufügen
     // Fenster, das geöffnet wird
-    private AlertDialog alert;
+    public AlertDialog alert;
     private EditText etName;
     private EditText etBeschreibung;
     // Muskelgrupppe, die ausgewählt ist
@@ -72,7 +80,19 @@ public class MainClass extends AppCompatActivity {
     private String standardUebungenSortierung = "datum";
 
     // Attribute für Workout hinzufügen
-    private boolean supportedOpen = false;
+    private int anzahlAlleUebungen = 0;
+    private ObjMeineUebungen objAlleUebungen[] = new ObjMeineUebungen[maxAnzahlUebungen];
+    private ObjMeineUebungen objAngezeigteUebungen[];
+    private boolean menueOffen = false;
+
+    // Attribute für Workouts
+    private int anzahlWorkouts;
+    private int anzahlWorkoutUebungen[] = new int[maxAnzahlUebungen];
+    private ObjMeineUebungen objWorkoutUebungen[][] = new ObjMeineUebungen[maxAnzahlUebungen][maxAnzahlUebungen];
+    private String workoutName[] = new String[maxAnzahlUebungen];
+    private boolean workoutNameHinzugefuegt[] = new boolean[maxAnzahlUebungen];
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,9 +137,6 @@ public class MainClass extends AppCompatActivity {
 
         // Fragment löschen
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
-        if (supportedOpen) {
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
-        } // if
 
         datenSpeichern();
     } // Methode onPause
@@ -314,10 +331,6 @@ public class MainClass extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         // nach dem Auswählen den Navigator wieder schließen
                         mDrawerLayout.closeDrawers();
-
-                        if (supportedOpen) {
-                            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
-                        } // if
 
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -838,18 +851,416 @@ public class MainClass extends AppCompatActivity {
     // Workout Hinzufügen
 
 
+    public void workoutHinzufuegenOeffnenButton(View v) {
+        // alle Übungen zum Objekt hinzufügen
+        for (int index = 0; index < anzahlStandardUebungen; index++) {
+            objAlleUebungen[index] = new ObjMeineUebungen();
+            objAlleUebungen[index] = objStandardUebungen[index];
+        } // for
+        for (int index = 0; index < anzahlMeineUebungen; index++) {
+            objAlleUebungen[index + anzahlStandardUebungen] = new ObjMeineUebungen();
+            objAlleUebungen[index + anzahlStandardUebungen] = objMeineUebungen[index];
+        } // for
 
-    public void workoutHinzufuegenOeffnen(View v) {
-        supportedOpen = true;
+        workoutNameHinzugefuegt[anzahlWorkouts] = false;
+        workoutHinzufuegenOeffnen();
+    } // Methode workoutHinzufuegenOeffnen
+
+    public void workoutHinzufuegenOeffnen() {
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FrWorkoutHinzufuegen frWorkoutHinzufuegen = new FrWorkoutHinzufuegen();
         fragmentTransaction.replace(R.id.bereichFragments, frWorkoutHinzufuegen, "workoutHinzufuegen");
         fragmentTransaction.addToBackStack(null);
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
     } // Methode workoutHinzufuegenOeffnen
+
+    public void workoutButtonsZeigen(View v) {
+        ConstraintLayout dunklererHintergrund = findViewById(R.id.dunklererHintergrund);
+        FloatingActionButton fabUebungHinzufuegen = findViewById(R.id.btnUebungHinzufuegen);
+        ImageButton btnStandardUebungen = findViewById(R.id.btnStandardUebungen);
+        TextView standardUebungenText = findViewById(R.id.btnStandardUebungenText);
+        ImageButton btnMeineUebungen = findViewById(R.id.btnMeineUebungen);
+        TextView meineUebungenText = findViewById(R.id.btnMeineUebungenText);
+        ImageButton btnBesonderes = findViewById(R.id.btnBesondereUebungen);
+        TextView besonderesText = findViewById(R.id.btnBesondereUebungenText);
+        ImageButton btnGanzkoerper = findViewById(R.id.btnGanzkoerper);
+        TextView ganzkoerperText = findViewById(R.id.btnGanzkoerperText);
+        ImageButton btnArme = findViewById(R.id.btnArme);
+        TextView armeText = findViewById(R.id.btnArmeText);
+        ImageButton btnBeine = findViewById(R.id.btnBeine);
+        TextView beineText = findViewById(R.id.btnBeineText);
+        ImageButton btnBauch = findViewById(R.id.btnBauch);
+        TextView bauchText = findViewById(R.id.btnBauchText);
+        ImageButton btnBrust = findViewById(R.id.btnBrust);
+        TextView brustText = findViewById(R.id.btnBrustText);
+        ImageButton btnRuecken = findViewById(R.id.btnRuecken);
+        TextView rueckenText = findViewById(R.id.btnRueckenText);
+
+        Animation fabOpen = AnimationUtils.loadAnimation(this.getApplicationContext(), R.anim.fab_open);
+        Animation fabClose = AnimationUtils.loadAnimation(this.getApplicationContext(), R.anim.fab_close);
+        Animation fabClockwise = AnimationUtils.loadAnimation(this.getApplicationContext(), R.anim.rotate_clockwise_45);
+        Animation fabAnticlockwiese = AnimationUtils.loadAnimation(this.getApplicationContext(), R.anim.rotate_anticlockwise_45);
+        TransitionDrawable transition = (TransitionDrawable) dunklererHintergrund.getBackground();
+
+        if (menueOffen) {
+            transition.reverseTransition(300);
+            fabUebungHinzufuegen.startAnimation(fabAnticlockwiese);
+            btnStandardUebungen.startAnimation(fabClose);
+            standardUebungenText.startAnimation(fabClose);
+            btnMeineUebungen.startAnimation(fabClose);
+            meineUebungenText.startAnimation(fabClose);
+            btnBesonderes.startAnimation(fabClose);
+            besonderesText.startAnimation(fabClose);
+            btnGanzkoerper.startAnimation(fabClose);
+            ganzkoerperText.startAnimation(fabClose);
+            btnArme.startAnimation(fabClose);
+            armeText.startAnimation(fabClose);
+            btnBeine.startAnimation(fabClose);
+            beineText.startAnimation(fabClose);
+            btnBauch.startAnimation(fabClose);
+            bauchText.startAnimation(fabClose);
+            btnBrust.startAnimation(fabClose);
+            brustText.startAnimation(fabClose);
+            btnRuecken.startAnimation(fabClose);
+            rueckenText.startAnimation(fabClose);
+            btnStandardUebungen.setClickable(false);
+            btnMeineUebungen.setClickable(false);
+            btnBesonderes.setClickable(false);
+            btnGanzkoerper.setClickable(false);
+            btnArme.setClickable(false);
+            btnBeine.setClickable(false);
+            btnBauch.setClickable(false);
+            btnBrust.setClickable(false);
+            btnRuecken.setClickable(false);
+            menueOffen = false;
+        } // then
+        else {
+            transition.startTransition(300);
+            fabUebungHinzufuegen.startAnimation(fabClockwise);
+            btnStandardUebungen.startAnimation(fabOpen);
+            standardUebungenText.startAnimation(fabOpen);
+            btnMeineUebungen.startAnimation(fabOpen);
+            meineUebungenText.startAnimation(fabOpen);
+            btnBesonderes.startAnimation(fabOpen);
+            besonderesText.startAnimation(fabOpen);
+            btnGanzkoerper.startAnimation(fabOpen);
+            ganzkoerperText.startAnimation(fabOpen);
+            btnArme.startAnimation(fabOpen);
+            armeText.startAnimation(fabOpen);
+            btnBeine.startAnimation(fabOpen);
+            beineText.startAnimation(fabOpen);
+            btnBauch.startAnimation(fabOpen);
+            bauchText.startAnimation(fabOpen);
+            btnBrust.startAnimation(fabOpen);
+            brustText.startAnimation(fabOpen);
+            btnRuecken.startAnimation(fabOpen);
+            rueckenText.startAnimation(fabOpen);
+            btnStandardUebungen.setClickable(true);
+            btnMeineUebungen.setClickable(true);
+            btnBesonderes.setClickable(true);
+            btnGanzkoerper.setClickable(true);
+            btnArme.setClickable(true);
+            btnBeine.setClickable(true);
+            btnBauch.setClickable(true);
+            btnBrust.setClickable(true);
+            btnRuecken.setClickable(true);
+            menueOffen = true;
+        } // else
+    }
+
+    public void workoutNamenHinzufuegen(View v) {
+        // Hinzufügen-Fenster öffnen
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.fr_workout_name);
+        builder.setCancelable(true);
+        alert = builder.create();
+        alert.show();
+
+        // Deklarieren der Textfelder
+        TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
+        tvAlertUeberschrift.setText("Workoutnamen hinzufügen");
+
+        final EditText etWorkoutName = alert.findViewById(R.id.etWorkoutName);
+
+        if (workoutNameHinzugefuegt[anzahlWorkouts]) {
+            etWorkoutName.setText(workoutName[anzahlWorkouts]);
+        }
+
+        // Tastatur automatisch öffnen
+        etWorkoutName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                etWorkoutName.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        InputMethodManager imm = (InputMethodManager) MainClass.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(etWorkoutName, InputMethodManager.SHOW_IMPLICIT);
+                    }
+                });
+            }
+        });
+        etWorkoutName.requestFocus();
+
+        // Namen hinzufügen speichern
+        Button btnUebungSpeichern = alert.findViewById(R.id.btnUebungSpeichern);
+        btnUebungSpeichern.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Daten einlesen und sonst Nachricht ausgeben, dass etwas fehlt
+                if (etWorkoutName.getText().toString().isEmpty()) {
+                    Toast.makeText(MainClass.this, "Bitte Workoutname eintragen", Toast.LENGTH_SHORT).show();
+                    return;
+                } // then
+                else {
+                    // Name bestimmen
+                    workoutName[anzahlWorkouts] = etWorkoutName.getText().toString();
+                    workoutNameHinzugefuegt[anzahlWorkouts] = true;
+
+                    Button btnWorkoutName = findViewById(R.id.btnWorkoutName);
+                    btnWorkoutName.setText(workoutName[anzahlWorkouts]);
+
+                    alert.cancel();
+                } // else
+            }
+        });
+
+        // Übung hinzufügen abbrechen
+        Button btnUebungAbbrechen = alert.findViewById(R.id.btnUebungAbbrechen);
+        btnUebungAbbrechen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.cancel();
+            }
+        });
+
+    }
+
+    public void workoutUebungHinzufuegenOeffnen(View v) {
+        int tag = Integer.parseInt(v.getTag().toString());
+
+        // Hinzufügen-Fenster öffnen
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.fr_workout_uebung_hinzufuegen);
+        builder.setCancelable(true);
+        alert = builder.create();
+        alert.show();
+
+        // Deklarieren der Textfelder
+        TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
+        tvAlertUeberschrift.setText("Übung hinzufügen");
+
+        // Nach Muskelgruppe beziehnungsweise Übungstyp filtern
+        anzahlAlleUebungen = anzahlMeineUebungen + anzahlStandardUebungen;
+
+        // Array List zum sortieren
+        ArrayList<String> uebungenSortiert = new ArrayList<>();
+        switch (tag) {
+            // Besondere Übungen (Pause)
+            case 0:
+                for (int index = 0; index < anzahlAlleUebungen; index++) {
+                    if (objAlleUebungen[index].gibMuskelgruppe().equals("-")) {
+                        uebungenSortiert.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
+                    } // if
+                } // for
+                break;
+            // Ganzkoerper
+            case 1:
+                for (int index = 0; index < anzahlAlleUebungen; index++) {
+                    if (objAlleUebungen[index].gibMuskelgruppe().equals("ganzkoerper")) {
+                        uebungenSortiert.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
+                    } // if
+                } // for
+                break;
+            // Arme
+            case 2:
+                for (int index = 0; index < anzahlAlleUebungen; index++) {
+                    if (objAlleUebungen[index].gibMuskelgruppe().equals("arme")) {
+                        uebungenSortiert.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
+                    } // if
+                } // for
+                break;
+            // Beine
+            case 3:
+                for (int index = 0; index < anzahlAlleUebungen; index++) {
+                    if (objAlleUebungen[index].gibMuskelgruppe().equals("beine")) {
+                        uebungenSortiert.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
+                    } // if
+                } // for
+                break;
+            // Bauch
+            case 4:
+                for (int index = 0; index < anzahlAlleUebungen; index++) {
+                    if (objAlleUebungen[index].gibMuskelgruppe().equals("bauch")) {
+                        uebungenSortiert.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
+                    } // if
+                } // for
+                break;
+            // Brust
+            case 5:
+                for (int index = 0; index < anzahlAlleUebungen; index++) {
+                    if (objAlleUebungen[index].gibMuskelgruppe().equals("brust")) {
+                        uebungenSortiert.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
+                    } // if
+                } // for
+                break;
+            // Ruecken
+            case 6:
+                for (int index = 0; index < anzahlAlleUebungen; index++) {
+                    if (objAlleUebungen[index].gibMuskelgruppe().equals("ruecken")) {
+                        uebungenSortiert.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
+                    } // if
+                } // for
+                break;
+            // Standard Uebungen
+            case 7:
+                for (int index = 0; index < anzahlStandardUebungen; index++) {
+                    uebungenSortiert.add(objStandardUebungen[index].gibName() + "~" + objStandardUebungen[index].gibMuskelgruppe() + "<" + objStandardUebungen[index].gibBeschreibung());
+                } // for
+                break;
+            // Meine Uebungen
+            case 8:
+                for (int index = 0; index < anzahlMeineUebungen; index++) {
+                    uebungenSortiert.add(objMeineUebungen[index].gibName() + "~" + objMeineUebungen[index].gibMuskelgruppe() + "<" + objMeineUebungen[index].gibBeschreibung());
+                } // for
+                break;
+        } // switch
+
+        Collections.sort(uebungenSortiert, new AlphanumComparator());
+
+        String [] mUebungArray1;
+        String [] mUebungArray2;
+
+        objAngezeigteUebungen = new ObjMeineUebungen[uebungenSortiert.size()];
+
+        for (int index = 0; index < uebungenSortiert.size(); index++) {
+            objAngezeigteUebungen[index] = new ObjMeineUebungen();
+            mUebungArray1 = uebungenSortiert.get(index).split("~");
+            objAngezeigteUebungen[index].setzeName(mUebungArray1[0]);
+            mUebungArray2 = mUebungArray1[1].split("<");
+            objAngezeigteUebungen[index].setzeMuskelgruppe(mUebungArray2[0]);
+            objAngezeigteUebungen[index].setzeBeschreibung(mUebungArray2[1]);
+        } // for
+
+        // Array Lists besetzen
+        ArrayList<String> mName = new ArrayList<>();
+        ArrayList<String> mMuskelgruppe = new ArrayList<>();
+        ArrayList<String> mBeschreibung = new ArrayList<>();
+        for (int index = 0; index < uebungenSortiert.size(); index++) {
+            mName.add(objAngezeigteUebungen[index].gibName());
+            mMuskelgruppe.add(objAngezeigteUebungen[index].gibMuskelgruppe());
+            mBeschreibung.add(objAngezeigteUebungen[index].gibBeschreibung());
+        } // for
+
+        // Übungen anzeigen
+        SwipeRecyclerViewAdapter adapter;
+        RecyclerView recyclerView;
+        recyclerView = alert.findViewById(R.id.recycler_view_a);
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new SwipeRecyclerViewAdapter(this, mName, mMuskelgruppe, mBeschreibung, true);
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    public void workoutUebungHinzufuegen(int index) {
+        objWorkoutUebungen[anzahlWorkouts][anzahlWorkoutUebungen[anzahlWorkouts]] = objAngezeigteUebungen[index];
+        anzahlWorkoutUebungen[anzahlWorkouts]++;
+        menueOffen = false;
+    }
+
+    public void workoutUebungLoeschen(int index) {
+        int tag = index;
+        for (int zähler = tag + 1; zähler < anzahlWorkoutUebungen[anzahlWorkouts]; zähler++) {
+            objWorkoutUebungen[anzahlWorkouts][zähler - 1] = objWorkoutUebungen[anzahlWorkouts][zähler];
+            objWorkoutUebungen[anzahlWorkouts][zähler] = null;
+        } // for
+        anzahlWorkoutUebungen[anzahlWorkouts]--;
+    }
+
+    public boolean gibWorkoutNameHinzugefuegt(int workout) {
+        return workoutNameHinzugefuegt[workout];
+    }
+
+    public String gibWorkoutName(int workout) {
+        return workoutName[workout];
+    }
+
+    public String gibWorkoutUebungName(int index) {
+        return objWorkoutUebungen[anzahlWorkouts][index].gibName();
+    }
+
+    public String gibWorkoutUebungMuskelgruppe(int index) {
+        return objWorkoutUebungen[anzahlWorkouts][index].gibMuskelgruppe();
+    }
+
+    public String gibWorkoutUebungBeschreibung(int index) {
+        return objWorkoutUebungen[anzahlWorkouts][index].gibBeschreibung();
+    }
+
+    public int gibWorkoutUebungAnzahl() {
+        return anzahlWorkoutUebungen[anzahlWorkouts];
+    }
+
+    public int gibAnzahlWorkouts() {
+        return anzahlWorkouts;
+    }
+
+    public int gibWorkoutUebungAnzahlUebersicht(int workout) {
+        return anzahlWorkoutUebungen[workout];
+    }
+
+    public void workoutSpeichern(View v) {
+        // Workout Namen einlesen
+        Button btnWorkoutName = findViewById(R.id.btnWorkoutName);
+        if (btnWorkoutName.getText().toString().equals("Workout Namen hinzufügen")) {
+            Toast.makeText(this, "Bitte Workout Namen eintragen", Toast.LENGTH_SHORT).show();
+            return;
+        } // then
+        else {
+            workoutName[anzahlWorkouts] = btnWorkoutName.getText().toString();
+        } // else
+
+        anzahlWorkouts++;
+
+        // Seite laden
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FrUebersicht frUebersicht = new FrUebersicht();
+        fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
+        fragmentManager.executePendingTransactions();
+        fragmentTransaction.commit();
+    }
+
+    public void workoutLoeschen(int workout) {
+        int tag = workout;
+        for (int zähler = tag + 1; zähler < anzahlWorkouts + 1; zähler++) {
+            for (int pZähler = 0; pZähler < maxAnzahlUebungen; pZähler++) {
+                objWorkoutUebungen[zähler - 1][pZähler] = objWorkoutUebungen[zähler][pZähler];
+                objWorkoutUebungen[zähler][pZähler] = null;
+            } // for
+            anzahlWorkoutUebungen[zähler - 1] = anzahlWorkoutUebungen[zähler];
+            anzahlWorkoutUebungen[zähler] = 0;
+            workoutName[zähler - 1] = workoutName[zähler];
+            workoutName[zähler] = null;
+            workoutNameHinzugefuegt[zähler - 1] = workoutNameHinzugefuegt[zähler];
+            workoutNameHinzugefuegt[zähler] = false;
+        } // for
+        anzahlWorkouts--;
+
+        // Seite laden
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FrUebersicht frUebersicht = new FrUebersicht();
+        fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
+        fragmentManager.executePendingTransactions();
+        fragmentTransaction.commit();
+    }
 
 
 } // Klasse MainClass

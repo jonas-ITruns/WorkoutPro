@@ -6,6 +6,7 @@
     <color name="hellgrau_Hintergrund">#dedede</color>
     <color name="weiss">#ffffff</color>
     <color name="transparent">@android:color/transparent</color>
+    <color name="leichtTransparent">#5b000000</color>
     <color name ="blauTransparent">#a041577d</color>
     <color name="dunkelgrau">#414141</color>
     <color name="fastSchwarz">#797979</color>

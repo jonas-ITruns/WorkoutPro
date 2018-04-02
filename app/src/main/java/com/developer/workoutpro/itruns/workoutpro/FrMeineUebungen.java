@@ -197,7 +197,7 @@ public class FrMeineUebungen extends Fragment {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new SwipeRecyclerViewAdapter(getActivity(), mName, mMuskelgruppe, mBeschreibung);
+        adapter = new SwipeRecyclerViewAdapter(getActivity(), mName, mMuskelgruppe, mBeschreibung, false);
         recyclerView.setAdapter(adapter);
 
         initSwipe();
@@ -217,7 +217,7 @@ public class FrMeineUebungen extends Fragment {
 
                 // Nach links swipen; für nach rechts swipen else Teil
                 if (direction == ItemTouchHelper.LEFT) {
-                    adapter.removeItem(position);
+                    adapter.removeItem(position, false);
                 } // then
                 else {
                     edit_position = position;
