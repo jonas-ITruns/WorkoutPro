@@ -103,7 +103,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/transparent"
-                android:src="@drawable/ic_edit"
+                android:src="@drawable/muskelgruppe_brust_30"
                 android:tint="@color/dunkelgrau" />
 
             <ImageButton

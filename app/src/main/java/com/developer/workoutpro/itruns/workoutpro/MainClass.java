@@ -1262,5 +1262,4 @@ public class MainClass extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-
 } // Klasse MainClass
