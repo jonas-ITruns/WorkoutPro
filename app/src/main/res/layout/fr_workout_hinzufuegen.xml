@@ -133,7 +133,7 @@
                     android:layout_marginBottom="6dp"
                     android:gravity="center|end"
                     android:text="Rücken"
-                    android:src="@drawable/ic_add_black_24dp"
+                    android:src="@drawable/ic_muskelgruppe_ruecken_32"
                     android:textColor="@color/weiss"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/btnBrust"
