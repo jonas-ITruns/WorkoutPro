@@ -9,6 +9,8 @@
     android:background="@color/hellgrau_Hintergrund"
     tools:context="com.developer.workoutpro.itruns.workoutpro.Ladebildschirm">
 
+
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/clObererBereich"
         android:layout_width="match_parent"
@@ -40,16 +42,24 @@
 
         </android.support.constraint.ConstraintLayout>
 
-
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/bereichFragments"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transparent">
+        android:id="@+id/mittlererBereich">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/bereichFragments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent">
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
+
+
 
         <android.support.design.widget.NavigationView
             android:id="@+id/nav_view"

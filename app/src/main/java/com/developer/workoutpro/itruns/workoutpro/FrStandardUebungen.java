@@ -45,9 +45,9 @@ public class FrStandardUebungen extends Fragment {
         pContainer = container;
         frView = inflater.inflate(R.layout.fr_standard_uebungen, container, false);
 
+        MainClass mainClass = (MainClass) getActivity();
         ProgressBar progressBarStandardUebungen = frView.findViewById(R.id.progressBarStandardUebungen);
 
-        MainClass mainClass = (MainClass) getActivity();
         if(mainClass.gibSynchronisation()) {
             progressBarStandardUebungen.setVisibility(View.VISIBLE);
         } // then

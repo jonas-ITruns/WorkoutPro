@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 public class FrUebersicht extends Fragment {
 
@@ -17,7 +18,9 @@ public class FrUebersicht extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fr_uebersicht, container, false);
 
-        anzahlWorkoutsBestimmen();
+        MainClass mainClass = (MainClass) getActivity();
+
+        anzahlWorkouts = mainClass.gibAnzahlWorkouts();
         FrUebersichtRow frUebersichtRows[] = new FrUebersichtRow[anzahlWorkouts];
 
         // Rows in der Tabelle hinzufügen
@@ -34,11 +37,6 @@ public class FrUebersicht extends Fragment {
         } // for
 
         return view;
-    }
 
-    public void anzahlWorkoutsBestimmen() {
-        MainClass mainClass = (MainClass) getActivity();
-        anzahlWorkouts = mainClass.gibAnzahlWorkouts();
     }
-
 }
