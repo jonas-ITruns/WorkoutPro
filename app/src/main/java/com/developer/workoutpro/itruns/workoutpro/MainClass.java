@@ -1366,6 +1366,23 @@ public class MainClass extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    public void workoutErstellungAbbrechen(View v) {
+        workoutName[anzahlWorkouts] = new String();
+        for (int index = 0; index < anzahlWorkoutUebungen[anzahlWorkouts]; index++) {
+            objWorkoutUebungen[anzahlWorkouts][index] = new ObjMeineUebungen();
+        } // for
+        anzahlWorkoutUebungen[anzahlWorkouts] = 0;
+
+        // Seite laden
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FrUebersicht frUebersicht = new FrUebersicht();
+        fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
+        fragmentManager.executePendingTransactions();
+        fragmentTransaction.commit();
+    }
+
     public void workoutLoeschen(int workout) {
         int tag = workout;
         for (int zähler = tag + 1; zähler < anzahlWorkouts + 1; zähler++) {

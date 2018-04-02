@@ -38,18 +38,33 @@
 
         <ImageButton
             android:id="@+id/imgbtnWorkoutSpeichern"
-            android:layout_width="50dp"
+            android:layout_width="45dp"
             android:layout_height="50dp"
             android:layout_marginBottom="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
             android:background="@color/transparent"
-            android:tint="@color/dunkelblau"
             android:onClick="workoutSpeichern"
+            android:tint="@color/dunkelblau"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_check_black_24dp" />
+
+        <ImageButton
+            android:id="@+id/imgbtnWorkoutAbbrechen"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"
+            android:onClick="workoutErstellungAbbrechen"
+            android:tint="@color/dunkelblau"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imgbtnWorkoutSpeichern"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/ic_close_black_24dp" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -127,6 +142,7 @@
                     android:layout_marginBottom="6dp"
                     android:gravity="center|end"
                     android:text="Rücken"
+                    android:src="@drawable/ic_add_black_24dp"
                     android:textColor="@color/weiss"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/btnBrust"
@@ -140,7 +156,7 @@
                     android:layout_marginBottom="6dp"
                     android:layout_marginEnd="20dp"
                     android:onClick="workoutUebungHinzufuegenOeffnen"
-                    android:src="@drawable/ic_add_black_24dp"
+                    android:src="@drawable/ic_muskelgruppe_brust_32"
                     android:tag="5"
                     android:tint="@color/weiss"
                     android:visibility="invisible"
@@ -168,7 +184,7 @@
                     android:layout_marginBottom="6dp"
                     android:layout_marginEnd="20dp"
                     android:onClick="workoutUebungHinzufuegenOeffnen"
-                    android:src="@drawable/ic_add_black_24dp"
+                    android:src="@drawable/ic_muskelgruppe_bauch_32"
                     android:tag="4"
                     android:tint="@color/weiss"
                     android:background="@drawable/runder_button"
