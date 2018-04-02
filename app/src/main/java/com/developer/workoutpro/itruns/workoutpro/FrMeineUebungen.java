@@ -301,8 +301,14 @@ public class FrMeineUebungen extends Fragment {
                             if (etName.getText().toString().isEmpty()) {
                                 Toast.makeText(getActivity(), "Bitte Übungsnamen eintragen", Toast.LENGTH_SHORT).show();
                                 return;
+                            } else if (etName.getText().toString().length() > 30) {
+                                Toast.makeText(getActivity(), "Name ist zu lang", Toast.LENGTH_SHORT).show();
+                                return;
                             } else if (etBeschreibung.getText().toString().isEmpty()) {
                                 Toast.makeText(getActivity(), "Bitte Beschreibung eintragen", Toast.LENGTH_SHORT).show();
+                                return;
+                            } else if (etBeschreibung.getText().toString().length() > 80) {
+                                Toast.makeText(getActivity(), "Beschreibung ist zu lang", Toast.LENGTH_SHORT).show();
                                 return;
                             } else {
                                 // Name bestimmen
