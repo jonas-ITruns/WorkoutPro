@@ -14,11 +14,11 @@
         android:id="@+id/group2">
         <item
             android:id="@+id/standardUebungen"
-            android:icon="@drawable/ic_exercises"
+            android:icon="@drawable/ic_itruns_32"
             android:title="Standard Übungen" />
         <item
             android:id="@+id/meineUebungen"
-            android:icon="@drawable/ic_exercises"
+            android:icon="@drawable/ic_meine_uebungen_32"
             android:title="Meine Übungen" />
     </group>
     <group android:checkableBehavior="single"
