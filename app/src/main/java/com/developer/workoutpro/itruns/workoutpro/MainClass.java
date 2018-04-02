@@ -77,7 +77,7 @@ public class MainClass extends AppCompatActivity {
     private int indexStandardUebung;
     // Übungen sortieren
     private String meineUebungenSortierung;
-    private String standardUebungenSortierung = "datum";
+    private String standardUebungenSortierung = "name";
 
     // Attribute für Workout hinzufügen
     private int anzahlAlleUebungen = 0;
@@ -622,7 +622,7 @@ public class MainClass extends AppCompatActivity {
     } // Methode uebungLoeschen
 
 
-    // Gib- und Setze-Methode für MeineUebungen
+    // Gib- und Setze-Methode für meine Uebungen
 
 
     public static int gibMeineUebungenNummer(int index) {
@@ -744,7 +744,7 @@ public class MainClass extends AppCompatActivity {
     } // Methode uebungHolen
 
 
-    // Gib- und Setze-Methode für MeineUebungen
+    // Gib- und Setze-Methode für Standard Uebungen
 
 
     public boolean gibSynchronisation() {
@@ -1050,7 +1050,7 @@ public class MainClass extends AppCompatActivity {
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
-        tvAlertUeberschrift.setText("Übung hinzufügen");
+        tvAlertUeberschrift.setText("Übung auswählen");
 
         // Nach Muskelgruppe beziehnungsweise Übungstyp filtern
         anzahlAlleUebungen = anzahlMeineUebungen + anzahlStandardUebungen;
@@ -1128,6 +1128,7 @@ public class MainClass extends AppCompatActivity {
                 break;
         } // switch
 
+        // Übungen sortieren
         Collections.sort(uebungenSortiert, new AlphanumComparator());
 
         String [] mUebungArray1;
@@ -1181,38 +1182,6 @@ public class MainClass extends AppCompatActivity {
         anzahlWorkoutUebungen[anzahlWorkouts]--;
     }
 
-    public boolean gibWorkoutNameHinzugefuegt(int workout) {
-        return workoutNameHinzugefuegt[workout];
-    }
-
-    public String gibWorkoutName(int workout) {
-        return workoutName[workout];
-    }
-
-    public String gibWorkoutUebungName(int index) {
-        return objWorkoutUebungen[anzahlWorkouts][index].gibName();
-    }
-
-    public String gibWorkoutUebungMuskelgruppe(int index) {
-        return objWorkoutUebungen[anzahlWorkouts][index].gibMuskelgruppe();
-    }
-
-    public String gibWorkoutUebungBeschreibung(int index) {
-        return objWorkoutUebungen[anzahlWorkouts][index].gibBeschreibung();
-    }
-
-    public int gibWorkoutUebungAnzahl() {
-        return anzahlWorkoutUebungen[anzahlWorkouts];
-    }
-
-    public int gibAnzahlWorkouts() {
-        return anzahlWorkouts;
-    }
-
-    public int gibWorkoutUebungAnzahlUebersicht(int workout) {
-        return anzahlWorkoutUebungen[workout];
-    }
-
     public void workoutSpeichern(View v) {
         // Workout Namen einlesen
         Button btnWorkoutName = findViewById(R.id.btnWorkoutName);
@@ -1261,5 +1230,42 @@ public class MainClass extends AppCompatActivity {
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
     }
+
+
+    // Gib-Methoden für Workout hinzufügen
+
+
+    public boolean gibWorkoutNameHinzugefuegt(int workout) {
+        return workoutNameHinzugefuegt[workout];
+    }
+
+    public String gibWorkoutName(int workout) {
+        return workoutName[workout];
+    }
+
+    public String gibWorkoutUebungName(int index) {
+        return objWorkoutUebungen[anzahlWorkouts][index].gibName();
+    }
+
+    public String gibWorkoutUebungMuskelgruppe(int index) {
+        return objWorkoutUebungen[anzahlWorkouts][index].gibMuskelgruppe();
+    }
+
+    public String gibWorkoutUebungBeschreibung(int index) {
+        return objWorkoutUebungen[anzahlWorkouts][index].gibBeschreibung();
+    }
+
+    public int gibWorkoutUebungAnzahl() {
+        return anzahlWorkoutUebungen[anzahlWorkouts];
+    }
+
+    public int gibAnzahlWorkouts() {
+        return anzahlWorkouts;
+    }
+
+    public int gibWorkoutUebungAnzahlUebersicht(int workout) {
+        return anzahlWorkoutUebungen[workout];
+    }
+
 
 } // Klasse MainClass
