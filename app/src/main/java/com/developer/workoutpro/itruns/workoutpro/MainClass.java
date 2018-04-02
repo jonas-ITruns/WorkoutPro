@@ -587,12 +587,20 @@ public class MainClass extends AppCompatActivity {
                     Toast.makeText(MainClass.this, "Bitte Übungsnamen eintragen", Toast.LENGTH_SHORT).show();
                     return;
                 } // if
+                else if (etName.getText().toString().length() > 30) {
+                    Toast.makeText(MainClass.this, "Name ist zu lang", Toast.LENGTH_SHORT).show();
+                    return;
+                } // if
                 else if (!muskelgruppeAusgewaehlt) {
                     Toast.makeText(MainClass.this, "Bitte Muskelgruppe eintragen", Toast.LENGTH_SHORT).show();
                     return;
                 } // if
                 else if (etBeschreibung.getText().toString().isEmpty()) {
                     Toast.makeText(MainClass.this, "Bitte Beschreibung eintragen", Toast.LENGTH_SHORT).show();
+                    return;
+                } // if
+                else if (etBeschreibung.getText().toString().length() > 90) {
+                    Toast.makeText(MainClass.this, "Beschreibung ist zu lang", Toast.LENGTH_SHORT).show();
                     return;
                 } // if
                 else {
@@ -1099,7 +1107,7 @@ public class MainClass extends AppCompatActivity {
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
-        tvAlertUeberschrift.setText("Workoutnamen hinzufügen");
+        tvAlertUeberschrift.setText("Workout Namen hinzufügen");
 
         final EditText etWorkoutName = alert.findViewById(R.id.etWorkoutName);
 
@@ -1129,9 +1137,13 @@ public class MainClass extends AppCompatActivity {
             public void onClick(View v) {
                 // Daten einlesen und sonst Nachricht ausgeben, dass etwas fehlt
                 if (etWorkoutName.getText().toString().isEmpty()) {
-                    Toast.makeText(MainClass.this, "Bitte Workoutname eintragen", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainClass.this, "Bitte Workout Namen eintragen", Toast.LENGTH_SHORT).show();
                     return;
-                } // then
+                } // if
+                else if (etWorkoutName.getText().toString().length() > 30) {
+                    Toast.makeText(MainClass.this, "Workout Name ist zu lang", Toast.LENGTH_SHORT).show();
+                    return;
+                } // if
                 else {
                     // Name bestimmen
                     workoutName[anzahlWorkouts] = etWorkoutName.getText().toString();
