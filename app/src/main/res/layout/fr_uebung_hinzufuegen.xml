@@ -113,7 +113,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/transparent"
-                android:src="@drawable/ic_menu"
+                android:src="@drawable/ic_muskelgruppe_ruecken_32"
                 android:tint="@color/dunkelgrau" />
 
         </LinearLayout>
