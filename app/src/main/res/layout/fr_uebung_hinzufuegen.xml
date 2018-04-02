@@ -63,7 +63,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/transparent"
-                android:src="@drawable/ic_exercises"
+                android:src="@drawable/ic_muskelgruppe_ganzkoerper_32"
                 android:tint="@color/dunkelgrau" />
 
             <ImageButton
@@ -73,7 +73,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/transparent"
-                android:src="@drawable/muskelgruppe_arm"
+                android:src="@drawable/ic_muskelgruppe_arme_32"
                 android:tint="@color/dunkelgrau" />
 
             <ImageButton
@@ -83,7 +83,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/transparent"
-                android:src="@drawable/ic_add_black_24dp"
+                android:src="@drawable/ic_muskelgruppe_beine_32"
                 android:tint="@color/dunkelgrau" />
 
             <ImageButton
