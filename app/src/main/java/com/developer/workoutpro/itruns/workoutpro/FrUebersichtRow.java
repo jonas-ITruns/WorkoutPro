@@ -15,22 +15,23 @@ import android.widget.TextView;
 public class FrUebersichtRow extends Fragment {
 
     // Generelle Attribute
+    private static View view;
     private int aktWorkout;
     private boolean menueOffen = false;
 
     // Attribute Workout Name
-    TextView tvWorkoutName;
+    private static TextView tvWorkoutName;
     private String workoutName;
     private int workoutNameId;
     private boolean nameScrollt = false;
 
     // Attribute Workout Art
-    TextView tvArtWert;
+    private TextView tvArtWert;
     private String workoutArt;
     private int artWertId;
 
     // Attribute Workout Zeit
-    TextView tvZeitWert;
+    private TextView tvZeitWert;
     private int workoutZeitInt;
     private String workoutZeitStr;
     private int workoutZeitStundenInt;
@@ -42,7 +43,7 @@ public class FrUebersichtRow extends Fragment {
     private int zeitWertId;
 
     // Attribute Workout Übungen
-    TextView tvUebungenWert;
+    private TextView tvUebungenWert;
     private String workoutUebungen;
     private int uebungenWertId;
 
@@ -63,7 +64,7 @@ public class FrUebersichtRow extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fr_uebersicht_row, container, false);
+        view = inflater.inflate(R.layout.fr_uebersicht_row, container, false);
 
         final MainClass mainClass = (MainClass) getActivity();
 
@@ -189,6 +190,13 @@ public class FrUebersichtRow extends Fragment {
             }
         });
 
+        btnUmbennen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainClass.workoutUmbennen(aktWorkout);
+            }
+        });
+
         return view;
     }
 
@@ -199,5 +207,9 @@ public class FrUebersichtRow extends Fragment {
         zeitWertId = pZeitWertId;
         uebungenWertId = pUebungenWertId;
     } // Methode setzeAtkUebung
+
+    public static void workoutNamenAktualisieren(String workoutName) {
+        tvWorkoutName.setText(workoutName);
+    }
 
 }

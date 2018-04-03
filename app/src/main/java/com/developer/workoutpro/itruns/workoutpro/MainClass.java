@@ -1481,6 +1481,72 @@ public class MainClass extends AppCompatActivity {
         dauerWorkoutUebungen[anzahlWorkouts] = 0;
     }
 
+    public void workoutUmbennen(final int workout) {
+        // Umbennen-Fenster öffnen
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.fr_workout_name);
+        builder.setCancelable(true);
+        alert = builder.create();
+        alert.show();
+
+        // Deklarieren der Textfelder
+        TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
+        tvAlertUeberschrift.setText("Workout Namen ändern");
+
+        final EditText etWorkoutName = alert.findViewById(R.id.etWorkoutName);
+        etWorkoutName.setText(workoutName[workout]);
+
+        // Tastatur automatisch öffnen
+        etWorkoutName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                etWorkoutName.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        InputMethodManager imm = (InputMethodManager) MainClass.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(etWorkoutName, InputMethodManager.SHOW_IMPLICIT);
+                    }
+                });
+            }
+        });
+        etWorkoutName.requestFocus();
+
+        // Namen hinzufügen speichern
+        Button btnUebungSpeichern = alert.findViewById(R.id.btnUebungDauerSpeichern);
+        btnUebungSpeichern.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Daten einlesen und sonst Nachricht ausgeben, dass etwas fehlt
+                if (etWorkoutName.getText().toString().isEmpty()) {
+                    Toast.makeText(MainClass.this, "Bitte Workout Namen eintragen", Toast.LENGTH_SHORT).show();
+                    return;
+                } // if
+                else if (etWorkoutName.getText().toString().length() > 30) {
+                    Toast.makeText(MainClass.this, "Workout Name ist zu lang", Toast.LENGTH_SHORT).show();
+                    return;
+                } // if
+                else {
+                    // Name bestimmen
+                    workoutName[workout] = etWorkoutName.getText().toString();
+
+                    FrUebersichtRow.workoutNamenAktualisieren(workoutName[workout]);
+
+                    alert.cancel();
+                } // else
+            }
+        });
+
+        // Übung hinzufügen abbrechen
+        Button btnUebungAbbrechen = alert.findViewById(R.id.btnUebungAbbrechen);
+        btnUebungAbbrechen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.cancel();
+            }
+        });
+
+    }
+
     public void workoutLoeschen(int workout) {
         int tag = workout;
         for (int zähler = tag + 1; zähler < anzahlWorkouts + 1; zähler++) {

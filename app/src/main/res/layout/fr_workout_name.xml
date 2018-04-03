@@ -60,7 +60,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
-        android:text="Übung hinzufügen"
+        android:text="Workout Namen hinzufügen"
         android:textAlignment="center"
         android:textColor="@color/dunkelblau"
         android:textSize="20sp"
