@@ -70,12 +70,23 @@
                                 <PersistentState>
                                   <option name="children">
                                     <map>
+                                      <entry key="backgroundImage">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="scalingPercent" value="101" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
                                       <entry key="foregroundImage">
                                         <value>
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="63" />
+                                                <entry key="scalingPercent" value="66" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -85,8 +96,8 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="ffffff" />
+                                      <entry key="backgroundImage" value="C:\Users\Dietmar\Documents\WorkoutPro\app\src\main\res\drawable\transparenter_hintergrund.png" />
                                       <entry key="foregroundImage" value="C:\Users\Dietmar\Documents\workoutpro_logo_1000.png" />
                                     </map>
                                   </option>
@@ -118,7 +129,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/D:/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_close_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_expand_more_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -128,7 +139,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_close_black_24dp" />
+                            <entry key="color" value="41577d" />
+                            <entry key="outputName" value="ic_expand_more_black_24dp" />
                             <entry key="sourceFile" value="C:\Users\Dietmar" />
                           </map>
                         </option>

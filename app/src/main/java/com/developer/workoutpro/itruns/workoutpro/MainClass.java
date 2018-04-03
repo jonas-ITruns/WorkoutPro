@@ -628,7 +628,7 @@ public class MainClass extends AppCompatActivity {
         muskelgruppeInitialisieren();
 
         // Übung hinzufügen speichern
-        Button btnUebungSpeichern = alert.findViewById(R.id.btnUebungDauerSpeichern);
+        Button btnUebungSpeichern = alert.findViewById(R.id.imgbtnUebungDauerSpeichern);
         btnUebungSpeichern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1188,7 +1188,7 @@ public class MainClass extends AppCompatActivity {
         etWorkoutName.requestFocus();
 
         // Namen hinzufügen speichern
-        Button btnUebungSpeichern = alert.findViewById(R.id.btnUebungDauerSpeichern);
+        Button btnUebungSpeichern = alert.findViewById(R.id.imgbtnUebungDauerSpeichern);
         btnUebungSpeichern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1410,26 +1410,89 @@ public class MainClass extends AppCompatActivity {
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
+        final EditText etUebungDauerSekunden = alert.findViewById(R.id.etUebungDauerSekunden);
+        final EditText etUebungDauerMinuten = alert.findViewById(R.id.etUebungDauerMinuten);
+
         tvAlertUeberschrift.setText("Dauer der Übung");
 
-        // Tastatur automatisch öffnen
-        final EditText etUebungDauer = alert.findViewById(R.id.etUebungDauer);
-        etUebungDauer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+          final EditText etUebungDauer = alert.findViewById(R.id.etUebungDauerMinuten);
+//        Tastatur automatisch öffnen
+//        etUebungDauer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                etUebungDauer.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        InputMethodManager imm = (InputMethodManager) MainClass.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+//                        imm.showSoftInput(etUebungDauer, InputMethodManager.SHOW_IMPLICIT);
+//                    }
+//                });
+//            }
+//        });
+//        etUebungDauer.requestFocus();
+
+        //Deklarieren der Button
+        ImageButton imgbtnUebungDauerSpeichern = alert.findViewById(R.id.imgbtnUebungDauerSpeichern);
+        ImageButton imgbtnUebungDauerAbbrechen = alert.findViewById(R.id.imgbtnUebungDauerAbbrechen);
+        final ImageButton imgbtnUebungDauerPlusSekunden = alert.findViewById(R.id.imgbtnPlusSekunden);
+        final ImageButton imgbtnUebungDauerMinusSekunden = alert.findViewById(R.id.imgbtnMinusSekunden);
+        final ImageButton imgbtnUebungDauerPlusMinuten = alert.findViewById(R.id.imgbtnPlusMinuten);
+        final ImageButton imgbtnUebungDauerMinusMinuten = alert.findViewById(R.id.imgbtnMinusMinuten);
+
+
+        imgbtnUebungDauerPlusSekunden.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                etUebungDauer.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        InputMethodManager imm = (InputMethodManager) MainClass.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.showSoftInput(etUebungDauer, InputMethodManager.SHOW_IMPLICIT);
-                    }
-                });
+            public void onClick(View v) {
+                //Deklaration der Hilfsvariablen
+                String aktSekundenStr, aktMinutenStr;
+                int aktSekunden, aktMinuten;
+
+                //aktuelle Sekunden einlesen
+                if (etUebungDauerSekunden.length()==0){
+                    aktSekunden = 0;
+                }
+                else{
+                    aktSekundenStr = etUebungDauerSekunden.getText().toString();
+                    aktSekunden = Integer.parseInt(aktSekundenStr);
+                }
+
+                //aktuelle Minuten einlesen
+                if (etUebungDauerMinuten.length()==0){
+                    aktMinuten = 0;
+                }
+                else{
+                    aktMinutenStr = etUebungDauerMinuten.getText().toString();
+                    aktMinuten = Integer.parseInt(aktMinutenStr);
+                }
+
+                //Sekunden um 1 erhöhen
+                if (aktSekunden == 59){
+                    aktSekunden = 0;
+                    aktMinuten = aktMinuten + 1;
+                }
+                else{
+                    aktSekunden = aktSekunden+1;
+                }
+
+                //Ausgeben der aktuellen Sekunden
+                aktSekundenStr = Integer.toString(aktSekunden);
+                if(aktSekundenStr.length()==1){
+                    aktSekundenStr = "0" + aktSekundenStr;
+                }
+                etUebungDauerSekunden.setText(aktSekundenStr);
+
+                //Ausgeben der aktuellen Minuten
+                aktMinutenStr = Integer.toString(aktMinuten);
+                if (aktMinutenStr.length()==1){
+                    aktMinutenStr = "0" + aktMinutenStr;
+                }//else
+                etUebungDauerMinuten.setText(aktMinutenStr);
+
             }
         });
-        etUebungDauer.requestFocus();
 
-        Button btnUebungDauerSpeichern = alert.findViewById(R.id.btnUebungDauerSpeichern);
-        btnUebungDauerSpeichern.setOnClickListener(new View.OnClickListener() {
+        imgbtnUebungDauerSpeichern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Dauer einlesen
@@ -1454,8 +1517,7 @@ public class MainClass extends AppCompatActivity {
             }
         });
 
-        Button btnUebungDauerAbbrechen = alert.findViewById(R.id.btnUebungDauerAbbrechen);
-        btnUebungDauerAbbrechen.setOnClickListener(new View.OnClickListener() {
+        imgbtnUebungDauerAbbrechen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alert.cancel();
@@ -1627,7 +1689,7 @@ public class MainClass extends AppCompatActivity {
         etWorkoutName.requestFocus();
 
         // Namen hinzufügen speichern
-        Button btnUebungSpeichern = alert.findViewById(R.id.btnUebungDauerSpeichern);
+        Button btnUebungSpeichern = alert.findViewById(R.id.imgbtnUebungDauerSpeichern);
         btnUebungSpeichern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

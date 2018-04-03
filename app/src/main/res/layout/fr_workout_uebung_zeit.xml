@@ -5,33 +5,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_layout"
     android:layout_width="300dp"
-    android:layout_height="200dp"
+    android:layout_height="220dp"
     android:background="@color/hellgrau_Hintergrund"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
     <EditText
-        android:id="@+id/etUebungDauer"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="55dp"
-        android:hint="Dauer"
+        android:id="@+id/etUebungDauerMinuten"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="70dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="70dp"
+        android:hint="00"
         android:inputType="time"
         android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tvAlertUeberschrift" />
 
     <TextView
         android:id="@+id/tvAlertUeberschrift"
-        android:layout_width="270dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/grau_Hintergrund"
+        android:gravity="center_vertical|center_horizontal"
         android:text="Dauer der Übung"
-        android:textAlignment="center"
         android:textColor="@color/dunkelblau"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -39,30 +39,101 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnUebungDauerSpeichern"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="25dp"
-        android:background="@color/grau_Hintergrund"
-        android:text="Speichern"
-        android:textColor="@color/dunkelgrau"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUebungDauer" />
-
-    <Button
-        android:id="@+id/btnUebungDauerAbbrechen"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="25dp"
-        android:background="@color/grau_Hintergrund"
-        android:text="abbrechen"
-        android:textColor="@color/dunkelgrau"
-        android:textStyle="bold"
+    <ImageButton
+        android:id="@+id/imgbtnUebungDauerAbbrechen"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="70dp"
+        android:background="@color/transparent"
+        android:tint="@android:color/holo_red_dark"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUebungDauer" />
+        app:layout_constraintTop_toBottomOf="@+id/tvAlertUeberschrift"
+        app:srcCompat="@drawable/ic_close_black_24dp" />
+
+    <ImageButton
+        android:id="@+id/imgbtnUebungDauerSpeichern"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="70dp"
+        android:background="@color/transparent"
+        android:tint="@color/dunkelblau"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAlertUeberschrift"
+        app:srcCompat="@drawable/ic_check_black_24dp" />
+
+    <EditText
+        android:id="@+id/etUebungDauerSekunden"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="70dp"
+        android:layout_marginEnd="85dp"
+        android:layout_marginTop="70dp"
+        android:ems="10"
+        android:gravity="center_horizontal|center_vertical"
+        android:hint="00"
+        android:inputType="time"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAlertUeberschrift" />
+
+    <TextView
+        android:id="@+id/tvDoppelpunkt"
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text=":"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/etUebungDauerSekunden"
+        app:layout_constraintStart_toEndOf="@+id/etUebungDauerMinuten"
+        app:layout_constraintTop_toBottomOf="@+id/imgbtnPlusSekunden" />
+
+    <ImageButton
+        android:id="@+id/imgbtnPlusSekunden"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="85dp"
+        android:background="@color/hellgrau_Hintergrund"
+        android:tag="1"
+        app:layout_constraintBottom_toTopOf="@+id/etUebungDauerSekunden"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_expand_less_black_24dp" />
+
+    <ImageButton
+        android:id="@+id/imgbtnMinusSekunden"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="85dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/transparent"
+        android:tag="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etUebungDauerSekunden"
+        app:srcCompat="@drawable/ic_expand_more_black_24dp" />
+
+    <ImageButton
+        android:id="@+id/imgbtnPlusMinuten"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="85dp"
+        android:background="@color/hellgrau_Hintergrund"
+        android:tag="3"
+        app:layout_constraintBottom_toTopOf="@+id/etUebungDauerMinuten"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_expand_less_black_24dp" />
+
+    <ImageButton
+        android:id="@+id/imgbtnMinusMinuten"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/transparent"
+        android:tag="4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etUebungDauerMinuten"
+        app:srcCompat="@drawable/ic_expand_more_black_24dp" />
 
 </android.support.constraint.ConstraintLayout>
