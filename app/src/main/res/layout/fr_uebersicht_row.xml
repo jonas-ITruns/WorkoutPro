@@ -135,7 +135,7 @@
             android:background="@color/grau_Hintergrund"
             android:gravity="center"
             android:paddingLeft="5dp"
-            android:text="Workout Art"
+            android:text="Muskelfokus"
             android:textColor="@color/dunkelgrau"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -160,7 +160,7 @@
             android:background="@color/grau_Hintergrund"
             android:gravity="center"
             android:paddingLeft="5dp"
-            android:text="Tabata"
+            android:text="Arme"
             android:textColor="@color/dunkelgrau"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvWorkoutArt" />

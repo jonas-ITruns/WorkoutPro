@@ -92,7 +92,7 @@ public class FrUebersichtRow extends Fragment {
         });
 
         // Workout Art setzen
-        workoutArt = "Tabata";
+        workoutArt = mainClass.gibWorkoutMuskelfokus(aktWorkout);
         tvArtWert = view.findViewById(R.id.tvWorkoutArtWert);
         tvArtWert.setText(workoutArt);
         tvArtWert.setId(artWertId);

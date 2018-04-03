@@ -102,6 +102,7 @@ public class MainClass extends AppCompatActivity {
     private ObjMeineUebungen objWorkoutUebungen[][] = new ObjMeineUebungen[maxAnzahlUebungen][maxAnzahlUebungen];
     private String workoutName[] = new String[maxAnzahlUebungen];
     private boolean workoutNameHinzugefuegt[] = new boolean[maxAnzahlUebungen];
+    private String muskelfokus[] = new String[maxAnzahlUebungen];
 
     // Attribute für Workout bearbeiten
     private int anzahlWorkoutUebungenKopie;
@@ -344,6 +345,19 @@ public class MainClass extends AppCompatActivity {
             workoutNameEditor[index].commit();
         } // for
 
+        // Workout Muskelfokus speichern
+        SharedPreferences muskelfokusPref [] = new SharedPreferences[anzahlWorkouts];
+        String muskelfokusTag [] = new String[anzahlWorkouts];
+        SharedPreferences.Editor muskelfokusEditor [] = new SharedPreferences.Editor[anzahlWorkouts];
+
+        for (int index = 0; index < anzahlWorkouts; index++) {
+            muskelfokusTag[index] = "muskelfokus" + Integer.toString(index);
+            muskelfokusPref[index] = getSharedPreferences(muskelfokusTag[index], 0);
+            muskelfokusEditor[index] = muskelfokusPref[index].edit();
+            muskelfokusEditor[index].putString(muskelfokusTag[index], muskelfokus[index]);
+            muskelfokusEditor[index].commit();
+        } // for
+
     } // Methode datenSpeichern
 
     public void datenLaden() {
@@ -455,6 +469,17 @@ public class MainClass extends AppCompatActivity {
             workoutNameTag[index] = "workoutName" + Integer.toString(index);
             workoutNamePref[index] = getSharedPreferences(workoutNameTag[index], 0);
             workoutName[index] = workoutNamePref[index].getString(workoutNameTag[index], null);
+        } // for
+
+        // Workout Muskelfokus laden
+
+        SharedPreferences muskelfokusPref[] = new SharedPreferences[anzahlWorkouts];
+        String muskelfokusTag[] = new String[anzahlWorkouts];
+
+        for (int index = 0; index < anzahlWorkouts; index++) {
+            muskelfokusTag[index] = "muskelfokus" + Integer.toString(index);
+            muskelfokusPref[index] = getSharedPreferences(muskelfokusTag[index], 0);
+            muskelfokus[index] = muskelfokusPref[index].getString(muskelfokusTag[index], null);
         } // for
 
         // Seite laden
@@ -1459,6 +1484,52 @@ public class MainClass extends AppCompatActivity {
             workoutName[aktuellesWorkout] = btnWorkoutName.getText().toString();
         } // else
 
+        // Muskelgruppenfokus berechnen
+        int ganzkoerper = 0, arme = 0, beine = 0, bauch = 0, brust = 0, ruecken = 0;
+        for (int index = 0; index < anzahlWorkoutUebungen[aktuellesWorkout]; index++) {
+            if (objWorkoutUebungen[aktuellesWorkout][index].gibMuskelgruppe().equals("ganzkoerper")) {
+                ganzkoerper++;
+            } else if (objWorkoutUebungen[aktuellesWorkout][index].gibMuskelgruppe().equals("arme")) {
+                arme++;
+            } else if (objWorkoutUebungen[aktuellesWorkout][index].gibMuskelgruppe().equals("beine")) {
+                beine++;
+            } else if (objWorkoutUebungen[aktuellesWorkout][index].gibMuskelgruppe().equals("bauch")) {
+                bauch++;
+            } else if (objWorkoutUebungen[aktuellesWorkout][index].gibMuskelgruppe().equals("brust")) {
+                brust++;
+            } else if (objWorkoutUebungen[aktuellesWorkout][index].gibMuskelgruppe().equals("ruecken")) {
+                ruecken++;
+            } // if
+        } // for
+        String maxWertStr = "-";
+        int maxWert = 0;
+        if (ganzkoerper > maxWert) {
+            maxWertStr = "Ganzkörper";
+            maxWert = ganzkoerper;
+        } // if
+        if (arme > maxWert) {
+            maxWertStr = "Arme";
+            maxWert = arme;
+        } // if
+        if (beine > maxWert) {
+            maxWertStr = "Beine";
+            maxWert = beine;
+        } // if
+        if (bauch > maxWert) {
+            maxWertStr = "Bauch";
+            maxWert = bauch;
+        } // if
+        if (brust > maxWert) {
+            maxWertStr = "Brust";
+            maxWert = brust;
+        } // if
+        if (ruecken > maxWert) {
+            maxWertStr = "Rücken";
+            maxWert = ruecken;
+        } // if
+
+        muskelfokus[aktuellesWorkout] = maxWertStr;
+
         // Wenn es ein neues Workout ist, Anzahl erhöhen
         if (aktuellesWorkout == anzahlWorkouts) {
             anzahlWorkouts++;
@@ -1585,6 +1656,8 @@ public class MainClass extends AppCompatActivity {
             workoutName[zähler] = null;
             workoutNameHinzugefuegt[zähler - 1] = workoutNameHinzugefuegt[zähler];
             workoutNameHinzugefuegt[zähler] = false;
+            muskelfokus[zähler - 1] = muskelfokus[zähler];
+            muskelfokus[zähler] = null;
         } // for
         anzahlWorkouts--;
 
@@ -1664,6 +1737,10 @@ public class MainClass extends AppCompatActivity {
 
     public int gibDauerWorkoutUebungenUebersicht(int workout) {
         return dauerWorkoutUebungen[workout];
+    }
+
+    public String gibWorkoutMuskelfokus(int workout) {
+        return muskelfokus[workout];
     }
 
     public int gibBearbeitendesWorkout() {
