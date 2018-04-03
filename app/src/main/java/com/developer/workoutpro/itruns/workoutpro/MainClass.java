@@ -1503,29 +1503,44 @@ public class MainClass extends AppCompatActivity {
         } // for
         String maxWertStr = "-";
         int maxWert = 0;
-        if (ganzkoerper > maxWert) {
+        if (ganzkoerper >= maxWert) {
             maxWertStr = "Ganzkörper";
             maxWert = ganzkoerper;
         } // if
-        if (arme > maxWert) {
-            maxWertStr = "Arme";
-            maxWert = arme;
+        if (arme >= maxWert) {
+            maxWertStr = "Ganzkörper";
+            if (arme > maxWert) {
+                maxWertStr = "Arme";
+                maxWert = arme;
+            } // if
         } // if
-        if (beine > maxWert) {
-            maxWertStr = "Beine";
-            maxWert = beine;
+        if (beine >= maxWert) {
+            maxWertStr = "Ganzkörper";
+            if (beine > maxWert) {
+                maxWertStr = "Beine";
+                maxWert = beine;
+            } // if
         } // if
-        if (bauch > maxWert) {
-            maxWertStr = "Bauch";
-            maxWert = bauch;
+        if (bauch >= maxWert) {
+            maxWertStr = "Ganzkörper";
+            if (bauch > maxWert) {
+                maxWertStr = "Bauch";
+                maxWert = bauch;
+            } // if
         } // if
-        if (brust > maxWert) {
-            maxWertStr = "Brust";
-            maxWert = brust;
+        if (brust >= maxWert) {
+            maxWertStr = "Ganzkörper";
+            if (brust > maxWert) {
+                maxWertStr = "Brust";
+                maxWert = brust;
+            } // if
         } // if
-        if (ruecken > maxWert) {
-            maxWertStr = "Rücken";
-            maxWert = ruecken;
+        if (ruecken >= maxWert) {
+            maxWertStr = "Ganzkörper";
+            if (ruecken > maxWert) {
+                maxWertStr = "Rücken";
+                maxWert = ruecken;
+            } // if
         } // if
 
         muskelfokus[aktuellesWorkout] = maxWertStr;
