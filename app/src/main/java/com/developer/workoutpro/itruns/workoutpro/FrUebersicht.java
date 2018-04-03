@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class FrUebersicht extends Fragment {
 
@@ -22,6 +23,14 @@ public class FrUebersicht extends Fragment {
 
         anzahlWorkouts = mainClass.gibAnzahlWorkouts();
         FrUebersichtRow frUebersichtRows[] = new FrUebersichtRow[anzahlWorkouts];
+
+        TextView tvHinweisWorkoutHinzufuegen = view.findViewById(R.id.tvHinweisWorkoutHinzufuegen);
+        if (anzahlWorkouts == 0) {
+            tvHinweisWorkoutHinzufuegen.setVisibility(View.VISIBLE);
+        } // then
+        else {
+            tvHinweisWorkoutHinzufuegen.setVisibility(View.INVISIBLE);
+        } // else
 
         // Rows in der Tabelle hinzufügen
         FragmentTransaction transaction;
