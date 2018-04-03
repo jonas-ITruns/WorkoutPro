@@ -4,11 +4,9 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -628,7 +626,7 @@ public class MainClass extends AppCompatActivity {
         muskelgruppeInitialisieren();
 
         // Übung hinzufügen speichern
-        Button btnUebungSpeichern = alert.findViewById(R.id.imgbtnUebungDauerSpeichern);
+        ImageButton btnUebungSpeichern = alert.findViewById(R.id.imgbtnUebungSpeichern);
         btnUebungSpeichern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -699,7 +697,7 @@ public class MainClass extends AppCompatActivity {
         });
 
         // Übung hinzufügen abbrechen
-        Button btnUebungAbbrechen = alert.findViewById(R.id.btnUebungAbbrechen);
+        ImageButton btnUebungAbbrechen = alert.findViewById(R.id.imgbtnUebungAbbrechen);
         btnUebungAbbrechen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1188,7 +1186,7 @@ public class MainClass extends AppCompatActivity {
         etWorkoutName.requestFocus();
 
         // Namen hinzufügen speichern
-        Button btnUebungSpeichern = alert.findViewById(R.id.imgbtnUebungDauerSpeichern);
+        ImageButton btnUebungSpeichern = alert.findViewById(R.id.imgbtnWorkoutNameSpeichern);
         btnUebungSpeichern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1215,7 +1213,7 @@ public class MainClass extends AppCompatActivity {
         });
 
         // Übung hinzufügen abbrechen
-        Button btnUebungAbbrechen = alert.findViewById(R.id.btnUebungAbbrechen);
+        ImageButton btnUebungAbbrechen = alert.findViewById(R.id.imgbtnWorkoutNameAbbrechen);
         btnUebungAbbrechen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1689,7 +1687,7 @@ public class MainClass extends AppCompatActivity {
         etWorkoutName.requestFocus();
 
         // Namen hinzufügen speichern
-        Button btnUebungSpeichern = alert.findViewById(R.id.imgbtnUebungDauerSpeichern);
+        ImageButton btnUebungSpeichern = alert.findViewById(R.id.imgbtnWorkoutNameSpeichern);
         btnUebungSpeichern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1714,7 +1712,7 @@ public class MainClass extends AppCompatActivity {
         });
 
         // Übung hinzufügen abbrechen
-        Button btnUebungAbbrechen = alert.findViewById(R.id.btnUebungAbbrechen);
+        ImageButton btnUebungAbbrechen = alert.findViewById(R.id.imgbtnWorkoutNameAbbrechen);
         btnUebungAbbrechen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1724,34 +1722,62 @@ public class MainClass extends AppCompatActivity {
 
     }
 
-    public void workoutLoeschen(int workout) {
-        int tag = workout;
-        for (int zähler = tag + 1; zähler < anzahlWorkouts + 1; zähler++) {
-            for (int pZähler = 0; pZähler < maxAnzahlUebungen; pZähler++) {
-                objWorkoutUebungen[zähler - 1][pZähler] = objWorkoutUebungen[zähler][pZähler];
-                objWorkoutUebungen[zähler][pZähler] = null;
-            } // for
-            anzahlWorkoutUebungen[zähler - 1] = anzahlWorkoutUebungen[zähler];
-            anzahlWorkoutUebungen[zähler] = 0;
-            dauerWorkoutUebungen[zähler - 1] = dauerWorkoutUebungen[zähler];
-            dauerWorkoutUebungen[zähler] = 0;
-            workoutName[zähler - 1] = workoutName[zähler];
-            workoutName[zähler] = null;
-            workoutNameHinzugefuegt[zähler - 1] = workoutNameHinzugefuegt[zähler];
-            workoutNameHinzugefuegt[zähler] = false;
-            muskelfokus[zähler - 1] = muskelfokus[zähler];
-            muskelfokus[zähler] = null;
-        } // for
-        anzahlWorkouts--;
+    public void workoutLoeschen(final int workout) {
+        // Bestätigen-Fenster öffnen
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.fr_workout_loeschen_bestaetigen);
+        builder.setCancelable(true);
+        alert = builder.create();
+        alert.show();
 
-        // Seite laden
-        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FrUebersicht frUebersicht = new FrUebersicht();
-        fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
-        fragmentManager.executePendingTransactions();
-        fragmentTransaction.commit();
+        // Deklarieren der Textfelder
+        TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
+        tvAlertUeberschrift.setText("Workout wirklich löschen?");
+
+        ImageButton imgbtnWorkoutLoeschenSpeichern = alert.findViewById(R.id.imgbtnWorkoutLoeschenSpeichern);
+        imgbtnWorkoutLoeschenSpeichern.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int tag = workout;
+                for (int zähler = tag + 1; zähler < anzahlWorkouts + 1; zähler++) {
+                    for (int pZähler = 0; pZähler < maxAnzahlUebungen; pZähler++) {
+                        objWorkoutUebungen[zähler - 1][pZähler] = objWorkoutUebungen[zähler][pZähler];
+                        objWorkoutUebungen[zähler][pZähler] = null;
+                    } // for
+                    anzahlWorkoutUebungen[zähler - 1] = anzahlWorkoutUebungen[zähler];
+                    anzahlWorkoutUebungen[zähler] = 0;
+                    dauerWorkoutUebungen[zähler - 1] = dauerWorkoutUebungen[zähler];
+                    dauerWorkoutUebungen[zähler] = 0;
+                    workoutName[zähler - 1] = workoutName[zähler];
+                    workoutName[zähler] = null;
+                    workoutNameHinzugefuegt[zähler - 1] = workoutNameHinzugefuegt[zähler];
+                    workoutNameHinzugefuegt[zähler] = false;
+                    muskelfokus[zähler - 1] = muskelfokus[zähler];
+                    muskelfokus[zähler] = null;
+                } // for
+                anzahlWorkouts--;
+
+                // Seite laden
+                getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                FrUebersicht frUebersicht = new FrUebersicht();
+                fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
+                fragmentManager.executePendingTransactions();
+                fragmentTransaction.commit();
+
+                alert.cancel();
+            }
+        });
+
+        ImageButton imgbtnWorkoutLoeschenAbbrechen = alert.findViewById(R.id.imgbtnWorkoutLoeschenAbbrechen);
+        imgbtnWorkoutLoeschenAbbrechen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.cancel();
+            }
+        });
+
     }
 
     public void workoutBearbeiten(int workout) {
