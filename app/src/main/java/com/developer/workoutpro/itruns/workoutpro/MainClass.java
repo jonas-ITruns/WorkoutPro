@@ -4,9 +4,11 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -1489,6 +1491,16 @@ public class MainClass extends AppCompatActivity {
 
     public int gibWorkoutUebungDauer(int index) {
         return objWorkoutUebungen[anzahlWorkouts][index].gibDauer();
+    }
+
+    public void workoutUebungDauerErhoehen(int index) {
+        objWorkoutUebungen[anzahlWorkouts][index].setzeDauer(objWorkoutUebungen[anzahlWorkouts][index].gibDauer() + 1);
+        dauerWorkoutUebungen[anzahlWorkouts]++;
+    }
+
+    public void workoutUebungDauerVerringern(int index) {
+        objWorkoutUebungen[anzahlWorkouts][index].setzeDauer(objWorkoutUebungen[anzahlWorkouts][index].gibDauer() - 1);
+        dauerWorkoutUebungen[anzahlWorkouts]--;
     }
 
     public int gibWorkoutUebungAnzahl() {
