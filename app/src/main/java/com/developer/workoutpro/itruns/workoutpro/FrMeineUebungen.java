@@ -45,12 +45,14 @@ public class FrMeineUebungen extends Fragment {
     private AlertDialog.Builder builder;
     private EditText etName;
     private EditText etBeschreibung;
+    private  ImageButton imgbtnBesonderes;
     private ImageButton imgbtnGanzkoerper;
     private ImageButton imgbtnArme;
     private ImageButton imgbtnBeine;
     private ImageButton imgbtnBauch;
     private ImageButton imgbtnBrust;
     private ImageButton imgbtnRuecken;
+    private boolean besonderes;
     private boolean ganzkoerper;
     private boolean arme;
     private boolean beine;
@@ -286,6 +288,7 @@ public class FrMeineUebungen extends Fragment {
 
                     etName = alert.findViewById(R.id.etUebungName);
                     etBeschreibung = alert.findViewById(R.id.etUebungBeschreibung);
+                    imgbtnBesonderes = alert.findViewById(R.id.imgbtnBesonderes);
                     imgbtnGanzkoerper = alert.findViewById(R.id.imgbtnGanzkoerper);
                     imgbtnArme = alert.findViewById(R.id.imgbtnArme);
                     imgbtnBeine = alert.findViewById(R.id.imgbtnBeine);
@@ -300,6 +303,7 @@ public class FrMeineUebungen extends Fragment {
                     etBeschreibung.setText(mBeschreibung.get(edit_position));
 
                     // Muskelgruppe setzen
+                    besonderes = false;
                     ganzkoerper = false;
                     arme = false;
                     beine = false;
@@ -307,7 +311,10 @@ public class FrMeineUebungen extends Fragment {
                     brust = false;
                     ruecken = false;
 
-                    if(mMuskelgruppe.get(edit_position).equals("ganzkoerper")) {
+                    if (mMuskelgruppe.get(edit_position).equals("besonderes")) {
+                        besonderes = true;
+                        imgbtnBesonderes.setBackgroundResource(R.color.blauTransparent);
+                    } else if (mMuskelgruppe.get(edit_position).equals("ganzkoerper")) {
                         ganzkoerper = true;
                         imgbtnGanzkoerper.setBackgroundResource(R.color.blauTransparent);
                     } else if (mMuskelgruppe.get(edit_position).equals("arme")) {
@@ -367,7 +374,9 @@ public class FrMeineUebungen extends Fragment {
                                 mName.set(edit_position, etName.getText().toString());
 
                                 // Muskelgruppe bestimmen
-                                if (ganzkoerper) {
+                                if (besonderes) {
+                                    mMuskelgruppe.set(edit_position, "besonderes");
+                                } else if (ganzkoerper) {
                                     mMuskelgruppe.set(edit_position, "ganzkoerper");
                                 } else if (arme) {
                                     mMuskelgruppe.set(edit_position, "arme");
@@ -437,9 +446,24 @@ public class FrMeineUebungen extends Fragment {
     }
 
     public void muskelgruppeInitialisieren() {
+        imgbtnBesonderes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                besonderes = true; imgbtnBesonderes.setBackgroundResource(R.color.blauTransparent);
+                ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
+                arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
+                beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);
+                bauch = false; imgbtnBauch.setBackgroundColor(0x0041577d);
+                brust = false; imgbtnBrust.setBackgroundColor(0x0041577d);
+                ruecken = false; imgbtnRuecken.setBackgroundColor(0x0041577d);
+
+            }
+        });
+
         imgbtnGanzkoerper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                besonderes = false; imgbtnBesonderes.setBackgroundColor(0x0041577d);
                 ganzkoerper = true; imgbtnGanzkoerper.setBackgroundResource(R.color.blauTransparent);
                 arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
                 beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);
@@ -453,6 +477,7 @@ public class FrMeineUebungen extends Fragment {
         imgbtnArme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                besonderes = false; imgbtnBesonderes.setBackgroundColor(0x0041577d);
                 ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
                 arme = true; imgbtnArme.setBackgroundResource(R.color.blauTransparent);
                 beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);
@@ -465,6 +490,7 @@ public class FrMeineUebungen extends Fragment {
         imgbtnBeine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                besonderes = false; imgbtnBesonderes.setBackgroundColor(0x0041577d);
                 ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
                 arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
                 beine = true; imgbtnBeine.setBackgroundResource(R.color.blauTransparent);
@@ -477,6 +503,7 @@ public class FrMeineUebungen extends Fragment {
         imgbtnBauch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                besonderes = false; imgbtnBesonderes.setBackgroundColor(0x0041577d);
                 ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
                 arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
                 beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);
@@ -489,6 +516,7 @@ public class FrMeineUebungen extends Fragment {
         imgbtnBrust.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                besonderes = false; imgbtnBesonderes.setBackgroundColor(0x0041577d);
                 ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
                 arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
                 beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);
@@ -501,6 +529,7 @@ public class FrMeineUebungen extends Fragment {
         imgbtnRuecken.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                besonderes = false; imgbtnBesonderes.setBackgroundColor(0x0041577d);
                 ganzkoerper = false; imgbtnGanzkoerper.setBackgroundColor(0x0041577d);
                 arme = false; imgbtnArme.setBackgroundColor(0x0041577d);
                 beine = false; imgbtnBeine.setBackgroundColor(0x0041577d);

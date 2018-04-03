@@ -42,7 +42,9 @@ public class SwipeRecyclerViewAdapter extends RecyclerView.Adapter<SwipeRecycler
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
             viewHolder.tvUebungName.setText(uebungName.get(i));
             viewHolder.tvUebungBeschreibung.setText(uebungBeschreibung.get(i));
-            if (uebungMuskelgruppe.get(i).equals("ganzkoerper")) {
+            if (uebungMuskelgruppe.get(i).equals("besonderes")) {
+                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_besondere_uebungen_32);
+            } else if (uebungMuskelgruppe.get(i).equals("ganzkoerper")) {
                 viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_ganzkoerper_32);
             } else if (uebungMuskelgruppe.get(i).equals("arme")) {
                 viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_arme_32);
