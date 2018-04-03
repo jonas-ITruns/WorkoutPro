@@ -96,12 +96,18 @@ public class MainClass extends AppCompatActivity {
 
     // Attribute für Workouts
     private int anzahlWorkouts;
+    private int aktuellesWorkout;
     private int anzahlWorkoutUebungen[] = new int[maxAnzahlUebungen];
     private int dauerWorkoutUebungen[] = new int[maxAnzahlUebungen];
     private ObjMeineUebungen objWorkoutUebungen[][] = new ObjMeineUebungen[maxAnzahlUebungen][maxAnzahlUebungen];
     private String workoutName[] = new String[maxAnzahlUebungen];
     private boolean workoutNameHinzugefuegt[] = new boolean[maxAnzahlUebungen];
 
+    // Attribute für Workout bearbeiten
+    private int anzahlWorkoutUebungenKopie;
+    private int dauerWorkoutUebungenKopie;
+    private ObjMeineUebungen objWorkoutUebungenKopie[] = new ObjMeineUebungen[maxAnzahlUebungen];
+    private String workoutNameKopie;
 
 
     @Override
@@ -1007,6 +1013,8 @@ public class MainClass extends AppCompatActivity {
 
 
     public void workoutHinzufuegenOeffnenButton(View v) {
+        aktuellesWorkout = anzahlWorkouts;
+
         // alle Übungen zum Objekt hinzufügen
         for (int index = 0; index < anzahlStandardUebungen; index++) {
             objAlleUebungen[index] = new ObjMeineUebungen();
@@ -1135,8 +1143,8 @@ public class MainClass extends AppCompatActivity {
 
         final EditText etWorkoutName = alert.findViewById(R.id.etWorkoutName);
 
-        if (workoutNameHinzugefuegt[anzahlWorkouts]) {
-            etWorkoutName.setText(workoutName[anzahlWorkouts]);
+        if (workoutNameHinzugefuegt[aktuellesWorkout]) {
+            etWorkoutName.setText(workoutName[aktuellesWorkout]);
         }
 
         // Tastatur automatisch öffnen
@@ -1170,11 +1178,11 @@ public class MainClass extends AppCompatActivity {
                 } // if
                 else {
                     // Name bestimmen
-                    workoutName[anzahlWorkouts] = etWorkoutName.getText().toString();
-                    workoutNameHinzugefuegt[anzahlWorkouts] = true;
+                    workoutNameHinzugefuegt[aktuellesWorkout] = true;
+                    workoutName[aktuellesWorkout] = etWorkoutName.getText().toString();
 
                     Button btnWorkoutName = findViewById(R.id.btnWorkoutName);
-                    btnWorkoutName.setText(workoutName[anzahlWorkouts]);
+                    btnWorkoutName.setText(workoutName[aktuellesWorkout]);
 
                     alert.cancel();
                 } // else
@@ -1406,14 +1414,14 @@ public class MainClass extends AppCompatActivity {
                 } // then
                 else {
                     // Übung hinzufügen
-                    objWorkoutUebungen[anzahlWorkouts][anzahlWorkoutUebungen[anzahlWorkouts]] = new ObjMeineUebungen();
-                    objWorkoutUebungen[anzahlWorkouts][anzahlWorkoutUebungen[anzahlWorkouts]].setzeNummer(anzahlWorkoutUebungen[anzahlWorkouts]);
-                    objWorkoutUebungen[anzahlWorkouts][anzahlWorkoutUebungen[anzahlWorkouts]].setzeName(objAngezeigteUebungen[index].gibName());
-                    objWorkoutUebungen[anzahlWorkouts][anzahlWorkoutUebungen[anzahlWorkouts]].setzeMuskelgruppe(objAngezeigteUebungen[index].gibMuskelgruppe());
-                    objWorkoutUebungen[anzahlWorkouts][anzahlWorkoutUebungen[anzahlWorkouts]].setzeBeschreibung(objAngezeigteUebungen[index].gibBeschreibung());
-                    objWorkoutUebungen[anzahlWorkouts][anzahlWorkoutUebungen[anzahlWorkouts]].setzeDauer(Integer.parseInt(etUebungDauer.getText().toString()));
-                    anzahlWorkoutUebungen[anzahlWorkouts]++;
-                    dauerWorkoutUebungen[anzahlWorkouts] = dauerWorkoutUebungen[anzahlWorkouts] + Integer.parseInt(etUebungDauer.getText().toString());
+                    objWorkoutUebungen[aktuellesWorkout][anzahlWorkoutUebungen[aktuellesWorkout]] = new ObjMeineUebungen();
+                    objWorkoutUebungen[aktuellesWorkout][anzahlWorkoutUebungen[aktuellesWorkout]].setzeNummer(anzahlWorkoutUebungen[aktuellesWorkout]);
+                    objWorkoutUebungen[aktuellesWorkout][anzahlWorkoutUebungen[aktuellesWorkout]].setzeName(objAngezeigteUebungen[index].gibName());
+                    objWorkoutUebungen[aktuellesWorkout][anzahlWorkoutUebungen[aktuellesWorkout]].setzeMuskelgruppe(objAngezeigteUebungen[index].gibMuskelgruppe());
+                    objWorkoutUebungen[aktuellesWorkout][anzahlWorkoutUebungen[aktuellesWorkout]].setzeBeschreibung(objAngezeigteUebungen[index].gibBeschreibung());
+                    objWorkoutUebungen[aktuellesWorkout][anzahlWorkoutUebungen[aktuellesWorkout]].setzeDauer(Integer.parseInt(etUebungDauer.getText().toString()));
+                    anzahlWorkoutUebungen[aktuellesWorkout]++;
+                    dauerWorkoutUebungen[aktuellesWorkout] = dauerWorkoutUebungen[aktuellesWorkout] + Integer.parseInt(etUebungDauer.getText().toString());
                     menueOffen = false;
                     alert.cancel();
                     workoutHinzufuegenOeffnen();
@@ -1432,12 +1440,12 @@ public class MainClass extends AppCompatActivity {
 
     public void workoutUebungLoeschen(int index) {
         int tag = index;
-        dauerWorkoutUebungen[anzahlWorkouts] = dauerWorkoutUebungen[anzahlWorkouts] - objWorkoutUebungen[anzahlWorkouts][tag].gibDauer();
+        dauerWorkoutUebungen[aktuellesWorkout] = dauerWorkoutUebungen[aktuellesWorkout] - objWorkoutUebungen[aktuellesWorkout][tag].gibDauer();
         for (int zähler = tag + 1; zähler < anzahlWorkoutUebungen[anzahlWorkouts]; zähler++) {
-            objWorkoutUebungen[anzahlWorkouts][zähler - 1] = objWorkoutUebungen[anzahlWorkouts][zähler];
-            objWorkoutUebungen[anzahlWorkouts][zähler] = null;
+            objWorkoutUebungen[aktuellesWorkout][zähler - 1] = objWorkoutUebungen[aktuellesWorkout][zähler];
+            objWorkoutUebungen[aktuellesWorkout][zähler] = null;
         } // for
-        anzahlWorkoutUebungen[anzahlWorkouts]--;
+        anzahlWorkoutUebungen[aktuellesWorkout]--;
     }
 
     public void workoutSpeichern(View v) {
@@ -1448,10 +1456,13 @@ public class MainClass extends AppCompatActivity {
             return;
         } // then
         else {
-            workoutName[anzahlWorkouts] = btnWorkoutName.getText().toString();
+            workoutName[aktuellesWorkout] = btnWorkoutName.getText().toString();
         } // else
 
-        anzahlWorkouts++;
+        // Wenn es ein neues Workout ist, Anzahl erhöhen
+        if (aktuellesWorkout == anzahlWorkouts) {
+            anzahlWorkouts++;
+        } // if
 
         // Seite laden
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
@@ -1473,12 +1484,24 @@ public class MainClass extends AppCompatActivity {
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
 
-        workoutName[anzahlWorkouts] = new String();
-        for (int index = 0; index < anzahlWorkoutUebungen[anzahlWorkouts]; index++) {
-            objWorkoutUebungen[anzahlWorkouts][index] = new ObjMeineUebungen();
-        } // for
-        anzahlWorkoutUebungen[anzahlWorkouts] = 0;
-        dauerWorkoutUebungen[anzahlWorkouts] = 0;
+        // Wenn es ein neues Workout war, Werte auf 0 setzen, ansonsten Kopien nutzen
+        if (aktuellesWorkout == anzahlWorkouts) {
+            workoutName[aktuellesWorkout] = new String();
+            for (int index = 0; index < anzahlWorkoutUebungen[aktuellesWorkout]; index++) {
+                objWorkoutUebungen[anzahlWorkouts][index] = new ObjMeineUebungen();
+            } // for
+            anzahlWorkoutUebungen[aktuellesWorkout] = 0;
+            dauerWorkoutUebungen[aktuellesWorkout] = 0;
+        } // then
+        else {
+            anzahlWorkoutUebungen[aktuellesWorkout] = anzahlWorkoutUebungenKopie;
+            dauerWorkoutUebungen[aktuellesWorkout] = dauerWorkoutUebungenKopie;
+            for (int index = 0; index < anzahlWorkoutUebungenKopie; index++) {
+                objWorkoutUebungen[aktuellesWorkout][index] = objWorkoutUebungenKopie[index];
+            } // for
+            workoutName[aktuellesWorkout] = workoutNameKopie;
+        } // else
+
     }
 
     public void workoutUmbennen(final int workout) {
@@ -1575,6 +1598,20 @@ public class MainClass extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    public void workoutBearbeiten(int workout) {
+        aktuellesWorkout = workout;
+
+        // Kopie des Workouts erstellen
+        anzahlWorkoutUebungenKopie = anzahlWorkoutUebungen[aktuellesWorkout];
+        dauerWorkoutUebungenKopie = dauerWorkoutUebungen[aktuellesWorkout];
+        for (int index = 0; index < anzahlWorkoutUebungenKopie; index++) {
+            objWorkoutUebungenKopie[index] = objWorkoutUebungen[aktuellesWorkout][index];
+        } // for
+        workoutNameKopie = workoutName[aktuellesWorkout];
+
+        workoutHinzufuegenOeffnen();
+    }
+
 
     // Gib-Methoden für Workout hinzufügen
 
@@ -1587,34 +1624,34 @@ public class MainClass extends AppCompatActivity {
         return workoutName[workout];
     }
 
-    public String gibWorkoutUebungName(int index) {
-        return objWorkoutUebungen[anzahlWorkouts][index].gibName();
+    public String gibWorkoutUebungName(int workout, int index) {
+        return objWorkoutUebungen[workout][index].gibName();
     }
 
-    public String gibWorkoutUebungMuskelgruppe(int index) {
-        return objWorkoutUebungen[anzahlWorkouts][index].gibMuskelgruppe();
+    public String gibWorkoutUebungMuskelgruppe(int workout, int index) {
+        return objWorkoutUebungen[workout][index].gibMuskelgruppe();
     }
 
-    public String gibWorkoutUebungBeschreibung(int index) {
-        return objWorkoutUebungen[anzahlWorkouts][index].gibBeschreibung();
+    public String gibWorkoutUebungBeschreibung(int workout, int index) {
+        return objWorkoutUebungen[workout][index].gibBeschreibung();
     }
 
-    public int gibWorkoutUebungDauer(int index) {
-        return objWorkoutUebungen[anzahlWorkouts][index].gibDauer();
+    public int gibWorkoutUebungDauer(int workout, int index) {
+        return objWorkoutUebungen[workout][index].gibDauer();
     }
 
     public void workoutUebungDauerErhoehen(int index) {
-        objWorkoutUebungen[anzahlWorkouts][index].setzeDauer(objWorkoutUebungen[anzahlWorkouts][index].gibDauer() + 1);
-        dauerWorkoutUebungen[anzahlWorkouts]++;
+        objWorkoutUebungen[aktuellesWorkout][index].setzeDauer(objWorkoutUebungen[aktuellesWorkout][index].gibDauer() + 1);
+        dauerWorkoutUebungen[aktuellesWorkout]++;
     }
 
     public void workoutUebungDauerVerringern(int index) {
-        objWorkoutUebungen[anzahlWorkouts][index].setzeDauer(objWorkoutUebungen[anzahlWorkouts][index].gibDauer() - 1);
-        dauerWorkoutUebungen[anzahlWorkouts]--;
+        objWorkoutUebungen[aktuellesWorkout][index].setzeDauer(objWorkoutUebungen[aktuellesWorkout][index].gibDauer() - 1);
+        dauerWorkoutUebungen[aktuellesWorkout]--;
     }
 
-    public int gibWorkoutUebungAnzahl() {
-        return anzahlWorkoutUebungen[anzahlWorkouts];
+    public int gibWorkoutUebungAnzahl(int workout) {
+        return anzahlWorkoutUebungen[workout];
     }
 
     public int gibAnzahlWorkouts() {
@@ -1627,6 +1664,10 @@ public class MainClass extends AppCompatActivity {
 
     public int gibDauerWorkoutUebungenUebersicht(int workout) {
         return dauerWorkoutUebungen[workout];
+    }
+
+    public int gibBearbeitendesWorkout() {
+        return aktuellesWorkout;
     }
 
 

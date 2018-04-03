@@ -197,6 +197,13 @@ public class FrUebersichtRow extends Fragment {
             }
         });
 
+        btnBearbeiten.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainClass.workoutBearbeiten(aktWorkout);
+            }
+        });
+
         return view;
     }
 

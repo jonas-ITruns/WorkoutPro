@@ -20,6 +20,7 @@ import java.util.ArrayList;
 public class FrWorkoutHinzufuegen extends Fragment {
 
     View frView;
+    private int workoutNummer;
     private int anzahlWorkoutUebungen;
     private ArrayList<String> mUebung = new ArrayList<>();
     private ArrayList<String> mName = new ArrayList<>();
@@ -35,11 +36,15 @@ public class FrWorkoutHinzufuegen extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         frView = inflater.inflate(R.layout.fr_workout_hinzufuegen, container, false);
 
-        // Workountnamen anzeigen
         MainClass mainClass = (MainClass) getActivity();
-        if (mainClass.gibWorkoutNameHinzugefuegt(mainClass.gibAnzahlWorkouts())) {
+
+        // das zu bearbeitende Workout holen
+        workoutNummer = mainClass.gibBearbeitendesWorkout();
+
+        // Workountnamen anzeigen
+        if (mainClass.gibWorkoutNameHinzugefuegt(workoutNummer)) {
             Button btnWorkoutName = frView.findViewById(R.id.btnWorkoutName);
-            btnWorkoutName.setText(mainClass.gibWorkoutName(mainClass.gibAnzahlWorkouts()));
+            btnWorkoutName.setText(mainClass.gibWorkoutName(workoutNummer));
         }
 
         uebungenHolen();
@@ -52,7 +57,7 @@ public class FrWorkoutHinzufuegen extends Fragment {
     private void uebungenHolen() {
         MainClass mainClass = (MainClass) getActivity();
 
-        anzahlWorkoutUebungen = mainClass.gibWorkoutUebungAnzahl();
+        anzahlWorkoutUebungen = mainClass.gibWorkoutUebungAnzahl(workoutNummer);
 
         if (anzahlWorkoutUebungen == 0) {
             mName = new ArrayList<>();
@@ -71,10 +76,10 @@ public class FrWorkoutHinzufuegen extends Fragment {
             mDauer = new ArrayList<>();
 
             for (int index = 0; index < anzahlWorkoutUebungen; index++) {
-                mName.add(mainClass.gibWorkoutUebungName(index));
-                mMuskelgruppe.add(mainClass.gibWorkoutUebungMuskelgruppe(index));
-                mBeschreibung.add(mainClass.gibWorkoutUebungBeschreibung(index));
-                mDauer.add(Integer.toString(mainClass.gibWorkoutUebungDauer(index)));
+                mName.add(mainClass.gibWorkoutUebungName(workoutNummer, index));
+                mMuskelgruppe.add(mainClass.gibWorkoutUebungMuskelgruppe(workoutNummer, index));
+                mBeschreibung.add(mainClass.gibWorkoutUebungBeschreibung(workoutNummer, index));
+                mDauer.add(Integer.toString(mainClass.gibWorkoutUebungDauer(workoutNummer, index)));
             } // for
         } // else
     }
