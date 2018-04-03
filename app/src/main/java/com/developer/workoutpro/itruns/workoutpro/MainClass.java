@@ -1433,15 +1433,20 @@ public class MainClass extends AppCompatActivity {
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
-
         tvAlertUeberschrift.setText("Dauer der Übung");
 
-        final EditText etUebungDauer = alert.findViewById(R.id.etUebungDauerMinuten);
+        final EditText etUebungDauerSekunden = alert.findViewById(R.id.etUebungDauerSekunden);
+        final EditText etUebungDauerMinuten = alert.findViewById(R.id.etUebungDauerMinuten);
         //kein Fokus auf dem textfeld
-        /*etUebungDauer.clearFocus();
-        etUebungDauer.setFocusable(false);
-        etUebungDauer.setFocusableInTouchMode(true);
-        etUebungDauer.setCursorVisible(false);*/
+        etUebungDauerSekunden.clearFocus();
+        etUebungDauerSekunden.setFocusable(false);
+        etUebungDauerSekunden.setFocusableInTouchMode(true);
+        etUebungDauerSekunden.setCursorVisible(false);
+
+        etUebungDauerMinuten.clearFocus();
+        etUebungDauerMinuten.setFocusable(false);
+        etUebungDauerMinuten.setFocusableInTouchMode(true);
+        etUebungDauerMinuten.setCursorVisible(false);
 
         //Deklarieren der Button
         ImageButton imgbtnUebungDauerSpeichern = alert.findViewById(R.id.imgbtnUebungDauerSpeichern);
@@ -1451,7 +1456,7 @@ public class MainClass extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Dauer einlesen
-                if (etUebungDauer.getText().toString().isEmpty()) {
+                if (etUebungDauerMinuten.getText().toString().isEmpty()) {
                     Toast.makeText(MainClass.this, "Bitte Dauer der Übung eintragen", Toast.LENGTH_SHORT).show();
                     return;
                 } // then
@@ -1462,9 +1467,9 @@ public class MainClass extends AppCompatActivity {
                     objWorkoutUebungen[aktuellesWorkout][anzahlWorkoutUebungen[aktuellesWorkout]].setzeName(objAngezeigteUebungen[index].gibName());
                     objWorkoutUebungen[aktuellesWorkout][anzahlWorkoutUebungen[aktuellesWorkout]].setzeMuskelgruppe(objAngezeigteUebungen[index].gibMuskelgruppe());
                     objWorkoutUebungen[aktuellesWorkout][anzahlWorkoutUebungen[aktuellesWorkout]].setzeBeschreibung(objAngezeigteUebungen[index].gibBeschreibung());
-                    objWorkoutUebungen[aktuellesWorkout][anzahlWorkoutUebungen[aktuellesWorkout]].setzeDauer(Integer.parseInt(etUebungDauer.getText().toString()));
+                    objWorkoutUebungen[aktuellesWorkout][anzahlWorkoutUebungen[aktuellesWorkout]].setzeDauer(Integer.parseInt(etUebungDauerMinuten.getText().toString()));
                     anzahlWorkoutUebungen[aktuellesWorkout]++;
-                    dauerWorkoutUebungen[aktuellesWorkout] = dauerWorkoutUebungen[aktuellesWorkout] + Integer.parseInt(etUebungDauer.getText().toString());
+                    dauerWorkoutUebungen[aktuellesWorkout] = dauerWorkoutUebungen[aktuellesWorkout] + Integer.parseInt(etUebungDauerMinuten.getText().toString());
                     menueOffen = false;
                     alert.cancel();
                     workoutHinzufuegenOeffnen();
@@ -1481,10 +1486,6 @@ public class MainClass extends AppCompatActivity {
     }
 
     public void workoutUebungDauerVeraendern (View v){
-
-        /*// Deklarieren des
-        ConstraintLayout constraint_layout = alert.findViewById(R.id.constraint_layout);
-        constraint_layout.requestFocus();*/
 
         // Deklarieren der Textfelder
         EditText etUebungDauerSekunden = alert.findViewById(R.id.etUebungDauerSekunden);
@@ -1542,8 +1543,8 @@ public class MainClass extends AppCompatActivity {
                 break;
             case (R.id.imgbtnMinusMinuten):
                 //Minuten um 1 erniedrigen
-                if (aktMinuten == 0){ ;
-                    aktMinuten = 0;
+                if (aktMinuten == 0){
+                    aktMinuten = 59;
                 }//then
                 else{
                     aktMinuten = aktMinuten-1;
