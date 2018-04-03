@@ -1513,6 +1513,7 @@ public class MainClass extends AppCompatActivity {
             aktMinuten = Integer.parseInt(aktMinutenStr);
         }
 
+
         switch(v.getId()){
             case (R.id.imgbtnPlusSekunden):
                 //Sekunden um 1 erhöhen
