@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -1435,8 +1436,12 @@ public class MainClass extends AppCompatActivity {
 
         tvAlertUeberschrift.setText("Dauer der Übung");
 
-
         final EditText etUebungDauer = alert.findViewById(R.id.etUebungDauerMinuten);
+        //kein Fokus auf dem textfeld
+        /*etUebungDauer.clearFocus();
+        etUebungDauer.setFocusable(false);
+        etUebungDauer.setFocusableInTouchMode(true);
+        etUebungDauer.setCursorVisible(false);*/
 
         //Deklarieren der Button
         ImageButton imgbtnUebungDauerSpeichern = alert.findViewById(R.id.imgbtnUebungDauerSpeichern);
@@ -1476,6 +1481,10 @@ public class MainClass extends AppCompatActivity {
     }
 
     public void workoutUebungDauerVeraendern (View v){
+
+        /*// Deklarieren des
+        ConstraintLayout constraint_layout = alert.findViewById(R.id.constraint_layout);
+        constraint_layout.requestFocus();*/
 
         // Deklarieren der Textfelder
         EditText etUebungDauerSekunden = alert.findViewById(R.id.etUebungDauerSekunden);
