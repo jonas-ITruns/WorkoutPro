@@ -25,7 +25,8 @@ public class FrWorkoutHinzufuegen extends Fragment {
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<String> mMuskelgruppe= new ArrayList<>();
     private ArrayList<String> mBeschreibung = new ArrayList<>();
-    private static SwipeRecyclerViewAdapter adapter;
+    private ArrayList<String> mDauer = new ArrayList<>();
+    private static SwipeRecyclerViewAdapterWorkoutAnsicht adapter;
     private RecyclerView recyclerView;
     private Paint p = new Paint();
 
@@ -57,19 +58,23 @@ public class FrWorkoutHinzufuegen extends Fragment {
             mName = new ArrayList<>();
             mMuskelgruppe = new ArrayList<>();
             mBeschreibung = new ArrayList<>();
+            mDauer = new ArrayList<>();
             mName.add("Planche");
             mMuskelgruppe.add("ganzkoerper");
             mBeschreibung.add("geile scheiße");
+            mDauer.add("120");
         }
         else {
             mName = new ArrayList<>();
             mMuskelgruppe = new ArrayList<>();
             mBeschreibung = new ArrayList<>();
+            mDauer = new ArrayList<>();
 
             for (int index = 0; index < anzahlWorkoutUebungen; index++) {
                 mName.add(mainClass.gibWorkoutUebungName(index));
                 mMuskelgruppe.add(mainClass.gibWorkoutUebungMuskelgruppe(index));
                 mBeschreibung.add(mainClass.gibWorkoutUebungBeschreibung(index));
+                mDauer.add(Integer.toString(mainClass.gibWorkoutUebungDauer(index)));
             } // for
         } // else
     }
@@ -79,7 +84,7 @@ public class FrWorkoutHinzufuegen extends Fragment {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new SwipeRecyclerViewAdapter(getActivity(), mName, mMuskelgruppe, mBeschreibung, false);
+        adapter = new SwipeRecyclerViewAdapterWorkoutAnsicht(getActivity(), mName, mMuskelgruppe, mBeschreibung, mDauer);
         recyclerView.setAdapter(adapter);
         initSwipe();
 
@@ -100,10 +105,10 @@ public class FrWorkoutHinzufuegen extends Fragment {
 
                 // Nach links swipen; für nach rechts swipen else Teil
                 if (direction == ItemTouchHelper.LEFT) {
-                    adapter.removeItem(position, true);
+                    adapter.removeItem(position);
                 } // then
                 else {
-                    adapter.removeItem(position, true);
+                    adapter.removeItem(position);
                 }
             }
 

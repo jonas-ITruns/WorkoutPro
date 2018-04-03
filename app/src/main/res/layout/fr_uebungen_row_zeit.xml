@@ -11,7 +11,7 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/clItemHolder"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_height="72dp"
             android:background="@color/transparent"
             android:padding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,15 +55,47 @@
                     app:layout_constraintStart_toEndOf="@+id/imgvMuskelgruppe"
                     app:layout_constraintTop_toBottomOf="@+id/tvUebungName" />
 
-                <Button
-                    android:id="@+id/button2"
+                <TextView
+                    android:id="@+id/tvUebungDauer"
                     android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_height="20dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginTop="5dp"
-                    android:text="Button"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="120"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnUebungDauerErhoehen" />
+
+                <Button
+                    android:id="@+id/btnUebungDauerErhoehen"
+                    android:layout_width="15dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="28dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/runder_button"
+                    android:backgroundTint="@color/dunkelblau"
+                    android:gravity="center|bottom"
+                    android:text="+"
+                    android:textAllCaps="false"
+                    android:textColor="@color/weiss"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btnUebungDauerVerringern"
+                    android:layout_width="15dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="28dp"
+                    android:background="@drawable/runder_button"
+                    android:backgroundTint="@color/dunkelblau"
+                    android:gravity="center|bottom"
+                    android:text="-"
+                    android:textAllCaps="false"
+                    android:textColor="@color/weiss"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUebungDauer" />
 
         </android.support.constraint.ConstraintLayout>
 

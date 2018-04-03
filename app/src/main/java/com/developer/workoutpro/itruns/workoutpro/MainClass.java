@@ -1333,12 +1333,27 @@ public class MainClass extends AppCompatActivity {
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
         tvAlertUeberschrift.setText("Dauer der Übung");
 
+        // Tastatur automatisch öffnen
+        final EditText etUebungDauer = alert.findViewById(R.id.etUebungDauer);
+        etUebungDauer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                etUebungDauer.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        InputMethodManager imm = (InputMethodManager) MainClass.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(etUebungDauer, InputMethodManager.SHOW_IMPLICIT);
+                    }
+                });
+            }
+        });
+        etUebungDauer.requestFocus();
+
         Button btnUebungDauerSpeichern = alert.findViewById(R.id.btnUebungDauerSpeichern);
         btnUebungDauerSpeichern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Dauer einlesen
-                EditText etUebungDauer = alert.findViewById(R.id.etUebungDauer);
                 if (etUebungDauer.getText().toString().isEmpty()) {
                     Toast.makeText(MainClass.this, "Bitte Dauer der Übung eintragen", Toast.LENGTH_SHORT).show();
                     return;
@@ -1371,6 +1386,7 @@ public class MainClass extends AppCompatActivity {
 
     public void workoutUebungLoeschen(int index) {
         int tag = index;
+        dauerWorkoutUebungen[anzahlWorkouts] = dauerWorkoutUebungen[anzahlWorkouts] - objWorkoutUebungen[anzahlWorkouts][tag].gibDauer();
         for (int zähler = tag + 1; zähler < anzahlWorkoutUebungen[anzahlWorkouts]; zähler++) {
             objWorkoutUebungen[anzahlWorkouts][zähler - 1] = objWorkoutUebungen[anzahlWorkouts][zähler];
             objWorkoutUebungen[anzahlWorkouts][zähler] = null;
@@ -1416,6 +1432,7 @@ public class MainClass extends AppCompatActivity {
             objWorkoutUebungen[anzahlWorkouts][index] = new ObjMeineUebungen();
         } // for
         anzahlWorkoutUebungen[anzahlWorkouts] = 0;
+        dauerWorkoutUebungen[anzahlWorkouts] = 0;
     }
 
     public void workoutLoeschen(int workout) {
@@ -1427,6 +1444,8 @@ public class MainClass extends AppCompatActivity {
             } // for
             anzahlWorkoutUebungen[zähler - 1] = anzahlWorkoutUebungen[zähler];
             anzahlWorkoutUebungen[zähler] = 0;
+            dauerWorkoutUebungen[zähler - 1] = dauerWorkoutUebungen[zähler];
+            dauerWorkoutUebungen[zähler] = 0;
             workoutName[zähler - 1] = workoutName[zähler];
             workoutName[zähler] = null;
             workoutNameHinzugefuegt[zähler - 1] = workoutNameHinzugefuegt[zähler];
@@ -1466,6 +1485,10 @@ public class MainClass extends AppCompatActivity {
 
     public String gibWorkoutUebungBeschreibung(int index) {
         return objWorkoutUebungen[anzahlWorkouts][index].gibBeschreibung();
+    }
+
+    public int gibWorkoutUebungDauer(int index) {
+        return objWorkoutUebungen[anzahlWorkouts][index].gibDauer();
     }
 
     public int gibWorkoutUebungAnzahl() {
