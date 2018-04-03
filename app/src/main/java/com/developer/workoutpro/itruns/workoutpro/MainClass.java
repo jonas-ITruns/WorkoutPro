@@ -1441,7 +1441,7 @@ public class MainClass extends AppCompatActivity {
     public void workoutUebungLoeschen(int index) {
         int tag = index;
         dauerWorkoutUebungen[aktuellesWorkout] = dauerWorkoutUebungen[aktuellesWorkout] - objWorkoutUebungen[aktuellesWorkout][tag].gibDauer();
-        for (int zähler = tag + 1; zähler < anzahlWorkoutUebungen[anzahlWorkouts]; zähler++) {
+        for (int zähler = tag + 1; zähler < anzahlWorkoutUebungen[aktuellesWorkout]; zähler++) {
             objWorkoutUebungen[aktuellesWorkout][zähler - 1] = objWorkoutUebungen[aktuellesWorkout][zähler];
             objWorkoutUebungen[aktuellesWorkout][zähler] = null;
         } // for
