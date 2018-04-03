@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -60,16 +61,12 @@ public class FrWorkoutHinzufuegen extends Fragment {
         anzahlWorkoutUebungen = mainClass.gibWorkoutUebungAnzahl(workoutNummer);
 
         if (anzahlWorkoutUebungen == 0) {
-            mName = new ArrayList<>();
-            mMuskelgruppe = new ArrayList<>();
-            mBeschreibung = new ArrayList<>();
-            mDauer = new ArrayList<>();
-            mName.add("Planche");
-            mMuskelgruppe.add("ganzkoerper");
-            mBeschreibung.add("geile scheiße");
-            mDauer.add("120");
+            TextView tvHinweisUebungHinzufuegen = frView.findViewById(R.id.tvHinweisUebungHinzufuegen);
+            tvHinweisUebungHinzufuegen.setVisibility(View.VISIBLE);
         }
         else {
+            TextView tvHinweisUebungHinzufuegen = frView.findViewById(R.id.tvHinweisUebungHinzufuegen);
+            tvHinweisUebungHinzufuegen.setVisibility(View.INVISIBLE);
             mName = new ArrayList<>();
             mMuskelgruppe = new ArrayList<>();
             mBeschreibung = new ArrayList<>();
