@@ -291,7 +291,7 @@ public class FrMeineUebungen extends Fragment {
 
                     muskelgruppeInitialisieren();
 
-                    Button btnUebungSpeichern = alert.findViewById(R.id.btnUebungSpeichern);
+                    Button btnUebungSpeichern = alert.findViewById(R.id.btnUebungDauerSpeichern);
                     btnUebungSpeichern.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

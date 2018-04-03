@@ -14,7 +14,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="55dp"
         android:background="@color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
-        android:text="Übung hinzufügen"
+        android:text="Übung auswählen"
         android:textAlignment="center"
         android:textColor="@color/dunkelblau"
         android:textSize="20sp"

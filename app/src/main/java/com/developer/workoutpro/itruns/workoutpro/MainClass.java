@@ -6,9 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,7 +24,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -97,6 +94,7 @@ public class MainClass extends AppCompatActivity {
     // Attribute für Workouts
     private int anzahlWorkouts;
     private int anzahlWorkoutUebungen[] = new int[maxAnzahlUebungen];
+    private int dauerWorkoutUebungen[] = new int[maxAnzahlUebungen];
     private ObjMeineUebungen objWorkoutUebungen[][] = new ObjMeineUebungen[maxAnzahlUebungen][maxAnzahlUebungen];
     private String workoutName[] = new String[maxAnzahlUebungen];
     private boolean workoutNameHinzugefuegt[] = new boolean[maxAnzahlUebungen];
@@ -281,6 +279,19 @@ public class MainClass extends AppCompatActivity {
             anzahlWorkoutUebungenEditor[index].commit();
         } // for
 
+        // Dauer des Workouts speichern
+        SharedPreferences dauerWorkoutUebungenPref [] = new SharedPreferences[anzahlWorkouts];
+        String dauerWorkoutUebungenTag [] = new String[anzahlWorkouts];
+        SharedPreferences.Editor dauerWorkoutUebungenEditor [] = new SharedPreferences.Editor[anzahlWorkouts];
+
+        for (int index = 0; index < anzahlWorkouts; index++) {
+            dauerWorkoutUebungenTag[index] = "dauerWorkoutUebungen" + Integer.toString(index);
+            dauerWorkoutUebungenPref[index] = getSharedPreferences(dauerWorkoutUebungenTag[index], 0);
+            dauerWorkoutUebungenEditor[index] = dauerWorkoutUebungenPref[index].edit();
+            dauerWorkoutUebungenEditor[index].putInt(dauerWorkoutUebungenTag[index], dauerWorkoutUebungen[index]);
+            dauerWorkoutUebungenEditor[index].commit();
+        } // for
+
         // Workouts mit Übungen speichern
         SharedPreferences objWorkoutUebungenPref [][] = new SharedPreferences[anzahlWorkouts][maxAnzahlUebungen];
         String objWorkoutUebungenTag [][] = new String[anzahlWorkouts][maxAnzahlUebungen];
@@ -391,6 +402,16 @@ public class MainClass extends AppCompatActivity {
             anzahlWorkoutUebungenTag[index] = "anzahlWorkoutUebungen" + Integer.toString(index);
             anzahlWorkoutUebungenPref[index] = getSharedPreferences(anzahlWorkoutUebungenTag[index], 0);
             anzahlWorkoutUebungen[index] = anzahlWorkoutUebungenPref[index].getInt(anzahlWorkoutUebungenTag[index], 0);
+        } // for
+
+        // Dauer des Workouts laden
+        SharedPreferences dauerWorkoutUebungenPref [] = new SharedPreferences[anzahlWorkouts];
+        String dauerWorkoutUebungenTag [] = new String[anzahlWorkouts];
+
+        for (int index = 0; index < anzahlWorkouts; index++) {
+            dauerWorkoutUebungenTag[index] = "dauerWorkoutUebungen" + Integer.toString(index);
+            dauerWorkoutUebungenPref[index] = getSharedPreferences(dauerWorkoutUebungenTag[index], 0);
+            dauerWorkoutUebungen[index] = dauerWorkoutUebungenPref[index].getInt(dauerWorkoutUebungenTag[index], 0);
         } // for
 
         // Workouts mit Übungen speichern
@@ -573,7 +594,7 @@ public class MainClass extends AppCompatActivity {
         muskelgruppeInitialisieren();
 
         // Übung hinzufügen speichern
-        Button btnUebungSpeichern = alert.findViewById(R.id.btnUebungSpeichern);
+        Button btnUebungSpeichern = alert.findViewById(R.id.btnUebungDauerSpeichern);
         btnUebungSpeichern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -629,7 +650,7 @@ public class MainClass extends AppCompatActivity {
 
                     // Übung hinzufügen
                     objMeineUebungen[anzahlMeineUebungen] = new ObjMeineUebungen();
-                    objMeineUebungen[anzahlMeineUebungen].neueUebung(anzahlJeErstellterUebungen, name, muskelgruppe, beschreibung);
+                    objMeineUebungen[anzahlMeineUebungen].neueUebung(anzahlJeErstellterUebungen, name, muskelgruppe, beschreibung, 0);
 
                     anzahlJeErstellterUebungen++;
                     anzahlMeineUebungen++;
@@ -847,7 +868,7 @@ public class MainClass extends AppCompatActivity {
                 String name = dataSnapshot.child("Name").getValue(String.class);
                 String muskelgruppe = dataSnapshot.child("Muskelgruppe").getValue(String.class);
                 String beschreibung = dataSnapshot.child("Beschreibung").getValue(String.class);
-                objStandardUebungen[indexStandardUebung].neueUebung(indexStandardUebung, name, muskelgruppe, beschreibung);
+                objStandardUebungen[indexStandardUebung].neueUebung(indexStandardUebung, name, muskelgruppe, beschreibung, 0);
 
                 indexStandardUebung++;
 
@@ -1131,7 +1152,7 @@ public class MainClass extends AppCompatActivity {
         etWorkoutName.requestFocus();
 
         // Namen hinzufügen speichern
-        Button btnUebungSpeichern = alert.findViewById(R.id.btnUebungSpeichern);
+        Button btnUebungSpeichern = alert.findViewById(R.id.btnUebungDauerSpeichern);
         btnUebungSpeichern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1173,7 +1194,7 @@ public class MainClass extends AppCompatActivity {
 
         // Hinzufügen-Fenster öffnen
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(R.layout.fr_workout_uebung_hinzufuegen);
+        builder.setView(R.layout.fr_workout_uebung_auswaehlen);
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
@@ -1297,10 +1318,55 @@ public class MainClass extends AppCompatActivity {
 
     }
 
-    public void workoutUebungHinzufuegen(int index) {
-        objWorkoutUebungen[anzahlWorkouts][anzahlWorkoutUebungen[anzahlWorkouts]] = objAngezeigteUebungen[index];
-        anzahlWorkoutUebungen[anzahlWorkouts]++;
-        menueOffen = false;
+    public void workoutUebungDauer(final int index) {
+        // Altes Fenster schließen
+        alert.cancel();
+
+        // Dauer-Fenster öffnen
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.fr_workout_uebung_zeit);
+        builder.setCancelable(true);
+        alert = builder.create();
+        alert.show();
+
+        // Deklarieren der Textfelder
+        TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
+        tvAlertUeberschrift.setText("Dauer der Übung");
+
+        Button btnUebungDauerSpeichern = alert.findViewById(R.id.btnUebungDauerSpeichern);
+        btnUebungDauerSpeichern.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Dauer einlesen
+                EditText etUebungDauer = alert.findViewById(R.id.etUebungDauer);
+                if (etUebungDauer.getText().toString().isEmpty()) {
+                    Toast.makeText(MainClass.this, "Bitte Dauer der Übung eintragen", Toast.LENGTH_SHORT).show();
+                    return;
+                } // then
+                else {
+                    // Übung hinzufügen
+                    objWorkoutUebungen[anzahlWorkouts][anzahlWorkoutUebungen[anzahlWorkouts]] = new ObjMeineUebungen();
+                    objWorkoutUebungen[anzahlWorkouts][anzahlWorkoutUebungen[anzahlWorkouts]].setzeNummer(anzahlWorkoutUebungen[anzahlWorkouts]);
+                    objWorkoutUebungen[anzahlWorkouts][anzahlWorkoutUebungen[anzahlWorkouts]].setzeName(objAngezeigteUebungen[index].gibName());
+                    objWorkoutUebungen[anzahlWorkouts][anzahlWorkoutUebungen[anzahlWorkouts]].setzeMuskelgruppe(objAngezeigteUebungen[index].gibMuskelgruppe());
+                    objWorkoutUebungen[anzahlWorkouts][anzahlWorkoutUebungen[anzahlWorkouts]].setzeBeschreibung(objAngezeigteUebungen[index].gibBeschreibung());
+                    objWorkoutUebungen[anzahlWorkouts][anzahlWorkoutUebungen[anzahlWorkouts]].setzeDauer(Integer.parseInt(etUebungDauer.getText().toString()));
+                    anzahlWorkoutUebungen[anzahlWorkouts]++;
+                    dauerWorkoutUebungen[anzahlWorkouts] = dauerWorkoutUebungen[anzahlWorkouts] + Integer.parseInt(etUebungDauer.getText().toString());
+                    menueOffen = false;
+                    alert.cancel();
+                    workoutHinzufuegenOeffnen();
+                }
+            }
+        });
+
+        Button btnUebungDauerAbbrechen = alert.findViewById(R.id.btnUebungDauerAbbrechen);
+        btnUebungDauerAbbrechen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.cancel();
+            }
+        });
     }
 
     public void workoutUebungLoeschen(int index) {
@@ -1412,6 +1478,10 @@ public class MainClass extends AppCompatActivity {
 
     public int gibWorkoutUebungAnzahlUebersicht(int workout) {
         return anzahlWorkoutUebungen[workout];
+    }
+
+    public int gibDauerWorkoutUebungenUebersicht(int workout) {
+        return dauerWorkoutUebungen[workout];
     }
 
 

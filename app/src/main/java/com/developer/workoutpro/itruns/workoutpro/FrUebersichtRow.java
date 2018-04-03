@@ -31,7 +31,14 @@ public class FrUebersichtRow extends Fragment {
 
     // Attribute Workout Zeit
     TextView tvZeitWert;
-    private String workoutZeit;
+    private int workoutZeitInt;
+    private String workoutZeitStr;
+    private int workoutZeitStundenInt;
+    private String workoutZeitStundenStr;
+    private int workoutZeitMinInt;
+    private String workoutZeitMinStr;
+    private int workoutZeitSekInt;
+    private String workoutZeitSekStr;
     private int zeitWertId;
 
     // Attribute Workout Übungen
@@ -90,9 +97,39 @@ public class FrUebersichtRow extends Fragment {
         tvArtWert.setId(artWertId);
 
         // Workout Zeit setzen
-        workoutZeit = "10:00";
+        workoutZeitInt = mainClass.gibDauerWorkoutUebungenUebersicht(aktWorkout);
+        workoutZeitMinInt = workoutZeitInt / 60;
+        // Ins Format umwandeln
+        // Stunden
+        if (workoutZeitMinInt >= 60) {
+            workoutZeitStundenInt = workoutZeitMinInt / 60;
+            workoutZeitMinInt = workoutZeitMinInt % 60;
+            if (workoutZeitStundenInt < 10) {
+                workoutZeitStundenStr = "0" + Integer.toString(workoutZeitStundenInt) + ":";
+            } else {
+                workoutZeitStundenStr = Integer.toString(workoutZeitStundenInt) + ":";
+            } // if
+        } else {
+            workoutZeitStundenInt = 0;
+            workoutZeitStundenStr = "";
+        } // if
+        // Minuten
+        if (workoutZeitMinInt < 10) {
+            workoutZeitMinStr = "0" + Integer.toString(workoutZeitMinInt);
+        } else {
+            workoutZeitMinStr = Integer.toString(workoutZeitMinInt);
+        } // if
+        // Sekunden
+        workoutZeitSekInt = workoutZeitInt % 60;
+        if (workoutZeitSekInt < 10) {
+            workoutZeitSekStr = "0" + Integer.toString(workoutZeitSekInt);
+        } else {
+            workoutZeitSekStr = Integer.toString(workoutZeitSekInt);
+        } // if
+        workoutZeitStr = workoutZeitStundenStr + workoutZeitMinStr + ":" + workoutZeitSekStr;
+        // Zeit ausgeben
         tvZeitWert = view.findViewById(R.id.tvZeitWert);
-        tvZeitWert.setText(workoutZeit);
+        tvZeitWert.setText(workoutZeitStr);
         tvZeitWert.setId(zeitWertId);
 
         // Workout Übungen setzen

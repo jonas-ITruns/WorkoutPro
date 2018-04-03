@@ -63,9 +63,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerView.Adapter<SwipeRecycler
             viewHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mainClass.workoutUebungHinzufuegen(i);
-                    mainClass.workoutHinzufuegenOeffnen();
-                    mainClass.alert.cancel();
+                    mainClass.workoutUebungDauer(i);
                 }
             });
         }
