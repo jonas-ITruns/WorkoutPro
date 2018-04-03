@@ -1408,87 +1408,15 @@ public class MainClass extends AppCompatActivity {
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
-        final EditText etUebungDauerSekunden = alert.findViewById(R.id.etUebungDauerSekunden);
-        final EditText etUebungDauerMinuten = alert.findViewById(R.id.etUebungDauerMinuten);
 
         tvAlertUeberschrift.setText("Dauer der Übung");
 
 
-          final EditText etUebungDauer = alert.findViewById(R.id.etUebungDauerMinuten);
-//        Tastatur automatisch öffnen
-//        etUebungDauer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                etUebungDauer.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        InputMethodManager imm = (InputMethodManager) MainClass.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-//                        imm.showSoftInput(etUebungDauer, InputMethodManager.SHOW_IMPLICIT);
-//                    }
-//                });
-//            }
-//        });
-//        etUebungDauer.requestFocus();
+        final EditText etUebungDauer = alert.findViewById(R.id.etUebungDauerMinuten);
 
         //Deklarieren der Button
         ImageButton imgbtnUebungDauerSpeichern = alert.findViewById(R.id.imgbtnUebungDauerSpeichern);
         ImageButton imgbtnUebungDauerAbbrechen = alert.findViewById(R.id.imgbtnUebungDauerAbbrechen);
-        final ImageButton imgbtnUebungDauerPlusSekunden = alert.findViewById(R.id.imgbtnPlusSekunden);
-        final ImageButton imgbtnUebungDauerMinusSekunden = alert.findViewById(R.id.imgbtnMinusSekunden);
-        final ImageButton imgbtnUebungDauerPlusMinuten = alert.findViewById(R.id.imgbtnPlusMinuten);
-        final ImageButton imgbtnUebungDauerMinusMinuten = alert.findViewById(R.id.imgbtnMinusMinuten);
-
-
-        imgbtnUebungDauerPlusSekunden.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Deklaration der Hilfsvariablen
-                String aktSekundenStr, aktMinutenStr;
-                int aktSekunden, aktMinuten;
-
-                //aktuelle Sekunden einlesen
-                if (etUebungDauerSekunden.length()==0){
-                    aktSekunden = 0;
-                }
-                else{
-                    aktSekundenStr = etUebungDauerSekunden.getText().toString();
-                    aktSekunden = Integer.parseInt(aktSekundenStr);
-                }
-
-                //aktuelle Minuten einlesen
-                if (etUebungDauerMinuten.length()==0){
-                    aktMinuten = 0;
-                }
-                else{
-                    aktMinutenStr = etUebungDauerMinuten.getText().toString();
-                    aktMinuten = Integer.parseInt(aktMinutenStr);
-                }
-
-                //Sekunden um 1 erhöhen
-                if (aktSekunden == 59){
-                    aktSekunden = 0;
-                    aktMinuten = aktMinuten + 1;
-                }
-                else{
-                    aktSekunden = aktSekunden+1;
-                }
-
-                //Ausgeben der aktuellen Sekunden
-                aktSekundenStr = Integer.toString(aktSekunden);
-                if(aktSekundenStr.length()==1){
-                    aktSekundenStr = "0" + aktSekundenStr;
-                }
-                etUebungDauerSekunden.setText(aktSekundenStr);
-
-                //Ausgeben der aktuellen Minuten
-                aktMinutenStr = Integer.toString(aktMinuten);
-                if (aktMinutenStr.length()==1){
-                    aktMinutenStr = "0" + aktMinutenStr;
-                }//else
-                etUebungDauerMinuten.setText(aktMinutenStr);
-
-            }
-        });
 
         imgbtnUebungDauerSpeichern.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1521,6 +1449,88 @@ public class MainClass extends AppCompatActivity {
                 alert.cancel();
             }
         });
+    }
+
+    public void workoutUebungDauerVeraendern (View v){
+
+        // Deklarieren der Textfelder
+        EditText etUebungDauerSekunden = alert.findViewById(R.id.etUebungDauerSekunden);
+        EditText etUebungDauerMinuten = alert.findViewById(R.id.etUebungDauerMinuten);
+
+        //Deklaration der Hilfsvariablen
+        String aktSekundenStr, aktMinutenStr;
+        int aktSekunden, aktMinuten;
+
+        //aktuelle Sekunden einlesen
+        if (etUebungDauerSekunden.length()==0){
+            aktSekunden = 0;
+        }
+        else{
+            aktSekundenStr = etUebungDauerSekunden.getText().toString();
+            aktSekunden = Integer.parseInt(aktSekundenStr);
+        }
+
+        //aktuelle Minuten einlesen
+        if (etUebungDauerMinuten.length()==0){
+            aktMinuten = 0;
+        }
+        else{
+            aktMinutenStr = etUebungDauerMinuten.getText().toString();
+            aktMinuten = Integer.parseInt(aktMinutenStr);
+        }
+
+        switch(v.getId()){
+            case (R.id.imgbtnPlusSekunden):
+                //Sekunden um 1 erhöhen
+                if (aktSekunden == 59){
+                    aktSekunden = 0;
+                }//then
+                else{
+                    aktSekunden = aktSekunden+1;
+                }//else
+                break;
+            case (R.id.imgbtnMinusSekunden):
+                //Sekunden um 1 erniedrigen
+                if (aktSekunden == 0){
+                    aktSekunden = 59;
+                }//then
+                else{
+                    aktSekunden = aktSekunden-1;
+                }//else
+                break;
+            case (R.id.imgbtnPlusMinuten):
+                //Minuten um 1 erhöhen
+                if (aktMinuten == 59){
+                    aktMinuten = 0;
+                }//then
+                else{
+                    aktMinuten = aktMinuten+1;
+                }//else
+                break;
+            case (R.id.imgbtnMinusMinuten):
+                //Minuten um 1 erniedrigen
+                if (aktMinuten == 0){ ;
+                    aktMinuten = 0;
+                }//then
+                else{
+                    aktMinuten = aktMinuten-1;
+                }//else
+                break;
+        }
+
+        //Ausgeben der aktuellen Sekunden
+        aktSekundenStr = Integer.toString(aktSekunden);
+        if(aktSekundenStr.length()==1){
+            aktSekundenStr = "0" + aktSekundenStr;
+        }
+        etUebungDauerSekunden.setText(aktSekundenStr);
+
+        //Ausgeben der aktuellen Minuten
+        aktMinutenStr = Integer.toString(aktMinuten);
+        if (aktMinutenStr.length()==1){
+            aktMinutenStr = "0" + aktMinutenStr;
+        }//else
+        etUebungDauerMinuten.setText(aktMinutenStr);
     }
 
     public void workoutUebungLoeschen(int index) {

@@ -96,7 +96,7 @@
         android:layout_height="40dp"
         android:layout_marginEnd="85dp"
         android:background="@color/hellgrau_Hintergrund"
-        android:tag="1"
+        android:onClick="workoutUebungDauerVeraendern"
         app:layout_constraintBottom_toTopOf="@+id/etUebungDauerSekunden"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_expand_less_black_24dp" />
@@ -108,7 +108,7 @@
         android:layout_marginEnd="85dp"
         android:layout_marginTop="4dp"
         android:background="@color/transparent"
-        android:tag="2"
+        android:onClick="workoutUebungDauerVeraendern"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etUebungDauerSekunden"
         app:srcCompat="@drawable/ic_expand_more_black_24dp" />
@@ -119,7 +119,7 @@
         android:layout_height="40dp"
         android:layout_marginStart="85dp"
         android:background="@color/hellgrau_Hintergrund"
-        android:tag="3"
+        android:onClick="workoutUebungDauerVeraendern"
         app:layout_constraintBottom_toTopOf="@+id/etUebungDauerMinuten"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_expand_less_black_24dp" />
@@ -131,7 +131,7 @@
         android:layout_marginStart="85dp"
         android:layout_marginTop="4dp"
         android:background="@color/transparent"
-        android:tag="4"
+        android:onClick="workoutUebungDauerVeraendern"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etUebungDauerMinuten"
         app:srcCompat="@drawable/ic_expand_more_black_24dp" />
