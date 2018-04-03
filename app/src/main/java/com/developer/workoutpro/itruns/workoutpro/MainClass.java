@@ -38,6 +38,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class MainClass extends AppCompatActivity {
 
@@ -1208,14 +1209,16 @@ public class MainClass extends AppCompatActivity {
         // Nach Muskelgruppe beziehnungsweise Übungstyp filtern
         anzahlAlleUebungen = anzahlMeineUebungen + anzahlStandardUebungen;
 
-        // Array List zum sortieren
-        ArrayList<String> uebungenSortiert = new ArrayList<>();
+        // Array Listen zum sortieren
+        ArrayList<String> uebungenSortiert1 = new ArrayList<>();
+        ArrayList<String> uebungenSortiert2 = new ArrayList<>();
+
         switch (tag) {
             // Besondere Übungen (Pause)
             case 0:
                 for (int index = 0; index < anzahlAlleUebungen; index++) {
                     if (objAlleUebungen[index].gibMuskelgruppe().equals("-")) {
-                        uebungenSortiert.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
+                        uebungenSortiert1.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
                     } // if
                 } // for
                 break;
@@ -1223,7 +1226,7 @@ public class MainClass extends AppCompatActivity {
             case 1:
                 for (int index = 0; index < anzahlAlleUebungen; index++) {
                     if (objAlleUebungen[index].gibMuskelgruppe().equals("ganzkoerper")) {
-                        uebungenSortiert.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
+                        uebungenSortiert1.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
                     } // if
                 } // for
                 break;
@@ -1231,7 +1234,7 @@ public class MainClass extends AppCompatActivity {
             case 2:
                 for (int index = 0; index < anzahlAlleUebungen; index++) {
                     if (objAlleUebungen[index].gibMuskelgruppe().equals("arme")) {
-                        uebungenSortiert.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
+                        uebungenSortiert1.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
                     } // if
                 } // for
                 break;
@@ -1239,7 +1242,7 @@ public class MainClass extends AppCompatActivity {
             case 3:
                 for (int index = 0; index < anzahlAlleUebungen; index++) {
                     if (objAlleUebungen[index].gibMuskelgruppe().equals("beine")) {
-                        uebungenSortiert.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
+                        uebungenSortiert1.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
                     } // if
                 } // for
                 break;
@@ -1247,7 +1250,7 @@ public class MainClass extends AppCompatActivity {
             case 4:
                 for (int index = 0; index < anzahlAlleUebungen; index++) {
                     if (objAlleUebungen[index].gibMuskelgruppe().equals("bauch")) {
-                        uebungenSortiert.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
+                        uebungenSortiert1.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
                     } // if
                 } // for
                 break;
@@ -1255,7 +1258,7 @@ public class MainClass extends AppCompatActivity {
             case 5:
                 for (int index = 0; index < anzahlAlleUebungen; index++) {
                     if (objAlleUebungen[index].gibMuskelgruppe().equals("brust")) {
-                        uebungenSortiert.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
+                        uebungenSortiert1.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
                     } // if
                 } // for
                 break;
@@ -1263,35 +1266,76 @@ public class MainClass extends AppCompatActivity {
             case 6:
                 for (int index = 0; index < anzahlAlleUebungen; index++) {
                     if (objAlleUebungen[index].gibMuskelgruppe().equals("ruecken")) {
-                        uebungenSortiert.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
+                        uebungenSortiert1.add(objAlleUebungen[index].gibName() + "~" + objAlleUebungen[index].gibMuskelgruppe() + "<" + objAlleUebungen[index].gibBeschreibung());
                     } // if
                 } // for
                 break;
             // Standard Uebungen
             case 7:
                 for (int index = 0; index < anzahlStandardUebungen; index++) {
-                    uebungenSortiert.add(objStandardUebungen[index].gibName() + "~" + objStandardUebungen[index].gibMuskelgruppe() + "<" + objStandardUebungen[index].gibBeschreibung());
+                    uebungenSortiert1.add(objStandardUebungen[index].gibName() + "~" + objStandardUebungen[index].gibMuskelgruppe() + "<" + objStandardUebungen[index].gibBeschreibung());
                 } // for
                 break;
             // Meine Uebungen
             case 8:
                 for (int index = 0; index < anzahlMeineUebungen; index++) {
-                    uebungenSortiert.add(objMeineUebungen[index].gibName() + "~" + objMeineUebungen[index].gibMuskelgruppe() + "<" + objMeineUebungen[index].gibBeschreibung());
+                    uebungenSortiert1.add(objMeineUebungen[index].gibName() + "~" + objMeineUebungen[index].gibMuskelgruppe() + "<" + objMeineUebungen[index].gibBeschreibung());
                 } // for
                 break;
         } // switch
 
-        // Übungen sortieren
-        Collections.sort(uebungenSortiert, new AlphanumComparator());
+        // Nach Zahlen sortieren
+        Collections.sort(uebungenSortiert1, new AlphanumComparator());
 
         String [] mUebungArray1;
         String [] mUebungArray2;
 
-        objAngezeigteUebungen = new ObjMeineUebungen[uebungenSortiert.size()];
+        ArrayList<Character> buchstaben = new ArrayList<>();
+        for (int index = 0; index < 26; index++) {
+            buchstaben.add((char) (index + 65));
+        } // for
+        for (int index = 0; index < 26; index++) {
+            buchstaben.add((char) (index + 97));
+        } // for
 
-        for (int index = 0; index < uebungenSortiert.size(); index++) {
+        Boolean [] keinBuchstabe = new Boolean[uebungenSortiert1.size()];
+        int anzahlNichtBuchstaben = 0;
+
+        objAngezeigteUebungen = new ObjMeineUebungen[uebungenSortiert1.size()];
+
+        for (int index = 0; index < uebungenSortiert1.size(); index++) {
+            keinBuchstabe[index] = false;
+            for (int pIndex = 0; pIndex < buchstaben.size(); pIndex++) {
+                if (! keinBuchstabe[index]) {
+                    if (uebungenSortiert1.get(index).charAt(0) == buchstaben.get(pIndex)) {
+                        uebungenSortiert2.add(uebungenSortiert1.get(index));
+                        keinBuchstabe[index] = true;
+                    } // if
+                } // if
+            } // for
+            // Alles was kein Buchstabe ist schonmal hinzufügen
+            if (! keinBuchstabe[index]) {
+                objAngezeigteUebungen[index] = new ObjMeineUebungen();
+                mUebungArray1 = uebungenSortiert1.get(index).split("~");
+                objAngezeigteUebungen[index].setzeName(mUebungArray1[0]);
+                mUebungArray2 = mUebungArray1[1].split("<");
+                objAngezeigteUebungen[index].setzeMuskelgruppe(mUebungArray2[0]);
+                objAngezeigteUebungen[index].setzeBeschreibung(mUebungArray2[1]);
+                anzahlNichtBuchstaben++;
+            } // if
+        } // for
+
+        // Sortierung nach Buchstaben
+        Collections.sort(uebungenSortiert2, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.compareToIgnoreCase(s2);
+            }
+        });
+
+        for (int index = anzahlNichtBuchstaben; index < uebungenSortiert1.size(); index++) {
             objAngezeigteUebungen[index] = new ObjMeineUebungen();
-            mUebungArray1 = uebungenSortiert.get(index).split("~");
+            mUebungArray1 = uebungenSortiert2.get(index - anzahlNichtBuchstaben).split("~");
             objAngezeigteUebungen[index].setzeName(mUebungArray1[0]);
             mUebungArray2 = mUebungArray1[1].split("<");
             objAngezeigteUebungen[index].setzeMuskelgruppe(mUebungArray2[0]);
@@ -1302,7 +1346,7 @@ public class MainClass extends AppCompatActivity {
         ArrayList<String> mName = new ArrayList<>();
         ArrayList<String> mMuskelgruppe = new ArrayList<>();
         ArrayList<String> mBeschreibung = new ArrayList<>();
-        for (int index = 0; index < uebungenSortiert.size(); index++) {
+        for (int index = 0; index < uebungenSortiert1.size(); index++) {
             mName.add(objAngezeigteUebungen[index].gibName());
             mMuskelgruppe.add(objAngezeigteUebungen[index].gibMuskelgruppe());
             mBeschreibung.add(objAngezeigteUebungen[index].gibBeschreibung());
