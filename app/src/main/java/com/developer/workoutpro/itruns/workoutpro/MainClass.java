@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -2218,6 +2219,18 @@ public class MainClass extends AppCompatActivity {
     public int gibBearbeitendesWorkout() {
         return aktuellesWorkout;
     }
+
+
+    // Workout laufen lassen
+
+    public void workoutStart(int workout) {
+        // Seite wechseln
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+        setContentView(R.layout.act_workout_start);
+
+
+
+    } // Methode workoutStart
 
 
 } // Klasse MainClass

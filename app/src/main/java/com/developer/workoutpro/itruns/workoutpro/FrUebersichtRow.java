@@ -204,6 +204,13 @@ public class FrUebersichtRow extends Fragment {
             }
         });
 
+        imgbtnWorkoutStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainClass.workoutStart(aktWorkout);
+            }
+        });
+
         return view;
     }
 
