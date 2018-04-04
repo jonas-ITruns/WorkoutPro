@@ -1606,16 +1606,16 @@ public class MainClass extends AppCompatActivity {
                     etUebungDauerSekunden.setText("00");
                 }
 
-                //0 bei einer Stelle
+                // 0 bei einer Stelle
                 /*if(aktSekundenStr.length()==1){
                     etUebungDauerSekunden.setText("0" + aktSekundenStr);
                 }*/
 
-                //Sekunden einlesen
+                // Sekunden einlesen
                 aktSekundenStr = etUebungDauerSekunden.getText().toString();
                 aktSekunden = Integer.parseInt(aktSekundenStr);
 
-                //Eingabe Grenze 59 setzen
+                // Eingabe Grenze 59 setzen
                 if (aktSekunden >= 100) {
                     aktSekunden = aktSekunden%10;
                     aktSekundenStr = Integer.toString(aktSekunden);

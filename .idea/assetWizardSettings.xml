@@ -96,6 +96,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
+                                      <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="ffffff" />
                                       <entry key="backgroundImage" value="C:\Users\Dietmar\Documents\WorkoutPro\app\src\main\res\drawable\transparenter_hintergrund.png" />
                                       <entry key="foregroundImage" value="C:\Users\Dietmar\Documents\workoutpro_logo_1000.png" />
