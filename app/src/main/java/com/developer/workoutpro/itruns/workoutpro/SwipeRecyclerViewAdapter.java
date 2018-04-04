@@ -1,7 +1,5 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -101,7 +98,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerView.Adapter<SwipeRecycler
                 constraintLayout = view.findViewById(R.id.constraint_layout);
                 tvUebungName = view.findViewById(R.id.tvUebungName);
                 tvUebungBeschreibung = view.findViewById(R.id.tvUebungBeschreibung);
-                imgvMuskelgruppe = view.findViewById(R.id.imgvMuskelgruppe);
+                imgvMuskelgruppe = view.findViewById(R.id.imgvMuskelgruppeAktuell);
         }
     }
 }

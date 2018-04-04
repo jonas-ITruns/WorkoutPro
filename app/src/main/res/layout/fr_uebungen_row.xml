@@ -19,7 +19,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/imgvMuskelgruppe"
+                    android:id="@+id/imgvMuskelgruppeAktuell"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginBottom="10dp"
@@ -40,7 +40,7 @@
                     android:text="Name der Übung"
                     android:textColor="@color/dunkelblau"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@+id/imgvMuskelgruppe"
+                    app:layout_constraintStart_toEndOf="@+id/imgvMuskelgruppeAktuell"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -52,7 +52,7 @@
                     android:text="Beschreibung der Übung"
                     android:textColor="@color/dunkelgrau"
                     android:textSize="10sp"
-                    app:layout_constraintStart_toEndOf="@+id/imgvMuskelgruppe"
+                    app:layout_constraintStart_toEndOf="@+id/imgvMuskelgruppeAktuell"
                     app:layout_constraintTop_toBottomOf="@+id/tvUebungName" />
 
         </android.support.constraint.ConstraintLayout>

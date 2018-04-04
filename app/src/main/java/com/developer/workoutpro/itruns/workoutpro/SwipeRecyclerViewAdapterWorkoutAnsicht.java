@@ -1,9 +1,7 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -12,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -251,7 +248,7 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                 constraintLayout = view.findViewById(R.id.constraint_layout);
                 tvUebungName = view.findViewById(R.id.tvUebungName);
                 tvUebungBeschreibung = view.findViewById(R.id.tvUebungBeschreibung);
-                imgvMuskelgruppe = view.findViewById(R.id.imgvMuskelgruppe);
+                imgvMuskelgruppe = view.findViewById(R.id.imgvMuskelgruppeAktuell);
                 tvUebungDauerMinuten = view.findViewById(R.id.tvUebungDauerMinuten);
                 tvUebungDauerSekunden = view.findViewById(R.id.tvUebungDauerSekunden);
                 imgbtnPlusMinuten = view.findViewById(R.id.imgbtnPlusMinuten);

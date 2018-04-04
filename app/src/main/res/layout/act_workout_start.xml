@@ -14,17 +14,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imgvMuskelgruppe"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="80dp"
-            android:tint="@color/dunkelgrau"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guidelineOben"
-            app:srcCompat="@drawable/ic_muskelgruppe_arme_32" />
-
         <TextView
             android:id="@+id/tvGesamtzeit"
             android:layout_width="160dp"
@@ -34,19 +23,31 @@
             android:text="00 : 20"
             android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imgvMuskelgruppe" />
+            tools:layout_editor_absoluteX="100dp" />
 
         <TextView
-            android:id="@+id/tvUebungsNummer"
+            android:id="@+id/tvUebungsNummerAktuell"
             android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_height="35dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="80dp"
             android:gravity="center"
-            android:text="10 / 10"
-            android:textSize="20sp"
+            android:text="5"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guidelineOben" />
+
+        <TextView
+            android:id="@+id/tvUebungsNummerAktuell2"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="80dp"
+            android:gravity="center"
+            android:text="30"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineOben" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guidelineOben"
@@ -69,26 +70,42 @@
             android:id="@+id/imgvTrennstrich5"
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:layout_marginBottom="4dp"
-            app:layout_constraintBottom_toTopOf="@+id/imgvMuskelgruppe"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@color/dunkelblau" />
+            app:srcCompat="@color/dunkelblau"
+            tools:layout_editor_absoluteY="55dp" />
 
         <TextView
             android:id="@+id/tvWorkoutName"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
+            android:layout_width="302dp"
+            android:layout_height="47dp"
             android:layout_marginEnd="30dp"
             android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="Planche Workout"
+            android:text="Workout Name"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            app:layout_constraintBottom_toTopOf="@+id/tvUebungsNummerAktuell2"
+            app:layout_constraintStart_toEndOf="@+id/tvGesamtzeit"
+            app:srcCompat="@drawable/ic_flag_black_24dp" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            app:layout_constraintBottom_toTopOf="@+id/tvUebungsNummerAktuell"
+            app:layout_constraintEnd_toStartOf="@+id/tvGesamtzeit"
+            app:srcCompat="@drawable/ic_directions_run_black_24dp" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -96,16 +113,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toTopOf="@+id/clBereichMitteUnten"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clBereichOben">
 
         <TextView
             android:id="@+id/tvAktuelleUebungZeit"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="match_parent"
             android:fontFamily="monospace"
-            android:gravity="center"
+            android:gravity="center_horizontal|center_vertical"
             android:includeFontPadding="false"
             android:paddingTop="10dp"
             android:text="10"
@@ -124,6 +143,24 @@
         app:layout_constraintBottom_toTopOf="@+id/clBereichUnten"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/imgvMuskelgruppeNaechste"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:tint="@color/fastSchwarz"
+            app:layout_constraintBottom_toTopOf="@+id/imgvTrennstrich1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_muskelgruppe_arme_32" />
+
+        <ImageView
+            android:id="@+id/imgvMuskelgruppeAktuell"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:tint="@color/dunkelgrau"
+            app:layout_constraintBottom_toBottomOf="@+id/tvAktuelleUebung"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_muskelgruppe_arme_32" />
 
         <ImageView
             android:id="@+id/imgvTrennstrich1"
@@ -167,15 +204,35 @@
 
         <TextView
             android:id="@+id/tvAktuelleUebung"
-            android:layout_width="match_parent"
+            android:layout_width="260dp"
             android:layout_height="50dp"
             android:gravity="center"
             android:text="Aktuelle Übung"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/imgvTrennstrich2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/imgvMuskelgruppeAktuell"
+            app:layout_constraintStart_toEndOf="@+id/tvNummerAktuell" />
+
+        <TextView
+            android:id="@+id/tvNummerAktuell"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="1"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/imgvTrennstrich2"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvNummerNaechste"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="2"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/imgvTrennstrich1"
             app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
