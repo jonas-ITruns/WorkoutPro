@@ -1619,12 +1619,12 @@ public class MainClass extends AppCompatActivity {
                 if (aktSekunden >= 100) {
                     aktSekunden = aktSekunden%10;
                     aktSekundenStr = Integer.toString(aktSekunden);
-                    etUebungDauerMinuten.setText(aktSekundenStr);
+                    etUebungDauerSekunden.setText(aktSekundenStr);
                 }
                 if (aktSekunden >= 60) {
                     aktSekunden = 59;
                     aktSekundenStr = Integer.toString(aktSekunden);
-                    etUebungDauerMinuten.setText(aktSekundenStr);
+                    etUebungDauerSekunden.setText(aktSekundenStr);
                 }
             }
         });
