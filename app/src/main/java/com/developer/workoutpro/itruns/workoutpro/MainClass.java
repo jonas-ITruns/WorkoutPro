@@ -1075,17 +1075,6 @@ public class MainClass extends AppCompatActivity {
 
     public void workoutHinzufuegenOeffnenButton(View v) {
         aktuellesWorkout = anzahlWorkouts;
-
-        // alle Übungen zum Objekt hinzufügen
-        for (int index = 0; index < anzahlStandardUebungen; index++) {
-            objAlleUebungen[index] = new ObjMeineUebungen();
-            objAlleUebungen[index] = objStandardUebungen[index];
-        } // for
-        for (int index = 0; index < anzahlMeineUebungen; index++) {
-            objAlleUebungen[index + anzahlStandardUebungen] = new ObjMeineUebungen();
-            objAlleUebungen[index + anzahlStandardUebungen] = objMeineUebungen[index];
-        } // for
-
         workoutNameHinzugefuegt[anzahlWorkouts] = false;
         workoutHinzufuegenOeffnen();
     } // Methode workoutHinzufuegenOeffnen
@@ -1277,6 +1266,16 @@ public class MainClass extends AppCompatActivity {
 
         // Nach Muskelgruppe beziehnungsweise Übungstyp filtern
         anzahlAlleUebungen = anzahlMeineUebungen + anzahlStandardUebungen;
+
+        // alle Übungen zum Objekt hinzufügen
+        for (int index = 0; index < anzahlStandardUebungen; index++) {
+            objAlleUebungen[index] = new ObjMeineUebungen();
+            objAlleUebungen[index] = objStandardUebungen[index];
+        } // for
+        for (int index = 0; index < anzahlMeineUebungen; index++) {
+            objAlleUebungen[index + anzahlStandardUebungen] = new ObjMeineUebungen();
+            objAlleUebungen[index + anzahlStandardUebungen] = objMeineUebungen[index];
+        } // for
 
         // Array Listen zum sortieren
         ArrayList<String> uebungenSortiert1 = new ArrayList<>();
