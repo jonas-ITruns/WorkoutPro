@@ -27,6 +27,8 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
     MainClass mainClass;
     private boolean draggen = false;
     private int dragItem;
+    private int swopItem;
+    private int verschiebung = 0;
     private final OnStartDragListener mDragStartListener;
 
     public SwipeRecyclerViewAdapterWorkoutAnsicht(Context context, ArrayList<String> uebungName, ArrayList<String> uebungMuskelgruppe, ArrayList<String> uebungBeschreibung, ArrayList<String> uebungMinuten, ArrayList<String> uebungSekunden, OnStartDragListener dragStartListener) {
@@ -88,6 +90,7 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
         viewHolder.imgbtnPlusMinuten.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Wenn nicht verschoben wurde
                 if (! draggen) {
                     mainClass.workoutUebungDauerBearbeiten(1, i);
                     if (Integer.parseInt(uebungMinuten.get(i)) == 59) {
@@ -96,12 +99,6 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                         uebungMinuten.set(i, Integer.toString(Integer.parseInt(uebungMinuten.get(i)) + 1));
                     } // if
                 } else {
-                    mainClass.workoutUebungDauerBearbeiten(1, dragItem);
-                    if (Integer.parseInt(uebungMinuten.get(dragItem)) == 59) {
-                        uebungMinuten.set(dragItem, "0");
-                    } else {
-                        uebungMinuten.set(dragItem, Integer.toString(Integer.parseInt(uebungMinuten.get(dragItem)) + 1));
-                    } // if
                     draggen = false;
                 } // if
                 notifyDataSetChanged();
@@ -110,6 +107,7 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
         viewHolder.imgbtnMinusMinuten.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Wenn nicht verschoben wurde
                 if (! draggen) {
                     mainClass.workoutUebungDauerBearbeiten(2, i);
                     if (Integer.parseInt(uebungMinuten.get(i)) == 0) {
@@ -118,12 +116,6 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                         uebungMinuten.set(i, Integer.toString(Integer.parseInt(uebungMinuten.get(i)) - 1));
                     } // if
                 } else {
-                    mainClass.workoutUebungDauerBearbeiten(2, dragItem);
-                    if (Integer.parseInt(uebungMinuten.get(dragItem)) == 0) {
-                        uebungMinuten.set(dragItem, "59");
-                    } else {
-                        uebungMinuten.set(dragItem, Integer.toString(Integer.parseInt(uebungMinuten.get(dragItem)) - 1));
-                    } // if
                     draggen = false;
                 } // if
                 notifyDataSetChanged();
@@ -132,6 +124,7 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
         viewHolder.imgbtnPlusSekunden.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Wenn nicht verschoben wurde
                 if (! draggen) {
                     mainClass.workoutUebungDauerBearbeiten(3, i);
                     if (Integer.parseInt(uebungSekunden.get(i)) == 59) {
@@ -140,12 +133,6 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                         uebungSekunden.set(i, Integer.toString(Integer.parseInt(uebungSekunden.get(i)) + 1));
                     } // if
                 } else {
-                    mainClass.workoutUebungDauerBearbeiten(3, dragItem);
-                    if (Integer.parseInt(uebungSekunden.get(dragItem)) == 59) {
-                        uebungSekunden.set(dragItem, "0");
-                    } else {
-                        uebungSekunden.set(dragItem, Integer.toString(Integer.parseInt(uebungSekunden.get(dragItem)) + 1));
-                    } // if
                     draggen = false;
                 } // if
                 notifyDataSetChanged();
@@ -154,6 +141,7 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
         viewHolder.imgbtnMinusSekunden.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Wenn nicht verschoben wurde
                 if (! draggen) {
                     mainClass.workoutUebungDauerBearbeiten(4, i);
                     if (Integer.parseInt(uebungSekunden.get(i)) == 0) {
@@ -162,12 +150,6 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                         uebungSekunden.set(i, Integer.toString(Integer.parseInt(uebungSekunden.get(i)) - 1));
                     } // if
                 } else {
-                    mainClass.workoutUebungDauerBearbeiten(1, dragItem);
-                    if (Integer.parseInt(uebungSekunden.get(dragItem)) == 0) {
-                        uebungSekunden.set(dragItem, "59");
-                    } else {
-                        uebungSekunden.set(dragItem, Integer.toString(Integer.parseInt(uebungSekunden.get(dragItem)) - 1));
-                    } // if
                     draggen = false;
                 } // if
                 notifyDataSetChanged();
@@ -203,6 +185,7 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                 Collections.swap(uebungMinuten, i, i + 1);
                 Collections.swap(uebungSekunden, i, i + 1);
                 mainClass.workoutUebungDrag(i, i + 1);
+                verschiebung = 1;
             } // for
         } else {
             for (int i = fromPosition; i > toPosition; i--) {
@@ -213,9 +196,11 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                 Collections.swap(uebungMinuten, i, i - 1);
                 Collections.swap(uebungSekunden, i, i - 1);
                 mainClass.workoutUebungDrag(i, i - 1);
+                verschiebung = -1;
             } // for
         } // if
         dragItem = toPosition;
+        swopItem = fromPosition;
         notifyItemMoved(fromPosition, toPosition);
         return true;
     }
