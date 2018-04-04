@@ -63,7 +63,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     // Lange drücken für Draggen
     @Override
     public boolean isLongPressDragEnabled() {
-        return true;
+        return false;
     }
 
     // Von überall swipen können

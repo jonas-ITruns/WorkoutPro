@@ -1,14 +1,18 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,14 +25,22 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
     private ArrayList<String> uebungMinuten;
     private ArrayList<String> uebungSekunden;
     MainClass mainClass;
+    private boolean draggen = false;
+    private int dragItem;
+    private final OnStartDragListener mDragStartListener;
 
-    public SwipeRecyclerViewAdapterWorkoutAnsicht(Context context, ArrayList<String> uebungName, ArrayList<String> uebungMuskelgruppe, ArrayList<String> uebungBeschreibung, ArrayList<String> uebungMinuten, ArrayList<String> uebungSekunden) {
+    public SwipeRecyclerViewAdapterWorkoutAnsicht(Context context, ArrayList<String> uebungName, ArrayList<String> uebungMuskelgruppe, ArrayList<String> uebungBeschreibung, ArrayList<String> uebungMinuten, ArrayList<String> uebungSekunden, OnStartDragListener dragStartListener) {
         mainClass = (MainClass) context;
         this.uebungName = uebungName;
         this.uebungMuskelgruppe = uebungMuskelgruppe;
         this.uebungBeschreibung = uebungBeschreibung;
         this.uebungMinuten = uebungMinuten;
         this.uebungSekunden = uebungSekunden;
+        mDragStartListener = dragStartListener;
+    }
+
+    public interface OnStartDragListener {
+        void onStartDrag(RecyclerView.ViewHolder viewHolder);
     }
 
     @Override
@@ -72,14 +84,25 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
         viewHolder.tvUebungDauerSekunden.setText(uebungSekunden.get(i));
 
         // Auf Hoch- oder Runterstellen warten
+
         viewHolder.imgbtnPlusMinuten.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainClass.workoutUebungDauerBearbeiten(1, i);
-                if (Integer.parseInt(uebungMinuten.get(i)) == 59) {
-                    uebungMinuten.set(i, "0");
+                if (! draggen) {
+                    mainClass.workoutUebungDauerBearbeiten(1, i);
+                    if (Integer.parseInt(uebungMinuten.get(i)) == 59) {
+                        uebungMinuten.set(i, "0");
+                    } else {
+                        uebungMinuten.set(i, Integer.toString(Integer.parseInt(uebungMinuten.get(i)) + 1));
+                    } // if
                 } else {
-                    uebungMinuten.set(i, Integer.toString(Integer.parseInt(uebungMinuten.get(i)) + 1));
+                    mainClass.workoutUebungDauerBearbeiten(1, dragItem);
+                    if (Integer.parseInt(uebungMinuten.get(dragItem)) == 59) {
+                        uebungMinuten.set(dragItem, "0");
+                    } else {
+                        uebungMinuten.set(dragItem, Integer.toString(Integer.parseInt(uebungMinuten.get(dragItem)) + 1));
+                    } // if
+                    draggen = false;
                 } // if
                 notifyDataSetChanged();
             }
@@ -87,11 +110,21 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
         viewHolder.imgbtnMinusMinuten.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainClass.workoutUebungDauerBearbeiten(2, i);
-                if (Integer.parseInt(uebungMinuten.get(i)) == 0) {
-                    uebungMinuten.set(i, "59");
+                if (! draggen) {
+                    mainClass.workoutUebungDauerBearbeiten(2, i);
+                    if (Integer.parseInt(uebungMinuten.get(i)) == 0) {
+                        uebungMinuten.set(i, "59");
+                    } else {
+                        uebungMinuten.set(i, Integer.toString(Integer.parseInt(uebungMinuten.get(i)) - 1));
+                    } // if
                 } else {
-                    uebungMinuten.set(i, Integer.toString(Integer.parseInt(uebungMinuten.get(i)) - 1));
+                    mainClass.workoutUebungDauerBearbeiten(2, dragItem);
+                    if (Integer.parseInt(uebungMinuten.get(dragItem)) == 0) {
+                        uebungMinuten.set(dragItem, "59");
+                    } else {
+                        uebungMinuten.set(dragItem, Integer.toString(Integer.parseInt(uebungMinuten.get(dragItem)) - 1));
+                    } // if
+                    draggen = false;
                 } // if
                 notifyDataSetChanged();
             }
@@ -99,11 +132,21 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
         viewHolder.imgbtnPlusSekunden.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainClass.workoutUebungDauerBearbeiten(3, i);
-                if (Integer.parseInt(uebungSekunden.get(i)) == 59) {
-                    uebungSekunden.set(i, "0");
+                if (! draggen) {
+                    mainClass.workoutUebungDauerBearbeiten(3, i);
+                    if (Integer.parseInt(uebungSekunden.get(i)) == 59) {
+                        uebungSekunden.set(i, "0");
+                    } else {
+                        uebungSekunden.set(i, Integer.toString(Integer.parseInt(uebungSekunden.get(i)) + 1));
+                    } // if
                 } else {
-                    uebungSekunden.set(i, Integer.toString(Integer.parseInt(uebungSekunden.get(i)) + 1));
+                    mainClass.workoutUebungDauerBearbeiten(3, dragItem);
+                    if (Integer.parseInt(uebungSekunden.get(dragItem)) == 59) {
+                        uebungSekunden.set(dragItem, "0");
+                    } else {
+                        uebungSekunden.set(dragItem, Integer.toString(Integer.parseInt(uebungSekunden.get(dragItem)) + 1));
+                    } // if
+                    draggen = false;
                 } // if
                 notifyDataSetChanged();
             }
@@ -111,13 +154,34 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
         viewHolder.imgbtnMinusSekunden.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainClass.workoutUebungDauerBearbeiten(4, i);
-                if (Integer.parseInt(uebungSekunden.get(i)) == 0) {
-                    uebungSekunden.set(i, "59");
+                if (! draggen) {
+                    mainClass.workoutUebungDauerBearbeiten(4, i);
+                    if (Integer.parseInt(uebungSekunden.get(i)) == 0) {
+                        uebungSekunden.set(i, "59");
+                    } else {
+                        uebungSekunden.set(i, Integer.toString(Integer.parseInt(uebungSekunden.get(i)) - 1));
+                    } // if
                 } else {
-                    uebungSekunden.set(i, Integer.toString(Integer.parseInt(uebungSekunden.get(i)) - 1));
+                    mainClass.workoutUebungDauerBearbeiten(1, dragItem);
+                    if (Integer.parseInt(uebungSekunden.get(dragItem)) == 0) {
+                        uebungSekunden.set(dragItem, "59");
+                    } else {
+                        uebungSekunden.set(dragItem, Integer.toString(Integer.parseInt(uebungSekunden.get(dragItem)) - 1));
+                    } // if
+                    draggen = false;
                 } // if
                 notifyDataSetChanged();
+            }
+        });
+
+        viewHolder.imgvMuskelgruppe.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent motionEvent) {
+                if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                    mDragStartListener.onStartDrag(viewHolder);
+                    return true;
+                } // if
+                return false;
             }
         });
     }
@@ -129,6 +193,7 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
+        draggen = true;
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; i++) {
                 // Daten tauschen
@@ -137,7 +202,7 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                 Collections.swap(uebungBeschreibung, i, i + 1);
                 Collections.swap(uebungMinuten, i, i + 1);
                 Collections.swap(uebungSekunden, i, i + 1);
-                MainClass.workoutUebungDrag(i, i + 1);
+                mainClass.workoutUebungDrag(i, i + 1);
             } // for
         } else {
             for (int i = fromPosition; i > toPosition; i--) {
@@ -147,9 +212,10 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                 Collections.swap(uebungBeschreibung, i, i - 1);
                 Collections.swap(uebungMinuten, i, i - 1);
                 Collections.swap(uebungSekunden, i, i - 1);
-                MainClass.workoutUebungDrag(i, i - 1);
+                mainClass.workoutUebungDrag(i, i - 1);
             } // for
         } // if
+        dragItem = toPosition;
         notifyItemMoved(fromPosition, toPosition);
         return true;
     }
@@ -166,7 +232,8 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
         mainClass.workoutUebungLoeschen(position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
         ConstraintLayout constraintLayout;
         TextView tvUebungName;
         TextView tvUebungBeschreibung;

@@ -1,12 +1,15 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
 import android.app.Fragment;
+import android.content.ClipDescription;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +18,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class FrWorkoutHinzufuegen extends Fragment {
+public class FrWorkoutHinzufuegen extends Fragment implements SwipeRecyclerViewAdapterWorkoutAnsicht.OnStartDragListener {
 
     View frView;
     private int workoutNummer;
@@ -28,6 +31,7 @@ public class FrWorkoutHinzufuegen extends Fragment {
     private ArrayList<String> mDauer = new ArrayList<>();
     private static SwipeRecyclerViewAdapterWorkoutAnsicht adapter;
     private RecyclerView recyclerView;
+    private ItemTouchHelper touchHelper;
 
     @Nullable
     @Override
@@ -83,10 +87,10 @@ public class FrWorkoutHinzufuegen extends Fragment {
         recyclerView = frView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new SwipeRecyclerViewAdapterWorkoutAnsicht(getActivity(), mName, mMuskelgruppe, mBeschreibung, mMinuten, mSekunden);
+        adapter = new SwipeRecyclerViewAdapterWorkoutAnsicht(getActivity(), mName, mMuskelgruppe, mBeschreibung, mMinuten, mSekunden, this);
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerView);
 
         recyclerView.setAdapter(adapter);
@@ -94,51 +98,10 @@ public class FrWorkoutHinzufuegen extends Fragment {
         //adapter.notifyDataSetChanged();
     }
 
-    /*private void initSwipe(){
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        touchHelper.startDrag(viewHolder);
+    }
 
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
-
-                // Nach links swipen; für nach rechts swipen else Teil
-                if (direction == ItemTouchHelper.LEFT) {
-                    adapter.removeItem(position);
-                } // then
-                else {
-                    adapter.removeItem(position);
-                }
-            }
-
-            @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-
-                if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
-
-                    View itemView = viewHolder.itemView;
-                    float height = (float) itemView.getBottom() - (float) itemView.getTop();
-                    float width = height / 3;
-
-                    if(dX > 0){
-                        p.setColor(Color.parseColor("#40a50000"));
-                        RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX,(float) itemView.getBottom());
-                        c.drawRect(background,p);
-                    } else {
-                        p.setColor(Color.parseColor("#40a50000"));
-                        RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(),(float) itemView.getRight(), (float) itemView.getBottom());
-                        c.drawRect(background,p);
-                    }
-                }
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-            }
-        };
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-    }*/
 
 }
