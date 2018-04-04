@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,16 +20,18 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
     private ArrayList<String> uebungName;
     private ArrayList<String> uebungMuskelgruppe;
     private ArrayList<String> uebungBeschreibung;
-    private ArrayList<String> uebungDauer;
+    private ArrayList<String> uebungMinuten;
+    private ArrayList<String> uebungSekunden;
     MainClass mainClass;
     private boolean uebungDauerErhoehen;
 
-    public SwipeRecyclerViewAdapterWorkoutAnsicht(Context context, ArrayList<String> uebungName, ArrayList<String> uebungMuskelgruppe, ArrayList<String> uebungBeschreibung, ArrayList<String> uebungDauer) {
+    public SwipeRecyclerViewAdapterWorkoutAnsicht(Context context, ArrayList<String> uebungName, ArrayList<String> uebungMuskelgruppe, ArrayList<String> uebungBeschreibung, ArrayList<String> uebungMinuten, ArrayList<String> uebungSekunden) {
         mainClass = (MainClass) context;
         this.uebungName = uebungName;
         this.uebungMuskelgruppe = uebungMuskelgruppe;
         this.uebungBeschreibung = uebungBeschreibung;
-        this.uebungDauer = uebungDauer;
+        this.uebungMinuten = uebungMinuten;
+        this.uebungSekunden = uebungSekunden;
     }
 
     @Override
@@ -41,42 +44,85 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-            viewHolder.tvUebungName.setText(uebungName.get(i));
-            viewHolder.tvUebungBeschreibung.setText(uebungBeschreibung.get(i));
-            if (uebungMuskelgruppe.get(i).equals("besonderes")) {
-                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_besondere_uebungen_32);
-            } else if (uebungMuskelgruppe.get(i).equals("ganzkoerper")) {
-                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_ganzkoerper_32);
-            } else if (uebungMuskelgruppe.get(i).equals("arme")) {
-                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_arme_32);
-            } else if (uebungMuskelgruppe.get(i).equals("beine")) {
-                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_beine_32);
-            } else if (uebungMuskelgruppe.get(i).equals("bauch")) {
-                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_bauch_32);
-            } else if (uebungMuskelgruppe.get(i).equals("brust")) {
-                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_brust_32);
-            } else if (uebungMuskelgruppe.get(i).equals("ruecken")) {
-                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_ruecken_32);
-            } else {
-                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_besondere_uebungen_32);
-            } // if
-            viewHolder.tvUebungDauer.setText(uebungDauer.get(i));
-            viewHolder.btnUebungDauerErhoehen.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mainClass.workoutUebungDauerErhoehen(i);
-                    uebungDauer.set(i, Integer.toString(Integer.parseInt(uebungDauer.get(i)) + 1));
-                    notifyDataSetChanged();
-                }
-            });
-            viewHolder.btnUebungDauerVerringern.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mainClass.workoutUebungDauerVerringern(i);
-                    uebungDauer.set(i, Integer.toString(Integer.parseInt(uebungDauer.get(i)) - 1));
-                    notifyDataSetChanged();
-                }
-            });
+        viewHolder.tvUebungName.setText(uebungName.get(i));
+        viewHolder.tvUebungBeschreibung.setText(uebungBeschreibung.get(i));
+        if (uebungMuskelgruppe.get(i).equals("besonderes")) {
+            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_besondere_uebungen_32);
+        } else if (uebungMuskelgruppe.get(i).equals("ganzkoerper")) {
+            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_ganzkoerper_32);
+        } else if (uebungMuskelgruppe.get(i).equals("arme")) {
+            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_arme_32);
+        } else if (uebungMuskelgruppe.get(i).equals("beine")) {
+            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_beine_32);
+        } else if (uebungMuskelgruppe.get(i).equals("bauch")) {
+            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_bauch_32);
+        } else if (uebungMuskelgruppe.get(i).equals("brust")) {
+            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_brust_32);
+        } else if (uebungMuskelgruppe.get(i).equals("ruecken")) {
+            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_ruecken_32);
+        } else {
+            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_besondere_uebungen_32);
+        } // if
+
+        // Null ergänzen, falls es unter 10 ist
+        if (uebungMinuten.get(i).length() < 2) {
+            uebungMinuten.set(i, "0" + uebungMinuten.get(i));
+        } // if
+        viewHolder.tvUebungDauerMinuten.setText(uebungMinuten.get(i));
+        if (uebungSekunden.get(i).length() < 2) {
+            uebungSekunden.set(i, "0" + uebungSekunden.get(i));
+        } // if
+        viewHolder.tvUebungDauerSekunden.setText(uebungSekunden.get(i));
+
+        // Auf Hoch- oder Runterstellen warten
+        viewHolder.imgbtnPlusMinuten.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainClass.workoutUebungDauerBearbeiten(1, i);
+                if (Integer.parseInt(uebungMinuten.get(i)) == 59) {
+                    uebungMinuten.set(i, "0");
+                } else {
+                    uebungMinuten.set(i, Integer.toString(Integer.parseInt(uebungMinuten.get(i)) + 1));
+                } // if
+                notifyDataSetChanged();
+            }
+        });
+        viewHolder.imgbtnMinusMinuten.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainClass.workoutUebungDauerBearbeiten(2, i);
+                if (Integer.parseInt(uebungMinuten.get(i)) == 0) {
+                    uebungMinuten.set(i, "59");
+                } else {
+                    uebungMinuten.set(i, Integer.toString(Integer.parseInt(uebungMinuten.get(i)) - 1));
+                } // if
+                notifyDataSetChanged();
+            }
+        });
+        viewHolder.imgbtnPlusSekunden.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainClass.workoutUebungDauerBearbeiten(3, i);
+                if (Integer.parseInt(uebungSekunden.get(i)) == 59) {
+                    uebungSekunden.set(i, "0");
+                } else {
+                    uebungSekunden.set(i, Integer.toString(Integer.parseInt(uebungSekunden.get(i)) + 1));
+                } // if
+                notifyDataSetChanged();
+            }
+        });
+        viewHolder.imgbtnMinusSekunden.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainClass.workoutUebungDauerBearbeiten(4, i);
+                if (Integer.parseInt(uebungSekunden.get(i)) == 0) {
+                    uebungSekunden.set(i, "59");
+                } else {
+                    uebungSekunden.set(i, Integer.toString(Integer.parseInt(uebungSekunden.get(i)) - 1));
+                } // if
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -88,7 +134,8 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
         uebungName.remove(position);
         uebungMuskelgruppe.remove(position);
         uebungBeschreibung.remove(position);
-        uebungDauer.remove(position);
+        uebungMinuten.remove(position);
+        uebungSekunden.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, uebungName.size());
         mainClass.workoutUebungLoeschen(position);
@@ -99,9 +146,13 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
         TextView tvUebungName;
         TextView tvUebungBeschreibung;
         ImageView imgvMuskelgruppe;
-        TextView tvUebungDauer;
-        Button btnUebungDauerErhoehen;
-        Button btnUebungDauerVerringern;
+        TextView tvUebungDauerMinuten;
+        TextView tvUebungDauerSekunden;
+        ImageButton imgbtnPlusMinuten;
+        ImageButton imgbtnMinusMinuten;
+        ImageButton imgbtnPlusSekunden;
+        ImageButton imgbtnMinusSekunden;
+
 
         public ViewHolder(View view) {
             super(view);
@@ -109,9 +160,12 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                 tvUebungName = view.findViewById(R.id.tvUebungName);
                 tvUebungBeschreibung = view.findViewById(R.id.tvUebungBeschreibung);
                 imgvMuskelgruppe = view.findViewById(R.id.imgvMuskelgruppe);
-                tvUebungDauer = view.findViewById(R.id.tvUebungDauer);
-                btnUebungDauerErhoehen = view.findViewById(R.id.btnUebungDauerErhoehen);
-                btnUebungDauerVerringern = view.findViewById(R.id.btnUebungDauerVerringern);
+                tvUebungDauerMinuten = view.findViewById(R.id.tvUebungDauerMinuten);
+                tvUebungDauerSekunden = view.findViewById(R.id.tvUebungDauerSekunden);
+                imgbtnPlusMinuten = view.findViewById(R.id.imgbtnPlusMinuten);
+                imgbtnMinusMinuten = view.findViewById(R.id.imgbtnMinusMinuten);
+                imgbtnPlusSekunden = view.findViewById(R.id.imgbtnPlusSekunden);
+                imgbtnMinusSekunden = view.findViewById(R.id.imgbtnMinusSekunden);
         }
     }
 }

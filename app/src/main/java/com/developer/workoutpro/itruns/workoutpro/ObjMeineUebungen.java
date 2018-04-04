@@ -6,22 +6,25 @@ public class ObjMeineUebungen {
     private String name;
     private String muskelgruppe;
     private String beschreibung;
-    private int dauer;
+    private int minuten;
+    private int sekunden;
 
     public ObjMeineUebungen() {
         uebungNummer = 0;
         name = "";
         muskelgruppe = "";
         beschreibung = "";
-        dauer = 0;
+        minuten = 0;
+        sekunden = 0;
     } // Konstruktor ObjMeineUebungen
 
-    public void neueUebung(int pUebungNummer, String pName, String pMuskelgruppe, String pBeschreibung, int pDauer) {
+    public void neueUebung(int pUebungNummer, String pName, String pMuskelgruppe, String pBeschreibung, int pMinuten, int pSekunden) {
         uebungNummer = pUebungNummer;
         name = pName;
         muskelgruppe =pMuskelgruppe;
         beschreibung = pBeschreibung;
-        dauer = pDauer;
+        minuten = pMinuten;
+        sekunden = pSekunden;
     } // Methode neueUebung
 
     public int gibUebungNummer() {
@@ -56,12 +59,21 @@ public class ObjMeineUebungen {
         beschreibung = pBeschreibung;
     } // Methode setzeBeschreibung
 
-    public int gibDauer() {
-        return dauer;
-    } // Methode gibDauer
+    public int gibMinuten() {
+        return minuten;
+    } // Methode gibMinuten
 
-    public void setzeDauer(int pDauer) {
-        dauer = pDauer;
-    } // Methode setzeDauer
+    public void setzeMinuten(int pMinuten) {
+        minuten = pMinuten;
+    } // Methode setzeMinuten
+
+    public int gibSekunden() {
+        return sekunden;
+    } // Methode gibSekunden
+
+    public void setzeSekunden(int pSekunden) {
+        sekunden = pSekunden;
+    } // Methode setzeSekunden
+
 
 } // Klasse ObjMeineUebungen

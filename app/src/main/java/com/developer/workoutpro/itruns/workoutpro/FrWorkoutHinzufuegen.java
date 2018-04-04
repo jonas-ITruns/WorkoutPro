@@ -23,7 +23,8 @@ public class FrWorkoutHinzufuegen extends Fragment {
     View frView;
     private int workoutNummer;
     private int anzahlWorkoutUebungen;
-    private ArrayList<String> mUebung = new ArrayList<>();
+    private ArrayList<String> mMinuten = new ArrayList<>();
+    private ArrayList<String> mSekunden = new ArrayList<>();
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<String> mMuskelgruppe= new ArrayList<>();
     private ArrayList<String> mBeschreibung = new ArrayList<>();
@@ -76,7 +77,8 @@ public class FrWorkoutHinzufuegen extends Fragment {
                 mName.add(mainClass.gibWorkoutUebungName(workoutNummer, index));
                 mMuskelgruppe.add(mainClass.gibWorkoutUebungMuskelgruppe(workoutNummer, index));
                 mBeschreibung.add(mainClass.gibWorkoutUebungBeschreibung(workoutNummer, index));
-                mDauer.add(Integer.toString(mainClass.gibWorkoutUebungDauer(workoutNummer, index)));
+                mMinuten.add(Integer.toString(mainClass.gibWorkoutUebungMinuten(workoutNummer, index)));
+                mSekunden.add(Integer.toString(mainClass.gibWorkoutUebungSekunden(workoutNummer, index)));
             } // for
         } // else
     }
@@ -86,7 +88,7 @@ public class FrWorkoutHinzufuegen extends Fragment {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new SwipeRecyclerViewAdapterWorkoutAnsicht(getActivity(), mName, mMuskelgruppe, mBeschreibung, mDauer);
+        adapter = new SwipeRecyclerViewAdapterWorkoutAnsicht(getActivity(), mName, mMuskelgruppe, mBeschreibung, mMinuten, mSekunden);
         recyclerView.setAdapter(adapter);
         initSwipe();
 
