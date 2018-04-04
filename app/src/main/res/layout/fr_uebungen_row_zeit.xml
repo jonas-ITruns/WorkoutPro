@@ -80,9 +80,8 @@
                 <ImageButton
                     android:id="@+id/imgbtnPlusSekunden"
                     android:layout_width="25dp"
-                    android:layout_height="20dp"
+                    android:layout_height="26dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginTop="8dp"
                     android:background="@color/transparent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -91,7 +90,7 @@
                 <ImageButton
                     android:id="@+id/imgbtnMinusSekunden"
                     android:layout_width="25dp"
-                    android:layout_height="20dp"
+                    android:layout_height="26dp"
                     android:layout_marginEnd="10dp"
                     android:background="@color/transparent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -101,9 +100,8 @@
                 <ImageButton
                     android:id="@+id/imgbtnPlusMinuten"
                     android:layout_width="25dp"
-                    android:layout_height="20dp"
+                    android:layout_height="26dp"
                     android:layout_marginEnd="5dp"
-                    android:layout_marginTop="8dp"
                     android:background="@color/transparent"
                     app:layout_constraintEnd_toStartOf="@+id/imgbtnPlusSekunden"
                     app:layout_constraintTop_toTopOf="parent"
@@ -112,7 +110,7 @@
                 <ImageButton
                     android:id="@+id/imgbtnMinusMinuten"
                     android:layout_width="25dp"
-                    android:layout_height="20dp"
+                    android:layout_height="26dp"
                     android:layout_marginEnd="5dp"
                     android:background="@color/transparent"
                     app:layout_constraintEnd_toStartOf="@+id/imgbtnMinusSekunden"

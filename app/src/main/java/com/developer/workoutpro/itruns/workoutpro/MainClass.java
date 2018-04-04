@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -33,6 +35,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1566,6 +1570,11 @@ public class MainClass extends AppCompatActivity {
 
         final EditText etUebungDauerSekunden = alert.findViewById(R.id.etUebungDauerSekunden);
         final EditText etUebungDauerMinuten = alert.findViewById(R.id.etUebungDauerMinuten);
+
+        // Voreingestellte Zeit ins Textefeld
+        etUebungDauerMinuten.setText("00");
+        etUebungDauerSekunden.setText("00");
+
         //kein Fokus auf dem textfeld
         etUebungDauerSekunden.clearFocus();
         etUebungDauerSekunden.setFocusable(false);
@@ -1576,6 +1585,80 @@ public class MainClass extends AppCompatActivity {
         etUebungDauerMinuten.setFocusable(false);
         etUebungDauerMinuten.setFocusableInTouchMode(true);
         etUebungDauerMinuten.setCursorVisible(false);
+
+        etUebungDauerSekunden.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Hilfsvariabllen deklarieren
+                String aktSekundenStr = etUebungDauerSekunden.getText().toString();
+                int aktSekunden;
+
+                //00 bei keiner Stelle
+                if (aktSekundenStr.isEmpty()) {
+                    etUebungDauerSekunden.setText("00");
+                }
+
+                //0 bei einer Stelle
+                /*if(aktSekundenStr.length()==1){
+                    etUebungDauerSekunden.setText("0" + aktSekundenStr);
+                }*/
+
+                //Sekunden einlesen
+                aktSekundenStr = etUebungDauerSekunden.getText().toString();
+                aktSekunden = Integer.parseInt(aktSekundenStr);
+
+                //Eingabe Grenze 60 setzen
+                if (aktSekunden >= 60) {
+                    aktSekunden = aktSekunden%10;
+                    aktSekundenStr = Integer.toString(aktSekunden);
+                    etUebungDauerSekunden.setText(aktSekundenStr);
+                }
+            }
+        });
+
+        etUebungDauerMinuten.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Hilfsvariablen deklarieren
+                String aktMinutenStr = etUebungDauerMinuten.getText().toString();
+                int aktMinuten;
+
+                //00 bei keiner Stelle
+                if (aktMinutenStr.isEmpty()) {
+                    etUebungDauerMinuten.setText("00");
+                }
+
+                //0 bei nur einer Stelle
+                /*if(aktMinutenStr.length()==1){
+                    etUebungDauerMinuten.setText("0" + aktMinutenStr);
+                }*/
+
+                //Minuten einlesen und umwandeln
+                aktMinutenStr = etUebungDauerMinuten.getText().toString();
+                aktMinuten = Integer.parseInt(aktMinutenStr);
+
+                //Eingabe Grenze 60 setzen
+                if (aktMinuten >= 60) {
+                    aktMinuten = aktMinuten%10;
+                    aktMinutenStr = Integer.toString(aktMinuten);
+                    etUebungDauerMinuten.setText(aktMinutenStr);
+                }
+            }
+        });
 
         //Deklarieren der Button
         ImageButton imgbtnUebungDauerSpeichern = alert.findViewById(R.id.imgbtnUebungDauerSpeichern);
@@ -1590,18 +1673,25 @@ public class MainClass extends AppCompatActivity {
                     return;
                 } // then
                 else {
-                    // Dauer einlesen
+                    // Minuten einlesen
                     int minuten;
                     if (etUebungDauerMinuten.getText().toString().isEmpty()) {
                         minuten = 0;
                     } // then
+                    else if(Integer.parseInt(etUebungDauerMinuten.getText().toString())>=59){
+                        minuten = 59;
+                    }
                     else {
                         minuten = Integer.parseInt(etUebungDauerMinuten.getText().toString());
                     } // else
+                    //Sekunden einlesen
                     int sekunden;
                     if (etUebungDauerSekunden.getText().toString().isEmpty()) {
                         sekunden = 0;
                     } // then
+                    else if(Integer.parseInt(etUebungDauerSekunden.getText().toString())>=59){
+                        sekunden = 59;
+                    }
                     else {
                         sekunden = Integer.parseInt(etUebungDauerSekunden.getText().toString());
                     } // else
@@ -1649,6 +1739,11 @@ public class MainClass extends AppCompatActivity {
             aktSekunden = Integer.parseInt(aktSekundenStr);
         }
 
+        //Zeit Limit für die Sekunden
+        if (aktSekunden >= 59){
+            aktSekunden = 59;
+        }
+
         //aktuelle Minuten einlesen
         if (etUebungDauerMinuten.length()==0){
             aktMinuten = 0;
@@ -1658,9 +1753,19 @@ public class MainClass extends AppCompatActivity {
             aktMinuten = Integer.parseInt(aktMinutenStr);
         }
 
+        //Zeit Limit für die Minuten
+        if (aktMinuten >= 59){
+            aktMinuten = 59;
+        }
 
         switch(v.getId()){
             case (R.id.imgbtnPlusSekunden):
+                //Fokus auf das jeweilige Textfeld setzen
+                //etUebungDauerSekunden.clearFocus();
+                //etUebungDauerSekunden.setFocusable(false);
+                etUebungDauerSekunden.requestFocus();
+                etUebungDauerSekunden.setFocusableInTouchMode(true);
+                etUebungDauerSekunden.setCursorVisible(false);
                 //Sekunden um 1 erhöhen
                 if (aktSekunden == 59){
                     aktSekunden = 0;
@@ -1670,6 +1775,12 @@ public class MainClass extends AppCompatActivity {
                 }//else
                 break;
             case (R.id.imgbtnMinusSekunden):
+                //Fokus auf das jeweilige Textfeld setzen
+                //etUebungDauerSekunden.clearFocus();
+                //etUebungDauerSekunden.setFocusable(false);
+                etUebungDauerSekunden.requestFocus();
+                etUebungDauerSekunden.setFocusableInTouchMode(true);
+                etUebungDauerSekunden.setCursorVisible(false);
                 //Sekunden um 1 erniedrigen
                 if (aktSekunden == 0){
                     aktSekunden = 59;
@@ -1679,6 +1790,10 @@ public class MainClass extends AppCompatActivity {
                 }//else
                 break;
             case (R.id.imgbtnPlusMinuten):
+                //Fokus auf das jeweilige Textfeld setzen
+                etUebungDauerMinuten.requestFocus();
+                etUebungDauerMinuten.setFocusableInTouchMode(true);
+                etUebungDauerMinuten.setCursorVisible(false);
                 //Minuten um 1 erhöhen
                 if (aktMinuten == 59){
                     aktMinuten = 0;
@@ -1688,6 +1803,9 @@ public class MainClass extends AppCompatActivity {
                 }//else
                 break;
             case (R.id.imgbtnMinusMinuten):
+                etUebungDauerMinuten.requestFocus();
+                etUebungDauerMinuten.setFocusableInTouchMode(true);
+                etUebungDauerMinuten.setCursorVisible(false);
                 //Minuten um 1 erniedrigen
                 if (aktMinuten == 0){
                     aktMinuten = 59;
@@ -1712,6 +1830,7 @@ public class MainClass extends AppCompatActivity {
         }//else
         etUebungDauerMinuten.setText(aktMinutenStr);
     }
+
 
     public void workoutUebungDauerBearbeiten(int tag, int index) {
         int minuten = objWorkoutUebungen[aktuellesWorkout][index].gibMinuten();
