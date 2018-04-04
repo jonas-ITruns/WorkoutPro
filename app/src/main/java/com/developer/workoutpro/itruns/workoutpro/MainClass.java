@@ -2329,14 +2329,14 @@ public class MainClass extends AppCompatActivity {
         tvNummerNaechste.setText(Integer.toString(aktUebung + 2));
 
         // Name der nächsten Übung ausgeben
-        if (anzahlWorkoutUebungen[workout] > 0) {
+        if (anzahlWorkoutUebungen[workout] > 1) {
             tvNaechsteUebung.setText(objWorkoutUebungen[workout][aktUebung + 1].gibName());
         } else {
             tvNaechsteUebung.setText("Finish");
         } // if
 
         // Muskelgruppe der nächsten Übung ausgeben
-        if (anzahlWorkoutUebungen[workout] > 0) {
+        if (anzahlWorkoutUebungen[workout] > 1) {
             if (objWorkoutUebungen[workout][aktUebung + 1].gibMuskelgruppe().equals("besonderes")) {
                 imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_besondere_uebungen_32);
             } else if (objWorkoutUebungen[workout][aktUebung + 1].gibMuskelgruppe().equals("ganzkoerper")) {
