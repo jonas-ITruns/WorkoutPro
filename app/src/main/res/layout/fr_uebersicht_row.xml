@@ -105,7 +105,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="right"
                 android:background="@color/transparent"
-                android:src="@drawable/ic_rename"
+                android:src="@drawable/ic_title_black_24dp"
                 android:tint="@color/weiss"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@+id/imgvStrich"
