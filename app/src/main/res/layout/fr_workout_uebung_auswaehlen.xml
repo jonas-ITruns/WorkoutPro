@@ -28,14 +28,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clHeader">
 
+            <Button
+                android:id="@+id/btnHinweisUebungHinzufuegen"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:background="@color/transparent"
+                android:text="Hier klicken um eine Übung hinzuzufügen"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/grau_Hintergrund"
+                android:visibility="visible"
+                android:onClick="workoutUebungAuswaehlenHinzufuegen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_a"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="265dp"
+                android:layout_marginTop="5dp"
                 android:scrollbars="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/btnHinweisUebungHinzufuegen">
 
             </android.support.v7.widget.RecyclerView>
 
@@ -45,13 +62,11 @@
 
     <TextView
         android:id="@+id/tvAlertUeberschrift"
-        android:layout_width="270dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/grau_Hintergrund"
+        android:gravity="center_vertical|center_horizontal"
         android:text="Übung auswählen"
-        android:textAlignment="center"
         android:textColor="@color/dunkelblau"
         android:textSize="20sp"
         android:textStyle="bold"

@@ -724,8 +724,6 @@ public class MainClass extends AppCompatActivity {
 
         // Immer nur eine Muskelgruppe auswählen, Rest wieder entfernen
 
-        muskelgruppeAusgewaehlt = true;
-
         imgbtnBesonderes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -736,7 +734,7 @@ public class MainClass extends AppCompatActivity {
                 bauch = false; imgbtnBauch.setBackgroundColor(0x0041577d);
                 brust = false; imgbtnBrust.setBackgroundColor(0x0041577d);
                 ruecken = false; imgbtnRuecken.setBackgroundColor(0x0041577d);
-
+                muskelgruppeAusgewaehlt = true;
             }
         });
 
@@ -750,7 +748,7 @@ public class MainClass extends AppCompatActivity {
                 bauch = false; imgbtnBauch.setBackgroundColor(0x0041577d);
                 brust = false; imgbtnBrust.setBackgroundColor(0x0041577d);
                 ruecken = false; imgbtnRuecken.setBackgroundColor(0x0041577d);
-
+                muskelgruppeAusgewaehlt = true;
             }
         });
 
@@ -764,6 +762,7 @@ public class MainClass extends AppCompatActivity {
                 bauch = false; imgbtnBauch.setBackgroundColor(0x0041577d);
                 brust = false; imgbtnBrust.setBackgroundColor(0x0041577d);
                 ruecken = false; imgbtnRuecken.setBackgroundColor(0x0041577d);
+                muskelgruppeAusgewaehlt = true;
             }
         });
 
@@ -777,6 +776,7 @@ public class MainClass extends AppCompatActivity {
                 bauch = false; imgbtnBauch.setBackgroundColor(0x0041577d);
                 brust = false; imgbtnBrust.setBackgroundColor(0x0041577d);
                 ruecken = false; imgbtnRuecken.setBackgroundColor(0x0041577d);
+                muskelgruppeAusgewaehlt = true;
             }
         });
 
@@ -790,6 +790,7 @@ public class MainClass extends AppCompatActivity {
                 bauch = true; imgbtnBauch.setBackgroundResource(R.color.blauTransparent);
                 brust = false; imgbtnBrust.setBackgroundColor(0x0041577d);
                 ruecken = false; imgbtnRuecken.setBackgroundColor(0x0041577d);
+                muskelgruppeAusgewaehlt = true;
             }
         });
 
@@ -803,6 +804,7 @@ public class MainClass extends AppCompatActivity {
                 bauch = false; imgbtnBauch.setBackgroundColor(0x0041577d);
                 brust = true; imgbtnBrust.setBackgroundResource(R.color.blauTransparent);
                 ruecken = false; imgbtnRuecken.setBackgroundColor(0x0041577d);
+                muskelgruppeAusgewaehlt = true;
             }
         });
 
@@ -816,6 +818,7 @@ public class MainClass extends AppCompatActivity {
                 bauch = false; imgbtnBauch.setBackgroundColor(0x0041577d);
                 brust = false; imgbtnBrust.setBackgroundColor(0x0041577d);
                 ruecken = true; imgbtnRuecken.setBackgroundResource(R.color.blauTransparent);
+                muskelgruppeAusgewaehlt = true;
             }
         });
 
@@ -1417,6 +1420,133 @@ public class MainClass extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new SwipeRecyclerViewAdapter(this, mName, mMuskelgruppe, mBeschreibung, true);
         recyclerView.setAdapter(adapter);
+
+    }
+
+    public  void workoutUebungAuswaehlenHinzufuegen(View v) {
+        // Letztes Fenster schließen
+        alert.cancel();
+
+        // Hinzufügen-Fenster öffnen
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.fr_uebung_hinzufuegen);
+        builder.setCancelable(true);
+        alert = builder.create();
+        alert.show();
+
+        // Deklarieren der Textfelder
+        TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
+        tvAlertUeberschrift.setText("Übung hinzufügen");
+
+        etName = alert.findViewById(R.id.etUebungName);
+        etBeschreibung = alert.findViewById(R.id.etUebungBeschreibung);
+
+        // Tastatur automatisch öffnen
+        etName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                etName.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        InputMethodManager imm = (InputMethodManager) MainClass.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(etName, InputMethodManager.SHOW_IMPLICIT);
+                    }
+                });
+            }
+        });
+        etName.requestFocus();
+
+        // Muskelgruppen-Buttons initialisieren
+        muskelgruppeInitialisieren();
+
+        // Übung hinzufügen speichern
+        ImageButton btnUebungSpeichern = alert.findViewById(R.id.imgbtnUebungSpeichern);
+        btnUebungSpeichern.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Deklarieren der Variablen
+                String name;
+                String muskelgruppe;
+                String beschreibung;
+
+                // Daten einlesen und sonst Nachricht ausgeben, dass etwas fehlt
+                if (etName.getText().toString().isEmpty()) {
+                    Toast.makeText(MainClass.this, "Bitte Übungsnamen eintragen", Toast.LENGTH_SHORT).show();
+                    return;
+                } // if
+                else if (etName.getText().toString().length() > 30) {
+                    Toast.makeText(MainClass.this, "Name ist zu lang", Toast.LENGTH_SHORT).show();
+                    return;
+                } // if
+                else if (!muskelgruppeAusgewaehlt) {
+                    Toast.makeText(MainClass.this, "Bitte Muskelgruppe eintragen", Toast.LENGTH_SHORT).show();
+                    return;
+                } // if
+                else if (etBeschreibung.getText().toString().isEmpty()) {
+                    Toast.makeText(MainClass.this, "Bitte Beschreibung eintragen", Toast.LENGTH_SHORT).show();
+                    return;
+                } // if
+                else if (etBeschreibung.getText().toString().length() > 80) {
+                    Toast.makeText(MainClass.this, "Beschreibung ist zu lang", Toast.LENGTH_SHORT).show();
+                    return;
+                } // if
+                else {
+                    // Name bestimmen
+                    name = etName.getText().toString();
+
+                    // Muskelgruppe bestimmen
+                    if (besonderes) {
+                        muskelgruppe = "besonderes";
+                    } else if (ganzkoerper) {
+                        muskelgruppe = "ganzkoerper";
+                    } else if (arme) {
+                        muskelgruppe = "arme";
+                    } else if (beine) {
+                        muskelgruppe = "beine";
+                    } else if (bauch) {
+                        muskelgruppe = "bauch";
+                    } else if (brust) {
+                        muskelgruppe = "brust";
+                    } else if (ruecken) {
+                        muskelgruppe = "ruecken";
+                    } else {
+                        muskelgruppe = "ganzkoerper";
+                    } // else
+
+                    // Beschreibung bestimmen
+                    beschreibung = etBeschreibung.getText().toString();
+
+                    // Übung hinzufügen
+                    objMeineUebungen[anzahlMeineUebungen] = new ObjMeineUebungen();
+                    objMeineUebungen[anzahlMeineUebungen].neueUebung(anzahlJeErstellterUebungen, name, muskelgruppe, beschreibung, 0, 0);
+
+                    anzahlJeErstellterUebungen++;
+                    anzahlMeineUebungen++;
+
+                    // Übung als ausgewählte Übung kennzeichnen
+                    objAngezeigteUebungen = new ObjMeineUebungen[1];
+                    objAngezeigteUebungen[0] = new ObjMeineUebungen();
+                    objAngezeigteUebungen[0].setzeName(name);
+                    objAngezeigteUebungen[0].setzeMuskelgruppe(muskelgruppe);
+                    objAngezeigteUebungen[0].setzeBeschreibung(beschreibung);
+
+                    // Seite wechseln
+                    workoutUebungDauer(0);
+                    muskelgruppeAusgewaehlt = false;
+
+                } // else
+            }
+        });
+
+        // Übung hinzufügen abbrechen
+        ImageButton btnUebungAbbrechen = alert.findViewById(R.id.imgbtnUebungAbbrechen);
+        btnUebungAbbrechen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.cancel();
+                muskelgruppeAusgewaehlt = false;
+            }
+        });
 
     }
 
