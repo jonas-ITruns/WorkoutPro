@@ -12,6 +12,6 @@ public class FrMeineUebungHinzufuegen extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fr_uebung_hinzufuegen, container, false);
+        return inflater.inflate(R.layout.al_uebung_hinzufuegen, container, false);
     }
 }

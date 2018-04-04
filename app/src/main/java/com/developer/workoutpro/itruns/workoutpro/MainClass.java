@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -597,7 +596,7 @@ public class MainClass extends AppCompatActivity {
     public void uebungHinzufuegen (View v) {
         // Hinzufügen-Fenster öffnen
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(R.layout.fr_uebung_hinzufuegen);
+        builder.setView(R.layout.al_uebung_hinzufuegen);
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
@@ -1183,7 +1182,7 @@ public class MainClass extends AppCompatActivity {
     public void workoutNamenHinzufuegen(View v) {
         // Hinzufügen-Fenster öffnen
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(R.layout.fr_workout_name);
+        builder.setView(R.layout.al_workout_name);
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
@@ -1256,7 +1255,7 @@ public class MainClass extends AppCompatActivity {
 
         // Hinzufügen-Fenster öffnen
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(R.layout.fr_workout_uebung_auswaehlen);
+        builder.setView(R.layout.al_workout_uebung_auswaehlen);
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
@@ -1429,7 +1428,7 @@ public class MainClass extends AppCompatActivity {
 
         // Hinzufügen-Fenster öffnen
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(R.layout.fr_uebung_hinzufuegen);
+        builder.setView(R.layout.al_uebung_hinzufuegen);
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
@@ -1556,7 +1555,7 @@ public class MainClass extends AppCompatActivity {
 
         // Dauer-Fenster öffnen
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(R.layout.fr_workout_uebung_zeit);
+        builder.setView(R.layout.al_workout_uebung_zeit);
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
@@ -1897,7 +1896,7 @@ public class MainClass extends AppCompatActivity {
     public void workoutUmbennen(final int workout) {
         // Umbennen-Fenster öffnen
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(R.layout.fr_workout_name);
+        builder.setView(R.layout.al_workout_name);
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
@@ -1963,7 +1962,7 @@ public class MainClass extends AppCompatActivity {
     public void workoutLoeschen(final int workout) {
         // Bestätigen-Fenster öffnen
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(R.layout.fr_workout_loeschen_bestaetigen);
+        builder.setView(R.layout.al_workout_loeschen_bestaetigen);
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();

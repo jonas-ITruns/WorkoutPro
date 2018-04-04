@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -277,7 +276,7 @@ public class FrMeineUebungen extends Fragment {
                     edit_position = position;
 
                     builder = new AlertDialog.Builder(getActivity());
-                    builder.setView(R.layout.fr_uebung_hinzufuegen);
+                    builder.setView(R.layout.al_uebung_hinzufuegen);
                     builder.setCancelable(true);
                     alert = builder.create();
                     alert.show();
