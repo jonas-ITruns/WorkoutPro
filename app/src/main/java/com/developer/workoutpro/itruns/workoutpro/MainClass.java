@@ -1904,6 +1904,12 @@ public class MainClass extends AppCompatActivity {
     }
 
     public void workoutSpeichern(View v) {
+        // Überprüfen, ob Übungen hinzugefügt wurden
+        if (anzahlWorkoutUebungen[aktuellesWorkout] == 0) {
+            Toast.makeText(this, "Bitte Übung hinzufügen", Toast.LENGTH_SHORT).show();
+            return;
+        } // if
+
         // Workout Namen einlesen
         Button btnWorkoutName = findViewById(R.id.btnWorkoutName);
         if (btnWorkoutName.getText().toString().equals("Workout Namen hinzufügen")) {
@@ -2243,7 +2249,7 @@ public class MainClass extends AppCompatActivity {
         TextView tvWorkoutName = findViewById(R.id.tvWorkoutName);
         TextView tvGesamtzeit = findViewById(R.id.tvGesamtzeit);
         TextView tvUebungsNummerAktuell = findViewById(R.id.tvUebungsNummerAktuell);
-        TextView tvUebungsNummerAktuel2 = findViewById(R.id.tvUebungsNummerAktuell2);
+        TextView tvUebungsNummerEnde = findViewById(R.id.tvUebungsNummerEnde);
         TextView tvAktuelleUebungZeit = findViewById(R.id.tvAktuelleUebungZeit);
         TextView tvNummerAktuell = findViewById(R.id.tvNummerAktuell);
         TextView tvAktuelleUebung = findViewById(R.id.tvAktuelleUebung);
@@ -2296,7 +2302,7 @@ public class MainClass extends AppCompatActivity {
         // Übungsnummer ausgeben
         aktUebung = 0;
         tvUebungsNummerAktuell.setText(Integer.toString(aktUebung + 1));
-        tvUebungsNummerAktuel2.setText(Integer.toString(anzahlWorkoutUebungen[workout]));
+        tvUebungsNummerEnde.setText(Integer.toString(anzahlWorkoutUebungen[workout]));
 
         // Zeit der aktuellen Übung ausgeben
         int aktUebungZeit = objWorkoutUebungen[workout][aktUebung].gibMinuten() * 60 + objWorkoutUebungen[workout][aktUebung].gibSekunden();
