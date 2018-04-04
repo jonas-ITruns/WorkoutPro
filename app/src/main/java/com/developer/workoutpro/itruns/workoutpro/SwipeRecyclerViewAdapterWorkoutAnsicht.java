@@ -137,6 +137,7 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                 Collections.swap(uebungBeschreibung, i, i + 1);
                 Collections.swap(uebungMinuten, i, i + 1);
                 Collections.swap(uebungSekunden, i, i + 1);
+                MainClass.workoutUebungDrag(i, i + 1);
             } // for
         } else {
             for (int i = fromPosition; i > toPosition; i--) {
@@ -146,6 +147,7 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                 Collections.swap(uebungBeschreibung, i, i - 1);
                 Collections.swap(uebungMinuten, i, i - 1);
                 Collections.swap(uebungSekunden, i, i - 1);
+                MainClass.workoutUebungDrag(i, i - 1);
             } // for
         } // if
         notifyItemMoved(fromPosition, toPosition);

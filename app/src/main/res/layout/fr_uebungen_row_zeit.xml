@@ -5,7 +5,7 @@
     android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="72dp"
-    android:background="@color/transparent"
+    android:background="@color/hellgrau_Hintergrund"
     android:fitsSystemWindows="false">
 
         <android.support.constraint.ConstraintLayout

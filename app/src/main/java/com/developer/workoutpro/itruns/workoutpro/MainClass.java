@@ -99,10 +99,10 @@ public class MainClass extends AppCompatActivity {
 
     // Attribute für Workouts
     private int anzahlWorkouts;
-    private int aktuellesWorkout;
+    private static int aktuellesWorkout;
     private int anzahlWorkoutUebungen[] = new int[maxAnzahlUebungen];
     private int dauerWorkoutUebungen[] = new int[maxAnzahlUebungen];
-    private ObjMeineUebungen objWorkoutUebungen[][] = new ObjMeineUebungen[maxAnzahlUebungen][maxAnzahlUebungen];
+    private static ObjMeineUebungen objWorkoutUebungen[][] = new ObjMeineUebungen[maxAnzahlUebungen][maxAnzahlUebungen];
     private String workoutName[] = new String[maxAnzahlUebungen];
     private boolean workoutNameHinzugefuegt[] = new boolean[maxAnzahlUebungen];
     private String muskelfokus[] = new String[maxAnzahlUebungen];
@@ -2155,6 +2155,12 @@ public class MainClass extends AppCompatActivity {
         workoutNameKopie = workoutName[aktuellesWorkout];
 
         workoutHinzufuegenOeffnen();
+    }
+
+    public static void workoutUebungDrag(int pos1, int pos2) {
+        ObjMeineUebungen objWorkoutUebungSpeichern = objWorkoutUebungen[aktuellesWorkout][pos1];
+        objWorkoutUebungen[aktuellesWorkout][pos1] = objWorkoutUebungen[aktuellesWorkout][pos2];
+        objWorkoutUebungen[aktuellesWorkout][pos2] = objWorkoutUebungSpeichern;
     }
 
 

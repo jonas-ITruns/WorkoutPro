@@ -28,7 +28,6 @@ public class FrWorkoutHinzufuegen extends Fragment {
     private ArrayList<String> mDauer = new ArrayList<>();
     private static SwipeRecyclerViewAdapterWorkoutAnsicht adapter;
     private RecyclerView recyclerView;
-    private Paint p = new Paint();
 
     @Nullable
     @Override
