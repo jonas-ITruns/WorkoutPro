@@ -1614,11 +1614,16 @@ public class MainClass extends AppCompatActivity {
                 aktSekundenStr = etUebungDauerSekunden.getText().toString();
                 aktSekunden = Integer.parseInt(aktSekundenStr);
 
-                //Eingabe Grenze 60 setzen
-                if (aktSekunden >= 60) {
+                //Eingabe Grenze 59 setzen
+                if (aktSekunden >= 100) {
                     aktSekunden = aktSekunden%10;
                     aktSekundenStr = Integer.toString(aktSekunden);
-                    etUebungDauerSekunden.setText(aktSekundenStr);
+                    etUebungDauerMinuten.setText(aktSekundenStr);
+                }
+                if (aktSekunden >= 60) {
+                    aktSekunden = 59;
+                    aktSekundenStr = Integer.toString(aktSekunden);
+                    etUebungDauerMinuten.setText(aktSekundenStr);
                 }
             }
         });
@@ -1651,9 +1656,14 @@ public class MainClass extends AppCompatActivity {
                 aktMinutenStr = etUebungDauerMinuten.getText().toString();
                 aktMinuten = Integer.parseInt(aktMinutenStr);
 
-                //Eingabe Grenze 60 setzen
-                if (aktMinuten >= 60) {
+                //Eingabe Grenze 59 setzen
+                if (aktMinuten >= 100) {
                     aktMinuten = aktMinuten%10;
+                    aktMinutenStr = Integer.toString(aktMinuten);
+                    etUebungDauerMinuten.setText(aktMinutenStr);
+                }
+                if (aktMinuten >= 60) {
+                    aktMinuten = 59;
                     aktMinutenStr = Integer.toString(aktMinuten);
                     etUebungDauerMinuten.setText(aktMinutenStr);
                 }
@@ -1668,7 +1678,9 @@ public class MainClass extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Dauer einlesen
-                if ((etUebungDauerMinuten.getText().toString().isEmpty() && etUebungDauerSekunden.getText().toString().isEmpty()) || (etUebungDauerMinuten.getText().toString().equals("00") && etUebungDauerSekunden.getText().toString().equals("00"))) {
+                if ((etUebungDauerMinuten.getText().toString().isEmpty() && etUebungDauerSekunden.getText().toString().isEmpty())
+                        || (etUebungDauerMinuten.getText().toString().equals("00") && etUebungDauerSekunden.getText().toString().equals("00"))
+                        || (etUebungDauerMinuten.getText().toString().equals("0") && etUebungDauerSekunden.getText().toString().equals("0"))) {
                     Toast.makeText(MainClass.this, "Bitte Dauer der Übung eintragen", Toast.LENGTH_SHORT).show();
                     return;
                 } // then
@@ -1678,23 +1690,19 @@ public class MainClass extends AppCompatActivity {
                     if (etUebungDauerMinuten.getText().toString().isEmpty()) {
                         minuten = 0;
                     } // then
-                    else if(Integer.parseInt(etUebungDauerMinuten.getText().toString())>=59){
-                        minuten = 59;
-                    }
                     else {
                         minuten = Integer.parseInt(etUebungDauerMinuten.getText().toString());
                     } // else
+
                     //Sekunden einlesen
                     int sekunden;
                     if (etUebungDauerSekunden.getText().toString().isEmpty()) {
                         sekunden = 0;
                     } // then
-                    else if(Integer.parseInt(etUebungDauerSekunden.getText().toString())>=59){
-                        sekunden = 59;
-                    }
                     else {
                         sekunden = Integer.parseInt(etUebungDauerSekunden.getText().toString());
                     } // else
+
                     // Übung hinzufügen
                     objWorkoutUebungen[aktuellesWorkout][anzahlWorkoutUebungen[aktuellesWorkout]] = new ObjMeineUebungen();
                     objWorkoutUebungen[aktuellesWorkout][anzahlWorkoutUebungen[aktuellesWorkout]].setzeNummer(anzahlWorkoutUebungen[aktuellesWorkout]);
@@ -1830,7 +1838,6 @@ public class MainClass extends AppCompatActivity {
         }//else
         etUebungDauerMinuten.setText(aktMinutenStr);
     }
-
 
     public void workoutUebungDauerBearbeiten(int tag, int index) {
         int minuten = objWorkoutUebungen[aktuellesWorkout][index].gibMinuten();
