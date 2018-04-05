@@ -23,7 +23,7 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
     private ArrayList<String> uebungSekunden;
     MainClass mainClass;
     private boolean draggen = false;
-    private boolean btnsDraggen = false;
+    private boolean btnsDraggen;
     private final OnStartDragListener mDragStartListener;
 
     public SwipeRecyclerViewAdapterWorkoutAnsicht(Context context, ArrayList<String> uebungName, ArrayList<String> uebungMuskelgruppe, ArrayList<String> uebungBeschreibung, ArrayList<String> uebungMinuten, ArrayList<String> uebungSekunden, OnStartDragListener dragStartListener, boolean btnsDraggen) {
@@ -223,7 +223,6 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ConstraintLayout constraintLayout;
         TextView tvUebungName;
         TextView tvUebungBeschreibung;
         ImageView imgvMuskelgruppe;
@@ -238,7 +237,6 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
 
         public ViewHolder(View view) {
             super(view);
-                constraintLayout = view.findViewById(R.id.constraint_layout);
                 tvUebungName = view.findViewById(R.id.tvUebungName);
                 tvUebungBeschreibung = view.findViewById(R.id.tvUebungBeschreibung);
                 imgvMuskelgruppe = view.findViewById(R.id.imgvMuskelgruppeAktuell);
@@ -251,4 +249,5 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                 imgvDrag = view.findViewById(R.id.imgvDrag);
         }
     }
+
 }

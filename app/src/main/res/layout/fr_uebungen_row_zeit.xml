@@ -2,155 +2,155 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraint_layout"
+    android:id="@+id/ConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="72dp"
     android:background="@color/hellgrau_Hintergrund"
     android:fitsSystemWindows="false">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/clItemHolder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/transparent">
-
-                <ImageView
-                    android:id="@+id/imgvMuskelgruppeAktuell"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_exercises"
-                    android:tint="@color/dunkelgrau"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/imgvDrag"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_drag_handle_black_24dp"
-                    android:tint="@color/dunkelgrau"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvUebungName"
-                    android:layout_width="235dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="13dp"
-                    android:text="Name der Übung"
-                    android:textColor="@color/dunkelblau"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@+id/imgvMuskelgruppeAktuell"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvUebungBeschreibung"
-                    android:layout_width="235dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:text="Beschreibung der Übung"
-                    android:textColor="@color/dunkelgrau"
-                    android:textSize="10sp"
-                    app:layout_constraintStart_toEndOf="@+id/imgvMuskelgruppeAktuell"
-                    app:layout_constraintTop_toBottomOf="@+id/tvUebungName" />
-
-                <TextView
-                    android:id="@+id/tvUebungDauerMinuten"
-                    android:layout_width="25dp"
-                    android:layout_height="20dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@color/transparent"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="01"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toStartOf="@+id/tvUebungDauerSekunden"
-                    app:layout_constraintTop_toBottomOf="@+id/imgbtnPlusMinuten" />
-
-                <TextView
-                    android:id="@+id/tvUebungDauerSekunden"
-                    android:layout_width="25dp"
-                    android:layout_height="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@color/transparent"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="20"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgbtnPlusSekunden" />
-
-                <ImageButton
-                    android:id="@+id/imgbtnPlusSekunden"
-                    android:layout_width="25dp"
-                    android:layout_height="26dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@color/transparent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_expand_less_black_24dp" />
-
-                <ImageButton
-                    android:id="@+id/imgbtnMinusSekunden"
-                    android:layout_width="25dp"
-                    android:layout_height="26dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@color/transparent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvUebungDauerSekunden"
-                    app:srcCompat="@drawable/ic_expand_more_black_24dp" />
-
-                <ImageButton
-                    android:id="@+id/imgbtnPlusMinuten"
-                    android:layout_width="25dp"
-                    android:layout_height="26dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@color/transparent"
-                    app:layout_constraintEnd_toStartOf="@+id/imgbtnPlusSekunden"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_expand_less_black_24dp" />
-
-                <ImageButton
-                    android:id="@+id/imgbtnMinusMinuten"
-                    android:layout_width="25dp"
-                    android:layout_height="26dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@color/transparent"
-                    app:layout_constraintEnd_toStartOf="@+id/imgbtnMinusSekunden"
-                    app:layout_constraintTop_toBottomOf="@+id/tvUebungDauerMinuten"
-                    app:srcCompat="@drawable/ic_expand_more_black_24dp" />
-
-                <TextView
-                    android:id="@+id/tvDoppelpunkt2"
-                    android:layout_width="5dp"
-                    android:layout_height="20dp"
-                    android:gravity="center"
-                    android:text=":"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/tvUebungDauerSekunden"
-                    app:layout_constraintTop_toBottomOf="@+id/imgbtnPlusSekunden" />
-
-        </android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clItemHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent">
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/imgvMuskelgruppeAktuell"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_exercises"
+            android:tint="@color/dunkelgrau"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgvDrag"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_drag_handle_black_24dp"
+            android:tint="@color/dunkelgrau"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvUebungName"
+            android:layout_width="235dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="13dp"
+            android:text="Name der Übung"
+            android:textColor="@color/dunkelblau"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/imgvMuskelgruppeAktuell"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvUebungBeschreibung"
+            android:layout_width="235dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:text="Beschreibung der Übung"
+            android:textColor="@color/dunkelgrau"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@+id/imgvMuskelgruppeAktuell"
+            app:layout_constraintTop_toBottomOf="@+id/tvUebungName" />
+
+        <TextView
+            android:id="@+id/tvUebungDauerMinuten"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="01"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@+id/tvUebungDauerSekunden"
+            app:layout_constraintTop_toBottomOf="@+id/imgbtnPlusMinuten" />
+
+        <TextView
+            android:id="@+id/tvUebungDauerSekunden"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="20"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgbtnPlusSekunden" />
+
+        <ImageButton
+            android:id="@+id/imgbtnPlusSekunden"
+            android:layout_width="25dp"
+            android:layout_height="26dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@color/weiss" />
+            app:srcCompat="@drawable/ic_expand_less_black_24dp" />
+
+        <ImageButton
+            android:id="@+id/imgbtnMinusSekunden"
+            android:layout_width="25dp"
+            android:layout_height="26dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUebungDauerSekunden"
+            app:srcCompat="@drawable/ic_expand_more_black_24dp" />
+
+        <ImageButton
+            android:id="@+id/imgbtnPlusMinuten"
+            android:layout_width="25dp"
+            android:layout_height="26dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/transparent"
+            app:layout_constraintEnd_toStartOf="@+id/imgbtnPlusSekunden"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_expand_less_black_24dp" />
+
+        <ImageButton
+            android:id="@+id/imgbtnMinusMinuten"
+            android:layout_width="25dp"
+            android:layout_height="26dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/transparent"
+            app:layout_constraintEnd_toStartOf="@+id/imgbtnMinusSekunden"
+            app:layout_constraintTop_toBottomOf="@+id/tvUebungDauerMinuten"
+            app:srcCompat="@drawable/ic_expand_more_black_24dp" />
+
+        <TextView
+            android:id="@+id/tvDoppelpunkt2"
+            android:layout_width="5dp"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:text=":"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/tvUebungDauerSekunden"
+            app:layout_constraintTop_toBottomOf="@+id/imgbtnPlusSekunden" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/weiss" />
 
 </android.support.constraint.ConstraintLayout>

@@ -97,8 +97,6 @@ public class FrWorkoutHinzufuegen extends Fragment implements SwipeRecyclerViewA
         touchHelper.attachToRecyclerView(recyclerView);
 
         recyclerView.setAdapter(adapter);
-        //initSwipe();
-        //adapter.notifyDataSetChanged();
     }
 
     @Override
