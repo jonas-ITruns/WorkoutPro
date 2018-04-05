@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -119,6 +120,9 @@ public class MainClass extends AppCompatActivity {
     private int gesamtZeit, gesamtStunden, gesamtMinuten, gesamtSekunden;
     private String gesamtZeitStr, gesamtStundenStr, gesamtMinutenStr, gesamtSekundenStr;
     private int aktUebung;
+    private int aktUebungZeit;
+    private int vergangeneUebungenZeit;
+    private CountDownTimer workoutTimer;
 
 
     @Override
@@ -2235,7 +2239,11 @@ public class MainClass extends AppCompatActivity {
     // Workout laufen lassen
 
 
-    public void workoutStart(int workout) {
+    public void workoutStartOeffnen(int workout) {
+        aktuellesWorkout = workout;
+        vergangeneUebungenZeit = 0;
+        aktUebung = 0;
+
         // Seite wechseln
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
         setContentView(R.layout.act_workout_start);
@@ -2246,6 +2254,119 @@ public class MainClass extends AppCompatActivity {
         ImageButton imgbtnZurueck = findViewById(R.id.imgbtnZurueck);
         ImageButton imgbtnVor = findViewById(R.id.imgbtnVor);
         TextView tvWorkoutName = findViewById(R.id.tvWorkoutName);
+
+        // Vorbesetzung der Views
+        viewsAktualisieren();
+
+        // Stop Button unsichtbar machen
+        imgbtnStop.setVisibility(View.INVISIBLE);
+        imgbtnStop.setClickable(false);
+
+        // Workout Namen anzeigen
+        tvWorkoutName.setText(workoutName[aktuellesWorkout]);
+
+    } // Methode workoutStart
+
+    public void workoutStart(final View v) {
+        // Deklaration der Views
+        ImageButton imgbtnStart = findViewById(R.id.imgbtnStart);
+        ImageButton imgbtnStop = findViewById(R.id.imgbtnStop);
+
+        // Start Button unsichtbar machen und Stop Button sichtbar machen
+        imgbtnStart.setVisibility(View.INVISIBLE);
+        imgbtnStart.setClickable(false);
+        imgbtnStop.setVisibility(View.VISIBLE);
+        imgbtnStop.setClickable(true);
+
+        workoutTimer = new CountDownTimer(aktUebungZeit * 1000, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // Deklaration der Views
+                TextView tvGesamtzeit = findViewById(R.id.tvGesamtzeit);
+                TextView tvAktuelleUebungZeit = findViewById(R.id.tvAktuelleUebungZeit);
+
+                // Zeit der aktuellen Übung ausgeben
+                aktUebungZeit = (int) millisUntilFinished / 1000 + 1;
+                tvAktuelleUebungZeit.setText(Integer.toString(aktUebungZeit));
+
+                // Richtiges Zeit Format herstellen und Gesamtzeit ausgeben
+                gesamtZeit = aktUebungZeit;
+                for (int index = aktUebung + 1; index < anzahlWorkoutUebungen[aktuellesWorkout]; index++) {
+                    gesamtZeit = gesamtZeit + objWorkoutUebungen[aktuellesWorkout][index].gibMinuten() * 60 + objWorkoutUebungen[aktuellesWorkout][index].gibSekunden();
+                } // for
+                richtigesZeitFormat();
+                tvGesamtzeit.setText(gesamtZeitStr);
+            }
+
+            @Override
+            public void onFinish() {
+                workoutTimer.cancel();
+                aktUebung++;
+                viewsAktualisieren();
+                if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
+                    workoutStart(v);
+                } // if
+            }
+        }.start();
+    }
+
+    public void workoutPause(View v) {
+        // Deklaration der Views
+        TextView tvGesamtzeit = findViewById(R.id.tvGesamtzeit);
+        TextView tvAktuelleUebungZeit = findViewById(R.id.tvAktuelleUebungZeit);
+        ImageButton imgbtnStart = findViewById(R.id.imgbtnStart);
+        ImageButton imgbtnStop = findViewById(R.id.imgbtnStop);
+
+        // Stop Button unsichtbar machen und Start Button sichtbar machen
+        imgbtnStop.setVisibility(View.INVISIBLE);
+        imgbtnStop.setClickable(false);
+        imgbtnStart.setVisibility(View.VISIBLE);
+        imgbtnStart.setClickable(true);
+
+        workoutTimer.cancel();
+
+        // Zeit der aktuellen Übung ausgeben
+        tvAktuelleUebungZeit.setText(Integer.toString(aktUebungZeit));
+
+        // Richtiges Zeit Format herstellen und Gesamtzeit ausgeben
+        gesamtZeit = aktUebungZeit;
+        for (int index = aktUebung + 1; index < anzahlWorkoutUebungen[aktuellesWorkout]; index++) {
+            gesamtZeit = gesamtZeit + objWorkoutUebungen[aktuellesWorkout][index].gibMinuten() * 60 + objWorkoutUebungen[aktuellesWorkout][index].gibSekunden();
+        } // for
+        richtigesZeitFormat();
+        tvGesamtzeit.setText(gesamtZeitStr);
+    }
+
+    public void workoutZurueck(View v) {
+        workoutTimer.cancel();
+        // Die folgenden If-Bedingungen dienen dazu, dass man nur eine Übung zurück kann, wenn die jetztige gerade angefangen ist, wenn aber gefinished ist geht es trotzdem
+        if (aktUebung == anzahlWorkoutUebungen[aktuellesWorkout] - 1) {
+            aktUebung --;
+        } else {
+            int uebungZeit = objWorkoutUebungen[aktuellesWorkout][aktUebung].gibMinuten() * 60 + objWorkoutUebungen[aktuellesWorkout][aktUebung].gibSekunden();
+            if (uebungZeit - aktUebungZeit < 1) {
+                if (aktUebung > 0) {
+                    aktUebung--;
+                } // if
+            } // if
+        } // else
+        viewsAktualisieren();
+        workoutStart(v);
+    }
+
+    public void workoutVor(View v) {
+        workoutTimer.cancel();
+        if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
+            aktUebung++;
+            viewsAktualisieren();
+            workoutStart(v);
+        } else {
+            viewsAktualisieren();
+        } // else
+    }
+
+    public void viewsAktualisieren() {
+        // Deklaration der Views
         TextView tvGesamtzeit = findViewById(R.id.tvGesamtzeit);
         TextView tvUebungsNummerAktuell = findViewById(R.id.tvUebungsNummerAktuell);
         TextView tvUebungsNummerEnde = findViewById(R.id.tvUebungsNummerEnde);
@@ -2257,17 +2378,106 @@ public class MainClass extends AppCompatActivity {
         TextView tvNaechsteUebung = findViewById(R.id.tvNaechsteUebung);
         ImageView imgvMuskelgruppeNaechste = findViewById(R.id.imgvMuskelgruppeNaechste);
 
-        // Vorbesetzung der Views
-
-        // Stop Button unsichtbar machen
-        imgbtnStop.setVisibility(View.INVISIBLE);
-        imgbtnStop.setClickable(false);
-
-        // Workout Namen anzeigen
-        tvWorkoutName.setText(workoutName[workout]);
+        // Zeit der aktuellen Übung ausgeben
+        if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
+            aktUebungZeit = objWorkoutUebungen[aktuellesWorkout][aktUebung].gibMinuten() * 60 + objWorkoutUebungen[aktuellesWorkout][aktUebung].gibSekunden();
+        } // then
+        else {
+            aktUebungZeit = 0;
+        } // else
+        tvAktuelleUebungZeit.setText(Integer.toString(aktUebungZeit));
 
         // Richtiges Zeit Format herstellen und Gesamtzeit ausgeben
-        gesamtZeit = dauerWorkoutUebungen[workout];
+        gesamtZeit = 0;
+        if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
+            for (int index = aktUebung; index < anzahlWorkoutUebungen[aktuellesWorkout]; index++) {
+                gesamtZeit = gesamtZeit + objWorkoutUebungen[aktuellesWorkout][index].gibMinuten() * 60 + objWorkoutUebungen[aktuellesWorkout][index].gibSekunden();
+            } // for
+        } // if
+        richtigesZeitFormat();
+        tvGesamtzeit.setText(gesamtZeitStr);
+
+        // Übungsnummer ausgeben
+        if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
+            tvUebungsNummerAktuell.setText(Integer.toString(aktUebung + 1));
+            tvUebungsNummerEnde.setText(Integer.toString(anzahlWorkoutUebungen[aktuellesWorkout]));
+        } // if
+
+        // Nummer der aktuellen Übung ausgeben
+        tvNummerAktuell.setText(Integer.toString(aktUebung + 1));
+
+        // Name der aktuellen Übung ausgeben
+        if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
+            tvAktuelleUebung.setText(objWorkoutUebungen[aktuellesWorkout][aktUebung].gibName());
+        } // then
+        else {
+            tvAktuelleUebung.setText("Finish");
+        } // else
+
+        // Muskelgruppe der aktuellen Übung ausgeben
+        if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
+            if (objWorkoutUebungen[aktuellesWorkout][aktUebung].gibMuskelgruppe().equals("besonderes")) {
+                imgvMuskelgruppeAktuell.setImageResource(R.drawable.ic_besondere_uebungen_32);
+            } else if (objWorkoutUebungen[aktuellesWorkout][aktUebung].gibMuskelgruppe().equals("ganzkoerper")) {
+                imgvMuskelgruppeAktuell.setImageResource(R.drawable.ic_muskelgruppe_ganzkoerper_32);
+            } else if (objWorkoutUebungen[aktuellesWorkout][aktUebung].gibMuskelgruppe().equals("arme")) {
+                imgvMuskelgruppeAktuell.setImageResource(R.drawable.ic_muskelgruppe_arme_32);
+            } else if (objWorkoutUebungen[aktuellesWorkout][aktUebung].gibMuskelgruppe().equals("beine")) {
+                imgvMuskelgruppeAktuell.setImageResource(R.drawable.ic_muskelgruppe_beine_32);
+            } else if (objWorkoutUebungen[aktuellesWorkout][aktUebung].gibMuskelgruppe().equals("bauch")) {
+                imgvMuskelgruppeAktuell.setImageResource(R.drawable.ic_muskelgruppe_bauch_32);
+            } else if (objWorkoutUebungen[aktuellesWorkout][aktUebung].gibMuskelgruppe().equals("brust")) {
+                imgvMuskelgruppeAktuell.setImageResource(R.drawable.ic_muskelgruppe_brust_32);
+            } else if (objWorkoutUebungen[aktuellesWorkout][aktUebung].gibMuskelgruppe().equals("ruecken")) {
+                imgvMuskelgruppeAktuell.setImageResource(R.drawable.ic_muskelgruppe_ruecken_32);
+            } // if
+        } // then
+        else {
+            imgvMuskelgruppeAktuell.setImageResource(R.drawable.ic_flag_black_24dp);
+        } // else
+
+        // Nummer der nächsten Übung ausgeben
+        if (aktUebung + 1 <= anzahlWorkoutUebungen[aktuellesWorkout]) {
+            tvNummerNaechste.setText(Integer.toString(aktUebung + 2));
+        } // then
+        else {
+            tvNummerNaechste.setText("");
+        } // else
+
+        // Name der nächsten Übung ausgeben
+        if (aktUebung + 1 < anzahlWorkoutUebungen[aktuellesWorkout]) {
+            tvNaechsteUebung.setText(objWorkoutUebungen[aktuellesWorkout][aktUebung + 1].gibName());
+        } else if (aktUebung + 1 == anzahlWorkoutUebungen[aktuellesWorkout]){
+            tvNaechsteUebung.setText("Finish");
+        } else {
+            tvNaechsteUebung.setText("");
+        } // else
+
+        // Muskelgruppe der nächsten Übung ausgeben
+        if (aktUebung + 1 < anzahlWorkoutUebungen[aktuellesWorkout]) {
+            if (objWorkoutUebungen[aktuellesWorkout][aktUebung + 1].gibMuskelgruppe().equals("besonderes")) {
+                imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_besondere_uebungen_32);
+            } else if (objWorkoutUebungen[aktuellesWorkout][aktUebung + 1].gibMuskelgruppe().equals("ganzkoerper")) {
+                imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_muskelgruppe_ganzkoerper_32);
+            } else if (objWorkoutUebungen[aktuellesWorkout][aktUebung + 1].gibMuskelgruppe().equals("arme")) {
+                imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_muskelgruppe_arme_32);
+            } else if (objWorkoutUebungen[aktuellesWorkout][aktUebung + 1].gibMuskelgruppe().equals("beine")) {
+                imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_muskelgruppe_beine_32);
+            } else if (objWorkoutUebungen[aktuellesWorkout][aktUebung + 1].gibMuskelgruppe().equals("bauch")) {
+                imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_muskelgruppe_bauch_32);
+            } else if (objWorkoutUebungen[aktuellesWorkout][aktUebung + 1].gibMuskelgruppe().equals("brust")) {
+                imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_muskelgruppe_brust_32);
+            } else if (objWorkoutUebungen[aktuellesWorkout][aktUebung + 1].gibMuskelgruppe().equals("ruecken")) {
+                imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_muskelgruppe_ruecken_32);
+            } // if
+        } else if (aktUebung + 1 == anzahlWorkoutUebungen[aktuellesWorkout]) {
+            imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_flag_black_24dp);
+        } else {
+            imgvMuskelgruppeNaechste.setImageResource(R.color.transparent);
+        } // else
+    }
+
+    public void richtigesZeitFormat() {
         gesamtMinuten = gesamtZeit / 60;
         // Stunden
         if (gesamtMinuten >= 60) {
@@ -2296,72 +2506,7 @@ public class MainClass extends AppCompatActivity {
             gesamtSekundenStr = Integer.toString(gesamtSekunden);
         } // if
         gesamtZeitStr = gesamtStundenStr + gesamtMinutenStr + " : " + gesamtSekundenStr;
-        tvGesamtzeit.setText(gesamtZeitStr);
-
-        // Übungsnummer ausgeben
-        aktUebung = 0;
-        tvUebungsNummerAktuell.setText(Integer.toString(aktUebung + 1));
-        tvUebungsNummerEnde.setText(Integer.toString(anzahlWorkoutUebungen[workout]));
-
-        // Zeit der aktuellen Übung ausgeben
-        int aktUebungZeit = objWorkoutUebungen[workout][aktUebung].gibMinuten() * 60 + objWorkoutUebungen[workout][aktUebung].gibSekunden();
-        tvAktuelleUebungZeit.setText(Integer.toString(aktUebungZeit));
-
-        // Nummer der aktuellen Übung ausgeben
-        tvNummerAktuell.setText(Integer.toString(aktUebung + 1));
-
-        // Name der aktuellen Übung ausgeben
-        tvAktuelleUebung.setText(objWorkoutUebungen[workout][aktUebung].gibName());
-
-        // Muskelgruppe der aktuellen Übung ausgeben
-        if (objWorkoutUebungen[workout][aktUebung].gibMuskelgruppe().equals("besonderes")) {
-            imgvMuskelgruppeAktuell.setImageResource(R.drawable.ic_besondere_uebungen_32);
-        } else if (objWorkoutUebungen[workout][aktUebung].gibMuskelgruppe().equals("ganzkoerper")) {
-            imgvMuskelgruppeAktuell.setImageResource(R.drawable.ic_muskelgruppe_ganzkoerper_32);
-        } else if (objWorkoutUebungen[workout][aktUebung].gibMuskelgruppe().equals("arme")) {
-            imgvMuskelgruppeAktuell.setImageResource(R.drawable.ic_muskelgruppe_arme_32);
-        } else if (objWorkoutUebungen[workout][aktUebung].gibMuskelgruppe().equals("beine")) {
-            imgvMuskelgruppeAktuell.setImageResource(R.drawable.ic_muskelgruppe_beine_32);
-        } else if (objWorkoutUebungen[workout][aktUebung].gibMuskelgruppe().equals("bauch")) {
-            imgvMuskelgruppeAktuell.setImageResource(R.drawable.ic_muskelgruppe_bauch_32);
-        } else if (objWorkoutUebungen[workout][aktUebung].gibMuskelgruppe().equals("brust")) {
-            imgvMuskelgruppeAktuell.setImageResource(R.drawable.ic_muskelgruppe_brust_32);
-        } else if (objWorkoutUebungen[workout][aktUebung].gibMuskelgruppe().equals("ruecken")) {
-            imgvMuskelgruppeAktuell.setImageResource(R.drawable.ic_muskelgruppe_ruecken_32);
-        } // if
-
-        // Nummer der nächsten Übung ausgeben
-        tvNummerNaechste.setText(Integer.toString(aktUebung + 2));
-
-        // Name der nächsten Übung ausgeben
-        if (anzahlWorkoutUebungen[workout] > 1) {
-            tvNaechsteUebung.setText(objWorkoutUebungen[workout][aktUebung + 1].gibName());
-        } else {
-            tvNaechsteUebung.setText("Finish");
-        } // if
-
-        // Muskelgruppe der nächsten Übung ausgeben
-        if (anzahlWorkoutUebungen[workout] > 1) {
-            if (objWorkoutUebungen[workout][aktUebung + 1].gibMuskelgruppe().equals("besonderes")) {
-                imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_besondere_uebungen_32);
-            } else if (objWorkoutUebungen[workout][aktUebung + 1].gibMuskelgruppe().equals("ganzkoerper")) {
-                imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_muskelgruppe_ganzkoerper_32);
-            } else if (objWorkoutUebungen[workout][aktUebung + 1].gibMuskelgruppe().equals("arme")) {
-                imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_muskelgruppe_arme_32);
-            } else if (objWorkoutUebungen[workout][aktUebung + 1].gibMuskelgruppe().equals("beine")) {
-                imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_muskelgruppe_beine_32);
-            } else if (objWorkoutUebungen[workout][aktUebung + 1].gibMuskelgruppe().equals("bauch")) {
-                imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_muskelgruppe_bauch_32);
-            } else if (objWorkoutUebungen[workout][aktUebung + 1].gibMuskelgruppe().equals("brust")) {
-                imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_muskelgruppe_brust_32);
-            } else if (objWorkoutUebungen[workout][aktUebung + 1].gibMuskelgruppe().equals("ruecken")) {
-                imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_muskelgruppe_ruecken_32);
-            } // if
-        } else {
-            imgvMuskelgruppeNaechste.setImageResource(R.drawable.ic_flag_black_24dp);
-        } // if
-
-    } // Methode workoutStart
+    }
 
 
 } // Klasse MainClass
