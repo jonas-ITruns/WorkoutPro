@@ -135,6 +135,7 @@ public class MainClass extends AppCompatActivity {
     private CountDownTimer workoutTimer;
     private boolean timerLaeuft;
     private boolean timer;
+    private boolean workoutStart;
 
     // Attribute Back Pressed
     private String aktSeite = "";
@@ -1186,23 +1187,23 @@ public class MainClass extends AppCompatActivity {
     public void workoutButtonsZeigen(View v) {
         FloatingActionButton fabUebungHinzufuegen = findViewById(R.id.btnUebungHinzufuegen);
         ImageButton btnStandardUebungen = findViewById(R.id.btnStandardUebungen);
-        TextView standardUebungenText = findViewById(R.id.btnStandardUebungenText);
+        Button standardUebungenText = findViewById(R.id.btnStandardUebungenText);
         ImageButton btnMeineUebungen = findViewById(R.id.btnMeineUebungen);
-        TextView meineUebungenText = findViewById(R.id.btnMeineUebungenText);
+        Button meineUebungenText = findViewById(R.id.btnMeineUebungenText);
         ImageButton btnBesonderes = findViewById(R.id.btnBesondereUebungen);
-        TextView besonderesText = findViewById(R.id.btnBesondereUebungenText);
+        Button besonderesText = findViewById(R.id.btnBesondereUebungenText);
         ImageButton btnGanzkoerper = findViewById(R.id.btnGanzkoerper);
-        TextView ganzkoerperText = findViewById(R.id.btnGanzkoerperText);
+        Button ganzkoerperText = findViewById(R.id.btnGanzkoerperText);
         ImageButton btnArme = findViewById(R.id.btnArme);
-        TextView armeText = findViewById(R.id.btnArmeText);
+        Button armeText = findViewById(R.id.btnArmeText);
         ImageButton btnBeine = findViewById(R.id.btnBeine);
-        TextView beineText = findViewById(R.id.btnBeineText);
+        Button beineText = findViewById(R.id.btnBeineText);
         ImageButton btnBauch = findViewById(R.id.btnBauch);
-        TextView bauchText = findViewById(R.id.btnBauchText);
+        Button bauchText = findViewById(R.id.btnBauchText);
         ImageButton btnBrust = findViewById(R.id.btnBrust);
-        TextView brustText = findViewById(R.id.btnBrustText);
+        Button brustText = findViewById(R.id.btnBrustText);
         ImageButton btnRuecken = findViewById(R.id.btnRuecken);
-        TextView rueckenText = findViewById(R.id.btnRueckenText);
+        Button rueckenText = findViewById(R.id.btnRueckenText);
 
         Animation fabOpen = AnimationUtils.loadAnimation(this.getApplicationContext(), R.anim.fab_open);
         Animation fabClose = AnimationUtils.loadAnimation(this.getApplicationContext(), R.anim.fab_close);
@@ -2346,6 +2347,7 @@ public class MainClass extends AppCompatActivity {
 
     public void workoutStartOeffnen(int workout) {
         timer = true;
+        workoutStart = true;
         aktuellesWorkout = workout;
         aktUebung = 0;
 
@@ -2372,8 +2374,10 @@ public class MainClass extends AppCompatActivity {
     } // Methode workoutStart
 
     public void workoutStart(final View v) {
-        final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.whistle);
+        final MediaPlayer whistlestart = MediaPlayer.create(this, R.raw.whistlestart);
+        final MediaPlayer beep = MediaPlayer.create(this, R.raw.beep);
+        final MediaPlayer boxingbelleinfach = MediaPlayer.create(this, R.raw.boxingbelleinfach);
+        final MediaPlayer boxingbellende = MediaPlayer.create(this, R.raw.boxingbellende);
 
         // Deklaration der Views
         ImageButton imgbtnStart = findViewById(R.id.imgbtnStart);
@@ -2384,6 +2388,12 @@ public class MainClass extends AppCompatActivity {
         imgbtnStart.setClickable(false);
         imgbtnStop.setVisibility(View.VISIBLE);
         imgbtnStop.setClickable(true);
+
+        // Startgeräusch
+        if (workoutStart) {
+            whistlestart.start();
+            workoutStart = false;
+        } // if
 
         timerLaeuft = true;
         workoutTimer = new CountDownTimer(aktUebungZeit * 1000, 100) {
@@ -2411,26 +2421,32 @@ public class MainClass extends AppCompatActivity {
                 } // for
                 richtigesZeitFormat();
                 tvGesamtzeit.setText(gesamtZeitStr);
+
+                // Bei den letzten Sekunden immer ein beepen
+                if (aktUebungZeit == 3) {
+                    beep.start();
+                } else if (aktUebungZeit == 2) {
+                    beep.start();
+                } // else
             }
 
             @Override
             public void onFinish() {
                 workoutTimer.cancel();
-                mediaPlayer.start();
-                // Vibration
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
-                }else{
-                    vibrator.vibrate(500);
-                } // if
-                // Whistle
 
                 if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
+                    // 1-faches Klingeln
+                    boxingbelleinfach.start();
+
+                    // Nächste Übung anzeigen
                     aktUebung++;
                     viewsAktualisieren();
                     workoutStart(v);
                 } // then
                 else {
+                    // 3-faches Klingeln
+                    boxingbellende.start();
+
                     // Workout Übersicht anzeigen
                     timer = false;
                     setContentView(R.layout.act_main);
@@ -2440,6 +2456,7 @@ public class MainClass extends AppCompatActivity {
                     fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
                     fragmentManager.executePendingTransactions();
                     fragmentTransaction.commit();
+                    aktSeite = "";
                 } // else
             }
         }.start();
