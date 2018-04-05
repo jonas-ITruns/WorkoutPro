@@ -2308,8 +2308,10 @@ public class MainClass extends AppCompatActivity {
             @Override
             public void onFinish() {
                 workoutTimer.cancel();
-                aktUebung++;
-                viewsAktualisieren();
+                if (aktUebung <= anzahlWorkoutUebungen[aktuellesWorkout]) {
+                    aktUebung++;
+                    viewsAktualisieren();
+                } // if
                 if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
                     workoutStart(v);
                 } // if
@@ -2425,7 +2427,12 @@ public class MainClass extends AppCompatActivity {
         } // if
 
         // Nummer der aktuellen Übung ausgeben
-        tvNummerAktuell.setText(Integer.toString(aktUebung + 1));
+        if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
+            tvNummerAktuell.setText(Integer.toString(aktUebung + 1));
+        } // then
+        else {
+            tvNummerAktuell.setText(Integer.toString(aktUebung));
+        } // else
 
         // Name der aktuellen Übung ausgeben
         if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
