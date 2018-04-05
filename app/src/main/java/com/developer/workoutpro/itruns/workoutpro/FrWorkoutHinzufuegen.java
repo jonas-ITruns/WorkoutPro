@@ -32,6 +32,7 @@ public class FrWorkoutHinzufuegen extends Fragment implements SwipeRecyclerViewA
     private static SwipeRecyclerViewAdapterWorkoutAnsicht adapter;
     private RecyclerView recyclerView;
     private ItemTouchHelper touchHelper;
+    private boolean btnsdraggen;
 
     @Nullable
     @Override
@@ -48,6 +49,8 @@ public class FrWorkoutHinzufuegen extends Fragment implements SwipeRecyclerViewA
             Button btnWorkoutName = frView.findViewById(R.id.btnWorkoutName);
             btnWorkoutName.setText(mainClass.gibWorkoutName(workoutNummer));
         }
+
+        btnsdraggen = mainClass.gibBtnsdraggen();
 
         uebungenHolen();
 
@@ -87,7 +90,7 @@ public class FrWorkoutHinzufuegen extends Fragment implements SwipeRecyclerViewA
         recyclerView = frView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new SwipeRecyclerViewAdapterWorkoutAnsicht(getActivity(), mName, mMuskelgruppe, mBeschreibung, mMinuten, mSekunden, this);
+        adapter = new SwipeRecyclerViewAdapterWorkoutAnsicht(getActivity(), mName, mMuskelgruppe, mBeschreibung, mMinuten, mSekunden, this, btnsdraggen);
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
         touchHelper = new ItemTouchHelper(callback);

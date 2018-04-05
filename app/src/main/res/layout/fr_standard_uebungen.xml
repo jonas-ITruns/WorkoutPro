@@ -31,6 +31,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageButton
+            android:id="@+id/imgbtnInfo"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"
+            android:onClick="standardUebungenInfo"
+            android:tint="@color/dunkelblau"
+            app:layout_constraintEnd_toStartOf="@+id/imgbtnSynchronisieren"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_info_outline_black_24dp" />
+
         <TextView
             android:id="@+id/tvAppName"
             android:layout_width="wrap_content"

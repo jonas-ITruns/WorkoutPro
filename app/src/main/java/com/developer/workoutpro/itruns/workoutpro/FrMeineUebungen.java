@@ -69,6 +69,15 @@ public class FrMeineUebungen extends Fragment {
 
         anzahlMeineUebungen = MainClass.gibAnzahlMeineUebungen();
 
+        TextView tvHinweisUebungHinzufuegen = frView.findViewById(R.id.tvHinweisUebungHinzufuegen);
+
+        if (anzahlMeineUebungen == 0) {
+            tvHinweisUebungHinzufuegen.setVisibility(View.VISIBLE);
+        } // then
+        else {
+            tvHinweisUebungHinzufuegen.setVisibility(View.INVISIBLE);
+        } // else
+
         sortieren();
 
         return frView;

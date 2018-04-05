@@ -3,6 +3,7 @@ package com.developer.workoutpro.itruns.workoutpro;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,8 @@ public class FrUebersichtRow extends Fragment {
     private boolean menueOffen = false;
 
     // Attribute Workout Name
-    private static TextView tvWorkoutName;
+    private static TextView tvWorkoutName1;
+    private static TextView tvWorkoutName2;
     private String workoutName;
     private int workoutNameId;
     private boolean nameScrollt = false;
@@ -49,6 +51,8 @@ public class FrUebersichtRow extends Fragment {
 
     // Menü Items Deklaration
     // Buttons deklarieren
+    ConstraintLayout clPadding1;
+    ConstraintLayout clPadding2;
     ImageButton imgbtnWorkoutStart;
     ImageButton imgbtnWorkoutMenue;
     ImageButton btnBearbeiten;
@@ -69,23 +73,45 @@ public class FrUebersichtRow extends Fragment {
         final MainClass mainClass = (MainClass) getActivity();
 
         // Workout Name setzen
+        clPadding1 = view.findViewById(R.id.clPadding1);
+        clPadding2 = view.findViewById(R.id.clPadding2);
         workoutName = mainClass.gibWorkoutName(aktWorkout);
-        tvWorkoutName = view.findViewById(R.id.tvWorkoutName);
-        tvWorkoutName.setText(workoutName);
-        tvWorkoutName.setId(workoutNameId);
-        tvWorkoutName.setOnClickListener(new View.OnClickListener() {
+        tvWorkoutName1 = view.findViewById(R.id.tvWorkoutName1);
+        tvWorkoutName1.setText(workoutName);
+        tvWorkoutName1.setId(workoutNameId);
+        tvWorkoutName1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!nameScrollt) {
-                    tvWorkoutName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-                    tvWorkoutName.setSelected(true);
-                    tvWorkoutName.setSingleLine(true);
+                    tvWorkoutName1.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                    tvWorkoutName1.setSelected(true);
+                    tvWorkoutName1.setSingleLine(true);
                     nameScrollt = true;
                 } // then
                 else {
-                    tvWorkoutName.setEllipsize(TextUtils.TruncateAt.END);
-                    tvWorkoutName.setSelected(true);
-                    tvWorkoutName.setSingleLine(true);
+                    tvWorkoutName1.setEllipsize(TextUtils.TruncateAt.END);
+                    tvWorkoutName1.setSelected(true);
+                    tvWorkoutName1.setSingleLine(true);
+                    nameScrollt = false;
+                } // else
+            }
+        });
+        tvWorkoutName2 = view.findViewById(R.id.tvWorkoutName2);
+        tvWorkoutName2.setText(workoutName);
+        tvWorkoutName2.setId(workoutNameId);
+        tvWorkoutName2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!nameScrollt) {
+                    tvWorkoutName2.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                    tvWorkoutName2.setSelected(true);
+                    tvWorkoutName2.setSingleLine(true);
+                    nameScrollt = true;
+                } // then
+                else {
+                    tvWorkoutName2.setEllipsize(TextUtils.TruncateAt.END);
+                    tvWorkoutName2.setSelected(true);
+                    tvWorkoutName2.setSingleLine(true);
                     nameScrollt = false;
                 } // else
             }
@@ -166,6 +192,8 @@ public class FrUebersichtRow extends Fragment {
                     btnLoeschen.setClickable(false);
                     imgbtnWorkoutStart.setClickable(true);
                     imgbtnWorkoutStart.startAnimation(fabOpen);
+                    clPadding2.setVisibility(View.INVISIBLE);
+                    clPadding1.setVisibility(View.VISIBLE);
                     menueOffen = false;
                 } // then
                 else {
@@ -178,6 +206,8 @@ public class FrUebersichtRow extends Fragment {
                     btnBearbeiten.setClickable(true);
                     btnUmbennen.setClickable(true);
                     btnLoeschen.setClickable(true);
+                    clPadding2.setVisibility(View.VISIBLE);
+                    clPadding1.setVisibility(View.INVISIBLE);
                     menueOffen = true;
                 } // else
             }
@@ -223,7 +253,8 @@ public class FrUebersichtRow extends Fragment {
     } // Methode setzeAtkUebung
 
     public static void workoutNamenAktualisieren(String workoutName) {
-        tvWorkoutName.setText(workoutName);
+        tvWorkoutName1.setText(workoutName);
+        tvWorkoutName2.setText(workoutName);
     }
 
 }

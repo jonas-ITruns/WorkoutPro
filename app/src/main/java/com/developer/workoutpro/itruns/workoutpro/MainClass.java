@@ -3,12 +3,19 @@ package com.developer.workoutpro.itruns.workoutpro;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.TaskStackBuilder;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -38,8 +45,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -89,6 +94,7 @@ public class MainClass extends AppCompatActivity {
     private int indexStandardUebung;
 
     // Übungen sortieren
+    private PopupMenu popup;
     private String meineUebungenSortierung;
     private String standardUebungenSortierung = "name";
 
@@ -115,6 +121,7 @@ public class MainClass extends AppCompatActivity {
     private int dauerWorkoutUebungenKopie;
     private ObjMeineUebungen objWorkoutUebungenKopie[] = new ObjMeineUebungen[maxAnzahlUebungen];
     private String workoutNameKopie;
+    private boolean btnsdraggen = false;
 
     // Attribute für das laufende Workout
     private int gesamtZeit, gesamtStunden, gesamtMinuten, gesamtSekunden;
@@ -124,6 +131,10 @@ public class MainClass extends AppCompatActivity {
     private int vergangeneUebungenZeit;
     private CountDownTimer workoutTimer;
     private boolean timerLaeuft;
+    private boolean timer;
+
+    // Attribute Back Pressed
+    private String aktSeite = "";
 
 
     @Override
@@ -140,36 +151,40 @@ public class MainClass extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        // Fragment merken
-        Fragment myFragment;
-        myFragment = getFragmentManager().findFragmentByTag("uebersicht");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "uebersicht";
+        if (!timer) {
+            // Fragment merken
+            Fragment myFragment;
+            myFragment = getFragmentManager().findFragmentByTag("uebersicht");
+            if (myFragment != null && myFragment.isVisible()) {
+                aktFragment = "uebersicht";
+            } // if
+            myFragment = getFragmentManager().findFragmentByTag("standardUebungen");
+            if (myFragment != null && myFragment.isVisible()) {
+                aktFragment = "standardUebungen";
+            } // if
+            myFragment = getFragmentManager().findFragmentByTag("meineUebungen");
+            if (myFragment != null && myFragment.isVisible()) {
+                aktFragment = "meineUebungen";
+            } // if
+            myFragment = getFragmentManager().findFragmentByTag("premium");
+            if (myFragment != null && myFragment.isVisible()) {
+                aktFragment = "premium";
+            } // if
+            myFragment = getFragmentManager().findFragmentByTag("support");
+            if (myFragment != null && myFragment.isVisible()) {
+                aktFragment = "support";
+            } // if
+            myFragment = getFragmentManager().findFragmentByTag("einstellungen");
+            if (myFragment != null && myFragment.isVisible()) {
+                aktFragment = "einstellungen";
+            } // if
+            myFragment = getFragmentManager().findFragmentByTag("workoutHinzufuegen");
+            if (myFragment != null && myFragment.isVisible()) {
+                aktFragment = "workoutHinzufuegen";
+            } // if
+            // Fragment löschen
+            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
         } // if
-        myFragment = getFragmentManager().findFragmentByTag("standardUebungen");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "standardUebungen";
-        } // if
-        myFragment = getFragmentManager().findFragmentByTag("meineUebungen");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "meineUebungen";
-        } // if
-        myFragment = getFragmentManager().findFragmentByTag("premium");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "premium";
-        } // if
-        myFragment = getFragmentManager().findFragmentByTag("support");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "support";
-        } // if
-        myFragment = getFragmentManager().findFragmentByTag("einstellungen");
-        if (myFragment != null && myFragment.isVisible()) {
-            aktFragment = "einstellungen";
-        } // if
-
-        // Fragment löschen
-        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
-
         datenSpeichern();
     } // Methode onPause
 
@@ -203,13 +218,73 @@ public class MainClass extends AppCompatActivity {
             FrEinstellungen frEinstellungen = new FrEinstellungen();
             fragmentTransaction.add(R.id.bereichFragments, frEinstellungen, "einstellungen");
         } // if
+        else if (aktFragment.equals ("workoutHinzufuegen")) {
+            FrWorkoutHinzufuegen frWorkoutHinzufuegen = new FrWorkoutHinzufuegen();
+            fragmentTransaction.add(R.id.bereichFragments, frWorkoutHinzufuegen, "workoutHinzufuegen");
+        } // if
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
     } // Methode onResume
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (aktSeite.equals("al")) {
+            alert.cancel();
+            aktSeite = "";
+        } else if (aktSeite.equals("popup")) {
+            popup.dismiss();
+        } else if (aktSeite.equals("aktWorkoutStart")) {
+            // Bestätigen-Fenster öffnen
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(R.layout.al_workout_loeschen_bestaetigen);
+            builder.setCancelable(false);
+            alert = builder.create();
+            alert.show();
+            aktSeite = "al";
+
+            // Deklarieren der Textfelder
+            TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
+            tvAlertUeberschrift.setText("Workout wirklich abbrechen?");
+
+            ImageButton imgbtnWorkoutLoeschenSpeichern = alert.findViewById(R.id.imgbtnWorkoutLoeschenSpeichern);
+            imgbtnWorkoutLoeschenSpeichern.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alert.cancel();
+                    aktSeite = "";
+                    if (workoutTimer != null) {
+                        workoutTimer.cancel();
+                    } // if
+
+                    // Seite laden
+                    timer = false;
+                    setContentView(R.layout.act_main);
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    FrUebersicht frUebersicht = new FrUebersicht();
+                    fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
+                    fragmentTransaction.commit();
+
+                }
+            });
+
+            ImageButton imgbtnWorkoutLoeschenAbbrechen = alert.findViewById(R.id.imgbtnWorkoutLoeschenAbbrechen);
+            imgbtnWorkoutLoeschenAbbrechen.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alert.cancel();
+                    aktSeite = "aktWorkoutStart";
+                }
+            });
+        } else {
+            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            FrUebersicht frUebersicht = new FrUebersicht();
+            fragmentTransaction.replace(R.id.bereichFragments, frUebersicht, "uebersicht");
+            fragmentManager.executePendingTransactions();
+            fragmentTransaction.commit();
+        } // if
     } // Methode onBackPressed
 
 
@@ -616,6 +691,7 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
+        aktSeite = "al";
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
@@ -892,38 +968,50 @@ public class MainClass extends AppCompatActivity {
     // standard Übungen verwalten
 
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     public void standardUebungenSynchronisieren() {
-        if (erstesSynchronisieren) {
-            standardUebungenOeffnen();
+        if (isNetworkAvailable()) {
+            if (erstesSynchronisieren) {
+                standardUebungenOeffnen();
+            } // then
+            else {
+                Animation rotate_synchronize;
+                rotate_synchronize = AnimationUtils.loadAnimation(this.getApplicationContext(), R.anim.rotate_synchronize);
+                ImageButton imgbtnSynchronisieren = findViewById(R.id.imgbtnSynchronisieren);
+                imgbtnSynchronisieren.startAnimation(rotate_synchronize);
+            } // else
+
+            // Datenbank
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+            // Datenbank deklarieren
+            mRootRef = database.getReference();
+
+            // Anzahl holen
+            DatabaseReference mAnzahlStandardUebungenRef = mRootRef.child("Standard Übungen");
+            mAnzahlStandardUebungenRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    anzahlStandardUebungen = (int) dataSnapshot.getChildrenCount();
+                    indexStandardUebung = 0;
+                    uebungdetailsHolen();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         } // then
         else {
-            Animation rotate_synchronize;
-            rotate_synchronize = AnimationUtils.loadAnimation(this.getApplicationContext(), R.anim.rotate_synchronize);
-            ImageButton imgbtnSynchronisieren = findViewById(R.id.imgbtnSynchronisieren);
-            imgbtnSynchronisieren.startAnimation(rotate_synchronize);
+            Toast.makeText(this, "Keine Internetverbindung", Toast.LENGTH_SHORT).show();
         } // else
-
-        // Datenbank
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-        // Datenbank deklarieren
-        mRootRef = database.getReference();
-
-        // Anzahl holen
-        DatabaseReference mAnzahlStandardUebungenRef = mRootRef.child("Standard Übungen");
-        mAnzahlStandardUebungenRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                anzahlStandardUebungen = (int) dataSnapshot.getChildrenCount();
-                indexStandardUebung = 0;
-                uebungdetailsHolen();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     public void standardUebungenSynchronisieren(View v) {
@@ -1019,10 +1107,10 @@ public class MainClass extends AppCompatActivity {
 
 
     public void meineUebungenSortieren(View v) {
-        PopupMenu popupMenu = new PopupMenu(MainClass.this, v);
-        popupMenu.getMenuInflater().inflate(R.menu.popup_menu_meine_sortierung, popupMenu.getMenu());
+        popup = new PopupMenu(MainClass.this, v);
+        popup.getMenuInflater().inflate(R.menu.popup_menu_meine_sortierung, popup.getMenu());
 
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getTitle().equals("Datum")) {
@@ -1039,7 +1127,8 @@ public class MainClass extends AppCompatActivity {
             }
         });
 
-        popupMenu.show();
+        popup.show();
+        aktSeite = "popup";
     } // Methode meineUebungenSortieren
 
     public String gibMeineUebungenSortierung() {
@@ -1047,10 +1136,10 @@ public class MainClass extends AppCompatActivity {
     } // Methode gibMeineUebungenSortierung
 
     public void standardUebungenSortieren(View v) {
-        PopupMenu popupMenu = new PopupMenu(MainClass.this, v);
-        popupMenu.getMenuInflater().inflate(R.menu.popup_menu_standard_sortierung, popupMenu.getMenu());
+        popup = new PopupMenu(MainClass.this, v);
+        popup.getMenuInflater().inflate(R.menu.popup_menu_standard_sortierung, popup.getMenu());
 
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getTitle().equals("Standard")) {
@@ -1067,7 +1156,8 @@ public class MainClass extends AppCompatActivity {
             }
         });
 
-        popupMenu.show();
+        popup.show();
+        aktSeite = "popup";
     } // Methode standardUebungenSortieren
 
     public String gibStandardUebungenSortierung() {
@@ -1191,6 +1281,7 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
+        aktSeite = "al";
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
@@ -1264,6 +1355,7 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
+        aktSeite = "al";
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
@@ -1447,6 +1539,7 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
+        aktSeite = "al";
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
@@ -1574,6 +1667,7 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
+        aktSeite = "al";
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
@@ -2006,6 +2100,15 @@ public class MainClass extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    public void workoutEditieren(View v) {
+        if (! btnsdraggen) {
+            btnsdraggen = true;
+        } else {
+            btnsdraggen = false;
+        } // else
+        workoutHinzufuegenOeffnen();
+    }
+
     public void workoutErstellungAbbrechen(View v) {
         // Seite laden
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
@@ -2043,6 +2146,7 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
+        aktSeite = "al";
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
@@ -2109,6 +2213,7 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
+        aktSeite = "al";
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
@@ -2236,11 +2341,16 @@ public class MainClass extends AppCompatActivity {
         return aktuellesWorkout;
     }
 
+    public boolean gibBtnsdraggen() {
+        return btnsdraggen;
+    }
+
 
     // Workout laufen lassen
 
 
     public void workoutStartOeffnen(int workout) {
+        timer = true;
         aktuellesWorkout = workout;
         vergangeneUebungenZeit = 0;
         aktUebung = 0;
@@ -2248,10 +2358,11 @@ public class MainClass extends AppCompatActivity {
         // Seite wechseln
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
         setContentView(R.layout.act_workout_start);
+        aktSeite = "aktWorkoutStart";
 
         // Deklaration der Views
         ImageButton imgbtnStop = findViewById(R.id.imgbtnStop);
-        TextView tvWorkoutName = findViewById(R.id.tvWorkoutName);
+        TextView tvWorkoutName = findViewById(R.id.tvWorkoutName1);
 
         // Vorbesetzung der Views
         viewsAktualisieren();
@@ -2267,6 +2378,9 @@ public class MainClass extends AppCompatActivity {
     } // Methode workoutStart
 
     public void workoutStart(final View v) {
+        final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.whistle);
+
         // Deklaration der Views
         ImageButton imgbtnStart = findViewById(R.id.imgbtnStart);
         ImageButton imgbtnStop = findViewById(R.id.imgbtnStop);
@@ -2308,13 +2422,32 @@ public class MainClass extends AppCompatActivity {
             @Override
             public void onFinish() {
                 workoutTimer.cancel();
-                if (aktUebung <= anzahlWorkoutUebungen[aktuellesWorkout]) {
+                mediaPlayer.start();
+                // Vibration
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
+                }else{
+                    vibrator.vibrate(500);
+                } // if
+                // Whistle
+
+                if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
                     aktUebung++;
                     viewsAktualisieren();
-                } // if
-                if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
                     workoutStart(v);
-                } // if
+                } // then
+                else {
+                    // Workout Übersicht anzeigen
+                    timer = false;
+                    setContentView(R.layout.act_main);
+                    menueleiste();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    FrUebersicht frUebersicht = new FrUebersicht();
+                    fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
+                    fragmentManager.executePendingTransactions();
+                    fragmentTransaction.commit();
+                } // else
             }
         }.start();
     }
@@ -2534,6 +2667,81 @@ public class MainClass extends AppCompatActivity {
             gesamtSekundenStr = Integer.toString(gesamtSekunden);
         } // if
         gesamtZeitStr = gesamtStundenStr + gesamtMinutenStr + " : " + gesamtSekundenStr;
+    }
+
+
+    // Info-Seiten
+
+    public void uebersichtInfo(View v) {
+        // Info-Fenster öffnen
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.al_info_uebersicht);
+        builder.setCancelable(true);
+        alert = builder.create();
+        alert.show();
+        aktSeite = "al";
+
+        Button btnInfoOk = alert.findViewById(R.id.btnInfoOk);
+        btnInfoOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.cancel();
+            }
+        });
+    }
+
+    public void standardUebungenInfo(View v) {
+        // Info-Fenster öffnen
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.al_info_standard_uebungen);
+        builder.setCancelable(true);
+        alert = builder.create();
+        alert.show();
+        aktSeite = "al";
+
+        Button btnInfoOk = alert.findViewById(R.id.btnInfoOk);
+        btnInfoOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.cancel();
+            }
+        });
+    }
+
+    public void meineUebungenInfo(View v) {
+        // Info-Fenster öffnen
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.al_info_meine_uebungen);
+        builder.setCancelable(true);
+        alert = builder.create();
+        alert.show();
+        aktSeite = "al";
+
+        Button btnInfoOk = alert.findViewById(R.id.btnInfoOk);
+        btnInfoOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.cancel();
+            }
+        });
+    }
+
+    public void workoutInfo(View v) {
+        // Info-Fenster öffnen
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.al_info_workout);
+        builder.setCancelable(true);
+        alert = builder.create();
+        alert.show();
+        aktSeite = "al";
+
+        Button btnInfoOk = alert.findViewById(R.id.btnInfoOk);
+        btnInfoOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.cancel();
+            }
+        });
     }
 
 

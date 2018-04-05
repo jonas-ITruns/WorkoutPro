@@ -23,12 +23,10 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
     private ArrayList<String> uebungSekunden;
     MainClass mainClass;
     private boolean draggen = false;
-    private int dragItem;
-    private int swopItem;
-    private int verschiebung = 0;
+    private boolean btnsDraggen = false;
     private final OnStartDragListener mDragStartListener;
 
-    public SwipeRecyclerViewAdapterWorkoutAnsicht(Context context, ArrayList<String> uebungName, ArrayList<String> uebungMuskelgruppe, ArrayList<String> uebungBeschreibung, ArrayList<String> uebungMinuten, ArrayList<String> uebungSekunden, OnStartDragListener dragStartListener) {
+    public SwipeRecyclerViewAdapterWorkoutAnsicht(Context context, ArrayList<String> uebungName, ArrayList<String> uebungMuskelgruppe, ArrayList<String> uebungBeschreibung, ArrayList<String> uebungMinuten, ArrayList<String> uebungSekunden, OnStartDragListener dragStartListener, boolean btnsDraggen) {
         mainClass = (MainClass) context;
         this.uebungName = uebungName;
         this.uebungMuskelgruppe = uebungMuskelgruppe;
@@ -36,6 +34,7 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
         this.uebungMinuten = uebungMinuten;
         this.uebungSekunden = uebungSekunden;
         mDragStartListener = dragStartListener;
+        this.btnsDraggen = btnsDraggen;
     }
 
     public interface OnStartDragListener {
@@ -54,23 +53,45 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         viewHolder.tvUebungName.setText(uebungName.get(i));
         viewHolder.tvUebungBeschreibung.setText(uebungBeschreibung.get(i));
-        if (uebungMuskelgruppe.get(i).equals("besonderes")) {
-            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_besondere_uebungen_32);
-        } else if (uebungMuskelgruppe.get(i).equals("ganzkoerper")) {
-            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_ganzkoerper_32);
-        } else if (uebungMuskelgruppe.get(i).equals("arme")) {
-            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_arme_32);
-        } else if (uebungMuskelgruppe.get(i).equals("beine")) {
-            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_beine_32);
-        } else if (uebungMuskelgruppe.get(i).equals("bauch")) {
-            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_bauch_32);
-        } else if (uebungMuskelgruppe.get(i).equals("brust")) {
-            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_brust_32);
-        } else if (uebungMuskelgruppe.get(i).equals("ruecken")) {
-            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_ruecken_32);
-        } else {
-            viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_besondere_uebungen_32);
-        } // if
+        if (! btnsDraggen) {
+            viewHolder.imgvMuskelgruppe.setVisibility(View.VISIBLE);
+            viewHolder.imgvMuskelgruppe.setClickable(true);
+            viewHolder.imgvDrag.setVisibility(View.INVISIBLE);
+            viewHolder.imgvDrag.setClickable(false);
+            if (uebungMuskelgruppe.get(i).equals("besonderes")) {
+                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_besondere_uebungen_32);
+            } else if (uebungMuskelgruppe.get(i).equals("ganzkoerper")) {
+                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_ganzkoerper_32);
+            } else if (uebungMuskelgruppe.get(i).equals("arme")) {
+                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_arme_32);
+            } else if (uebungMuskelgruppe.get(i).equals("beine")) {
+                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_beine_32);
+            } else if (uebungMuskelgruppe.get(i).equals("bauch")) {
+                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_bauch_32);
+            } else if (uebungMuskelgruppe.get(i).equals("brust")) {
+                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_brust_32);
+            } else if (uebungMuskelgruppe.get(i).equals("ruecken")) {
+                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_muskelgruppe_ruecken_32);
+            } else {
+                viewHolder.imgvMuskelgruppe.setImageResource(R.drawable.ic_besondere_uebungen_32);
+            } // if
+        } // then
+        else {
+            viewHolder.imgvMuskelgruppe.setVisibility(View.INVISIBLE);
+            viewHolder.imgvMuskelgruppe.setClickable(false);
+            viewHolder.imgvDrag.setVisibility(View.VISIBLE);
+            viewHolder.imgvDrag.setClickable(true);
+            viewHolder.imgvDrag.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent motionEvent) {
+                    if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                        mDragStartListener.onStartDrag(viewHolder);
+                        return true;
+                    } // if
+                    return false;
+                }
+            });
+        } // else
 
         // Null ergänzen, falls es unter 10 ist
         if (uebungMinuten.get(i).length() < 2) {
@@ -153,16 +174,6 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
             }
         });
 
-        viewHolder.imgvMuskelgruppe.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent motionEvent) {
-                if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                    mDragStartListener.onStartDrag(viewHolder);
-                    return true;
-                } // if
-                return false;
-            }
-        });
     }
 
     @Override
@@ -182,7 +193,6 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                 Collections.swap(uebungMinuten, i, i + 1);
                 Collections.swap(uebungSekunden, i, i + 1);
                 mainClass.workoutUebungDrag(i, i + 1);
-                verschiebung = 1;
             } // for
         } else {
             for (int i = fromPosition; i > toPosition; i--) {
@@ -193,11 +203,8 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                 Collections.swap(uebungMinuten, i, i - 1);
                 Collections.swap(uebungSekunden, i, i - 1);
                 mainClass.workoutUebungDrag(i, i - 1);
-                verschiebung = -1;
             } // for
         } // if
-        dragItem = toPosition;
-        swopItem = fromPosition;
         notifyItemMoved(fromPosition, toPosition);
         return true;
     }
@@ -226,6 +233,7 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
         ImageButton imgbtnMinusMinuten;
         ImageButton imgbtnPlusSekunden;
         ImageButton imgbtnMinusSekunden;
+        ImageView imgvDrag;
 
 
         public ViewHolder(View view) {
@@ -240,6 +248,7 @@ public class SwipeRecyclerViewAdapterWorkoutAnsicht extends RecyclerView.Adapter
                 imgbtnMinusMinuten = view.findViewById(R.id.imgbtnMinusMinuten);
                 imgbtnPlusSekunden = view.findViewById(R.id.imgbtnPlusSekunden);
                 imgbtnMinusSekunden = view.findViewById(R.id.imgbtnMinusSekunden);
+                imgvDrag = view.findViewById(R.id.imgvDrag);
         }
     }
 }
