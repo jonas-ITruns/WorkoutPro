@@ -2250,10 +2250,7 @@ public class MainClass extends AppCompatActivity {
         setContentView(R.layout.act_workout_start);
 
         // Deklaration der Views
-        ImageButton imgbtnStart = findViewById(R.id.imgbtnStart);
         ImageButton imgbtnStop = findViewById(R.id.imgbtnStop);
-        ImageButton imgbtnZurueck = findViewById(R.id.imgbtnZurueck);
-        ImageButton imgbtnVor = findViewById(R.id.imgbtnVor);
         TextView tvWorkoutName = findViewById(R.id.tvWorkoutName);
 
         // Vorbesetzung der Views
@@ -2290,6 +2287,13 @@ public class MainClass extends AppCompatActivity {
 
                 // Zeit der aktuellen Übung ausgeben
                 aktUebungZeit = (int) millisUntilFinished / 1000 + 1;
+                if (aktUebungZeit > 999) {
+                    tvAktuelleUebungZeit.setTextSize(150);
+                } else if (aktUebungZeit > 99) {
+                    tvAktuelleUebungZeit.setTextSize(175);
+                } else {
+                    tvAktuelleUebungZeit.setTextSize(200);
+                } // if
                 tvAktuelleUebungZeit.setText(Integer.toString(aktUebungZeit));
 
                 // Richtiges Zeit Format herstellen und Gesamtzeit ausgeben
@@ -2395,6 +2399,13 @@ public class MainClass extends AppCompatActivity {
         else {
             aktUebungZeit = 0;
         } // else
+        if (aktUebungZeit > 999) {
+            tvAktuelleUebungZeit.setTextSize(150);
+        } else if (aktUebungZeit > 99) {
+            tvAktuelleUebungZeit.setTextSize(175);
+        } else {
+            tvAktuelleUebungZeit.setTextSize(200);
+        } // if
         tvAktuelleUebungZeit.setText(Integer.toString(aktUebungZeit));
 
         // Richtiges Zeit Format herstellen und Gesamtzeit ausgeben
