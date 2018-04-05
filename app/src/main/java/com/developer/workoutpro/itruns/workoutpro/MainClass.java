@@ -1,10 +1,12 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -56,6 +58,8 @@ public class MainClass extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ImageButton menuButton;
 
+    // Allgemein
+    private FragmentManager fragmentManager = getFragmentManager();
 
     // Attribute für onPause und onResume
     private String aktFragment = "";
@@ -124,11 +128,10 @@ public class MainClass extends AppCompatActivity {
     private boolean btnsdraggen = false;
 
     // Attribute für das laufende Workout
-    private int gesamtZeit, gesamtStunden, gesamtMinuten, gesamtSekunden;
-    private String gesamtZeitStr, gesamtStundenStr, gesamtMinutenStr, gesamtSekundenStr;
+    private int gesamtZeit;
+    private String gesamtZeitStr;
     private int aktUebung;
     private int aktUebungZeit;
-    private int vergangeneUebungenZeit;
     private CountDownTimer workoutTimer;
     private boolean timerLaeuft;
     private boolean timer;
@@ -573,7 +576,6 @@ public class MainClass extends AppCompatActivity {
         } // for
 
         // Seite laden
-        FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FrUebersicht frUebersicht = new FrUebersicht();
         fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
@@ -600,7 +602,6 @@ public class MainClass extends AppCompatActivity {
                         // nach dem Auswählen den Navigator wieder schließen
                         mDrawerLayout.closeDrawers();
 
-                        FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                         switch (menuItem.getItemId()) {
@@ -664,7 +665,6 @@ public class MainClass extends AppCompatActivity {
 
     public void standardUebungenOeffnen() {
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
-        FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FrStandardUebungen frStandardUebungen = new FrStandardUebungen();
         fragmentTransaction.replace(R.id.bereichFragments, frStandardUebungen, "standardUebungen");
@@ -675,7 +675,6 @@ public class MainClass extends AppCompatActivity {
 
     public void meineUebungenOeffnen() {
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
-        FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
         fragmentTransaction.replace(R.id.bereichFragments, frMeineUebungen, "meineUebungen");
@@ -1176,7 +1175,6 @@ public class MainClass extends AppCompatActivity {
 
     public void workoutHinzufuegenOeffnen() {
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
-        FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FrWorkoutHinzufuegen frWorkoutHinzufuegen = new FrWorkoutHinzufuegen();
         fragmentTransaction.replace(R.id.bereichFragments, frWorkoutHinzufuegen, "workoutHinzufuegen");
@@ -2092,7 +2090,6 @@ public class MainClass extends AppCompatActivity {
 
         // Seite laden
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
-        FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FrUebersicht frUebersicht = new FrUebersicht();
         fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
@@ -2112,7 +2109,6 @@ public class MainClass extends AppCompatActivity {
     public void workoutErstellungAbbrechen(View v) {
         // Seite laden
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
-        FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FrUebersicht frUebersicht = new FrUebersicht();
         fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
@@ -2244,7 +2240,6 @@ public class MainClass extends AppCompatActivity {
 
                 // Seite laden
                 getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
-                FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 FrUebersicht frUebersicht = new FrUebersicht();
                 fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
@@ -2352,7 +2347,6 @@ public class MainClass extends AppCompatActivity {
     public void workoutStartOeffnen(int workout) {
         timer = true;
         aktuellesWorkout = workout;
-        vergangeneUebungenZeit = 0;
         aktUebung = 0;
 
         // Seite wechseln
@@ -2441,7 +2435,6 @@ public class MainClass extends AppCompatActivity {
                     timer = false;
                     setContentView(R.layout.act_main);
                     menueleiste();
-                    FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     FrUebersicht frUebersicht = new FrUebersicht();
                     fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
@@ -2639,6 +2632,8 @@ public class MainClass extends AppCompatActivity {
     }
 
     public void richtigesZeitFormat() {
+        int gesamtStunden, gesamtMinuten, gesamtSekunden;
+        String gesamtStundenStr, gesamtMinutenStr, gesamtSekundenStr;
         gesamtMinuten = gesamtZeit / 60;
         // Stunden
         if (gesamtMinuten >= 60) {
