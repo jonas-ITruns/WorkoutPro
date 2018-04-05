@@ -47,7 +47,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/openSource"
-            android:icon="@drawable/ic_settings"
+            android:icon="@drawable/ic_folder_open_black_24dp"
             android:title="Open Source" />
     </group>
 
