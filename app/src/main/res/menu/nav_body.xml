@@ -42,5 +42,13 @@
             android:icon="@drawable/ic_settings"
             android:title="Einstellungen" />
     </group>
+    <group
+        android:id="@+id/group6"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/openSource"
+            android:icon="@drawable/ic_settings"
+            android:title="Open Source" />
+    </group>
 
 </menu>

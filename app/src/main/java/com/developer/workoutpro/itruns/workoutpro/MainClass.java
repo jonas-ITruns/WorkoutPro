@@ -637,6 +637,9 @@ public class MainClass extends AppCompatActivity {
                                 FrEinstellungen frEinstellungen = new FrEinstellungen();
                                 fragmentTransaction.replace(R.id.bereichFragments, frEinstellungen, "einstellungen");
                                 break;
+                            case R.id.openSource:
+                                FrOpenSource frOpensource = new FrOpenSource();
+                                fragmentTransaction.replace(R.id.bereichFragments, frOpensource, "opensource");
                         } // switch
 
                         fragmentTransaction.addToBackStack(null);
