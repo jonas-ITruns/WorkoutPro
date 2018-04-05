@@ -123,6 +123,7 @@ public class MainClass extends AppCompatActivity {
     private int aktUebungZeit;
     private int vergangeneUebungenZeit;
     private CountDownTimer workoutTimer;
+    private boolean timerLaeuft;
 
 
     @Override
@@ -2264,6 +2265,7 @@ public class MainClass extends AppCompatActivity {
 
         // Workout Namen anzeigen
         tvWorkoutName.setText(workoutName[aktuellesWorkout]);
+        timerLaeuft = false;
 
     } // Methode workoutStart
 
@@ -2278,6 +2280,7 @@ public class MainClass extends AppCompatActivity {
         imgbtnStop.setVisibility(View.VISIBLE);
         imgbtnStop.setClickable(true);
 
+        timerLaeuft = true;
         workoutTimer = new CountDownTimer(aktUebungZeit * 1000, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -2324,6 +2327,7 @@ public class MainClass extends AppCompatActivity {
         imgbtnStart.setClickable(true);
 
         workoutTimer.cancel();
+        timerLaeuft = false;
 
         // Zeit der aktuellen Übung ausgeben
         tvAktuelleUebungZeit.setText(Integer.toString(aktUebungZeit));
@@ -2338,10 +2342,13 @@ public class MainClass extends AppCompatActivity {
     }
 
     public void workoutZurueck(View v) {
-        workoutTimer.cancel();
+        if (timerLaeuft) {
+            workoutTimer.cancel();
+            timerLaeuft = false;
+        } // if
         // Die folgenden If-Bedingungen dienen dazu, dass man nur eine Übung zurück kann, wenn die jetztige gerade angefangen ist, wenn aber gefinished ist geht es trotzdem
-        if (aktUebung == anzahlWorkoutUebungen[aktuellesWorkout] - 1) {
-            aktUebung --;
+        if (aktUebung >= anzahlWorkoutUebungen[aktuellesWorkout]) {
+            aktUebung = anzahlWorkoutUebungen[aktuellesWorkout] - 1;
         } else {
             int uebungZeit = objWorkoutUebungen[aktuellesWorkout][aktUebung].gibMinuten() * 60 + objWorkoutUebungen[aktuellesWorkout][aktUebung].gibSekunden();
             if (uebungZeit - aktUebungZeit < 1) {
@@ -2355,7 +2362,10 @@ public class MainClass extends AppCompatActivity {
     }
 
     public void workoutVor(View v) {
-        workoutTimer.cancel();
+        if (timerLaeuft) {
+            workoutTimer.cancel();
+            timerLaeuft = false;
+        } // if
         if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
             aktUebung++;
             viewsAktualisieren();
