@@ -169,7 +169,7 @@
             android:paddingTop="10dp"
             android:text="Klicke hier zum beenden"
             android:textColor="@color/dunkelblau"
-            android:textSize="50sp"
+            android:textSize="22sp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

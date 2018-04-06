@@ -17,7 +17,7 @@
         android:layout_marginTop="106dp"
         android:progress="0"
         android:progressDrawable="@drawable/ladebalken_welcome_screen"
-        android:progressTint="@color/grau_Hintergrund"
+        android:progressTint="@color/weiss"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
