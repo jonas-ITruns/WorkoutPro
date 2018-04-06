@@ -2919,6 +2919,7 @@ public class MainClass extends AppCompatActivity {
         easterEgg++;
         if (easterEgg > 10) {
             maxAnzahlWorkouts++;
+            easterEgg = 0;
             Toast.makeText(this, "#Streetworkout", Toast.LENGTH_LONG).show();
         } // if
         new Handler().postDelayed(new Runnable() {
