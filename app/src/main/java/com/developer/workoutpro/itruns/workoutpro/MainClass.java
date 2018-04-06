@@ -112,7 +112,7 @@ public class MainClass extends AppCompatActivity {
 
     // Attribute für Workouts
     private int anzahlWorkouts;
-    private int maxAnzahlWorkouts = 2;
+    private int maxAnzahlWorkouts;
     private int aktuellesWorkout;
     private int anzahlWorkoutUebungen[] = new int[maxAnzahlUebungen];
     private int dauerWorkoutUebungen[] = new int[maxAnzahlUebungen];
@@ -594,7 +594,7 @@ public class MainClass extends AppCompatActivity {
 
         // Max Anzahl Workouts laden
         SharedPreferences maxAnzahlWorkoutsPref = getSharedPreferences("maxAnzahlWorkouts", 0);
-        maxAnzahlWorkouts = maxAnzahlWorkoutsPref.getInt("maxAnzahlWorkouts", 0);
+        maxAnzahlWorkouts = maxAnzahlWorkoutsPref.getInt("maxAnzahlWorkouts", 2);
 
         // Anzahl der Übungen pro Workout laden
         SharedPreferences anzahlWorkoutUebungenPref[] = new SharedPreferences[anzahlWorkouts];
