@@ -274,7 +274,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvLizenz2" />
 
                 <ImageView
-                    android:id="@+id/imgvAbtrennung3"
+                    android:id="@+id/imgvAbtrennungHorizontal3"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginEnd="10dp"
@@ -296,7 +296,7 @@
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/imgvAbtrennung3" />
+                    app:layout_constraintTop_toTopOf="@+id/imgvAbtrennungHorizontal3" />
 
                 <TextView
                     android:id="@+id/tvNameLink3"
@@ -367,7 +367,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvLizenz3" />
 
                 <ImageView
-                    android:id="@+id/imgvAbtrennung4"
+                    android:id="@+id/imgvAbtrennungHorizontal5"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginEnd="10dp"
@@ -389,7 +389,7 @@
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/imgvAbtrennung4" />
+                    app:layout_constraintTop_toTopOf="@+id/imgvAbtrennungHorizontal5" />
 
                 <TextView
                     android:id="@+id/tvNameLink4"

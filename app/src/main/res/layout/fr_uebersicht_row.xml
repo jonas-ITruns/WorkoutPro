@@ -84,14 +84,6 @@
 
             </android.support.constraint.ConstraintLayout>
 
-            <ImageView
-                android:id="@+id/imgvStrich"
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:background="@color/weiss"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clPadding2" />
-
             <ImageButton
                 android:id="@+id/imgbtnWorkoutStart"
                 android:layout_width="40dp"
@@ -123,7 +115,6 @@
                 android:src="@drawable/ic_edit"
                 android:tint="@color/weiss"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/imgvStrich"
                 app:layout_constraintEnd_toStartOf="@+id/imgbtnWorkoutMenue"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -136,7 +127,6 @@
                 android:src="@drawable/ic_title_black_24dp"
                 android:tint="@color/weiss"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/imgvStrich"
                 app:layout_constraintEnd_toStartOf="@+id/btnBearbeiten"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -149,9 +139,16 @@
                 android:src="@drawable/ic_delete_black_24dp"
                 android:tint="@color/weiss"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/imgvStrich"
                 app:layout_constraintEnd_toStartOf="@+id/btnUmbennen"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imgvStrich"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/weiss"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clPadding2" />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -273,73 +270,6 @@
             app:srcCompat="@color/grau_Hintergrund" />
 
         <ImageView
-            android:id="@+id/imgvAbtrennungVertikal1"
-            android:layout_width="1dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
-            app:srcCompat="@color/dunkelgrau" />
-
-        <ImageView
-            android:id="@+id/imgvAbtrennungVertikal2"
-            android:layout_width="1dp"
-            android:layout_height="80dp"
-            app:layout_constraintStart_toStartOf="@+id/tvWorkoutDauer"
-            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
-            app:srcCompat="@color/dunkelgrau" />
-
-        <ImageView
-            android:id="@+id/imgvAbtrennungVertikal3"
-            android:layout_width="1dp"
-            android:layout_height="80dp"
-            app:layout_constraintStart_toStartOf="@+id/tvWorkoutlUebungen"
-            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
-            app:srcCompat="@color/dunkelgrau" />
-
-        <ImageView
-            android:id="@+id/imgvAbtrennungVertikal4"
-            android:layout_width="1dp"
-            android:layout_height="80dp"
-            android:layout_marginEnd="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
-            app:srcCompat="@color/dunkelgrau" />
-
-        <ImageView
-            android:id="@+id/imgvAbtrennung3"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgvRandOben"
-            app:srcCompat="@color/dunkelgrau" />
-
-        <ImageView
-            android:id="@+id/imgvAbtrennung4"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/imgvRandUnten"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@color/dunkelgrau" />
-
-        <ImageView
-            android:id="@+id/imgvAbtrennung7"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="11dp"
-            app:layout_constraintBottom_toTopOf="@+id/tvZeitWert"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@color/hellgrau_Hintergrund" />
-
-        <ImageView
             android:id="@+id/imgvAbtrennungHorizontal1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -358,7 +288,40 @@
             app:srcCompat="@color/hellgrau_Hintergrund" />
 
         <ImageView
+            android:id="@+id/imgvAbtrennungHorizontal3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgvRandOben"
+            app:srcCompat="@color/hellgrau_Hintergrund" />
+
+        <ImageView
             android:id="@+id/imgvAbtrennungHorizontal4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="11dp"
+            app:layout_constraintBottom_toTopOf="@+id/tvZeitWert"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@color/hellgrau_Hintergrund" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennungHorizontal5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/imgvRandUnten"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@color/hellgrau_Hintergrund" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennungHorizontal6"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
@@ -366,6 +329,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvUebungenWert"
             app:srcCompat="@color/dunkelgrau" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennungVertikal1"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
+            app:srcCompat="@color/hellgrau_Hintergrund" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennungVertikal2"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="@+id/tvWorkoutDauer"
+            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
+            app:srcCompat="@color/hellgrau_Hintergrund" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennungVertikal3"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="@+id/tvWorkoutlUebungen"
+            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
+            app:srcCompat="@color/hellgrau_Hintergrund" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennungVertikal4"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
+            app:srcCompat="@color/hellgrau_Hintergrund" />
 
     </android.support.constraint.ConstraintLayout>
 
