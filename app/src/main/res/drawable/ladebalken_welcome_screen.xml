@@ -2,10 +2,10 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape
-            android:innerRadiusRatio="10"
+            android:innerRadius="0dp"
             android:shape="ring"
-            android:thickness="100sp">
-            <solid android:color="@color/hellblau"/>
+            android:thickness="200sp">
+            <solid android:color="@color/weiss"/>
         </shape>
     </item>
 </selector>
