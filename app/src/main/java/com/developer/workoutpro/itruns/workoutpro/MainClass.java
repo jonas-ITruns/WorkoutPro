@@ -83,7 +83,7 @@ public class MainClass extends AppCompatActivity {
     private boolean brust;
     private boolean ruecken;
     // Objekt von der hinzugefügten Übung erstellen
-    private static int maxAnzahlUebungen = 1000;
+    private static int maxAnzahlUebungen = 500;
     private static ObjMeineUebungen objMeineUebungen[] = new ObjMeineUebungen[maxAnzahlUebungen];
     private int anzahlJeErstellterUebungen;
     private static int anzahlMeineUebungen;
@@ -1241,9 +1241,14 @@ public class MainClass extends AppCompatActivity {
 
 
     public void workoutHinzufuegenOeffnenButton(View v) {
-        aktuellesWorkout = anzahlWorkouts;
-        workoutNameHinzugefuegt[anzahlWorkouts] = false;
-        workoutHinzufuegenOeffnen();
+        if (anzahlWorkouts < 3) {
+            aktuellesWorkout = anzahlWorkouts;
+            workoutNameHinzugefuegt[anzahlWorkouts] = false;
+            workoutHinzufuegenOeffnen();
+        } // then
+        else {
+            Toast.makeText(this, "Maximale Anzahl an Workouts erreicht", Toast.LENGTH_SHORT).show();
+        } // else
     } // Methode workoutHinzufuegenOeffnen
 
     public void workoutHinzufuegenOeffnen() {
