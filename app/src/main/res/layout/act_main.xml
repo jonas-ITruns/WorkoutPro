@@ -89,17 +89,16 @@
     </android.support.constraint.ConstraintLayout>
 
 
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/hellgrau_Hintergrund"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_ueberschrift"
+        app:menu="@menu/nav_body">
 
-        <android.support.design.widget.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="220dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:menu="@menu/nav_body"
-            app:headerLayout="@layout/nav_ueberschrift"
-            android:background="@color/hellgrau_Hintergrund">
-
-        </android.support.design.widget.NavigationView>
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

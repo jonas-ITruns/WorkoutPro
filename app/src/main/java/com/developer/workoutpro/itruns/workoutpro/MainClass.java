@@ -1,26 +1,17 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
-import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.TaskStackBuilder;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
-import android.provider.Settings;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -32,18 +23,15 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +39,6 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -199,17 +186,9 @@ public class MainClass extends AppCompatActivity {
             if (myFragment != null && myFragment.isVisible()) {
                 aktFragment = "meineUebungen";
             } // if
-            myFragment = getFragmentManager().findFragmentByTag("premium");
-            if (myFragment != null && myFragment.isVisible()) {
-                aktFragment = "premium";
-            } // if
             myFragment = getFragmentManager().findFragmentByTag("support");
             if (myFragment != null && myFragment.isVisible()) {
                 aktFragment = "support";
-            } // if
-            myFragment = getFragmentManager().findFragmentByTag("einstellungen");
-            if (myFragment != null && myFragment.isVisible()) {
-                aktFragment = "einstellungen";
             } // if
             myFragment = getFragmentManager().findFragmentByTag("opensource");
             if (myFragment != null && myFragment.isVisible()) {
@@ -261,17 +240,9 @@ public class MainClass extends AppCompatActivity {
                     FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
                     fragmentTransaction.add(R.id.bereichFragments, frMeineUebungen, "meineUebungen");
                 } // if
-                else if (aktFragment.equals("premium")) {
-                    FrPremium frPremium = new FrPremium();
-                    fragmentTransaction.add(R.id.bereichFragments, frPremium, "premium");
-                } // if
                 else if (aktFragment.equals("support")) {
                     FrSupport frSupport = new FrSupport();
                     fragmentTransaction.add(R.id.bereichFragments, frSupport, "support");
-                } // if
-                else if (aktFragment.equals("einstellungen")) {
-                    FrEinstellungen frEinstellungen = new FrEinstellungen();
-                    fragmentTransaction.add(R.id.bereichFragments, frEinstellungen, "einstellungen");
                 } // if
                 else if (aktFragment.equals("opensource")) {
                     FrOpenSource frOpenSource = new FrOpenSource();
@@ -715,6 +686,10 @@ public class MainClass extends AppCompatActivity {
                                 fragmentTransaction.replace(R.id.bereichFragments, frUebersicht, "uebersicht");
                                 aktSeite = "uebersicht";
                                 break;
+                            case R.id.meineUebungen:
+                                FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
+                                fragmentTransaction.replace(R.id.bereichFragments, frMeineUebungen, "meineUebungen");
+                                break;
                             case R.id.standardUebungen:
                                 if (erstesSynchronisieren) {
                                     standardUebungenSynchronisieren();
@@ -725,21 +700,9 @@ public class MainClass extends AppCompatActivity {
                                     fragmentTransaction.replace(R.id.bereichFragments, frStandardUebungen, "standardUebungen");
                                 } // else
                                 break;
-                            case R.id.meineUebungen:
-                                FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
-                                fragmentTransaction.replace(R.id.bereichFragments, frMeineUebungen, "meineUebungen");
-                                break;
-                            case R.id.premium:
-                                FrPremium frPremium = new FrPremium();
-                                fragmentTransaction.replace(R.id.bereichFragments, frPremium, "premium");
-                                break;
                             case R.id.support:
                                 FrSupport frSupport = new FrSupport();
                                 fragmentTransaction.replace(R.id.bereichFragments, frSupport, "support");
-                                break;
-                            case R.id.einstellungen:
-                                FrEinstellungen frEinstellungen = new FrEinstellungen();
-                                fragmentTransaction.replace(R.id.bereichFragments, frEinstellungen, "einstellungen");
                                 break;
                             case R.id.openSource:
                                 FrOpenSource frOpensource = new FrOpenSource();

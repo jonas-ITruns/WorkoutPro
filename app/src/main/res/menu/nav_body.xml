@@ -8,42 +8,28 @@
          <item
              android:id="@+id/uebersicht"
              android:icon="@drawable/ic_overview"
-             android:title="Übersicht" />
+             android:title="Workout Übersicht" />
      </group>
     <group android:checkableBehavior="single"
         android:id="@+id/group2">
         <item
-            android:id="@+id/standardUebungen"
-            android:icon="@drawable/ic_itruns_32"
-            android:title="Standard Übungen" />
-        <item
             android:id="@+id/meineUebungen"
             android:icon="@drawable/ic_meine_uebungen_32"
             android:title="Meine Übungen" />
+        <item
+            android:id="@+id/standardUebungen"
+            android:icon="@drawable/ic_itruns_32"
+            android:title="Standard Übungen" />
     </group>
     <group android:checkableBehavior="single"
         android:id="@+id/group3">
-        <item
-            android:id="@+id/premium"
-            android:icon="@drawable/ic_premium"
-            android:title="Premium" />
-    </group>
-    <group android:checkableBehavior="single"
-        android:id="@+id/group4">
         <item
             android:id="@+id/support"
             android:icon="@drawable/ic_support"
             android:title="Support" />
     </group>
-    <group android:checkableBehavior="single"
-        android:id="@+id/group5">
-        <item
-            android:id="@+id/einstellungen"
-            android:icon="@drawable/ic_settings"
-            android:title="Einstellungen" />
-    </group>
     <group
-        android:id="@+id/group6"
+        android:id="@+id/group4"
         android:checkableBehavior="single">
         <item
             android:id="@+id/openSource"
