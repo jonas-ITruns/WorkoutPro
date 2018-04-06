@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.ads.MobileAds;
+
 public class Ladebildschirm extends AppCompatActivity{
 
     private static int delay = 5000;
@@ -25,6 +27,10 @@ public class Ladebildschirm extends AppCompatActivity{
         animation.setDuration (delay); //in milliseconds
         animation.setInterpolator (new DecelerateInterpolator());
         animation.start ();
+
+        // AdMob initialisieren
+        // ID MUSS AUSGETAUSCHT WERDEN
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
 
         new Handler().postDelayed(new Runnable(){
             @Override

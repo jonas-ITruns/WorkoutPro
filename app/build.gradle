@@ -38,6 +38,8 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.0'
     // Circle Image View
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    // AdMob
+    compile 'com.google.android.gms:play-services-ads:12.0.1'
 }
 
 

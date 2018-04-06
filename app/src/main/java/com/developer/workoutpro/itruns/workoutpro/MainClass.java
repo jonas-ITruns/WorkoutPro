@@ -30,6 +30,7 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -39,9 +40,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -140,6 +146,11 @@ public class MainClass extends AppCompatActivity {
 
     // Attribute Back Pressed
     private String aktSeite = "";
+    private boolean beenden = false;
+
+    // AdMob
+    private InterstitialAd mInterstitialAd;
+
 
 
     @Override
@@ -150,6 +161,11 @@ public class MainClass extends AppCompatActivity {
         datenLaden();
 
         menueleiste();
+
+        // InterstitialAd initialisieren (große Werbung, z.B. nach Workout)
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
 
     } // Methode onCreate
 
@@ -227,25 +243,23 @@ public class MainClass extends AppCompatActivity {
             FrWorkoutHinzufuegen frWorkoutHinzufuegen = new FrWorkoutHinzufuegen();
             fragmentTransaction.add(R.id.bereichFragments, frWorkoutHinzufuegen, "workoutHinzufuegen");
         } // if
+        else {
+            FrUebersicht frUebersicht = new FrUebersicht();
+            fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
+        }
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
     } // Methode onResume
 
     @Override
     public void onBackPressed() {
-        if (aktSeite.equals("al")) {
-            alert.cancel();
-            aktSeite = "";
-        } else if (aktSeite.equals("popup")) {
-            popup.dismiss();
-        } else if (aktSeite.equals("aktWorkoutStart")) {
+        if (aktSeite.equals("aktWorkoutStart")) {
             // Bestätigen-Fenster öffnen
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setView(R.layout.al_workout_loeschen_bestaetigen);
             builder.setCancelable(false);
             alert = builder.create();
             alert.show();
-            aktSeite = "al";
 
             // Deklarieren der Textfelder
             TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
@@ -261,15 +275,23 @@ public class MainClass extends AppCompatActivity {
                         workoutTimer.cancel();
                     } // if
 
-                    // Seite laden
-                    timer = false;
-                    setContentView(R.layout.act_main);
-                    FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    FrUebersicht frUebersicht = new FrUebersicht();
-                    fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
-                    fragmentTransaction.commit();
-
+                    // Werbung anzeigen
+                    if (mInterstitialAd.isLoaded()) {
+                        mInterstitialAd.show();
+                    } else {
+                        Log.d("TAG", "Die Werbung ist noch nicht geladen.");
+                    }
+                    mInterstitialAd.setAdListener(new AdListener() {
+                        @Override
+                        public void onAdClosed() {
+                            // Workout Übersicht anzeigen
+                            timer = false;
+                            setContentView(R.layout.act_main);
+                            menueleiste();
+                            // On Resumed wird ausgeführt
+                            aktFragment = "uebersicht";
+                        }
+                    });
                 }
             });
 
@@ -281,6 +303,24 @@ public class MainClass extends AppCompatActivity {
                     aktSeite = "aktWorkoutStart";
                 }
             });
+        } else if (aktSeite.equals("uebersicht")) {
+            if (beenden) {
+                finishAndRemoveTask();
+            } else {
+                Toast.makeText(this, "Zum beenden nochmal drücken", Toast.LENGTH_SHORT).show();
+                beenden = true;
+                CountDownTimer countDownTimer = new CountDownTimer(3000, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        beenden = false;
+                    }
+                };
+            }
         } else {
             getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
             FragmentManager fragmentManager = getFragmentManager();
@@ -289,6 +329,7 @@ public class MainClass extends AppCompatActivity {
             fragmentTransaction.replace(R.id.bereichFragments, frUebersicht, "uebersicht");
             fragmentManager.executePendingTransactions();
             fragmentTransaction.commit();
+            aktSeite = "uebersicht";
         } // if
     } // Methode onBackPressed
 
@@ -604,6 +645,7 @@ public class MainClass extends AppCompatActivity {
                         // nach dem Auswählen den Navigator wieder schließen
                         mDrawerLayout.closeDrawers();
 
+                        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                         switch (menuItem.getItemId()) {
@@ -695,7 +737,6 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
-        aktSeite = "al";
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
@@ -1132,7 +1173,6 @@ public class MainClass extends AppCompatActivity {
         });
 
         popup.show();
-        aktSeite = "popup";
     } // Methode meineUebungenSortieren
 
     public String gibMeineUebungenSortierung() {
@@ -1161,7 +1201,6 @@ public class MainClass extends AppCompatActivity {
         });
 
         popup.show();
-        aktSeite = "popup";
     } // Methode standardUebungenSortieren
 
     public String gibStandardUebungenSortierung() {
@@ -1284,7 +1323,6 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
-        aktSeite = "al";
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
@@ -1334,6 +1372,7 @@ public class MainClass extends AppCompatActivity {
                     btnWorkoutName.setText(workoutName[aktuellesWorkout]);
 
                     alert.cancel();
+                    aktSeite = "";
                 } // else
             }
         });
@@ -1344,6 +1383,7 @@ public class MainClass extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alert.cancel();
+                aktSeite = "";
             }
         });
 
@@ -1358,7 +1398,6 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
-        aktSeite = "al";
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
@@ -1529,7 +1568,6 @@ public class MainClass extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new SwipeRecyclerViewAdapter(this, mName, mMuskelgruppe, mBeschreibung, true);
         recyclerView.setAdapter(adapter);
-
     }
 
     public  void workoutUebungAuswaehlenHinzufuegen(View v) {
@@ -1670,7 +1708,6 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
-        aktSeite = "al";
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
@@ -2147,7 +2184,6 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
-        aktSeite = "al";
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
@@ -2214,7 +2250,6 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
-        aktSeite = "al";
 
         // Deklarieren der Textfelder
         TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
@@ -2375,6 +2410,9 @@ public class MainClass extends AppCompatActivity {
         tvWorkoutName.setText(workoutName[aktuellesWorkout]);
         timerLaeuft = false;
 
+        // Werbung vorladen
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
     } // Methode workoutStart
 
     public void workoutStart(final View v) {
@@ -2436,7 +2474,9 @@ public class MainClass extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                workoutTimer.cancel();
+                if (workoutTimer != null) {
+                    workoutTimer.cancel();
+                } // if
 
                 if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
                     // 1-faches Klingeln
@@ -2451,16 +2491,24 @@ public class MainClass extends AppCompatActivity {
                     // 3-faches Klingeln
                     boxingbellende.start();
 
-                    // Workout Übersicht anzeigen
-                    timer = false;
-                    setContentView(R.layout.act_main);
-                    menueleiste();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    FrUebersicht frUebersicht = new FrUebersicht();
-                    fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
-                    fragmentManager.executePendingTransactions();
-                    fragmentTransaction.commit();
-                    aktSeite = "";
+                    // Werbung anzeigen
+                    if (mInterstitialAd.isLoaded()) {
+                        mInterstitialAd.show();
+                    } else {
+                        Log.d("TAG", "Die Werbung ist noch nicht geladen.");
+                    }
+                    mInterstitialAd.setAdListener(new AdListener() {
+                        @Override
+                        public void onAdClosed() {
+                            // Workout Übersicht anzeigen
+                            timer = false;
+                            setContentView(R.layout.act_main);
+                            menueleiste();
+                            // On Resumed wird ausgeführt
+                            aktFragment = "uebersicht";
+                        }
+
+                    });
                 } // else
             }
         }.start();
@@ -2695,7 +2743,6 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
-        aktSeite = "al";
 
         Button btnInfoOk = alert.findViewById(R.id.btnInfoOk);
         btnInfoOk.setOnClickListener(new View.OnClickListener() {
@@ -2713,7 +2760,6 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
-        aktSeite = "al";
 
         Button btnInfoOk = alert.findViewById(R.id.btnInfoOk);
         btnInfoOk.setOnClickListener(new View.OnClickListener() {
@@ -2731,7 +2777,6 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
-        aktSeite = "al";
 
         Button btnInfoOk = alert.findViewById(R.id.btnInfoOk);
         btnInfoOk.setOnClickListener(new View.OnClickListener() {
@@ -2749,7 +2794,6 @@ public class MainClass extends AppCompatActivity {
         builder.setCancelable(true);
         alert = builder.create();
         alert.show();
-        aktSeite = "al";
 
         Button btnInfoOk = alert.findViewById(R.id.btnInfoOk);
         btnInfoOk.setOnClickListener(new View.OnClickListener() {
