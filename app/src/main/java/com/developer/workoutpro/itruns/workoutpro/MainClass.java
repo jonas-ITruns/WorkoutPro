@@ -46,6 +46,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.database.DataSnapshot;
@@ -70,6 +71,8 @@ public class MainClass extends AppCompatActivity {
 
     // Attribute für onPause und onResume
     private String aktFragment = "";
+    private boolean start;
+    private boolean timerResume;
 
 
     // Attribute für meine Übungen
@@ -150,12 +153,16 @@ public class MainClass extends AppCompatActivity {
 
     // AdMob
     private InterstitialAd mInterstitialAd;
-
+    private AdView bannerAd;
+    private boolean interstitialAd = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        start = true;
+
         setContentView(R.layout.act_main);
 
         datenLaden();
@@ -166,13 +173,17 @@ public class MainClass extends AppCompatActivity {
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
 
+        // bannerAd initialisieren (kleine Werbung, unten auf der Seite)
+        bannerAd = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        bannerAd.loadAd(adRequest);
 
     } // Methode onCreate
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (!timer) {
+        if (! timer) {
             // Fragment merken
             Fragment myFragment;
             myFragment = getFragmentManager().findFragmentByTag("uebersicht");
@@ -199,6 +210,10 @@ public class MainClass extends AppCompatActivity {
             if (myFragment != null && myFragment.isVisible()) {
                 aktFragment = "einstellungen";
             } // if
+            myFragment = getFragmentManager().findFragmentByTag("opensource");
+            if (myFragment != null && myFragment.isVisible()) {
+                aktFragment = "opensource";
+            } // if
             myFragment = getFragmentManager().findFragmentByTag("workoutHinzufuegen");
             if (myFragment != null && myFragment.isVisible()) {
                 aktFragment = "workoutHinzufuegen";
@@ -207,48 +222,75 @@ public class MainClass extends AppCompatActivity {
             getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
         } // if
         datenSpeichern();
+
+        // Letztes Fragment speichern
+        SharedPreferences aktFragmentPref = getSharedPreferences("aktFragment", 0);
+        SharedPreferences.Editor editorAktFragment = aktFragmentPref.edit();
+        editorAktFragment.putString("aktFragment", aktFragment);
+        editorAktFragment.commit();
+
     } // Methode onPause
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Fragment laden
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (aktFragment.equals ("uebersicht")) {
-            FrUebersicht frUebersicht = new FrUebersicht();
-            fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
-        } // if
-        else if (aktFragment.equals ("standardUebungen")) {
-            FrStandardUebungen frStandardUebungen = new FrStandardUebungen();
-            fragmentTransaction.add(R.id.bereichFragments, frStandardUebungen, "standardUebungen");
-        } // if
-        else if (aktFragment.equals ("meineUebungen")) {
-            FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
-            fragmentTransaction.add(R.id.bereichFragments, frMeineUebungen, "meineUebungen");
-        } // if
-        else if (aktFragment.equals ("premium")) {
-            FrPremium frPremium = new FrPremium();
-            fragmentTransaction.add(R.id.bereichFragments, frPremium, "premium");
-        } // if
-        else if (aktFragment.equals ("support")) {
-            FrSupport frSupport = new FrSupport();
-            fragmentTransaction.add(R.id.bereichFragments, frSupport, "support");
-        } // if
-        else if (aktFragment.equals ("einstellungen")) {
-            FrEinstellungen frEinstellungen = new FrEinstellungen();
-            fragmentTransaction.add(R.id.bereichFragments, frEinstellungen, "einstellungen");
-        } // if
-        else if (aktFragment.equals ("workoutHinzufuegen")) {
-            FrWorkoutHinzufuegen frWorkoutHinzufuegen = new FrWorkoutHinzufuegen();
-            fragmentTransaction.add(R.id.bereichFragments, frWorkoutHinzufuegen, "workoutHinzufuegen");
-        } // if
+
+        if (!start && !interstitialAd) {
+            // Fragment laden
+            if (!timerResume) {
+                // Letztes Fragment laden
+                SharedPreferences aktFragmentPref = getSharedPreferences("aktFragment", 0);
+                aktFragment = aktFragmentPref.getString("aktFragment", null);
+            } // if
+
+                // Fragment löschen
+                getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                if (aktFragment.equals("uebersicht")) {
+                    FrUebersicht frUebersicht = new FrUebersicht();
+                    fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
+                } // if
+                else if (aktFragment.equals("standardUebungen")) {
+                    FrStandardUebungen frStandardUebungen = new FrStandardUebungen();
+                    fragmentTransaction.add(R.id.bereichFragments, frStandardUebungen, "standardUebungen");
+                } // if
+                else if (aktFragment.equals("meineUebungen")) {
+                    FrMeineUebungen frMeineUebungen = new FrMeineUebungen();
+                    fragmentTransaction.add(R.id.bereichFragments, frMeineUebungen, "meineUebungen");
+                } // if
+                else if (aktFragment.equals("premium")) {
+                    FrPremium frPremium = new FrPremium();
+                    fragmentTransaction.add(R.id.bereichFragments, frPremium, "premium");
+                } // if
+                else if (aktFragment.equals("support")) {
+                    FrSupport frSupport = new FrSupport();
+                    fragmentTransaction.add(R.id.bereichFragments, frSupport, "support");
+                } // if
+                else if (aktFragment.equals("einstellungen")) {
+                    FrEinstellungen frEinstellungen = new FrEinstellungen();
+                    fragmentTransaction.add(R.id.bereichFragments, frEinstellungen, "einstellungen");
+                } // if
+                else if (aktFragment.equals("opensource")) {
+                    FrOpenSource frOpenSource = new FrOpenSource();
+                    fragmentTransaction.add(R.id.bereichFragments, frOpenSource, "opensource");
+                } // if
+                else if (aktFragment.equals("workoutHinzufuegen")) {
+                    FrWorkoutHinzufuegen frWorkoutHinzufuegen = new FrWorkoutHinzufuegen();
+                    fragmentTransaction.add(R.id.bereichFragments, frWorkoutHinzufuegen, "workoutHinzufuegen");
+                } // if
+                else {
+                    FrUebersicht frUebersicht = new FrUebersicht();
+                    fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
+                } // if
+                fragmentManager.executePendingTransactions();
+                fragmentTransaction.commit();
+        } // then
         else {
-            FrUebersicht frUebersicht = new FrUebersicht();
-            fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
-        }
-        fragmentManager.executePendingTransactions();
-        fragmentTransaction.commit();
+            start = false;
+            interstitialAd = false;
+        } // else
     } // Methode onResume
 
     @Override
@@ -265,6 +307,9 @@ public class MainClass extends AppCompatActivity {
             TextView tvAlertUeberschrift = alert.findViewById(R.id.tvAlertUeberschrift);
             tvAlertUeberschrift.setText("Workout wirklich abbrechen?");
 
+            // Werbung vorladen
+            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
             ImageButton imgbtnWorkoutLoeschenSpeichern = alert.findViewById(R.id.imgbtnWorkoutLoeschenSpeichern);
             imgbtnWorkoutLoeschenSpeichern.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -278,18 +323,34 @@ public class MainClass extends AppCompatActivity {
                     // Werbung anzeigen
                     if (mInterstitialAd.isLoaded()) {
                         mInterstitialAd.show();
+                        interstitialAd = true;
                     } else {
                         Log.d("TAG", "Die Werbung ist noch nicht geladen.");
                     }
+                    // Workout Übersicht anzeigen
+                    //                            timer = false;
+                    setContentView(R.layout.act_main);
+                    menueleiste();
+
+                    getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    FrUebersicht frUebersicht = new FrUebersicht();
+                    fragmentTransaction.replace(R.id.bereichFragments, frUebersicht, "uebersicht");
+                    fragmentManager.executePendingTransactions();
+                    fragmentTransaction.commit();
+
+                    // bannerAd initialisieren (kleine Werbung, unten auf der Seite)
+                    bannerAd = findViewById(R.id.adView);
+                    AdRequest adRequest = new AdRequest.Builder().build();
+                    bannerAd.loadAd(adRequest);
+
+                    aktSeite = "uebersicht";
+
                     mInterstitialAd.setAdListener(new AdListener() {
                         @Override
                         public void onAdClosed() {
-                            // Workout Übersicht anzeigen
-                            timer = false;
-                            setContentView(R.layout.act_main);
-                            menueleiste();
-                            // On Resumed wird ausgeführt
-                            aktFragment = "uebersicht";
+                            interstitialAd = false;
                         }
                     });
                 }
@@ -309,7 +370,7 @@ public class MainClass extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Zum beenden nochmal drücken", Toast.LENGTH_SHORT).show();
                 beenden = true;
-                CountDownTimer countDownTimer = new CountDownTimer(3000, 1000) {
+                CountDownTimer countDownTimer = new CountDownTimer(1500, 1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
 
@@ -2494,18 +2555,38 @@ public class MainClass extends AppCompatActivity {
                     // Werbung anzeigen
                     if (mInterstitialAd.isLoaded()) {
                         mInterstitialAd.show();
+                        interstitialAd = true;
                     } else {
                         Log.d("TAG", "Die Werbung ist noch nicht geladen.");
                     }
+                    // Finish in die Mitte setzen und auf Klick warten
+                    TextView tvAktuelleUebungZeit = findViewById(R.id.tvAktuelleUebungZeit);
+                    tvAktuelleUebungZeit.setTextSize(100);
+                    tvAktuelleUebungZeit.setText("Finish");
+                    tvAktuelleUebungZeit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // Workout Übersicht anzeigen
+                            setContentView(R.layout.act_main);
+                            menueleiste();
+
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            FrUebersicht frUebersicht = new FrUebersicht();
+                            fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentManager.executePendingTransactions();
+                            fragmentTransaction.commit();
+
+                            // bannerAd initialisieren (kleine Werbung, unten auf der Seite)
+                            bannerAd = findViewById(R.id.adView);
+                            AdRequest adRequest = new AdRequest.Builder().build();
+                            bannerAd.loadAd(adRequest);
+                        }
+                    });
                     mInterstitialAd.setAdListener(new AdListener() {
                         @Override
                         public void onAdClosed() {
-                            // Workout Übersicht anzeigen
                             timer = false;
-                            setContentView(R.layout.act_main);
-                            menueleiste();
-                            // On Resumed wird ausgeführt
-                            aktFragment = "uebersicht";
                         }
 
                     });
@@ -2550,6 +2631,9 @@ public class MainClass extends AppCompatActivity {
         // Die folgenden If-Bedingungen dienen dazu, dass man nur eine Übung zurück kann, wenn die jetztige gerade angefangen ist, wenn aber gefinished ist geht es trotzdem
         if (aktUebung >= anzahlWorkoutUebungen[aktuellesWorkout]) {
             aktUebung = anzahlWorkoutUebungen[aktuellesWorkout] - 1;
+            timer = true;
+            // Werbung vorladen
+            mInterstitialAd.loadAd(new AdRequest.Builder().build());
         } else {
             int uebungZeit = objWorkoutUebungen[aktuellesWorkout][aktUebung].gibMinuten() * 60 + objWorkoutUebungen[aktuellesWorkout][aktUebung].gibSekunden();
             if (uebungZeit - aktUebungZeit < 1) {
