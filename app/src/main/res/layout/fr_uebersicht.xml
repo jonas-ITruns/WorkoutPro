@@ -26,7 +26,7 @@
             android:layout_marginTop="5dp"
             android:background="@color/transparent"
             android:onClick="uebersichtInfo"
-            android:tint="@color/dunkelblau"
+            android:tint="@color/weiss"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_info_outline_black_24dp" />
@@ -40,7 +40,7 @@
             android:layout_marginTop="5dp"
             android:gravity="center_vertical|center_horizontal"
             android:text="Workout Übersicht"
-            android:textColor="@color/dunkelblau"
+            android:textColor="@color/weiss"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

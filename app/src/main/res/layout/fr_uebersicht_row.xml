@@ -5,24 +5,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
-    android:layout_height="163dp"
+    android:layout_height="180dp"
     android:background="@color/transparent"
     android:fitsSystemWindows="false"
     android:gravity="center_vertical"
-    android:paddingBottom="15dp"
-    android:paddingTop="15dp"
     tools:context="com.developer.workoutpro.itruns.workoutpro.MainClass">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/clRow"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="192dp"
         android:background="@color/transparent">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/clObererBereichUebersicht"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginTop="35dp"
             android:background="@color/dunkelblau"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +76,7 @@
                     android:singleLine="true"
                     android:text="Workout Name"
                     android:textColor="@color/weiss"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -168,7 +167,7 @@
             android:textColor="@color/dunkelgrau"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clObererBereichUebersicht" />
+            app:layout_constraintTop_toTopOf="@+id/tvWorkoutDauer" />
 
         <TextView
             android:id="@+id/tvUebungenWert"
@@ -206,7 +205,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/tvWorkoutlUebungen"
             app:layout_constraintStart_toEndOf="@+id/tvWorkoutArt"
-            app:layout_constraintTop_toBottomOf="@+id/clObererBereichUebersicht" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
         <TextView
             android:id="@+id/tvWorkoutlUebungen"
@@ -219,7 +218,7 @@
             android:textColor="@color/dunkelgrau"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clObererBereichUebersicht" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
         <TextView
             android:id="@+id/tvZeitWert"
@@ -233,6 +232,90 @@
             app:layout_constraintEnd_toStartOf="@+id/tvUebungenWert"
             app:layout_constraintStart_toEndOf="@+id/tvWorkoutArtWert"
             app:layout_constraintTop_toBottomOf="@+id/tvWorkoutDauer" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennung1"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="@+id/tvWorkoutDauer"
+            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
+            app:srcCompat="@color/dunkelgrau" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennung2"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="@+id/tvWorkoutlUebungen"
+            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
+            app:srcCompat="@color/dunkelgrau" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennung6"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
+            app:srcCompat="@color/dunkelgrau" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennung5"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
+            app:srcCompat="@color/dunkelgrau" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennung3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView6"
+            app:srcCompat="@color/dunkelgrau" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennung4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@color/dunkelgrau" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennung7"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="11dp"
+            app:layout_constraintBottom_toTopOf="@+id/tvZeitWert"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@color/hellgrau_Hintergrund" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvZeitWert"
+            app:srcCompat="@color/grau_Hintergrund"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clObererBereichUebersicht"
+            app:srcCompat="@color/grau_Hintergrund" />
 
     </android.support.constraint.ConstraintLayout>
 

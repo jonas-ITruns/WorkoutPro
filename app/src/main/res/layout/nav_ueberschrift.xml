@@ -5,14 +5,14 @@
     android:padding="16dp"
     android:orientation="vertical"
     android:gravity="bottom"
-    android:background="@color/grau_Hintergrund">
+    android:background="@color/dunkelblau">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Navigation"
-        android:textColor="@color/dunkelblau"
+        android:textColor="@color/weiss"
         android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
 </LinearLayout>
