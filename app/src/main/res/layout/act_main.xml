@@ -10,8 +10,7 @@
     tools:context="com.developer.workoutpro.itruns.workoutpro.Ladebildschirm">
 
 
-
-    <android.support.constraint.ConstraintLayout
+        <android.support.constraint.ConstraintLayout
         android:id="@+id/clObererBereich"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,6 +48,21 @@
         android:layout_height="match_parent"
         android:id="@+id/mittlererBereich">
 
+        <ProgressBar
+            android:id="@+id/progressBarMain"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="155dp"
+            android:layout_marginStart="155dp"
+            android:layout_marginTop="250dp"
+            android:indeterminateBehavior="repeat"
+            android:indeterminateTint="@color/dunkelblau"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/adView"
             android:layout_width="wrap_content"
@@ -84,6 +98,8 @@
             android:fitsSystemWindows="true"
             app:menu="@menu/nav_body"
             app:headerLayout="@layout/nav_ueberschrift"
-            android:background="@color/hellgrau_Hintergrund"/>
+            android:background="@color/hellgrau_Hintergrund">
 
-    </android.support.v4.widget.DrawerLayout>
+        </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>

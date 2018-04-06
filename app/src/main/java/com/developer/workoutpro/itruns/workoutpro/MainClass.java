@@ -1,5 +1,6 @@
 package com.developer.workoutpro.itruns.workoutpro;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -36,6 +37,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -161,14 +163,12 @@ public class MainClass extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         start = true;
-
         setContentView(R.layout.act_main);
 
-        datenLaden();
-
         menueleiste();
+
+        datenLaden();
 
         AdRequest adRequest = new AdRequest.Builder().build();
         // InterstitialAd initialisieren (große Werbung, z.B. nach Workout)
