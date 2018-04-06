@@ -204,9 +204,9 @@
             android:layout_height="40dp"
             android:layout_marginTop="5dp"
             android:tint="@color/dunkelgrau"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvAktuelleUebung"
-            app:srcCompat="@drawable/ic_muskelgruppe_arme_32"
-            tools:layout_editor_absoluteX="310dp" />
+            app:srcCompat="@drawable/ic_muskelgruppe_arme_32" />
 
         <ImageView
             android:id="@+id/imgvTrennstrich1"
