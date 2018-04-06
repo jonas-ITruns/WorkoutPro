@@ -2880,5 +2880,22 @@ public class MainClass extends AppCompatActivity {
         });
     }
 
+    public void supportUeber(View v) {
+        //Weitere Informationen Fenster Oeffnen
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.al_support_ueber);
+        builder.setCancelable(true);
+        alert = builder.create();
+        alert.show();
+
+        Button btnOk = alert.findViewById(R.id.btnInfoOk);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.cancel();
+            }
+        });
+    }
+
 
 } // Klasse MainClass

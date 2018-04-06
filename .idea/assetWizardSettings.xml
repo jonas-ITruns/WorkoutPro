@@ -56,8 +56,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\Dietmar\Documents\itruns_1000.png" />
-                                      <entry key="outputName" value="ic_eigene_uebungen_32" />
+                                      <entry key="imageAsset" value="C:\Users\Dietmar\Documents\workoutpro_logo_1000.png" />
+                                      <entry key="outputName" value="ic_workout_pro" />
                                       <entry key="theme" value="CUSTOM" />
                                       <entry key="themeColor" value="41577d" />
                                     </map>
@@ -107,6 +107,11 @@
                             </entry>
                           </map>
                         </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="ACTIONBAR" />
+                          </map>
+                        </option>
                       </PersistentState>
                     </value>
                   </entry>
@@ -130,7 +135,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/file/ic_folder_open_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/communication/ic_mail_outline_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -141,7 +146,7 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="41577d" />
-                            <entry key="outputName" value="ic_folder_open_black_24dp" />
+                            <entry key="outputName" value="ic_mail_outline_black_24dp" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\Dietmar" />
                           </map>
