@@ -146,6 +146,9 @@ public class MainClass extends AppCompatActivity {
     private AdView bannerAd;
     private boolean interstitialAd = false;
 
+    // Easter Egg
+    private int easterEgg = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -2899,6 +2902,19 @@ public class MainClass extends AppCompatActivity {
                 alert.cancel();
             }
         });
+    }
+
+    public void easterEgg(View v) {
+        easterEgg++;
+        if (easterEgg > 4) {
+            Toast.makeText(this, "#Streetworkout", Toast.LENGTH_LONG).show();
+        } // if
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                easterEgg = 0;
+            }
+        }, 1000);
     }
 
 
