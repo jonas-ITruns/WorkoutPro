@@ -1241,7 +1241,7 @@ public class MainClass extends AppCompatActivity {
 
 
     public void workoutHinzufuegenOeffnenButton(View v) {
-        if (anzahlWorkouts < 3) {
+        if (anzahlWorkouts < 2) {
             aktuellesWorkout = anzahlWorkouts;
             workoutNameHinzugefuegt[anzahlWorkouts] = false;
             workoutHinzufuegenOeffnen();

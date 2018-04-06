@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 
@@ -21,7 +22,8 @@ public class Ladebildschirm extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_ladebildschirm);
 
-        progressBar = findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.pb);
+        progressBar.setRotation(-90);
         progressBar.setMax(delay);
         ObjectAnimator animation = ObjectAnimator.ofInt (progressBar, "progress", 0, delay); // see this max value coming back here, we animate towards that value
         animation.setDuration (delay); //in milliseconds
