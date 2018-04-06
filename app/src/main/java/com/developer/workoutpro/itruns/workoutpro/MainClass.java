@@ -15,6 +15,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.Settings;
@@ -169,15 +170,15 @@ public class MainClass extends AppCompatActivity {
 
         menueleiste();
 
+        AdRequest adRequest = new AdRequest.Builder().build();
         // InterstitialAd initialisieren (große Werbung, z.B. nach Workout)
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(adRequest);
 
         // bannerAd initialisieren (kleine Werbung, unten auf der Seite)
         bannerAd = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
         bannerAd.loadAd(adRequest);
-
     } // Methode onCreate
 
     @Override
@@ -320,24 +321,32 @@ public class MainClass extends AppCompatActivity {
                         workoutTimer.cancel();
                     } // if
 
-                    // Werbung anzeigen
-                    if (mInterstitialAd.isLoaded()) {
-                        mInterstitialAd.show();
-                        interstitialAd = true;
-                    } else {
-                        Log.d("TAG", "Die Werbung ist noch nicht geladen.");
-                    }
                     // Workout Übersicht anzeigen
                     timer = false;
                     setContentView(R.layout.act_main);
                     menueleiste();
 
-                    getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     FrUebersicht frUebersicht = new FrUebersicht();
                     fragmentTransaction.replace(R.id.bereichFragments, frUebersicht, "uebersicht");
                     fragmentTransaction.commit();
+
+                    // Werbung anzeigen
+                    if (mInterstitialAd.isLoaded()) {
+                        mInterstitialAd.show();
+                        interstitialAd = true;
+                        mInterstitialAd.setAdListener(new AdListener() {
+                            @Override
+                            public void onAdClosed() {
+                                FragmentManager fragmentManager = getFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                FrUebersicht frUebersicht = new FrUebersicht();
+                                fragmentTransaction.replace(R.id.bereichFragments, frUebersicht, "uebersicht");
+                                fragmentTransaction.commit();
+                            }
+                        });
+                    } // if
 
                     // bannerAd initialisieren (kleine Werbung, unten auf der Seite)
                     bannerAd = findViewById(R.id.adView);
@@ -362,17 +371,13 @@ public class MainClass extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Zum beenden nochmal drücken", Toast.LENGTH_SHORT).show();
                 beenden = true;
-                CountDownTimer countDownTimer = new CountDownTimer(1500, 1000) {
+                new Handler().postDelayed(new Runnable(){
                     @Override
-                    public void onTick(long millisUntilFinished) {
-
-                    }
-
-                    @Override
-                    public void onFinish() {
+                    public void run(){
                         beenden = false;
                     }
-                };
+
+                },3000);
             }
         } else {
             getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
@@ -677,6 +682,7 @@ public class MainClass extends AppCompatActivity {
         fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
+        aktSeite = "uebersicht";
     } // Methode datenLaden
 
 
@@ -698,6 +704,8 @@ public class MainClass extends AppCompatActivity {
                         // nach dem Auswählen den Navigator wieder schließen
                         mDrawerLayout.closeDrawers();
 
+                        aktSeite = "";
+
                         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -705,6 +713,7 @@ public class MainClass extends AppCompatActivity {
                             case R.id.uebersicht:
                                 FrUebersicht frUebersicht = new FrUebersicht();
                                 fragmentTransaction.replace(R.id.bereichFragments, frUebersicht, "uebersicht");
+                                aktSeite = "uebersicht";
                                 break;
                             case R.id.standardUebungen:
                                 if (erstesSynchronisieren) {
@@ -771,6 +780,8 @@ public class MainClass extends AppCompatActivity {
         fragmentTransaction.addToBackStack(null);
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
+
+        aktSeite = "";
     }
 
     public void meineUebungenOeffnen() {
@@ -781,6 +792,8 @@ public class MainClass extends AppCompatActivity {
         fragmentTransaction.addToBackStack(null);
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
+
+        aktSeite = "";
     }
 
     public void uebungHinzufuegen (View v) {
@@ -1278,6 +1291,8 @@ public class MainClass extends AppCompatActivity {
         fragmentTransaction.addToBackStack(null);
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
+
+        aktSeite = "";
     } // Methode workoutHinzufuegenOeffnen
 
     public void workoutButtonsZeigen(View v) {
@@ -2190,6 +2205,8 @@ public class MainClass extends AppCompatActivity {
         fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
+
+        aktSeite = "uebersicht";
     }
 
     public void workoutEditieren(View v) {
@@ -2209,6 +2226,8 @@ public class MainClass extends AppCompatActivity {
         fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
         fragmentManager.executePendingTransactions();
         fragmentTransaction.commit();
+
+        aktSeite = "uebersicht";
 
         // Wenn es ein neues Workout war, Werte auf 0 setzen, ansonsten Kopien nutzen
         if (aktuellesWorkout == anzahlWorkouts) {
@@ -2463,9 +2482,6 @@ public class MainClass extends AppCompatActivity {
         tvWorkoutName.setText(workoutName[aktuellesWorkout]);
         timerLaeuft = false;
 
-        // Werbung vorladen
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
     } // Methode workoutStart
 
     public void workoutStart(final View v) {
@@ -2473,6 +2489,9 @@ public class MainClass extends AppCompatActivity {
         final MediaPlayer beep = MediaPlayer.create(this, R.raw.beep);
         final MediaPlayer boxingbelleinfach = MediaPlayer.create(this, R.raw.boxingbelleinfach);
         final MediaPlayer boxingbellende = MediaPlayer.create(this, R.raw.boxingbellende);
+
+        // Werbung vorladen
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         // Deklaration der Views
         ImageButton imgbtnStart = findViewById(R.id.imgbtnStart);
@@ -2544,18 +2563,18 @@ public class MainClass extends AppCompatActivity {
                     // 3-faches Klingeln
                     boxingbellende.start();
 
-                    // Werbung anzeigen
-                    if (mInterstitialAd.isLoaded()) {
-                        mInterstitialAd.show();
-                        interstitialAd = true;
-                    } else {
-                        Log.d("TAG", "Die Werbung ist noch nicht geladen.");
-                    }
+                    // Workout Übersicht anzeigen
+                    timer = false;
+
                     // Finish in die Mitte setzen und auf Klick warten
+                    TextView tvNummerAktuell = findViewById(R.id.tvNummerAktuell);
+                    tvNummerAktuell.setText(Integer.toString(anzahlWorkoutUebungen[aktuellesWorkout] + 1));
                     TextView tvAktuelleUebungZeit = findViewById(R.id.tvAktuelleUebungZeit);
-                    tvAktuelleUebungZeit.setTextSize(100);
-                    tvAktuelleUebungZeit.setText("Finish");
-                    tvAktuelleUebungZeit.setOnClickListener(new View.OnClickListener() {
+                    tvAktuelleUebungZeit.setVisibility(View.INVISIBLE);
+                    TextView tvFinish = findViewById(R.id.tvFinish);
+                    tvFinish.setVisibility(View.VISIBLE);
+                    tvFinish.setClickable(true);
+                    tvFinish.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             // Workout Übersicht anzeigen
@@ -2569,19 +2588,33 @@ public class MainClass extends AppCompatActivity {
                             fragmentManager.executePendingTransactions();
                             fragmentTransaction.commit();
 
+                            // Werbung anzeigen
+                            if (mInterstitialAd.isLoaded()) {
+                                mInterstitialAd.show();
+                                interstitialAd = true;
+                                mInterstitialAd.setAdListener(new AdListener() {
+                                    @Override
+                                    public void onAdClosed() {
+                                        FragmentManager fragmentManager = getFragmentManager();
+                                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                        FrUebersicht frUebersicht = new FrUebersicht();
+                                        fragmentTransaction.replace(R.id.bereichFragments, frUebersicht, "uebersicht");
+                                        fragmentTransaction.commit();
+                                    }
+                                });
+                            } // if
+
                             // bannerAd initialisieren (kleine Werbung, unten auf der Seite)
                             bannerAd = findViewById(R.id.adView);
                             AdRequest adRequest = new AdRequest.Builder().build();
                             bannerAd.loadAd(adRequest);
-                        }
-                    });
-                    mInterstitialAd.setAdListener(new AdListener() {
-                        @Override
-                        public void onAdClosed() {
-                            timer = false;
-                        }
 
+                            aktSeite = "uebersicht";
+                        }
                     });
+
+
+
                 } // else
             }
         }.start();
@@ -2647,9 +2680,7 @@ public class MainClass extends AppCompatActivity {
             aktUebung++;
             viewsAktualisieren();
             workoutStart(v);
-        } else {
-            viewsAktualisieren();
-        } // else
+        }
     }
 
     public void viewsAktualisieren() {
@@ -2664,6 +2695,11 @@ public class MainClass extends AppCompatActivity {
         TextView tvNummerNaechste = findViewById(R.id.tvNummerNaechste);
         TextView tvNaechsteUebung = findViewById(R.id.tvNaechsteUebung);
         ImageView imgvMuskelgruppeNaechste = findViewById(R.id.imgvMuskelgruppeNaechste);
+        TextView tvFinish = findViewById(R.id.tvFinish);
+
+        tvFinish.setVisibility(View.INVISIBLE);
+        tvFinish.setClickable(false);
+        tvAktuelleUebungZeit.setVisibility(View.VISIBLE);
 
         // Zeit der aktuellen Übung ausgeben
         if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
