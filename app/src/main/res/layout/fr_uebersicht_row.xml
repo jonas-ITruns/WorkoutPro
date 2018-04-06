@@ -208,7 +208,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/tvWorkoutlUebungen"
             app:layout_constraintStart_toEndOf="@+id/tvWorkoutArt"
-            app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+            app:layout_constraintTop_toBottomOf="@+id/imgvRandOben" />
 
         <TextView
             android:id="@+id/tvWorkoutlUebungen"
@@ -223,7 +223,7 @@
             android:textColor="@color/dunkelgrau"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+            app:layout_constraintTop_toBottomOf="@+id/imgvRandOben" />
 
         <TextView
             android:id="@+id/tvZeitWert"
@@ -239,20 +239,70 @@
             app:layout_constraintTop_toBottomOf="@+id/tvWorkoutDauer" />
 
         <ImageView
-            android:id="@+id/imgvAbtrennung6"
-            android:layout_width="1dp"
-            android:layout_height="80dp"
-            android:layout_marginEnd="10dp"
+            android:id="@+id/imgvRandOben"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
-            app:srcCompat="@color/dunkelgrau" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clObererBereichUebersicht"
+            app:srcCompat="@color/grau_Hintergrund" />
 
         <ImageView
-            android:id="@+id/imgvAbtrennung5"
+            android:id="@+id/imgvRandUnten"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvZeitWert"
+            app:srcCompat="@color/grau_Hintergrund" />
+
+        <ImageView
+            android:id="@+id/imgvRandRechts"
+            android:layout_width="10dp"
+            android:layout_height="80dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imgvAbtrennungVertikal4"
+            app:srcCompat="@color/grau_Hintergrund" />
+
+        <ImageView
+            android:id="@+id/imgvRandLinks"
+            android:layout_width="10dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imgvAbtrennungVertikal1"
+            app:srcCompat="@color/grau_Hintergrund" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennungVertikal1"
             android:layout_width="1dp"
             android:layout_height="80dp"
             android:layout_marginStart="10dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
+            app:srcCompat="@color/dunkelgrau" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennungVertikal2"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="@+id/tvWorkoutDauer"
+            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
+            app:srcCompat="@color/dunkelgrau" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennungVertikal3"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="@+id/tvWorkoutlUebungen"
+            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
+            app:srcCompat="@color/dunkelgrau" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennungVertikal4"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
             app:srcCompat="@color/dunkelgrau" />
 
@@ -264,7 +314,7 @@
             android:layout_marginStart="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView6"
+            app:layout_constraintTop_toBottomOf="@+id/imgvRandOben"
             app:srcCompat="@color/dunkelgrau" />
 
         <ImageView
@@ -290,53 +340,32 @@
             app:srcCompat="@color/hellgrau_Hintergrund" />
 
         <ImageView
-            android:id="@+id/imgvAbtrennung1"
-            android:layout_width="1dp"
-            android:layout_height="80dp"
-            app:layout_constraintStart_toStartOf="@+id/tvWorkoutDauer"
-            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
-            app:srcCompat="@color/dunkelgrau" />
-
-        <ImageView
-            android:id="@+id/imgvAbtrennung2"
-            android:layout_width="1dp"
-            android:layout_height="80dp"
-            app:layout_constraintStart_toStartOf="@+id/tvWorkoutlUebungen"
-            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
-            app:srcCompat="@color/dunkelgrau" />
-
-        <ImageView
-            android:id="@+id/imgvRandUnten"
+            android:id="@+id/imgvAbtrennungHorizontal1"
             android:layout_width="match_parent"
-            android:layout_height="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/tvZeitWert"
-            app:srcCompat="@color/grau_Hintergrund"
-            tools:layout_editor_absoluteX="0dp" />
-
-        <ImageView
-            android:id="@+id/imgvRandRechts"
-            android:layout_width="10dp"
-            android:layout_height="80dp"
+            android:layout_height="1dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imgvAbtrennung6"
-            app:srcCompat="@color/grau_Hintergrund" />
-
-        <ImageView
-            android:id="@+id/imgvRandLinks"
-            android:layout_width="10dp"
-            android:layout_height="80dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imgvAbtrennung5"
-            app:srcCompat="@color/grau_Hintergrund" />
+            app:layout_constraintTop_toTopOf="@+id/clObererBereichUebersicht"
+            app:srcCompat="@color/dunkelgrau" />
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/imgvAbtrennungHorizontal2"
             android:layout_width="match_parent"
-            android:layout_height="10dp"
+            android:layout_height="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clObererBereichUebersicht"
-            app:srcCompat="@color/grau_Hintergrund" />
+            app:srcCompat="@color/hellgrau_Hintergrund" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennungHorizontal4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUebungenWert"
+            app:srcCompat="@color/dunkelgrau" />
 
     </android.support.constraint.ConstraintLayout>
 
