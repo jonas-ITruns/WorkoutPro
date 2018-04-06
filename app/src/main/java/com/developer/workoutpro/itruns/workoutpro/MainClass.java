@@ -1240,7 +1240,7 @@ public class MainClass extends AppCompatActivity {
     // Workout Hinzufügen
 
 
-    public void workoutHinzufuegenOeffnenButton(View v) {
+    public void workoutHinzufuegenOeffnenButton(View v){
         if (anzahlWorkouts < 2) {
             aktuellesWorkout = anzahlWorkouts;
             workoutNameHinzugefuegt[anzahlWorkouts] = false;
