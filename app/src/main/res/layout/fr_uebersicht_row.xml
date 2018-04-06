@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="35dp"
-            android:background="@color/dunkelblau"
+            android:background="@color/uebersicht_row"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -48,7 +48,7 @@
                     android:singleLine="true"
                     android:text="Workout Name"
                     android:textColor="@color/weiss"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -158,8 +158,9 @@
 
         <TextView
             android:id="@+id/tvWorkoutArt"
-            android:layout_width="120dp"
+            android:layout_width="110dp"
             android:layout_height="40dp"
+            android:layout_marginStart="10dp"
             android:background="@color/grau_Hintergrund"
             android:gravity="center"
             android:paddingLeft="5dp"
@@ -171,8 +172,9 @@
 
         <TextView
             android:id="@+id/tvUebungenWert"
-            android:layout_width="120dp"
+            android:layout_width="110dp"
             android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
             android:background="@color/grau_Hintergrund"
             android:gravity="center"
             android:paddingLeft="5dp"
@@ -183,8 +185,9 @@
 
         <TextView
             android:id="@+id/tvWorkoutArtWert"
-            android:layout_width="120dp"
+            android:layout_width="110dp"
             android:layout_height="40dp"
+            android:layout_marginStart="10dp"
             android:background="@color/grau_Hintergrund"
             android:gravity="center"
             android:paddingLeft="5dp"
@@ -209,8 +212,9 @@
 
         <TextView
             android:id="@+id/tvWorkoutlUebungen"
-            android:layout_width="120dp"
+            android:layout_width="110dp"
             android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
             android:background="@color/grau_Hintergrund"
             android:gravity="center"
             android:paddingLeft="5dp"
@@ -233,22 +237,6 @@
             app:layout_constraintEnd_toStartOf="@+id/tvUebungenWert"
             app:layout_constraintStart_toEndOf="@+id/tvWorkoutArtWert"
             app:layout_constraintTop_toBottomOf="@+id/tvWorkoutDauer" />
-
-        <ImageView
-            android:id="@+id/imgvAbtrennung1"
-            android:layout_width="1dp"
-            android:layout_height="80dp"
-            app:layout_constraintStart_toStartOf="@+id/tvWorkoutDauer"
-            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
-            app:srcCompat="@color/dunkelgrau" />
-
-        <ImageView
-            android:id="@+id/imgvAbtrennung2"
-            android:layout_width="1dp"
-            android:layout_height="80dp"
-            app:layout_constraintStart_toStartOf="@+id/tvWorkoutlUebungen"
-            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
-            app:srcCompat="@color/dunkelgrau" />
 
         <ImageView
             android:id="@+id/imgvAbtrennung6"
@@ -285,7 +273,7 @@
             android:layout_height="1dp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/imageView5"
+            app:layout_constraintBottom_toTopOf="@+id/imgvRandUnten"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@color/dunkelgrau" />
@@ -302,12 +290,44 @@
             app:srcCompat="@color/hellgrau_Hintergrund" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/imgvAbtrennung1"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="@+id/tvWorkoutDauer"
+            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
+            app:srcCompat="@color/dunkelgrau" />
+
+        <ImageView
+            android:id="@+id/imgvAbtrennung2"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="@+id/tvWorkoutlUebungen"
+            app:layout_constraintTop_toTopOf="@+id/tvWorkoutArt"
+            app:srcCompat="@color/dunkelgrau" />
+
+        <ImageView
+            android:id="@+id/imgvRandUnten"
             android:layout_width="match_parent"
             android:layout_height="10dp"
             app:layout_constraintTop_toBottomOf="@+id/tvZeitWert"
             app:srcCompat="@color/grau_Hintergrund"
             tools:layout_editor_absoluteX="0dp" />
+
+        <ImageView
+            android:id="@+id/imgvRandRechts"
+            android:layout_width="10dp"
+            android:layout_height="80dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imgvAbtrennung6"
+            app:srcCompat="@color/grau_Hintergrund" />
+
+        <ImageView
+            android:id="@+id/imgvRandLinks"
+            android:layout_width="10dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imgvAbtrennung5"
+            app:srcCompat="@color/grau_Hintergrund" />
 
         <ImageView
             android:id="@+id/imageView6"
