@@ -39,6 +39,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -161,10 +162,15 @@ public class MainClass extends AppCompatActivity {
 
         datenLaden();
 
+
+        // AdMob initialisieren
+        // ID MUSS AUSGETAUSCHT WERDEN
+        MobileAds.initialize(this, "ca-app-pub-5302107030665492~8429080909");
+
         AdRequest adRequest = new AdRequest.Builder().build();
         // InterstitialAd initialisieren (große Werbung, z.B. nach Workout)
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId("ca-app-pub-5302107030665492/6580333683");
         mInterstitialAd.loadAd(adRequest);
 
         // bannerAd initialisieren (kleine Werbung, unten auf der Seite)

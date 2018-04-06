@@ -30,10 +30,6 @@ public class Ladebildschirm extends AppCompatActivity{
         animation.setInterpolator (new DecelerateInterpolator());
         animation.start ();
 
-        // AdMob initialisieren
-        // ID MUSS AUSGETAUSCHT WERDEN
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
-
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run(){
