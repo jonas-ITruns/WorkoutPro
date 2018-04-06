@@ -112,6 +112,7 @@ public class MainClass extends AppCompatActivity {
 
     // Attribute für Workouts
     private int anzahlWorkouts;
+    private int maxAnzahlWorkouts = 2;
     private int aktuellesWorkout;
     private int anzahlWorkoutUebungen[] = new int[maxAnzahlUebungen];
     private int dauerWorkoutUebungen[] = new int[maxAnzahlUebungen];
@@ -386,6 +387,12 @@ public class MainClass extends AppCompatActivity {
         editorSynchronisiert.putBoolean("synchronisiert", erstesSynchronisieren);
         editorSynchronisiert.commit();
 
+        // maximale Anzahl an Workouts speichern
+        SharedPreferences maxAnzahlWorkoutsPref = getSharedPreferences("maxAnzahlWorkouts", 0);
+        SharedPreferences.Editor editorMaxAnzahlWorkouts = maxAnzahlWorkoutsPref.edit();
+        editorMaxAnzahlWorkouts.putInt("maxAnzahlWorkouts", maxAnzahlWorkouts);
+        editorMaxAnzahlWorkouts.commit();
+
         // Anzahl der standard Übungen speichern
         SharedPreferences anzahlStandardUebungenPref = getSharedPreferences("anzahlStandardUebungen", 0);
         SharedPreferences.Editor editorAnzahlStandardUebungen = anzahlStandardUebungenPref.edit();
@@ -584,6 +591,10 @@ public class MainClass extends AppCompatActivity {
         // Anzahl Workouts laden
         SharedPreferences anzahlWorkoutsPref = getSharedPreferences("anzahlWorkouts", 0);
         anzahlWorkouts = anzahlWorkoutsPref.getInt("anzahlWorkouts", 0);
+
+        // Max Anzahl Workouts laden
+        SharedPreferences maxAnzahlWorkoutsPref = getSharedPreferences("maxAnzahlWorkouts", 0);
+        maxAnzahlWorkouts = maxAnzahlWorkoutsPref.getInt("maxAnzahlWorkouts", 0);
 
         // Anzahl der Übungen pro Workout laden
         SharedPreferences anzahlWorkoutUebungenPref[] = new SharedPreferences[anzahlWorkouts];
@@ -1244,7 +1255,7 @@ public class MainClass extends AppCompatActivity {
 
 
     public void workoutHinzufuegenOeffnenButton(View v){
-        if (anzahlWorkouts < 2) {
+        if (anzahlWorkouts < maxAnzahlWorkouts) {
             aktuellesWorkout = anzahlWorkouts;
             workoutNameHinzugefuegt[anzahlWorkouts] = false;
             workoutHinzufuegenOeffnen();
@@ -2906,7 +2917,8 @@ public class MainClass extends AppCompatActivity {
 
     public void easterEgg(View v) {
         easterEgg++;
-        if (easterEgg > 4) {
+        if (easterEgg > 10) {
+            maxAnzahlWorkouts++;
             Toast.makeText(this, "#Streetworkout", Toast.LENGTH_LONG).show();
         } // if
         new Handler().postDelayed(new Runnable() {
@@ -2914,7 +2926,7 @@ public class MainClass extends AppCompatActivity {
             public void run() {
                 easterEgg = 0;
             }
-        }, 1000);
+        }, 3000);
     }
 
 
