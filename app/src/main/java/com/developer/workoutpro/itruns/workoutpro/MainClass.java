@@ -328,7 +328,7 @@ public class MainClass extends AppCompatActivity {
                         Log.d("TAG", "Die Werbung ist noch nicht geladen.");
                     }
                     // Workout Übersicht anzeigen
-                    //                            timer = false;
+                    timer = false;
                     setContentView(R.layout.act_main);
                     menueleiste();
 
@@ -337,7 +337,6 @@ public class MainClass extends AppCompatActivity {
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     FrUebersicht frUebersicht = new FrUebersicht();
                     fragmentTransaction.replace(R.id.bereichFragments, frUebersicht, "uebersicht");
-                    fragmentManager.executePendingTransactions();
                     fragmentTransaction.commit();
 
                     // bannerAd initialisieren (kleine Werbung, unten auf der Seite)
@@ -346,13 +345,6 @@ public class MainClass extends AppCompatActivity {
                     bannerAd.loadAd(adRequest);
 
                     aktSeite = "uebersicht";
-
-                    mInterstitialAd.setAdListener(new AdListener() {
-                        @Override
-                        public void onAdClosed() {
-                            interstitialAd = false;
-                        }
-                    });
                 }
             });
 
