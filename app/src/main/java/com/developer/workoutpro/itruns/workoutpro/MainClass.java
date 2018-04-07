@@ -269,9 +269,18 @@ public class MainClass extends AppCompatActivity {
                 fragmentManager.executePendingTransactions();
                 fragmentTransaction.commit();
         } // then
+        else if (interstitialAd) {
+            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            FrUebersicht frUebersicht = new FrUebersicht();
+            fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
+            fragmentManager.executePendingTransactions();
+            fragmentTransaction.commit();
+            interstitialAd = false;
+        } // then
         else {
             start = false;
-            interstitialAd = false;
         } // else
     } // Methode onResume
 
@@ -290,7 +299,7 @@ public class MainClass extends AppCompatActivity {
             tvAlertUeberschrift.setText("Workout wirklich abbrechen?");
 
             // Werbung vorladen
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            /*mInterstitialAd.loadAd(new AdRequest.Builder().build());*/
 
             ImageButton imgbtnWorkoutLoeschenSpeichern = alert.findViewById(R.id.imgbtnWorkoutLoeschenSpeichern);
             imgbtnWorkoutLoeschenSpeichern.setOnClickListener(new View.OnClickListener() {
@@ -314,20 +323,10 @@ public class MainClass extends AppCompatActivity {
                     fragmentTransaction.commit();
 
                     // Werbung anzeigen
-                    if (mInterstitialAd.isLoaded()) {
+                    /*if (mInterstitialAd.isLoaded()) {
                         mInterstitialAd.show();
                         interstitialAd = true;
-                        mInterstitialAd.setAdListener(new AdListener() {
-                            @Override
-                            public void onAdClosed() {
-                                FragmentManager fragmentManager = getFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                FrUebersicht frUebersicht = new FrUebersicht();
-                                fragmentTransaction.replace(R.id.bereichFragments, frUebersicht, "uebersicht");
-                                fragmentTransaction.commit();
-                            }
-                        });
-                    } // if
+                    } // if*/
 
                     // bannerAd initialisieren (kleine Werbung, unten auf der Seite)
                     bannerAd = findViewById(R.id.adView);
@@ -600,7 +599,7 @@ public class MainClass extends AppCompatActivity {
 
         // Max Anzahl Workouts laden
         SharedPreferences maxAnzahlWorkoutsPref = getSharedPreferences("maxAnzahlWorkouts", 0);
-        maxAnzahlWorkouts = maxAnzahlWorkoutsPref.getInt("maxAnzahlWorkouts", 2);
+        maxAnzahlWorkouts = maxAnzahlWorkoutsPref.getInt("maxAnzahlWorkouts", 3);
 
         // Anzahl der Übungen pro Workout laden
         SharedPreferences anzahlWorkoutUebungenPref[] = new SharedPreferences[anzahlWorkouts];
@@ -2580,16 +2579,6 @@ public class MainClass extends AppCompatActivity {
                             if (mInterstitialAd.isLoaded()) {
                                 mInterstitialAd.show();
                                 interstitialAd = true;
-                                mInterstitialAd.setAdListener(new AdListener() {
-                                    @Override
-                                    public void onAdClosed() {
-                                        FragmentManager fragmentManager = getFragmentManager();
-                                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                        FrUebersicht frUebersicht = new FrUebersicht();
-                                        fragmentTransaction.replace(R.id.bereichFragments, frUebersicht, "uebersicht");
-                                        fragmentTransaction.commit();
-                                    }
-                                });
                             } // if
 
                             // bannerAd initialisieren (kleine Werbung, unten auf der Seite)
