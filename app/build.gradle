@@ -4,11 +4,11 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.developer.workoutpro.itruns.workoutpro"
-        minSdkVersion 20
+        minSdkVersion 15
         targetSdkVersion 27
 
-        versionCode 1
-        versionName "1.1"
+        versionCode 3
+        versionName "3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
