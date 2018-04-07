@@ -347,7 +347,7 @@ public class MainClass extends AppCompatActivity {
             });
         } else if (aktSeite.equals("uebersicht")) {
             if (beenden) {
-                finishAndRemoveTask();
+                finish();
             } else {
                 Toast.makeText(this, "Zum beenden nochmal drücken", Toast.LENGTH_SHORT).show();
                 beenden = true;
