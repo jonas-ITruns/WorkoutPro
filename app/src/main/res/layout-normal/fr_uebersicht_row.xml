@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:background="@color/transparent"
+    android:fitsSystemWindows="false"
+    android:gravity="center_vertical"
+    tools:context="com.developer.workoutpro.itruns.workoutpro.MainClass">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clRow"
+        android:layout_width="360dp"
+        android:layout_height="180dp"
+        android:background="@color/transparent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/clObererBereichUebersicht"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/uebersicht_row"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/clPaddingKlein"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/transparent"
+                android:paddingRight="80dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tvWorkoutName1"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/transparent"
+                    android:gravity="center_vertical|start"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:paddingStart="15dp"
+                    android:singleLine="true"
+                    android:text="Workout Name"
+                    android:textColor="@color/weiss"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/clPaddingGross"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/transparent"
+                android:paddingRight="160dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tvWorkoutName2"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/transparent"
+                    android:gravity="center_vertical|start"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:paddingStart="15dp"
+                    android:singleLine="true"
+                    android:text="Workout Name"
+                    android:textColor="@color/weiss"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <ImageButton
+                android:id="@+id/imgbtnWorkoutStart"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:background="@color/transparent"
+                android:tint="@color/weiss"
+                app:layout_constraintEnd_toStartOf="@+id/imgbtnWorkoutMenue"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_play_arrow" />
+
+            <ImageButton
+                android:id="@+id/imgbtnWorkoutMenue"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:background="@color/transparent"
+                android:tint="@color/weiss"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_more_vert_black_24dp" />
+
+            <ImageButton
+                android:id="@+id/btnBearbeiten"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:background="@color/transparent"
+                android:tint="@color/weiss"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toStartOf="@+id/imgbtnWorkoutMenue"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_edit" />
+
+            <ImageButton
+                android:id="@+id/btnUmbennen"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:background="@color/transparent"
+                android:tint="@color/weiss"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toStartOf="@+id/btnBearbeiten"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_title_black_24dp" />
+
+            <ImageButton
+                android:id="@+id/btnLoeschen"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:background="@color/transparent"
+                android:tint="@color/weiss"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toStartOf="@+id/btnUmbennen"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_delete_black_24dp" />
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/clUntererBereichUebersicht"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="80dp"
+            android:background="@color/grau_Hintergrund"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvWorkoutArt"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:text="Muskelfokus"
+                android:textColor="@color/dunkelgrau"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvUebungenWert"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:text="20"
+                android:textColor="@color/dunkelgrau"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgvAbtrennungHorizontal3" />
+
+            <TextView
+                android:id="@+id/tvWorkoutArtWert"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:text="Arme"
+                android:textColor="@color/dunkelgrau"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgvAbtrennungHorizontal3" />
+
+            <TextView
+                android:id="@+id/tvWorkoutDauer"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:text="Zeit"
+                android:textColor="@color/dunkelgrau"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvWorkoutUebungen"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:text="Übungen"
+                android:textAlignment="center"
+                android:textColor="@color/dunkelgrau"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvZeitWert"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:text="10:00"
+                android:textColor="@color/dunkelgrau"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgvAbtrennungHorizontal3" />
+
+            <ImageView
+                android:id="@+id/imgvAbtrennungHorizontal1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@color/weiss" />
+
+            <ImageView
+                android:id="@+id/imgvAbtrennungHorizontal2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="9dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgvAbtrennungHorizontal1"
+                app:srcCompat="@color/hellgrau_Hintergrund" />
+
+            <ImageView
+                android:id="@+id/imgvAbtrennungHorizontal3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="11dp"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="49dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imgvAbtrennungHorizontal1"
+                app:srcCompat="@color/hellgrau_Hintergrund" />
+
+            <ImageView
+                android:id="@+id/imgvAbtrennungHorizontal4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvZeitWert"
+                app:srcCompat="@color/hellgrau_Hintergrund" />
+
+            <ImageView
+                android:id="@+id/imgvAbtrennungVertikal1"
+                android:layout_width="1dp"
+                android:layout_height="81dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toStartOf="@id/tvWorkoutArt"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@color/hellgrau_Hintergrund" />
+
+            <ImageView
+                android:id="@+id/imgvAbtrennungVertikal2"
+                android:layout_width="1dp"
+                android:layout_height="81dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/tvWorkoutDauer"
+                app:layout_constraintStart_toEndOf="@+id/tvWorkoutArt"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@color/hellgrau_Hintergrund" />
+
+            <ImageView
+                android:id="@+id/imgvAbtrennungVertikal3"
+                android:layout_width="1dp"
+                android:layout_height="81dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/tvWorkoutUebungen"
+                app:layout_constraintStart_toEndOf="@+id/tvWorkoutDauer"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@color/hellgrau_Hintergrund" />
+
+            <ImageView
+                android:id="@+id/imgvAbtrennungVertikal4"
+                android:layout_width="1dp"
+                android:layout_height="81dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toEndOf="@id/tvWorkoutUebungen"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@color/hellgrau_Hintergrund" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</TableRow>

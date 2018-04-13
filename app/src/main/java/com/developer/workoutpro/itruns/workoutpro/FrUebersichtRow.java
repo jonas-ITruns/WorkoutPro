@@ -73,8 +73,9 @@ public class FrUebersichtRow extends Fragment {
         final MainClass mainClass = (MainClass) getActivity();
 
         // Workout Name setzen
-        clPadding1 = view.findViewById(R.id.clPadding1);
-        clPadding2 = view.findViewById(R.id.clPadding2);
+        clPadding1 = view.findViewById(R.id.clPaddingKlein);
+        clPadding2 = view.findViewById(R.id.clPaddingGross);
+        clPadding2.setVisibility(View.INVISIBLE);
         workoutName = mainClass.gibWorkoutName(aktWorkout);
         tvWorkoutName1 = view.findViewById(R.id.tvWorkoutName1);
         tvWorkoutName1.setText(workoutName);

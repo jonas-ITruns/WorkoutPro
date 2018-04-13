@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -32,6 +33,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -138,6 +140,12 @@ public class MainClass extends AppCompatActivity {
     private boolean timerLaeuft;
     private boolean timer;
     private boolean workoutStart;
+    // Attribute für die Sounds
+    private MediaPlayer whistlestart;
+    private MediaPlayer beep;
+    private MediaPlayer boxingbelleinfach;
+    private MediaPlayer boxingbellende;
+    private boolean soundLaeuft = false;
 
     // Attribute Back Pressed
     private String aktSeite = "";
@@ -165,12 +173,13 @@ public class MainClass extends AppCompatActivity {
 
         // AdMob initialisieren
         // ID MUSS AUSGETAUSCHT WERDEN
-        MobileAds.initialize(this, "ca-app-pub-5302107030665492~8429080909");
-
+        //MobileAds.initialize(this, "ca-app-pub-5302107030665492~8429080909");
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
         AdRequest adRequest = new AdRequest.Builder().build();
         // InterstitialAd initialisieren (große Werbung, z.B. nach Workout)
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-5302107030665492/6580333683");
+        //mInterstitialAd.setAdUnitId("ca-app-pub-5302107030665492/6580333683");
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
         mInterstitialAd.loadAd(adRequest);
 
         // bannerAd initialisieren (kleine Werbung, unten auf der Seite)
@@ -211,6 +220,9 @@ public class MainClass extends AppCompatActivity {
             // Fragment löschen
             getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.bereichFragments)).commit();
         } // if
+        if (workoutTimer != null) {
+            workoutTimer.cancel();
+        } // if
         datenSpeichern();
 
         // Letztes Fragment speichern
@@ -224,6 +236,20 @@ public class MainClass extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Wenn Timer am laufen war, einfach die Übersicht öffnen
+        // Muss noch geändert werden, dass der Timer weiterläuft
+        if (timer) {
+            setContentView(R.layout.act_main);
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            FrUebersicht frUebersicht = new FrUebersicht();
+            fragmentTransaction.replace(R.id.bereichFragments, frUebersicht, "uebersicht");
+            fragmentManager.executePendingTransactions();
+            fragmentTransaction.commit();
+            timer = false;
+            return;
+        } // if
 
         if (!start && !interstitialAd) {
             // Fragment laden
@@ -266,7 +292,6 @@ public class MainClass extends AppCompatActivity {
                     FrUebersicht frUebersicht = new FrUebersicht();
                     fragmentTransaction.add(R.id.bereichFragments, frUebersicht, "uebersicht");
                 } // if
-                fragmentManager.executePendingTransactions();
                 fragmentTransaction.commit();
         } // then
         else if (interstitialAd) {
@@ -2472,10 +2497,17 @@ public class MainClass extends AppCompatActivity {
     } // Methode workoutStart
 
     public void workoutStart(final View v) {
-        final MediaPlayer whistlestart = MediaPlayer.create(this, R.raw.whistlestart);
-        final MediaPlayer beep = MediaPlayer.create(this, R.raw.beep);
-        final MediaPlayer boxingbelleinfach = MediaPlayer.create(this, R.raw.boxingbelleinfach);
-        final MediaPlayer boxingbellende = MediaPlayer.create(this, R.raw.boxingbellende);
+        if (whistlestart != null && !soundLaeuft) {
+            whistlestart.release();
+            boxingbelleinfach.release();
+            boxingbellende.release();
+            beep.release();
+        } // if
+
+        whistlestart = MediaPlayer.create(this, R.raw.whistlestart);
+        boxingbelleinfach = MediaPlayer.create(this, R.raw.boxingbelleinfach);
+        boxingbellende = MediaPlayer.create(this, R.raw.boxingbellende);
+        beep = MediaPlayer.create(this, R.raw.beep);
 
         // Werbung vorladen
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
@@ -2515,6 +2547,13 @@ public class MainClass extends AppCompatActivity {
                 } // if
                 tvAktuelleUebungZeit.setText(Integer.toString(aktUebungZeit));
 
+                // Bei den letzten Sekunden immer ein beepen
+                if (aktUebungZeit == 3) {
+                    beep.start();
+                } else if (aktUebungZeit == 2) {
+                    beep.start();
+                } // else
+
                 // Richtiges Zeit Format herstellen und Gesamtzeit ausgeben
                 gesamtZeit = aktUebungZeit;
                 for (int index = aktUebung + 1; index < anzahlWorkoutUebungen[aktuellesWorkout]; index++) {
@@ -2522,13 +2561,6 @@ public class MainClass extends AppCompatActivity {
                 } // for
                 richtigesZeitFormat();
                 tvGesamtzeit.setText(gesamtZeitStr);
-
-                // Bei den letzten Sekunden immer ein beepen
-                if (aktUebungZeit == 3) {
-                    beep.start();
-                } else if (aktUebungZeit == 2) {
-                    beep.start();
-                } // else
             }
 
             @Override
@@ -2540,6 +2572,21 @@ public class MainClass extends AppCompatActivity {
                 if (aktUebung < anzahlWorkoutUebungen[aktuellesWorkout]) {
                     // 1-faches Klingeln
                     boxingbelleinfach.start();
+                    soundLaeuft = true;
+                    boxingbelleinfach.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            whistlestart.release();
+                            boxingbelleinfach.release();
+                            boxingbellende.release();
+                            beep.release();
+                            whistlestart = MediaPlayer.create(MainClass.this, R.raw.whistlestart);
+                            boxingbelleinfach = MediaPlayer.create(MainClass.this, R.raw.boxingbelleinfach);
+                            boxingbellende = MediaPlayer.create(MainClass.this, R.raw.boxingbellende);
+                            beep = MediaPlayer.create(MainClass.this, R.raw.beep);
+                            soundLaeuft = false;
+                        }
+                    });
 
                     // Nächste Übung anzeigen
                     aktUebung++;
