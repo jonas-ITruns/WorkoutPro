@@ -11,28 +11,12 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/etWorkoutName"
-        android:layout_width="270dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:gravity="center_horizontal|bottom"
-        android:hint="Workout Name"
-        android:inputType="textPersonName"
-        android:textColor="@color/dunkelgrau"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAlertUeberschrift" />
-
     <ImageButton
-        android:id="@+id/imgbtnWorkoutNameAbbrechen"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:id="@+id/imgbtnWorkoutLoeschenAbbrechen"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="20dp"
         android:background="@color/transparent"
         android:tint="@android:color/holo_red_dark"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,11 +24,11 @@
         app:srcCompat="@drawable/ic_close_black_24dp" />
 
     <ImageButton
-        android:id="@+id/imgbtnWorkoutNameSpeichern"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:id="@+id/imgbtnWorkoutLoeschenSpeichern"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="20dp"
         android:background="@color/transparent"
         android:tint="@color/dunkelblau"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +41,7 @@
         android:layout_height="40dp"
         android:background="@color/grau_Hintergrund"
         android:gravity="center_vertical|center_horizontal"
-        android:text="Workout Namen hinzufügen"
+        android:text="Workout wirklich löschen?"
         android:textColor="@color/dunkelblau"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -71,7 +55,7 @@
         android:layout_height="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgbtnWorkoutNameSpeichern"
+        app:layout_constraintTop_toBottomOf="@+id/imgbtnWorkoutLoeschenAbbrechen"
         app:srcCompat="@color/transparent" />
 
 </android.support.constraint.ConstraintLayout>

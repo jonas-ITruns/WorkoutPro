@@ -189,23 +189,19 @@
         <ImageView
             android:id="@+id/imgvMuskelgruppeNaechste"
             android:layout_width="50dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="50dp"
             android:tint="@color/fastSchwarz"
             app:layout_constraintBottom_toTopOf="@+id/imgvTrennstrich1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgvTrennstrich2"
             app:srcCompat="@drawable/ic_muskelgruppe_arme_32" />
 
         <ImageView
             android:id="@+id/imgvMuskelgruppeAktuell"
             android:layout_width="50dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="50dp"
             android:tint="@color/dunkelgrau"
+            app:layout_constraintBottom_toTopOf="@+id/imgvMuskelgruppeNaechste"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvAktuelleUebung"
             app:srcCompat="@drawable/ic_muskelgruppe_arme_32" />
 
         <ImageView
@@ -241,8 +237,6 @@
             android:id="@+id/tvNaechsteUebung"
             android:layout_width="260dp"
             android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:gravity="center"
             android:singleLine="true"
             android:text="Nächste Übung"

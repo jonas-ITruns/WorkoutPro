@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clMittlererBereich"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="@color/hellgrau_Hintergrund"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <Button
+        android:id="@+id/btnInfoOk"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:text="Ok"
+        android:textColor="@color/dunkelblau"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:tint="@color/dunkelblau"
+        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:srcCompat="@drawable/ic_check_black_24dp" />
+
+    <TextView
+        android:id="@+id/tvAlertUeberschrift"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/grau_Hintergrund"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Weitere Informationen"
+        android:textColor="@color/dunkelblau"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@color/transparent" />
+
+    <TextView
+        android:id="@+id/tvInfo1"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        android:text="WorkoutPro"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAlertUeberschrift" />
+
+    <TextView
+        android:id="@+id/tvInfo2"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="5dp"
+        android:text="Erstelle einfach deine Lieblingsworkouts und trainiere wann und wo auch immer du willst."
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInfo3" />
+
+    <TextView
+        android:id="@+id/tvInfo3"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="5dp"
+        android:text="Dein eigener Workout Timer"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInfo1" />
+
+    <TextView
+        android:id="@+id/tvInfo4"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        android:text="Entwickelt von ITruns."
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInfo2" />
+
+    <ImageView
+        android:id="@+id/imgvInfo1"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="9dp"
+        android:tint="@color/dunkelblau"
+        app:layout_constraintBottom_toBottomOf="@+id/tvInfo2"
+        app:layout_constraintEnd_toStartOf="@+id/tvInfo1"
+        app:layout_constraintTop_toTopOf="@+id/tvInfo3"
+        app:srcCompat="@drawable/ic_workout_pro" />
+
+    <ImageView
+        android:id="@+id/imgvInfo2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="9dp"
+        android:tint="@color/dunkelblau"
+        app:layout_constraintBottom_toBottomOf="@+id/tvInfo4"
+        app:layout_constraintEnd_toStartOf="@+id/tvInfo4"
+        app:layout_constraintTop_toTopOf="@+id/tvInfo4"
+        app:srcCompat="@drawable/ic_itruns_32" />
+
+    <ImageView
+        android:id="@+id/imgvInfo3"
+        android:layout_width="20dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="8dp"
+        android:tint="@color/dunkelblau"
+        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintEnd_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="@+id/textView4"
+        app:srcCompat="@drawable/ic_mail_outline_black_24dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        android:text="Bugs melden und neue Features anfragen:"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInfo4" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="8dp"
+        android:autoLink="email"
+        android:text="ITruns.developer@gmail.com"
+        android:textSize="12sp"
+        android:textColorLink="@color/dunkelblau"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+</android.support.constraint.ConstraintLayout>

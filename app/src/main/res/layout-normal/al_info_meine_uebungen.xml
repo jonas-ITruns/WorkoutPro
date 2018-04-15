@@ -18,12 +18,12 @@
         android:layout_marginTop="20dp"
         android:text="Ok"
         android:textColor="@color/dunkelblau"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:tint="@color/dunkelblau"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/tvInfo5"
         app:srcCompat="@drawable/ic_check_black_24dp" />
 
     <TextView
@@ -32,7 +32,7 @@
         android:layout_height="40dp"
         android:background="@color/grau_Hintergrund"
         android:gravity="center_vertical|center_horizontal"
-        android:text="Weitere Informationen"
+        android:text="Meine Übungen Info"
         android:textColor="@color/dunkelblau"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -44,20 +44,19 @@
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnInfoOk"
         app:srcCompat="@color/transparent" />
 
     <TextView
         android:id="@+id/tvInfo1"
         android:layout_width="240dp"
-        android:layout_height="18dp"
+        android:layout_height="35dp"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="20dp"
-        android:text="WorkoutPro 1.0"
+        android:text="Drücke auf das Plus-Symbol, um eine neue Übung zu erstellen."
         android:textSize="12sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvAlertUeberschrift" />
 
@@ -66,93 +65,98 @@
         android:layout_width="240dp"
         android:layout_height="35dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginTop="5dp"
-        android:text="Erstelle einfach deine Lieblingsworkouts und trainiere wann und wo auch immer du willst."
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvInfo3" />
-
-    <TextView
-        android:id="@+id/tvInfo3"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="5dp"
-        android:text="Dein eigener Workout Timer"
+        android:layout_marginTop="20dp"
+        android:text="Drücke auf ein Muskelgruppen-Symbol, um den Muskelfokus der Übung anzugeben."
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvInfo1" />
 
     <TextView
-        android:id="@+id/tvInfo4"
+        android:id="@+id/tvInfo3"
         android:layout_width="240dp"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="20dp"
-        android:text="Entwickelt von ITruns."
+        android:text="Dücke auf das Sortieren-Symbol, um deine Übungen zu sortieren."
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvInfo2" />
 
+    <TextView
+        android:id="@+id/tvInfo4"
+        android:layout_width="240dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Wische eine Übung nach rechts, um sie bearbeiten zu können."
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInfo3" />
+
+    <TextView
+        android:id="@+id/tvInfo5"
+        android:layout_width="240dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Wische eine Übung nach links, um diese zu entfernen. "
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInfo4" />
+
     <ImageView
         android:id="@+id/imgvInfo1"
-        android:layout_width="25dp"
+        android:layout_width="20dp"
         android:layout_height="25dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="9dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginTop="25dp"
         android:tint="@color/dunkelblau"
-        app:layout_constraintBottom_toBottomOf="@+id/tvInfo2"
         app:layout_constraintEnd_toStartOf="@+id/tvInfo1"
         app:layout_constraintTop_toBottomOf="@+id/tvAlertUeberschrift"
-        app:srcCompat="@drawable/ic_workout_pro" />
+        app:srcCompat="@drawable/ic_add_black_24dp" />
 
     <ImageView
         android:id="@+id/imgvInfo2"
-        android:layout_width="25dp"
+        android:layout_width="20dp"
         android:layout_height="25dp"
-        android:layout_marginEnd="9dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="30dp"
         android:tint="@color/dunkelblau"
-        app:layout_constraintBottom_toBottomOf="@+id/tvInfo4"
-        app:layout_constraintEnd_toStartOf="@+id/tvInfo4"
-        app:layout_constraintTop_toTopOf="@+id/tvInfo4"
-        app:srcCompat="@drawable/ic_itruns_32" />
+        app:layout_constraintEnd_toStartOf="@+id/tvInfo2"
+        app:layout_constraintTop_toBottomOf="@+id/imgvInfo1"
+        app:srcCompat="@drawable/ic_muskelgruppe_arme_32" />
 
     <ImageView
         android:id="@+id/imgvInfo3"
         android:layout_width="20dp"
         android:layout_height="25dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="12dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="30dp"
         android:tint="@color/dunkelblau"
-        app:layout_constraintBottom_toBottomOf="@+id/textView5"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="@+id/textView4"
-        app:srcCompat="@drawable/ic_mail_outline_black_24dp" />
+        app:layout_constraintEnd_toStartOf="@+id/tvInfo3"
+        app:layout_constraintTop_toBottomOf="@+id/imgvInfo2"
+        app:srcCompat="@drawable/ic_sort_black_24dp" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="20dp"
-        android:text="Bugs melden und neue Features anfragen:"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvInfo4" />
+    <ImageView
+        android:id="@+id/imgvInfo4"
+        android:layout_width="20dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="30dp"
+        android:tint="@color/dunkelblau"
+        app:layout_constraintEnd_toStartOf="@+id/tvInfo4"
+        app:layout_constraintTop_toBottomOf="@+id/imgvInfo3"
+        app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="8dp"
-        android:autoLink="email"
-        android:text="ITruns.developer@gmail.com"
-        android:textSize="12sp"
-        android:textColorLink="@color/dunkelblau"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+    <ImageView
+        android:id="@+id/imgvInfo5"
+        android:layout_width="20dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="30dp"
+        android:tint="@color/dunkelblau"
+        app:layout_constraintEnd_toStartOf="@+id/tvInfo5"
+        app:layout_constraintTop_toBottomOf="@+id/imgvInfo4"
+        app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
 </android.support.constraint.ConstraintLayout>
