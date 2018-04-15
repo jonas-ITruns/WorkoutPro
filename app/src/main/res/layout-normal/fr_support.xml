@@ -40,7 +40,7 @@
             android:gravity="center_vertical|center_horizontal"
             android:text="Support"
             android:textColor="@color/weiss"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,79 +58,81 @@
         app:layout_constraintTop_toBottomOf="@+id/clHeader">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tvRezension"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:text="Rezension schreiben"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/imgvRezension"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="13dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView2"
-            app:layout_constraintEnd_toStartOf="@+id/textView"
+            app:layout_constraintBottom_toBottomOf="@+id/tvRezensionText"
+            app:layout_constraintEnd_toStartOf="@+id/tvRezension"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="@+id/tvRezension"
             app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tvRezensionText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginEnd="50dp"
             android:layout_marginStart="50dp"
             android:layout_marginTop="2dp"
             android:text="Wenn du WorkoutPro magst, hinterlasse uns bitte eine Bewertung im Play Store"
-            android:textSize="12sp"
+            android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/tvRezension" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tvKontaktieren"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_marginTop="25dp"
             android:text="Kontaktiere uns"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toBottomOf="@+id/tvRezensionText" />
 
         <TextView
-            android:id="@+id/tvKontaktBeschreibung"
+            android:id="@+id/tvKontaktierenText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginEnd="50dp"
             android:layout_marginStart="50dp"
             android:layout_marginTop="2dp"
             android:text="Wenn du Hilfe brauchst, oder einen Ratschlag hast"
-            android:textSize="12sp"
+            android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/tvKontaktieren" />
 
         <ImageView
-            android:id="@+id/imgvKontakt"
+            android:id="@+id/imgvKontaktieren"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="13dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvKontaktBeschreibung"
-            app:layout_constraintEnd_toStartOf="@+id/textView"
+            app:layout_constraintBottom_toBottomOf="@+id/tvKontaktierenText"
+            app:layout_constraintEnd_toStartOf="@+id/tvRezension"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView3"
+            app:layout_constraintTop_toTopOf="@+id/tvKontaktieren"
             app:srcCompat="@drawable/ic_mail_outline_black_24dp" />
 
         <TextView
@@ -140,9 +142,10 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="25dp"
             android:text="Über"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvKontaktBeschreibung" />
+            app:layout_constraintTop_toBottomOf="@+id/tvKontaktierenText" />
 
         <ImageView
             android:id="@+id/imgvUeber"
@@ -150,29 +153,28 @@
             android:layout_height="25dp"
             android:layout_marginEnd="13dp"
             android:layout_marginStart="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvUeberBeschreibung"
-            app:layout_constraintEnd_toStartOf="@+id/textView"
+            app:layout_constraintBottom_toBottomOf="@+id/tvUeberText"
+            app:layout_constraintEnd_toStartOf="@+id/tvRezension"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvUeber"
             app:srcCompat="@drawable/ic_info_outline_black_24dp" />
 
         <TextView
-            android:id="@+id/tvUeberBeschreibung"
+            android:id="@+id/tvUeberText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginEnd="50dp"
             android:layout_marginStart="50dp"
             android:text="Weitere Informationen über die App-Version und Kontaktdaten"
-            android:textSize="12sp"
+            android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvUeber" />
 
         <Button
-            android:id="@+id/btn1"
+            android:id="@+id/btnRezension"
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:layout_marginTop="10dp"
             android:background="@color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -180,10 +182,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btn2"
+            android:id="@+id/btnKontaktieren"
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:layout_marginTop="85dp"
+            android:layout_marginTop="75dp"
             android:background="@color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -191,10 +193,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btn3"
+            android:id="@+id/btnUeber"
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="150dp"
             android:background="@color/transparent"
             android:onClick="supportUeber"
             app:layout_constraintEnd_toEndOf="parent"

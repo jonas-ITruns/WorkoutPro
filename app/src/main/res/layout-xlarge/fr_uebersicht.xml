@@ -20,7 +20,7 @@
 
         <ImageButton
             android:id="@+id/imgbtnInfo"
-            android:layout_width="45dp"
+            android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
@@ -67,6 +67,7 @@
             android:text="Von dir hinzugefügte Workouts werden hier angezeigt"
             android:textAlignment="center"
             android:textColor="@color/grau_Hintergrund"
+            android:textSize="16sp"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,14 +78,14 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="right"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="15dp"
             android:layout_marginEnd="15dp"
             android:onClick="workoutHinzufuegenOeffnenButton"
-            app:srcCompat="@drawable/ic_add_black_24dp"
             android:tint="@color/weiss"
             app:backgroundTint="@color/dunkelblau"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_add_black_24dp" />
 
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"

@@ -11,7 +11,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/clHeader"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:background="@color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,14 +20,14 @@
         <TextView
             android:id="@+id/tvAppName"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="70dp"
             android:layout_marginBottom="5dp"
             android:layout_marginStart="60dp"
             android:layout_marginTop="5dp"
             android:gravity="center_vertical|center_horizontal"
             android:text="Workout"
             android:textColor="@color/weiss"
-            android:textSize="15sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,8 +35,8 @@
 
         <ImageButton
             android:id="@+id/imgbtnWorkoutSpeichern"
-            android:layout_width="45dp"
-            android:layout_height="50dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginBottom="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
@@ -50,8 +50,8 @@
 
         <ImageButton
             android:id="@+id/imgbtnWorkoutAbbrechen"
-            android:layout_width="45dp"
-            android:layout_height="50dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:background="@color/transparent"
@@ -65,8 +65,8 @@
 
         <ImageButton
             android:id="@+id/imgbtnEdit"
-            android:layout_width="45dp"
-            android:layout_height="50dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginTop="5dp"
             android:background="@color/transparent"
             android:onClick="workoutEditieren"
@@ -77,8 +77,8 @@
 
         <ImageButton
             android:id="@+id/imgbtnInfo"
-            android:layout_width="45dp"
-            android:layout_height="50dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginTop="5dp"
             android:background="@color/transparent"
             android:onClick="workoutInfo"
@@ -92,7 +92,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="80dp"
         android:layout_marginBottom="50dp"
         android:background="@color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -110,11 +110,12 @@
             <TextView
                 android:id="@+id/tvHinweisUebungHinzufuegen"
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_marginTop="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
                 android:text="Von dir hinzugefügte Übungen werden hier angezeigt"
                 android:textAlignment="center"
                 android:textColor="@color/grau_Hintergrund"
+                android:textSize="20sp"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -122,7 +123,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
-                android:layout_width="360dp"
+                android:layout_width="600dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="72dp"
                 android:scrollbars="vertical"
@@ -134,8 +135,8 @@
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/btnUebungHinzufuegen"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_gravity="bottom|end"
                 android:layout_marginBottom="15dp"
                 android:layout_marginEnd="15dp"
@@ -148,8 +149,8 @@
 
             <ImageButton
                 android:id="@+id/btnRuecken"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="bottom|end"
                 android:layout_marginBottom="6dp"
                 android:layout_marginEnd="25dp"
@@ -158,14 +159,14 @@
                 android:src="@drawable/ic_muskelgruppe_ruecken_32"
                 android:tag="6"
                 android:tint="@color/weiss"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnBrust"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
                 android:id="@+id/btnRueckenText"
-                android:layout_width="50dp"
-                android:layout_height="20dp"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="11dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/ovaler_button"
@@ -176,15 +177,15 @@
                 android:textAlignment="textEnd"
                 android:textAllCaps="false"
                 android:textColor="@color/weiss"
-                android:textSize="12sp"
-                android:visibility="invisible"
+                android:textSize="14sp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnBrust"
                 app:layout_constraintEnd_toStartOf="@+id/btnRuecken" />
 
             <ImageButton
                 android:id="@+id/btnBrust"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="bottom|end"
                 android:layout_marginBottom="6dp"
                 android:layout_marginEnd="25dp"
@@ -193,14 +194,14 @@
                 android:src="@drawable/ic_muskelgruppe_brust_32"
                 android:tag="5"
                 android:tint="@color/weiss"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnBauch"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
                 android:id="@+id/btnBrustText"
-                android:layout_width="40dp"
-                android:layout_height="20dp"
+                android:layout_width="45dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="11dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/ovaler_button"
@@ -211,15 +212,15 @@
                 android:textAlignment="textEnd"
                 android:textAllCaps="false"
                 android:textColor="@color/weiss"
-                android:textSize="12sp"
-                android:visibility="invisible"
+                android:textSize="14sp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnBauch"
                 app:layout_constraintEnd_toStartOf="@+id/btnBrust" />
 
             <ImageButton
                 android:id="@+id/btnBauch"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="bottom|end"
                 android:layout_marginBottom="6dp"
                 android:layout_marginEnd="25dp"
@@ -228,14 +229,14 @@
                 android:src="@drawable/ic_muskelgruppe_bauch_32"
                 android:tag="4"
                 android:tint="@color/weiss"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnBeine"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
                 android:id="@+id/btnBauchText"
-                android:layout_width="45dp"
-                android:layout_height="20dp"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="11dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/ovaler_button"
@@ -246,15 +247,15 @@
                 android:textAlignment="textEnd"
                 android:textAllCaps="false"
                 android:textColor="@color/weiss"
-                android:textSize="12sp"
-                android:visibility="invisible"
+                android:textSize="14sp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnBeine"
                 app:layout_constraintEnd_toStartOf="@+id/btnBauch" />
 
             <ImageButton
                 android:id="@+id/btnBeine"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="bottom|end"
                 android:layout_marginBottom="6dp"
                 android:layout_marginEnd="25dp"
@@ -263,14 +264,14 @@
                 android:src="@drawable/ic_muskelgruppe_beine_32"
                 android:tag="3"
                 android:tint="@color/weiss"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnArme"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
                 android:id="@+id/btnBeineText"
-                android:layout_width="40dp"
-                android:layout_height="20dp"
+                android:layout_width="45dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="11dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/ovaler_button"
@@ -281,15 +282,15 @@
                 android:textAlignment="textEnd"
                 android:textAllCaps="false"
                 android:textColor="@color/weiss"
-                android:textSize="12sp"
-                android:visibility="invisible"
+                android:textSize="14sp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnArme"
                 app:layout_constraintEnd_toStartOf="@+id/btnBeine" />
 
             <ImageButton
                 android:id="@+id/btnArme"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="bottom|end"
                 android:layout_marginBottom="6dp"
                 android:layout_marginEnd="25dp"
@@ -298,14 +299,14 @@
                 android:src="@drawable/ic_muskelgruppe_arme_32"
                 android:tag="2"
                 android:tint="@color/weiss"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnGanzkoerper"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
                 android:id="@+id/btnArmeText"
-                android:layout_width="40dp"
-                android:layout_height="20dp"
+                android:layout_width="45dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="11dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/ovaler_button"
@@ -316,15 +317,15 @@
                 android:textAlignment="textEnd"
                 android:textAllCaps="false"
                 android:textColor="@color/weiss"
-                android:textSize="12sp"
-                android:visibility="invisible"
+                android:textSize="14sp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnGanzkoerper"
                 app:layout_constraintEnd_toStartOf="@+id/btnArme" />
 
             <ImageButton
                 android:id="@+id/btnGanzkoerper"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="bottom|end"
                 android:layout_marginBottom="6dp"
                 android:layout_marginEnd="25dp"
@@ -333,14 +334,14 @@
                 android:src="@drawable/ic_muskelgruppe_ganzkoerper_32"
                 android:tag="1"
                 android:tint="@color/weiss"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnBesondereUebungen"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
                 android:id="@+id/btnGanzkoerperText"
-                android:layout_width="75dp"
-                android:layout_height="20dp"
+                android:layout_width="85dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="11dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/ovaler_button"
@@ -351,15 +352,15 @@
                 android:textAlignment="textEnd"
                 android:textAllCaps="false"
                 android:textColor="@color/weiss"
-                android:textSize="12sp"
-                android:visibility="invisible"
+                android:textSize="14sp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnBesondereUebungen"
                 app:layout_constraintEnd_toStartOf="@+id/btnGanzkoerper" />
 
             <ImageButton
                 android:id="@+id/btnBesondereUebungen"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="bottom|end"
                 android:layout_marginBottom="6dp"
                 android:layout_marginEnd="25dp"
@@ -368,14 +369,14 @@
                 android:src="@drawable/ic_besondere_uebungen_32"
                 android:tag="0"
                 android:tint="@color/weiss"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnStandardUebungen"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
                 android:id="@+id/btnBesondereUebungenText"
-                android:layout_width="75dp"
-                android:layout_height="20dp"
+                android:layout_width="90dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="11dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/ovaler_button"
@@ -386,15 +387,15 @@
                 android:textAlignment="textEnd"
                 android:textAllCaps="false"
                 android:textColor="@color/weiss"
-                android:textSize="12sp"
-                android:visibility="invisible"
+                android:textSize="14sp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnStandardUebungen"
                 app:layout_constraintEnd_toStartOf="@+id/btnBesondereUebungen" />
 
             <ImageButton
                 android:id="@+id/btnStandardUebungen"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="bottom|end"
                 android:layout_marginBottom="6dp"
                 android:layout_marginEnd="25dp"
@@ -403,14 +404,14 @@
                 android:src="@drawable/ic_itruns_32"
                 android:tag="7"
                 android:tint="@color/weiss"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnMeineUebungen"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
                 android:id="@+id/btnStandardUebungenText"
-                android:layout_width="110dp"
-                android:layout_height="20dp"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="11dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/ovaler_button"
@@ -421,15 +422,15 @@
                 android:textAlignment="textEnd"
                 android:textAllCaps="false"
                 android:textColor="@color/weiss"
-                android:textSize="12sp"
-                android:visibility="invisible"
+                android:textSize="14sp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnMeineUebungen"
                 app:layout_constraintEnd_toStartOf="@+id/btnStandardUebungen" />
 
             <ImageButton
                 android:id="@+id/btnMeineUebungen"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="bottom|end"
                 android:layout_marginBottom="10dp"
                 android:layout_marginEnd="25dp"
@@ -438,15 +439,15 @@
                 android:src="@drawable/ic_meine_uebungen_32"
                 android:tag="8"
                 android:tint="@color/weiss"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnUebungHinzufuegen"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
                 android:id="@+id/btnMeineUebungenText"
-                android:layout_width="95dp"
-                android:layout_height="20dp"
-                android:layout_marginBottom="14dp"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="15dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/ovaler_button"
                 android:gravity="center|end"
@@ -456,15 +457,15 @@
                 android:textAlignment="textEnd"
                 android:textAllCaps="false"
                 android:textColor="@color/weiss"
-                android:textSize="12sp"
-                android:visibility="invisible"
+                android:textSize="14sp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/btnUebungHinzufuegen"
                 app:layout_constraintEnd_toStartOf="@+id/btnMeineUebungen" />
 
             <Button
                 android:id="@+id/btnWorkoutName"
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
+                android:layout_height="70dp"
                 android:background="@color/transparent"
                 android:gravity="start|center_vertical"
                 android:onClick="workoutNamenHinzufuegen"
@@ -473,7 +474,7 @@
                 android:text="Workout Namen hinzufügen"
                 android:textAllCaps="false"
                 android:textColor="@color/dunkelblau"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/recycler_view"
                 app:layout_constraintEnd_toEndOf="parent"

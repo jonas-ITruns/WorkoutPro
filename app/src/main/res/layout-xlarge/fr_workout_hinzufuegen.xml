@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    tools:context="com.developer.workoutpro.itruns.workoutpro.MainClass">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clHeader"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvAppName"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Workout hinzufügen"
+            android:textColor="@color/weiss"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/imgbtnWorkoutSpeichern"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"
+            android:onClick="workoutSpeichern"
+            android:tint="@color/weiss"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_check_black_24dp" />
+
+        <ImageButton
+            android:id="@+id/imgbtnWorkoutAbbrechen"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"
+            android:onClick="workoutErstellungAbbrechen"
+            android:tint="@color/weiss"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imgbtnWorkoutSpeichern"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/ic_close_black_24dp" />
+
+        <ImageButton
+            android:id="@+id/imgbtnEdit"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"
+            android:onClick="workoutEditieren"
+            android:tint="@color/weiss"
+            app:layout_constraintEnd_toStartOf="@+id/imgbtnWorkoutAbbrechen"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_edit" />
+
+        <ImageButton
+            android:id="@+id/imgbtnInfo"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"
+            android:onClick="workoutInfo"
+            android:tint="@color/weiss"
+            app:layout_constraintEnd_toStartOf="@+id/imgbtnEdit"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_info_outline_black_24dp" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="50dp"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/clMittlererBereich"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clHeader">
+
+            <TextView
+                android:id="@+id/tvHinweisUebungHinzufuegen"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="70dp"
+                android:text="Von dir hinzugefügte Übungen werden hier angezeigt"
+                android:textAlignment="center"
+                android:textColor="@color/grau_Hintergrund"
+                android:textSize="16sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="960dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="60dp"
+                android:scrollbars="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btnUebungHinzufuegen"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="15dp"
+                android:layout_marginEnd="15dp"
+                android:onClick="workoutButtonsZeigen"
+                android:src="@drawable/ic_add_black_24dp"
+                android:tint="@color/weiss"
+                app:backgroundTint="@color/dunkelblau"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btnRuecken"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="6dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/runder_button"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:src="@drawable/ic_muskelgruppe_ruecken_32"
+                android:tag="6"
+                android:tint="@color/weiss"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnBrust"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/btnRueckenText"
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="11dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ovaler_button"
+                android:gravity="center|end"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:tag="6"
+                android:text="Rücken"
+                android:textAlignment="textEnd"
+                android:textAllCaps="false"
+                android:textColor="@color/weiss"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnBrust"
+                app:layout_constraintEnd_toStartOf="@+id/btnRuecken" />
+
+            <ImageButton
+                android:id="@+id/btnBrust"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="6dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/runder_button"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:src="@drawable/ic_muskelgruppe_brust_32"
+                android:tag="5"
+                android:tint="@color/weiss"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnBauch"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/btnBrustText"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="11dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ovaler_button"
+                android:gravity="center|end"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:tag="5"
+                android:text="Brust"
+                android:textAlignment="textEnd"
+                android:textAllCaps="false"
+                android:textColor="@color/weiss"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnBauch"
+                app:layout_constraintEnd_toStartOf="@+id/btnBrust" />
+
+            <ImageButton
+                android:id="@+id/btnBauch"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="6dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/runder_button"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:src="@drawable/ic_muskelgruppe_bauch_32"
+                android:tag="4"
+                android:tint="@color/weiss"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnBeine"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/btnBauchText"
+                android:layout_width="45dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="11dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ovaler_button"
+                android:gravity="center|end"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:tag="4"
+                android:text="Bauch"
+                android:textAlignment="textEnd"
+                android:textAllCaps="false"
+                android:textColor="@color/weiss"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnBeine"
+                app:layout_constraintEnd_toStartOf="@+id/btnBauch" />
+
+            <ImageButton
+                android:id="@+id/btnBeine"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="6dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/runder_button"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:src="@drawable/ic_muskelgruppe_beine_32"
+                android:tag="3"
+                android:tint="@color/weiss"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnArme"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/btnBeineText"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="11dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ovaler_button"
+                android:gravity="center|end"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:tag="3"
+                android:text="Beine"
+                android:textAlignment="textEnd"
+                android:textAllCaps="false"
+                android:textColor="@color/weiss"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnArme"
+                app:layout_constraintEnd_toStartOf="@+id/btnBeine" />
+
+            <ImageButton
+                android:id="@+id/btnArme"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="6dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/runder_button"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:src="@drawable/ic_muskelgruppe_arme_32"
+                android:tag="2"
+                android:tint="@color/weiss"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnGanzkoerper"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/btnArmeText"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="11dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ovaler_button"
+                android:gravity="center|end"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:tag="2"
+                android:text="Arme"
+                android:textAlignment="textEnd"
+                android:textAllCaps="false"
+                android:textColor="@color/weiss"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnGanzkoerper"
+                app:layout_constraintEnd_toStartOf="@+id/btnArme" />
+
+            <ImageButton
+                android:id="@+id/btnGanzkoerper"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="6dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/runder_button"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:src="@drawable/ic_muskelgruppe_ganzkoerper_32"
+                android:tag="1"
+                android:tint="@color/weiss"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnBesondereUebungen"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/btnGanzkoerperText"
+                android:layout_width="75dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="11dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ovaler_button"
+                android:gravity="center|end"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:tag="1"
+                android:text="Ganzkörper"
+                android:textAlignment="textEnd"
+                android:textAllCaps="false"
+                android:textColor="@color/weiss"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnBesondereUebungen"
+                app:layout_constraintEnd_toStartOf="@+id/btnGanzkoerper" />
+
+            <ImageButton
+                android:id="@+id/btnBesondereUebungen"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="6dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/runder_button"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:src="@drawable/ic_besondere_uebungen_32"
+                android:tag="0"
+                android:tint="@color/weiss"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnStandardUebungen"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/btnBesondereUebungenText"
+                android:layout_width="75dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="11dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ovaler_button"
+                android:gravity="center|end"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:tag="0"
+                android:text="Besonderes"
+                android:textAlignment="textEnd"
+                android:textAllCaps="false"
+                android:textColor="@color/weiss"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnStandardUebungen"
+                app:layout_constraintEnd_toStartOf="@+id/btnBesondereUebungen" />
+
+            <ImageButton
+                android:id="@+id/btnStandardUebungen"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="6dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/runder_button"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:src="@drawable/ic_itruns_32"
+                android:tag="7"
+                android:tint="@color/weiss"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnMeineUebungen"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/btnStandardUebungenText"
+                android:layout_width="110dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="11dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ovaler_button"
+                android:gravity="center|end"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:tag="7"
+                android:text="Standard Übungen"
+                android:textAlignment="textEnd"
+                android:textAllCaps="false"
+                android:textColor="@color/weiss"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnMeineUebungen"
+                app:layout_constraintEnd_toStartOf="@+id/btnStandardUebungen" />
+
+            <ImageButton
+                android:id="@+id/btnMeineUebungen"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/runder_button"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:src="@drawable/ic_meine_uebungen_32"
+                android:tag="8"
+                android:tint="@color/weiss"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnUebungHinzufuegen"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/btnMeineUebungenText"
+                android:layout_width="95dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="14dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ovaler_button"
+                android:gravity="center|end"
+                android:onClick="workoutUebungHinzufuegenOeffnen"
+                android:tag="8"
+                android:text="Meine Übungen"
+                android:textAlignment="textEnd"
+                android:textAllCaps="false"
+                android:textColor="@color/weiss"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btnUebungHinzufuegen"
+                app:layout_constraintEnd_toStartOf="@+id/btnMeineUebungen" />
+
+            <Button
+                android:id="@+id/btnWorkoutName"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/transparent"
+                android:gravity="start|center_vertical"
+                android:onClick="workoutNamenHinzufuegen"
+                android:paddingLeft="50dp"
+                android:singleLine="true"
+                android:text="Workout Namen hinzufügen"
+                android:textAllCaps="false"
+                android:textColor="@color/dunkelblau"
+                android:textSize="16sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imgvTitel"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:tint="@color/dunkelgrau"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_title_black_24dp" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</android.support.constraint.ConstraintLayout>
+

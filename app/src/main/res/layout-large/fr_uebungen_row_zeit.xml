@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ConstraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
+    android:layout_height="100dp"
     android:background="@color/hellgrau_Hintergrund"
     android:fitsSystemWindows="false">
 
@@ -16,86 +16,88 @@
 
         <ImageView
             android:id="@+id/imgvMuskelgruppeAktuell"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/ic_exercises"
             android:tint="@color/dunkelgrau"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_exercises" />
 
         <ImageView
             android:id="@+id/imgvDrag"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/ic_drag_handle_black_24dp"
             android:tint="@color/dunkelgrau"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_drag_handle_black_24dp" />
 
         <TextView
             android:id="@+id/tvUebungName"
-            android:layout_width="235dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="13dp"
+            android:layout_width="400dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="16dp"
             android:text="Name der Übung"
             android:textColor="@color/dunkelblau"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/imgvMuskelgruppeAktuell"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvUebungBeschreibung"
-            android:layout_width="235dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="5dp"
+            android:layout_width="400dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
             android:text="Beschreibung der Übung"
             android:textColor="@color/dunkelgrau"
-            android:textSize="10sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/imgvMuskelgruppeAktuell"
             app:layout_constraintTop_toBottomOf="@+id/tvUebungName" />
 
         <TextView
             android:id="@+id/tvUebungDauerMinuten"
-            android:layout_width="25dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="5dp"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="10dp"
             android:background="@color/transparent"
             android:gravity="center"
             android:singleLine="true"
             android:text="01"
-            android:textSize="15sp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/tvUebungDauerSekunden"
             app:layout_constraintTop_toBottomOf="@+id/imgbtnPlusMinuten" />
 
         <TextView
             android:id="@+id/tvUebungDauerSekunden"
-            android:layout_width="25dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="10dp"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="15dp"
             android:background="@color/transparent"
             android:gravity="center"
             android:singleLine="true"
             android:text="20"
-            android:textSize="15sp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgbtnPlusSekunden" />
 
         <ImageButton
             android:id="@+id/imgbtnPlusSekunden"
-            android:layout_width="25dp"
-            android:layout_height="26dp"
-            android:layout_marginEnd="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="8dp"
             android:background="@color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -103,9 +105,9 @@
 
         <ImageButton
             android:id="@+id/imgbtnMinusSekunden"
-            android:layout_width="25dp"
-            android:layout_height="26dp"
-            android:layout_marginEnd="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="15dp"
             android:background="@color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvUebungDauerSekunden"
@@ -113,9 +115,10 @@
 
         <ImageButton
             android:id="@+id/imgbtnPlusMinuten"
-            android:layout_width="25dp"
-            android:layout_height="26dp"
-            android:layout_marginEnd="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="8dp"
             android:background="@color/transparent"
             app:layout_constraintEnd_toStartOf="@+id/imgbtnPlusSekunden"
             app:layout_constraintTop_toTopOf="parent"
@@ -123,9 +126,9 @@
 
         <ImageButton
             android:id="@+id/imgbtnMinusMinuten"
-            android:layout_width="25dp"
-            android:layout_height="26dp"
-            android:layout_marginEnd="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
             android:background="@color/transparent"
             app:layout_constraintEnd_toStartOf="@+id/imgbtnMinusSekunden"
             app:layout_constraintTop_toBottomOf="@+id/tvUebungDauerMinuten"
@@ -133,11 +136,11 @@
 
         <TextView
             android:id="@+id/tvDoppelpunkt2"
-            android:layout_width="5dp"
-            android:layout_height="20dp"
+            android:layout_width="10dp"
+            android:layout_height="25dp"
             android:gravity="center"
             android:text=":"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/tvUebungDauerSekunden"
             app:layout_constraintTop_toBottomOf="@+id/imgbtnPlusSekunden" />

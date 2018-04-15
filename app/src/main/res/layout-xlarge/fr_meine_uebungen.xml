@@ -8,20 +8,6 @@
     android:fitsSystemWindows="false"
     tools:context="com.developer.workoutpro.itruns.workoutpro.MainClass">
 
-    <ProgressBar
-        android:id="@+id/progressBarStandardUebungen"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="155dp"
-        android:layout_marginStart="155dp"
-        android:layout_marginTop="250dp"
-        android:indeterminateBehavior="repeat"
-        android:indeterminateTint="@color/dunkelblau"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/clHeader"
         android:layout_width="match_parent"
@@ -31,18 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/imgbtnInfo"
-            android:layout_width="45dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/transparent"
-            android:onClick="standardUebungenInfo"
-            android:tint="@color/weiss"
-            app:layout_constraintEnd_toStartOf="@+id/imgbtnSynchronisieren"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_info_outline_black_24dp" />
-
         <TextView
             android:id="@+id/tvAppName"
             android:layout_width="wrap_content"
@@ -51,9 +25,9 @@
             android:layout_marginStart="60dp"
             android:layout_marginTop="5dp"
             android:gravity="center_vertical|center_horizontal"
-            android:text="Standard Übungen"
+            android:text="Meine Übungen"
             android:textColor="@color/weiss"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +41,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
             android:background="@color/transparent"
-            android:onClick="standardUebungenSortieren"
+            android:onClick="meineUebungenSortieren"
             android:tint="@color/weiss"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -75,53 +49,85 @@
             app:srcCompat="@drawable/ic_sort_black_24dp" />
 
         <ImageButton
-            android:id="@+id/imgbtnSynchronisieren"
+            android:id="@+id/imgbtnInfo"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:background="@color/transparent"
-            android:onClick="standardUebungenSynchronisieren"
+            android:onClick="meineUebungenInfo"
             android:tint="@color/weiss"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imgbtnSortieren"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/ic_sync_black_24dp" />
+            app:srcCompat="@drawable/ic_info_outline_black_24dp" />
 
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
-        android:layout_marginBottom="50dp"
-        android:background="@color/transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginBottom="50dp">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/clMittlererBereich"
+        <TextView
+            android:id="@+id/tvHinweisUebungHinzufuegen"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginTop="10dp"
+            android:text="Von dir hinzugefügte Übungen werden hier angezeigt"
+            android:textAlignment="center"
+            android:textColor="@color/grau_Hintergrund"
+            android:textSize="16sp"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clHeader">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/clMittlererBereich"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/clHeader">
 
-            </android.support.v7.widget.RecyclerView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.RecyclerView>
 
-    </android.support.design.widget.CoordinatorLayout>
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/btnUebungHinzufuegen"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:onClick="uebungHinzufuegen"
+                    android:tint="@color/weiss"
+                    app:backgroundTint="@color/dunkelblau"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/ic_add_black_24dp" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.design.widget.CoordinatorLayout>
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
